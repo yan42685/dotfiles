@@ -12,7 +12,9 @@
 ## 解决 nvim 和 tmux 状态栏乱码问题
 
 设置 terminal 的字体为 SauceCodePro NF Regular
-![Ubuntu18设置gnome-terminal字体示例图](https://raw.githubusercontent.com/yan42685/dotfiles/master/.config/images/font-settting.png)
+<br>
+
+![Ubuntu18 设置 gnome-terminal 字体示例图](https://raw.githubusercontent.com/yan42685/dotfiles/master/.config/images/font-settting.png)
 
 ## 其他问题
 
