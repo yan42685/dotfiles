@@ -11,6 +11,7 @@
 <details>
 <summary>手动部署环境详情</summary>
 
+<br>
 包管理器最好换源
 
 - pyenv
@@ -75,4 +76,5 @@ copyzshell <remote machine>
 [https://unix.stackexchange.com/questions/202918/how-do-i-remotely-edit-files-via-ssh](https://unix.stackexchange.com/questions/202918/how-do-i-remotely-edit-files-via-ssh)
 
 使用 sshfs 把远程文件夹 mount 到本地
+
 </details>
