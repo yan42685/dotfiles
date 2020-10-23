@@ -1,5 +1,16 @@
 # 依赖
 
+## 自动部署环境只需要输入以下命令
+
+```
+    sudo apt install yadm -y
+    yadm clone https://github.com/yan42685/my-dotfiles
+    yadm bootstrap
+```
+
+<details>
+<summary>手动部署环境详情</summary>
+
 包管理器最好换源
 
 - pyenv
@@ -47,7 +58,7 @@ git clone https://github.com/yyuu/pyenv.git ~/.pyenv
 - syncthing.x64 （同步工具）
 - Joplin 记笔记
 
-# 如何在远程机器上使用本地 zsh
+## 如何在远程机器上使用本地 zsh
 
 [https://github.com/rutchkiwi/copyzshell](https://github.com/rutchkiwi/copyzshell)
 
@@ -59,8 +70,9 @@ git clone https://github.com/rutchkiwi/copyzshell.git ~ZSH_CUSTOM/plugins/copyzs
 copyzshell <remote machine>
 ```
 
-# 如何在远程机器上使用本地 vim
+## 如何在远程机器上使用本地 vim
 
 [https://unix.stackexchange.com/questions/202918/how-do-i-remotely-edit-files-via-ssh](https://unix.stackexchange.com/questions/202918/how-do-i-remotely-edit-files-via-ssh)
 
 使用 sshfs 把远程文件夹 mount 到本地
+</details>

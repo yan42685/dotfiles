@@ -17,10 +17,6 @@ setup_ubuntu_environment() {
     echo "Installing required packages..."
     sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
 
-    echo "setuping yadm..."
-    sudo apt install yadm -y
-    yadm clone https://github.com/yan42685/my-dotfiles
-
     echo "setuping basic packages..."
     sudo apt install -y nodejs npm python3-pip zsh zgen lua5.3
     # 更新pip3版本
@@ -30,6 +26,9 @@ setup_ubuntu_environment() {
     sudo npm cache clean -f
     sudo npm install -g n
     sudo n stable
+    # 安装pyenv
+    bash ~/installers/pyenv-installer
+
 
     echo "installing via snap..."
     sudo snap install nvim --classic
@@ -79,6 +78,7 @@ setup_ubuntu_environment() {
 
     echo "Installing neovim plugins with vim-plug..."
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
+
 
     echo "更换默认bash为zsh..."
     chsh -s /bin/zsh
