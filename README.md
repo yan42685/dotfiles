@@ -13,6 +13,11 @@
 
 设置 terminal 的字体 source code pro
 
+## 其他问题
+
+- 初次打开 nvim 的 startify 页面，会显示无法读取 viminfo 的警告，下次打开就不会出现了
+- 打开 zsh 会警告没有 zeal 相关的文件夹，这时只用开启一次 zeal 就会自动创建相关文件夹，下次就不会有警告了
+
 <br>
 <details>
 <summary>手动部署环境详情</summary>
