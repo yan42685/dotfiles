@@ -2,6 +2,8 @@
 
 ## 自动部署环境只需要输入以下命令
 
+包管理器最好换源
+
 ```
     sudo apt install yadm -y
     yadm clone https://github.com/yan42685/my-dotfiles
@@ -10,9 +12,6 @@
 
 <details>
 <summary>手动部署环境详情</summary>
-
-<br>
-包管理器最好换源
 
 - pyenv
 
