@@ -1,5 +1,4 @@
 #!/bin/sh
-# TODO: 安装pyenv
 
 # 系统类型
 system_type=$(uname -s)
