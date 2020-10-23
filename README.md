@@ -4,7 +4,7 @@
 
 ## 自动部署命令
 
-```
+```bash
     sudo apt install yadm -y
     yadm bootstrap
 ```
