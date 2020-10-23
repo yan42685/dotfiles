@@ -6,7 +6,6 @@
 
 ```
     sudo apt install yadm -y
-    yadm clone https://github.com/yan42685/my-dotfiles
     yadm bootstrap
 ```
 

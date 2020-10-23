@@ -12,6 +12,9 @@ if [ "$system_type" = "Linux" ]; then
 fi
 
 setup_ubuntu_environment() {
+    echo "cloning dotfiles..."
+    yadm clone https://github.com/yan42685/my-dotfiles
+
     echo "updating packages..."
     sudo apt update && sudo apt -y upgrade
     echo "Installing required packages..."
