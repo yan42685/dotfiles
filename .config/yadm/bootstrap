@@ -69,12 +69,6 @@ setup_ubuntu_environment() {
     echo "installing zgen..."
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
 
-    echo "Installing alacritty"
-    sudo apt install -y cargo
-    cargo install alacritty
-    sudo apt remove -y cargo
-
-
 
     # NOTE: 最好放在最后，因为需要手动确认配置
     echo "Installing fzf"
@@ -83,6 +77,13 @@ setup_ubuntu_environment() {
 
     echo "Installing neovim plugins with vim-plug..."
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
+
+    echo "Installing alacritty"
+    # 添加ppa
+    sudo add-apt-repository ppa:mmstick76/alacritty
+    # 添加缺失的public key
+    sudo apt update 2>&1 1>/dev/null | sed -ne 's/.*NO_PUBKEY //p' | while read key; do if ! [[ ${keys[*]} =~ "$key" ]]; then sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys "$key"; keys+="$key"; fi; done
+    sudo apt-get update && sudo apt install -y alacritty
 
 
     echo "更换默认bash为zsh..."
