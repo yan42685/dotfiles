@@ -900,6 +900,9 @@ augroup coc_completion_keybindings
         \ <SID>check_back_space() ? "ScrollAnotherWindow(2)" :
         \ coc#refresh()
     autocmd VimEnter * inoremap <expr> <c-k> pumvisible() ? '<c-p>' : "ScrollAnotherWindow(1)"
+
+    " 补全时显示文档和详情
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 function! s:check_back_space() abort
@@ -914,8 +917,8 @@ let g:coc_snippet_next = '<tab>'
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
   endif
 endfunction
 
