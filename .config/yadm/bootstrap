@@ -29,7 +29,7 @@ setup_ubuntu_environment() {
     sudo npm install -g n
     sudo n stable
     # 安装pyenv
-    bash ~/installers/pyenv-installer
+    bash ~/installers/pyenv-installer.sh
 
 
     echo "installing via snap..."
@@ -57,7 +57,7 @@ setup_ubuntu_environment() {
     tar xvf global-6.6.tar.gz
     cd global-6.6/
     ./configure && make && sudo make install
-    cd ~
+    cd ~ && rm -r global-6.6 && rm global-6.6.tar.gz
 
     echo "installing riggrep"
     curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && sudo dpkg -i ripgrep_11.0.2_amd64.deb
@@ -69,7 +69,10 @@ setup_ubuntu_environment() {
     echo "installing zgen..."
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
 
-
+    echo "Installing alacritty"
+    sudo apt install -y cargo
+    bash ~/installers/alacritty-installer.sh
+    sudo apt remove -y cargo
 
 
 
