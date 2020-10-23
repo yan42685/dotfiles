@@ -1,4 +1,5 @@
 #!/bin/sh
+# TODO: 安装pyenv
 
 # 系统类型
 system_type=$(uname -s)
@@ -64,6 +65,11 @@ setup_ubuntu_environment() {
     # gawk　是tmux-finger插件的依赖
     sudo apt install -y gawk tmux
 
+    echo "installing zgen..."
+    git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+
+
+
 
 
     # NOTE: 最好放在最后，因为需要手动确认配置
@@ -74,6 +80,8 @@ setup_ubuntu_environment() {
     echo "Installing neovim plugins with vim-plug..."
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
 
+    echo "更换默认bash为zsh..."
+    chsh -s /bin/zsh
 
     echo "All packages are installed."
 }
