@@ -71,7 +71,7 @@ setup_ubuntu_environment() {
 
     echo "Installing alacritty"
     sudo apt install -y cargo
-    bash ~/installers/alacritty-installer.sh
+    cargo install alacritty
     sudo apt remove -y cargo
 
 
