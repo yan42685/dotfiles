@@ -1,0 +1,88 @@
+#!/bin/sh
+
+# 系统类型
+system_type=$(uname -s)
+# 包管理器名字
+# pkg=
+
+echo "starting bootstrap..."
+if [ "$system_type" = "Linux" ]; then
+  # install zsh, zplug, neovim
+  if ! command -v zsh > /dev/null 2>&1; then
+    echo "Installing zsh..."
+    sudo apt install zsh
+  elif [ ! -f ${HOME}/.zplug/init.zsh ]; then
+    echo "Installing zplug..."
+    curl -sL --proto-redir -all,https https://cdn.jsdelivr.net/gh/zplug/installer/installer.zsh | zsh
+  elif ! command -v nvim > /dev/null 2>&1; then
+    echo "Installing neovim..."
+    sudo apt install neovim
+    # sudo apt install python-neovim
+    # sudo apt install python3-neovim
+    echo "Installing neovim plugins with vim-plug..."
+    nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
+  else
+    echo "All packages are installed."
+  fi
+fi
+
+setup_environment() {
+    echo "updating packages..."
+    sudo apt update && sudo apt -y upgrade
+    echo "Installing required packages..."
+    sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+
+    echo "setuping yadm..."
+    sudo apt install yadm -y
+    yadm clone https://github.com/yan42685/my-dotfiles
+
+    # TODO: 安装pyenv和 新版gtags　fzf
+    echo "setuping basic packages..."
+    sudo apt install -y nodejs npm python3-pip zsh zgen lua5.3
+    # 更新pip3版本
+    wget https://bootstrap.pypa.io/get-pip.py
+    sudo python3 get-pip.py
+    # 更新node版本
+    sudo npm cache clean -f
+    sudo npm install -g n
+    sudo n stable
+
+    echo "installing via snap..."
+    sudo snap install nvim --classic
+    sudo snap install ccls --classic
+    sudo snap install universal-ctags
+
+    echo "installing applications"
+    sudo apt install -y trash-cli nnn gdb-dashboard
+    # 安装zeal
+    sudo add-apt-repository ppa:zeal-developers/ppa && sudo apt-get update && sudo apt-get install -y zeal
+
+    echo "installing linter and checker"
+    sudo npm install -g eslint && sudo npm install -g prettier
+    sudo pip3 install pylint && sudo pip3 install autopep8
+    sudo apt install cppcheck -y && sudo npm install -g clang-format
+
+    echo "installing neovim-remote"
+    pip3 install neovim-remote
+
+    echo "installing GNU GLOBAL (gtags)"
+    # 安装依赖
+    sudo apt install -y libncurses5-dev libncursesw5-dev
+    wget https://ftp.gnu.org/pub/gnu/global/global-6.6.tar.gz
+    tar xvf global-6.6.tar.gz
+    cd global-6.6/
+    ./configure && make && sudo make install
+    cd ~
+
+    echo "installing riggrep"
+    curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && sudo dpkg -i ripgrep_11.0.2_amd64.deb
+
+    echo "Installing fzf"
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
+    echo "installing tmux"
+    # gawk　是tmux-finger插件的依赖
+    sudo apt install -y gawk tmux
+
+}
