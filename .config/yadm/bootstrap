@@ -103,10 +103,10 @@ confirm_reboot() {
     echo -n "Are you sure to reboot now? (y/n):"
     read crm
     if [ "$crm"x = "y"x ]; then
-            echo "rebooting"
-            \reboot
+        echo "rebooting"
+        \reboot
     else
-            break
+        break
     fi
     break
     done
