@@ -1,5 +1,4 @@
-﻿" TODO: coc.nvim去掉特定tag版本(因为目前最新版本有bug，只能选择特定版本)
-" {{{ 前言
+﻿" {{{ 前言
 "{{{ 简介
 "       只考虑NeoVim，不一定兼容Vim
 "       如果遇到了一些问题, 可以试着在本文件搜索FIXME, NOTE
@@ -836,7 +835,7 @@ nnoremap <leader>tu :CocCommand todolist.upload<cr>
 " nnoremap <leader>te :CocCommand todolist.export<cr>
 
 " COC自动补全框架
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': 'v0.0.77'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "{{{
 
 " 部分插件简介
