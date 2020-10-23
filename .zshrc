@@ -259,7 +259,8 @@ alias vicp="nvim -c 'profile start profile.log' -c 'profile file *' -c 'profile 
 alias vifast="nvim -c 'let g:disable_laggy_plugins_for_large_file = 1'"
 # alias vim='nvim'
 # alias vimm='\vim'   # 用转义符防止递归映射
-alias dot='/usr/bin/git --git-dir=/home/yy/.dotfiles/ --work-tree=/home/yy'   # 用于存放dotfiles
+# alias dot='/usr/bin/git --git-dir=/home/yy/.dotfiles/ --work-tree=/home/yy'   # 用于存放dotfiles
+alias dot='yadm'
 alias tk='asynctask -f'   # 用fzf搜索task, 可以把复杂的命令都丢进去
 alias rm='trash'
 alias nnn='PAGER= nnn'
