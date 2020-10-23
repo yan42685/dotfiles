@@ -1,12 +1,19 @@
-## 自动部署环境只需要输入以下命令
+## 部署前的准备
 
-包管理器最好换源
+包管理器 (apt) 换源
+
+## 自动部署命令
 
 ```
     sudo apt install yadm -y
     yadm bootstrap
 ```
 
+## 解决 nvim 和 tmux 状态栏乱码问题
+
+设置 terminal 的字体 source code pro
+
+<br>
 <details>
 <summary>手动部署环境详情</summary>
 
