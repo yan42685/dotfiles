@@ -65,6 +65,8 @@ setup_ubuntu_environment() {
     echo "installing tmux"
     # gawk　是tmux-finger插件的依赖
     sudo apt install -y gawk tmux
+    # 安装tpm
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
     echo "installing zgen..."
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
@@ -90,4 +92,22 @@ setup_ubuntu_environment() {
     chsh -s /bin/zsh
 
     echo "All packages are installed."
+    echo "需要重启系统使终端和shell配置生效"
+    confirm_reboot
+
+}
+
+confirm_reboot() {
+    while true
+    do
+    echo -n "Are you sure to reboot now? (y/n):"
+    read crm
+    if [ "$crm"x = "y"x ]; then
+            echo "rebooting"
+            \reboot
+    else
+            break
+    fi
+    break
+    done
 }
