@@ -897,9 +897,9 @@ augroup coc_completion_keybindings
     autocmd!
     autocmd VimEnter * inoremap <silent><expr> <c-j>
         \ pumvisible() ? '<c-n>' :
-        \ <SID>check_back_space() ? "ScrollAnotherWindow(2)" :
+        \ <SID>check_back_space() ? '<esc>a' :
         \ coc#refresh()
-    autocmd VimEnter * inoremap <expr> <c-k> pumvisible() ? '<c-p>' : "ScrollAnotherWindow(1)"
+    autocmd VimEnter * inoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<esc>a'
 
     " 补全时显示文档和详情
     autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
