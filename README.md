@@ -4,7 +4,7 @@
 
 ## 自动部署命令
 
-`sudo apt install yadm -y && yadm clone https://github.com/yan42685/my-dotfiles --bootstrap`
+`sudo apt install yadm -y && yadm clone https://github.com/yan42685/dotfiles --bootstrap`
 
 ## 解决 nvim 和 tmux 状态栏乱码问题
 
