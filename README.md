@@ -6,11 +6,11 @@
   2. 自定义 v2rayL 代理端口 ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/proxy-setting1.png)
   3. 配置自己提前买到的服务器信息或订阅信息
   4. 设置系统代理为步骤 2 的 http 端口 ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/proxy-setting2.png)
-  5. 设置 v2rayL 自动启动
+  5. 设置 v2rayL 自动启动（可选）
 
 ## 自动部署命令
 
-`sudo apt install yadm -y && yadm clone https://github.com/yan42685/dotfiles --bootstrap`
+`sudo apt install yadm -y && yadm clone https://github.com/yan42685/dotfiles --no-bootstrap && bash ~/.yadm/bootstrap`
 
 ## 解决 nvim 和 tmux 状态栏乱码问题
 
