@@ -8,12 +8,12 @@ system_type=$(uname -s)
 
 setup_ubuntu_environment() {
 
-    echo "updating packages..."
+    echo "==================== updating packages..."
     sudo apt update && sudo apt -y upgrade
-    echo "Installing required packages..."
+    echo "==================== Installing required packages..."
     sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
 
-    echo "setuping basic packages..."
+    echo "==================== setuping basic packages..."
     sudo apt install -y nodejs npm python3-pip zsh lua5.3
     # 更新pip3版本
     wget https://bootstrap.pypa.io/get-pip.py
@@ -26,25 +26,25 @@ setup_ubuntu_environment() {
     bash ~/installers/pyenv-installer.sh
 
 
-    echo "installing via snap..."
+    echo "==================== installing via snap..."
     sudo snap install nvim --classic
     sudo snap install ccls --classic
     sudo snap install universal-ctags
 
-    echo "installing applications"
+    echo "==================== installing applications"
     sudo apt install -y trash-cli nnn gdb-dashboard
     # 安装zeal
     sudo add-apt-repository ppa:zeal-developers/ppa -y && sudo apt-get update && sudo apt-get install -y zeal
 
-    echo "installing linter and checker"
+    echo "==================== installing linter and checker"
     sudo npm install -g eslint && sudo npm install -g prettier
     sudo pip3 install pylint && sudo pip3 install autopep8
     sudo apt install cppcheck -y && sudo npm install -g clang-format
 
-    echo "installing neovim-remote"
+    echo "==================== installing neovim-remote"
     pip3 install neovim-remote
 
-    echo "installing GNU GLOBAL (gtags)"
+    echo "==================== installing GNU GLOBAL (gtags)"
     # 安装依赖
     sudo apt install -y libncurses5-dev libncursesw5-dev
     wget https://ftp.gnu.org/pub/gnu/global/global-6.6.tar.gz
@@ -53,28 +53,28 @@ setup_ubuntu_environment() {
     ./configure && make && sudo make install
     cd ~ && rm -r global-6.6/ && rm global-6.6.tar.gz
 
-    echo "installing riggrep"
+    echo "==================== installing riggrep"
     curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && sudo dpkg -i ripgrep_11.0.2_amd64.deb
     rm ripgrep_11.0.2_amd64.deb
 
-    echo "installing tmux"
+    echo "==================== installing tmux"
     # gawk　是tmux-finger插件的依赖
     sudo apt install -y gawk tmux
     # 安装tpm
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-    echo "installing zgen..."
+    echo "==================== installing zgen..."
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
 
     # NOTE: 最好放在最后，因为需要手动确认配置
-    echo "Installing fzf"
+    echo "==================== Installing fzf"
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
-    echo "Installing neovim plugins with vim-plug..."
+    echo "==================== Installing neovim plugins with vim-plug..."
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
 
-    echo "Installing alacritty"
+    echo "==================== Installing alacritty"
     # 添加ppa
     sudo add-apt-repository ppa:mmstick76/alacritty -y
     # 添加缺失的public key
@@ -82,11 +82,11 @@ setup_ubuntu_environment() {
     sudo apt-get update && sudo apt install -y alacritty
 
 
-    echo "更换默认bash为zsh..."
+    echo "==================== 更换默认bash为zsh..."
     chsh -s /bin/zsh
 
     bash ~/.yadm/check_commands.sh
-    echo "需要重启系统使终端和shell配置生效"
+    echo "==================== 需要重启系统使终端和shell配置生效"
     confirm_reboot
 
 }
@@ -106,7 +106,7 @@ confirm_reboot() {
     done
 }
 
-echo "starting bootstrap..."
+echo "==================== starting bootstrap..."
 if [ "$system_type" = "Linux" ]; then
     setup_ubuntu_environment
 fi
