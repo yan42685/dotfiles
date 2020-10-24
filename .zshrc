@@ -278,7 +278,7 @@ alias ....='../../..'
 alias .....='../../../..'
 alias ......='../../../../..'
 # git with hub
-if command_exists hub; then
+if command -v hub >/dev/null 2>&1; then
   alias git='hub'
 fi
 # print file sizes in human readable format
@@ -339,9 +339,13 @@ LS_COLORS="ow=01;36;40" && export LS_COLORS
 # {{{
 # 解决zeal不能显示mdn文档的问题
 zeal-docs-fix() {
-    pushd "$HOME/.local/share/Zeal/Zeal/docsets" >/dev/null || return
+dirname="$HOME/.local/share/Zeal/Zeal/docsets"
+
+if [ -d $dirname  ];then
+    pushd $dirname >/dev/null || return
     find . -iname 'react-main*.js' -exec rm '{}' \;
     popd >/dev/null || exit
+fi
 }
 zeal-docs-fix
 #}}}
