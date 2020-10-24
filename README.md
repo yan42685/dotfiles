@@ -23,6 +23,14 @@
 
 <br>
 <details>
+<summary>其他详情</summary>
+
+- dotfiles 里的.local/share/nvim/site/autoload/plug.vim 是 vim-plug 插件管理器的源文件，意味着不会更新 vim-plug 了
+
+</details>
+
+<br>
+<details>
 <summary>手动部署环境详情</summary>
 
 ## 依赖
