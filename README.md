@@ -1,6 +1,37 @@
-# 依赖
+## 部署前的准备（只用于加速下载，非必须）
 
-包管理器最好换源
+- 包管理器 (apt) 换源
+- 安装 v2rayL 和设置 git 代理
+
+## 自动部署命令
+
+`sudo apt install yadm -y && yadm clone https://github.com/yan42685/dotfiles --bootstrap`
+
+## 解决 nvim 和 tmux 状态栏乱码问题
+
+设置 terminal 的字体为 SauceCodePro NF Regular
+<br>
+
+![Ubuntu18 设置 gnome-terminal 字体示例图](https://raw.githubusercontent.com/yan42685/dotfiles/master/.config/images/font-settting.png)
+
+## 其他问题
+
+- 初次打开 nvim 的 startify 页面，会显示无法读取 viminfo 的警告，下次打开就不会出现了
+- 打开 zsh 会警告没有 zeal 相关的文件夹，这时只用开启一次 zeal 就会自动创建相关文件夹，下次就不会有警告了
+
+<br>
+<details>
+<summary>其他详情</summary>
+
+- dotfiles 里的.local/share/nvim/site/autoload/plug.vim 是 vim-plug 插件管理器的源文件，意味着不会更新 vim-plug 了
+
+</details>
+
+<br>
+<details>
+<summary>手动部署环境详情</summary>
+
+## 依赖
 
 - pyenv
 
@@ -47,7 +78,7 @@ git clone https://github.com/yyuu/pyenv.git ~/.pyenv
 - syncthing.x64 （同步工具）
 - Joplin 记笔记
 
-# 如何在远程机器上使用本地 zsh
+## 如何在远程机器上使用本地 zsh
 
 [https://github.com/rutchkiwi/copyzshell](https://github.com/rutchkiwi/copyzshell)
 
@@ -59,8 +90,10 @@ git clone https://github.com/rutchkiwi/copyzshell.git ~ZSH_CUSTOM/plugins/copyzs
 copyzshell <remote machine>
 ```
 
-# 如何在远程机器上使用本地 vim
+## 如何在远程机器上使用本地 vim
 
 [https://unix.stackexchange.com/questions/202918/how-do-i-remotely-edit-files-via-ssh](https://unix.stackexchange.com/questions/202918/how-do-i-remotely-edit-files-via-ssh)
 
 使用 sshfs 把远程文件夹 mount 到本地
+
+</details>

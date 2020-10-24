@@ -1,5 +1,4 @@
-﻿" TODO: coc.nvim去掉特定tag版本(因为目前最新版本有bug，只能选择特定版本)
-" {{{ 前言
+﻿" {{{ 前言
 "{{{ 简介
 "       只考虑NeoVim，不一定兼容Vim
 "       如果遇到了一些问题, 可以试着在本文件搜索FIXME, NOTE
@@ -48,11 +47,11 @@
 "  3. 只能稍微调快一点键盘响应速度，调太快会导致一次按键多次响应
 "  4. 静态代码检查linter与排版器formatter（记得先换源）:
 "        for javascript
-"            npm install -g eslint && npm install -g prettier
+"            sudo npm install -g eslint && sudo npm install -g prettier
 "        for python
-"            pip3 install pylint && pip3 install autopep8
+"            sudo pip3 install pylint && sudo pip3 install autopep8
 "        for C,CPP
-"            sudo apt install cppcheck -y && npm install -g clang-format
+"            sudo apt install cppcheck -y && sudo npm install -g clang-format
 "
 "  5. 安装riggrep 配合Leaderf rg使用, 快速搜索文本行:
 "            curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && sudo dpkg -i ripgrep_11.0.2_amd64.deb
@@ -836,7 +835,7 @@ nnoremap <leader>tu :CocCommand todolist.upload<cr>
 " nnoremap <leader>te :CocCommand todolist.export<cr>
 
 " COC自动补全框架
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': 'v0.0.77'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "{{{
 
 " 部分插件简介
@@ -901,6 +900,9 @@ augroup coc_completion_keybindings
         \ <SID>check_back_space() ? "ScrollAnotherWindow(2)" :
         \ coc#refresh()
     autocmd VimEnter * inoremap <expr> <c-k> pumvisible() ? '<c-p>' : "ScrollAnotherWindow(1)"
+
+    " 补全时显示文档和详情
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 function! s:check_back_space() abort
@@ -915,8 +917,8 @@ let g:coc_snippet_next = '<tab>'
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
   endif
 endfunction
 
