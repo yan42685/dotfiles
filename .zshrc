@@ -340,7 +340,6 @@ LS_COLORS="ow=01;36;40" && export LS_COLORS
 # 解决zeal不能显示mdn文档的问题
 zeal-docs-fix() {
 dirname="$HOME/.local/share/Zeal/Zeal/docsets"
-
 if [ -d $dirname  ];then
     pushd $dirname >/dev/null || return
     find . -iname 'react-main*.js' -exec rm '{}' \;
