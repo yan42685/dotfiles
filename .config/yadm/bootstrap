@@ -55,10 +55,11 @@ setup_ubuntu_environment() {
     tar xvf global-6.6.tar.gz
     cd global-6.6/
     ./configure && make && sudo make install
-    cd ~ && rm -r global-6.6 && rm global-6.6.tar.gz
+    cd ~ && rm -r global-6.6/ && rm global-6.6.tar.gz
 
     echo "installing riggrep"
     curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && sudo dpkg -i ripgrep_11.0.2_amd64.deb
+    rm ripgrep_11.0.2_amd64.deb
 
     echo "installing tmux"
     # gawk　是tmux-finger插件的依赖
