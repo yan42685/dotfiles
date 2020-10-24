@@ -5,10 +5,6 @@ system_type=$(uname -s)
 # 包管理器名字
 # pkg=
 
-echo "starting bootstrap..."
-if [ "$system_type" = "Linux" ]; then
-    setup_ubuntu_environment
-fi
 
 setup_ubuntu_environment() {
 
@@ -110,3 +106,9 @@ confirm_reboot() {
     break
     done
 }
+
+echo "starting bootstrap..."
+if [ "$system_type" = "Linux" ]; then
+    setup_ubuntu_environment
+fi
+
