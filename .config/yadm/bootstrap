@@ -38,7 +38,7 @@ setup_ubuntu_environment() {
     echo "installing applications"
     sudo apt install -y trash-cli nnn gdb-dashboard
     # 安装zeal
-    sudo add-apt-repository ppa:zeal-developers/ppa && sudo apt-get update && sudo apt-get install -y zeal
+    sudo add-apt-repository ppa:zeal-developers/ppa -y && sudo apt-get update && sudo apt-get install -y zeal
 
     echo "installing linter and checker"
     sudo npm install -g eslint && sudo npm install -g prettier
@@ -80,7 +80,7 @@ setup_ubuntu_environment() {
 
     echo "Installing alacritty"
     # 添加ppa
-    sudo add-apt-repository ppa:mmstick76/alacritty
+    sudo add-apt-repository ppa:mmstick76/alacritty -y
     # 添加缺失的public key
     sudo apt update 2>&1 1>/dev/null | sed -ne 's/.*NO_PUBKEY //p' | while read key; do if ! [[ ${keys[*]} =~ "$key" ]]; then sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys "$key"; keys+="$key"; fi; done
     sudo apt-get update && sudo apt install -y alacritty
