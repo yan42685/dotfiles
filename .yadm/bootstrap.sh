@@ -37,25 +37,30 @@ setup_ubuntu_environment() {
     sudo add-apt-repository ppa:zeal-developers/ppa -y && sudo apt-get update && sudo apt-get install -y zeal
 
     echo "==================== installing linter and checker"
-    sudo npm install -g eslint && sudo npm install -g prettier
-    sudo pip3 install pylint && sudo pip3 install autopep8
-    sudo apt install cppcheck -y && sudo npm install -g clang-format
+    npm install -g eslint && npm install -g prettier
+    pip3 install pylint && pip3 install autopep8
+    apt install cppcheck -y && npm install -g clang-format
 
     echo "==================== installing neovim-remote"
     pip3 install neovim-remote
 
-    echo "==================== installing GNU GLOBAL (gtags)"
-    # 安装依赖
-    sudo apt install -y libncurses5-dev libncursesw5-dev
-    wget https://ftp.gnu.org/pub/gnu/global/global-6.6.tar.gz
-    tar xvf global-6.6.tar.gz
-    cd global-6.6/
-    ./configure && make && sudo make install
-    cd ~ && rm -r global-6.6/ && rm global-6.6.tar.gz
+    if ! command -v gtags >/dev/null 2>&1; then
+        echo "==================== installing GNU GLOBAL (gtags)"
+        # 安装依赖
+        sudo apt install -y libncurses5-dev libncursesw5-dev
+        wget https://ftp.gnu.org/pub/gnu/global/global-6.6.tar.gz
+        tar xvf global-6.6.tar.gz
+        cd global-6.6/
+        ./configure && make && sudo make install
+        cd ~ && rm -r global-6.6/ && rm global-6.6.tar.gz
+    fi
 
-    echo "==================== installing riggrep"
-    curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && sudo dpkg -i ripgrep_11.0.2_amd64.deb
-    rm ripgrep_11.0.2_amd64.deb
+
+    if ! command -v rg >/dev/null 2>&1; then
+        echo "==================== installing riggrep"
+        curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && sudo dpkg -i ripgrep_11.0.2_amd64.deb
+        rm ripgrep_11.0.2_amd64.deb
+    fi
 
     echo "==================== installing tmux"
     # gawk　是tmux-finger插件的依赖
@@ -63,50 +68,70 @@ setup_ubuntu_environment() {
     # 安装tpm
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-    echo "==================== installing zgen..."
-    git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+    if [ ! -d "~/.zgen" ]; then
+        echo "==================== installing zgen..."
+        git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+    fi
 
-    # NOTE: 最好放在最后，因为需要手动确认配置
-    echo "==================== Installing fzf"
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+    if ! command -v fzf>/dev/null 2>&1; then
+        # NOTE: 最好放在最后，因为需要手动确认配置
+        echo "==================== Installing fzf"
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+    fi
 
     echo "==================== Installing neovim plugins with vim-plug..."
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
 
-    echo "==================== Installing alacritty"
-    # 添加ppa
-    sudo add-apt-repository ppa:mmstick76/alacritty -y
-    # 添加缺失的public key
-    sudo apt update 2>&1 1>/dev/null | sed -ne 's/.*NO_PUBKEY //p' | while read key; do if ! [[ ${keys[*]} =~ "$key" ]]; then sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys "$key"; keys+="$key"; fi; done
-    sudo apt-get update && sudo apt install -y alacritty
-
+    if ! command -v alacritty >/dev/null 2>&1; then
+        echo "==================== Installing alacritty"
+        # 添加ppa
+        sudo add-apt-repository ppa:mmstick76/alacritty -y
+        # 添加缺失的public key
+        sudo apt update 2>&1 1>/dev/null | sed -ne 's/.*NO_PUBKEY //p' | while read key; do if ! [[ ${keys[*]} =~ "$key" ]]; then sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys "$key"; keys+="$key"; fi; done
+        sudo apt-get update && sudo apt install -y alacritty
+    fi
 
     echo "==================== 更换默认bash为zsh..."
     chsh -s /bin/zsh
 
-    bash ~/.yadm/check_commands.sh
-    echo "==================== 需要重启系统使终端和shell配置生效"
-    confirm_reboot
-
 }
 
 confirm_reboot() {
-    while true
-    do
     echo -n "Are you sure to reboot now? (y/n):"
     read crm
     if [ "$crm"x = "y"x ]; then
         echo "rebooting"
         \reboot
+    fi
+}
+
+deploy() {
+    while true
+    do
+    setup_ubuntu_environment
+    echo -n "Do you want to redeploy to autofix missing package? (y/n):"
+    read crm
+    if [ "$crm"x = "y"x ]; then
+        echo "=============================================="
+        echo "================ redeploying ================="
+        echo "=============================================="
     else
         break
     fi
-    break
     done
 }
 
-echo "==================== starting bootstrap..."
+
+
+
+echo "========================================================="
+echo "==================== starting bootstrap ================="
+echo "========================================================="
 if [ "$system_type" = "Linux" ]; then
-    setup_ubuntu_environment
+    deploy
+
+    bash ~/.yadm/check_commands.sh
+    echo "==================== 需要重启系统使终端和shell配置生效"
+    confirm_reboot
 fi

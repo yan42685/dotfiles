@@ -2,8 +2,8 @@
 ;     insteadOf = git://
 
 # 专为github设置的代理
-; [http "https://github.com"]
-;     proxy = socks5://127.0.0.1:6543
+[http "https://github.com"]
+    proxy = socks5://127.0.0.1:6543
 [user]
 	name = alex
 	email = 419725794@qq.com
