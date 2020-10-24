@@ -2217,7 +2217,7 @@ for s:count_num in [1,2,3,4,5,6,7,8,9]
     exec 'nnoremap <leader>' . s:count_num . ' ' . s:count_num . 'gt'
 endfor
 "}}}
-" 当前buffer/当前选中范围替换{{{
+" 替换 (在当前buffer/当前选中范围){{{
 " NOTE: 目前被Far.vim插件替代, 不过同一文件内小范围的替换用这个方式还是更方便一些
 " 当前buffer替换
 nnoremap <leader>su :let @0=expand('<cword>')<cr>:%s/<c-r>=expand('<cword>')<cr>//gc<left><left><left>

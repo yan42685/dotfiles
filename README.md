@@ -2,6 +2,11 @@
 
 - 包管理器 (apt) 换源
 - 安装 v2rayL 和设置 git 代理
+  1. 下载并安装 以及设置 git 用于 github 的代理（端口与步骤 2 的 socks 一致） `bash <(curl -s -L http://dl.thinker.ink/install.sh) && git config --global http.https://github.com.proxy socks5://127.0.0.1:6543`
+  2. 自定义 v2rayL 代理端口 ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/proxy-setting1.png)
+  3. 配置自己提前买到的服务器信息或订阅信息
+  4. 设置系统代理为步骤 2 的 http 端口 ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/proxy-setting2.png)
+  5. 设置 v2rayL 自动启动
 
 ## 自动部署命令
 
