@@ -5,3 +5,4 @@ sudo apt install yadm -y
 yadm clone https://github.com/yan42685/dotfiles --no-bootstrap
 sudo git config --system --unset http.proxy
 bash ~/.yadm/deploy-helper.sh
+
