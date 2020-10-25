@@ -98,7 +98,7 @@ setup_ubuntu_environment() {
         # NOTE: 最好放在最后，因为需要手动确认配置
         echo "==================== Installing fzf"
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install
+        ~/.fzf/install --all
     fi
 
     echo "==================== Installing neovim plugins with vim-plug..."
