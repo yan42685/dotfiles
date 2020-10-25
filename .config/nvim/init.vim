@@ -47,11 +47,11 @@
 "  3. 只能稍微调快一点键盘响应速度，调太快会导致一次按键多次响应
 "  4. 静态代码检查linter与排版器formatter（记得先换源）:
 "        for javascript
-"            sudo npm install -g eslint && sudo npm install -g prettier
+"            npm install -g eslint && npm install -g prettier
 "        for python
-"            sudo pip3 install pylint && sudo pip3 install autopep8
+"            pip3 install pylint && pip3 install autopep8
 "        for C,CPP
-"            sudo apt install cppcheck -y && sudo npm install -g clang-format
+"            apt install cppcheck -y && npm install -g clang-format
 "
 "  5. 安装riggrep 配合Leaderf rg使用, 快速搜索文本行:
 "            curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && sudo dpkg -i ripgrep_11.0.2_amd64.deb
