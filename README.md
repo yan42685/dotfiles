@@ -24,7 +24,7 @@ sudo git config --system http.https://github.com.proxy socks5://127.0.0.1:6543
 sudo apt install yadm -y
 yadm clone https://github.com/yan42685/dotfiles --no-bootstrap
 sudo git config --system --unset http.proxy
-bash ~/.yadm/deploy.sh
+bash ~/.my-scripts/deploy.sh
 # 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
 ```
 
