@@ -87,8 +87,6 @@ setup_ubuntu_environment() {
     echo "==================== installing tmux"
     # gawk　是tmux-finger插件的依赖
     sudo apt install -y gawk tmux
-    # 安装tpm
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
     if [ ! -d "~/.zgen" ]; then
         echo "==================== installing zgen..."
