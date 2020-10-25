@@ -23,6 +23,7 @@ sudo apt install yadm -y
 yadm clone https://github.com/yan42685/dotfiles --no-bootstrap
 sudo git config --system --unset http.proxy
 bash ~/.yadm/deploy-helper.sh
+# 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
 ```
 
 ## 解决 nvim 和 tmux 状态栏乱码问题
