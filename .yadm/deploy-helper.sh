@@ -95,14 +95,10 @@ setup_ubuntu_environment() {
     fi
 
     if ! command -v fzf>/dev/null 2>&1; then
-        # NOTE: 最好放在最后，因为需要手动确认配置
         echo "==================== Installing fzf"
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install --all
     fi
-
-    echo "==================== Installing neovim plugins with vim-plug..."
-    nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
 
     if ! command -v alacritty >/dev/null 2>&1; then
         echo "==================== Installing alacritty"
@@ -113,6 +109,12 @@ setup_ubuntu_environment() {
         sudo apt-get update
         sudo apt install -y alacritty
     fi
+
+    # NOTE: 最好放在最后，因为需要手动确认配置
+
+    echo "==================== Installing neovim plugins with vim-plug..."
+    nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
+
 
     echo "==================== 更换默认bash为zsh..."
     chsh -s /bin/zsh
