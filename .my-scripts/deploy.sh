@@ -33,9 +33,9 @@ setup_ubuntu_environment() {
 
     # 安装pyenv
     if ! command -v pyenv >/dev/null 2>&1; then
+        bash ~/.installers/pyenv-installer.sh
         export PATH=~/.pyenv/bin:$PATH
         export PYENV_ROOT=~/.pyenv
-        bash ~/.installers/pyenv-installer.sh
     fi
 
 
