@@ -79,9 +79,7 @@ setup_ubuntu_environment() {
 
     if ! command -v rg >/dev/null 2>&1; then
         echo "==================== installing riggrep"
-        curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
-        sudo dpkg -i ripgrep_11.0.2_amd64.deb
-        rm ripgrep_11.0.2_amd64.deb
+        sudo dpkg -i $HOME/.installers/ripgrep_11.0.2_amd64.deb
     fi
 
     echo "==================== installing tmux"
