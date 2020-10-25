@@ -39,7 +39,7 @@ setup_ubuntu_environment() {
     # 安装zeal
     sudo add-apt-repository ppa:zeal-developers/ppa -y
     sudo apt-get update
-    sudo apt-get install -y zeal
+    sudo apt-get install -y zeal --fix-missing
 
     echo "==================== installing linter and checker"
     npm install -g eslint
