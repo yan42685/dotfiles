@@ -4,8 +4,6 @@
 system_type=$(uname -s)
 # 包管理器名字
 # pkg=
-is_nvim_plugin_inited=false
-
 
 setup_ubuntu_environment() {
 
@@ -113,12 +111,6 @@ setup_ubuntu_environment() {
 
     # NOTE: 最好放在最后，因为需要手动确认配置
 
-    echo "==================== Installing neovim plugins with vim-plug..."
-    if [ ! $is_nvim_plugin_inited ]; then
-        nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
-        is_nvim_plugin_inited=true
-    fi
-
 
     echo "==================== 更换默认bash为zsh..."
     chsh -s /bin/zsh
@@ -172,6 +164,9 @@ deploy() {
 
 if [ "$system_type" = "Linux" ]; then
     deploy
+
+    # 安装vim插件
+    nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
 
     echo "==================== 需要重启系统使终端和shell配置生效"
     confirm_reboot
