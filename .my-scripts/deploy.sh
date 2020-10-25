@@ -133,14 +133,13 @@ deploy() {
     echo ""
 
     # 可能因为网络原因导致部署不完整，所以设置了自动重新部署三次
-    deploy_times=0
+    deploy_times=1
     while [[ $deploy_times -le 3 ]]
     do
-        let deploy_times++
         echo "============ 第 ${deploy_times} 次部署开始 (3 次后自动退出) ============"
         setup_ubuntu_environment
 
-        bash ~/.yadm/check_commands.sh
+        bash ~/.my-scripts/check_commands.sh
         #　判断上次命令返回值　如果命令和文件存在则代表全部安装完成
         if [[ $? == 0 ]]; then
             break;
@@ -157,6 +156,7 @@ deploy() {
     done
 
     echo "============ 第 ${deploy_times} 次部署结束 ============"
+    let deploy_times++
 }
 
 
