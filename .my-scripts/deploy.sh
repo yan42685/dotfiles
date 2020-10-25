@@ -137,6 +137,8 @@ deploy() {
     do
         echo "============ 第 ${deploy_times} 次部署开始 (3 次后自动退出) ============"
         setup_ubuntu_environment
+        echo "============ 第 ${deploy_times} 次部署结束 ============"
+        let deploy_times++
 
         bash ~/.my-scripts/check_commands.sh
         #　判断上次命令返回值　如果命令和文件存在则代表全部安装完成
@@ -154,8 +156,6 @@ deploy() {
         echo ""
     done
 
-    echo "============ 第 ${deploy_times} 次部署结束 ============"
-    let deploy_times++
 }
 
 
