@@ -71,7 +71,7 @@ setup_ubuntu_environment() {
         tar xvf $HOME/.installers/global-6.6.5.tar.gz
         cd global-6.6.5 && ./configure && make
         sudo make install
-        cd ~ && rm -r global-6.6.5
+        cd ~ && rm -r $HOME/.installers/global-6.6.5
     fi
 
 
