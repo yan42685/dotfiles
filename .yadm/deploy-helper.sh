@@ -45,7 +45,9 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
-    sudo apt install -y trash-cli nnn gdb-dashboard
+    sudo apt install -y trash-cli
+    sudo apt install -y nnn
+    sudo apt install -y gdb-dashboard
     # 安装zeal
     sudo add-apt-repository ppa:zeal-developers/ppa -y
     sudo apt-get update
