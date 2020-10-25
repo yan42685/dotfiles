@@ -84,6 +84,7 @@ setup_ubuntu_environment() {
     sudo apt install -y gawk tmux
     # tmux插件管理器tpm
     if [[ ! -f ~/.tmux/plugins/tpm ]]; then
+        sudo chown -R $USER $HOME/.tmux/
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 
