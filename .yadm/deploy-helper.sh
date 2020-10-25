@@ -25,16 +25,10 @@ setup_ubuntu_environment() {
     sudo npm install -g n
     sudo n stable
 
-    # 创建npm非root用户全局包路径(配置已写在~/.npmrc和~/.zshrc里)
-    # 参考https://blog.csdn.net/w_xue/article/details/106801689
-    # 定义npm包存放的目录
-    export NPM_PACKAGES="${HOME}/.npm-packages"#
-    # 确保node可以找到安装的包
-    export NODE_PATH="$NODE_PATH:$NPM_PACKAGES/lib/node_modules"
-    # 确保可以使用安装的二进制应用和man文档
-    export PATH="$PATH:$NPM_PACKAGES/bin"
-    mkdir ~/.npm-packages
-    sudo chmod -R 777 ~/.npm-packages/
+    # 为将来npm授权
+    sudo chown -R $USER /usr/local/bin
+    sudo chown -R $USER /usr/local/lib
+    sudo chown -R $USER /usr/local/man
 
     # 安装pyenv
     if ! command -v pyenv >/dev/null 2>&1; then
