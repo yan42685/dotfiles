@@ -115,7 +115,7 @@ deploy() {
     echo ""
 
     deploy_times=0
-    while [[ $deploy_times <= 3 ]]
+    while [ $deploy_times <= 3 ]
     do
         let deploy_times++
         echo "============ 第 ${deploy_times} 次部署 (3 次后自动退出) ============"
