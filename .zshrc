@@ -12,6 +12,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 # }}}
 # export PATH variables{{{
+export PATH=$PATH:$HOME/.local/bin
 export TERM=xterm-256color
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
 export EDITOR=nvim
