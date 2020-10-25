@@ -15,7 +15,7 @@ setup_ubuntu_environment() {
     sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
 
     echo "==================== setuping basic packages..."
-    sudo apt install -y nodejs npm python3-pip zsh lua5.3
+    sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3
     # 更新pip和pip3版本
     pip install --upgrade pip
     pip3 install --upgrade pip
