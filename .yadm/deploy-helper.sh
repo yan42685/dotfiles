@@ -54,13 +54,13 @@ setup_ubuntu_environment() {
     echo "==================== installing linter and checker"
     npm install -g eslint
     npm install -g prettier
-    python3 -m pip install pylint
-    python3 -m pip install autopep8
+    python3 -m pip install pylint --user
+    python3 -m pip install autopep8 --user
     apt install cppcheck -y
     npm install -g clang-format
 
     echo "==================== installing neovim-remote"
-    pip3 install neovim-remote
+    python3 -m pip install neovim-remote --user
 
     if ! command -v gtags >/dev/null 2>&1; then
         echo "==================== installing GNU GLOBAL (gtags)"
