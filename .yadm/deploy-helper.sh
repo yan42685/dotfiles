@@ -18,6 +18,8 @@ setup_ubuntu_environment() {
     # 更新pip和pip3版本
     pip install --upgrade pip
     pip3 install --upgrade pip
+    # 为pip3安装的包授权
+    sudo chown -R $USER $HOME/.cache
 
     # 更新node版本
     sudo npm cache clean -f
