@@ -36,7 +36,6 @@ setup_ubuntu_environment() {
         bash ~/.installers/pyenv-installer.sh
         export PATH=~/.pyenv/bin:$PATH
         export PYENV_ROOT=~/.pyenv
-        eval "$(pyenv init -)"
     fi
 
 
@@ -69,11 +68,10 @@ setup_ubuntu_environment() {
         echo "==================== installing GNU GLOBAL (gtags)"
         # 安装依赖
         sudo apt install -y libncurses5-dev libncursesw5-dev
-        wget https://ftp.gnu.org/pub/gnu/global/global-6.6.tar.gz
-        tar xvf global-6.6.tar.gz
-        cd global-6.6/ && ./configure && make
+        tar xvf global-6.6.5.tar.gz
+        cd global-6.6.5 && ./configure && make
         sudo make install
-        cd ~ && rm -r global-6.6/ && rm global-6.6.tar.gz
+        cd ~ && rm -r global-6.6.5
     fi
 
 
