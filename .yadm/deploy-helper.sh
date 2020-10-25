@@ -23,6 +23,9 @@ setup_ubuntu_environment() {
     sudo npm cache clean -f
     sudo npm install -g n
     sudo n stable
+    # 创建npm非root用户全局包路径(配置已写在~/.npmrc和~/.zshrc里)
+    # 参考https://blog.csdn.net/w_xue/article/details/106801689
+    mkdir ~/.npm-packages
     # 安装pyenv
     if ! command -v pyenv >/dev/null 2>&1; then
         bash ~/installers/pyenv-installer.sh
@@ -44,8 +47,8 @@ setup_ubuntu_environment() {
     echo "==================== installing linter and checker"
     npm install -g eslint
     npm install -g prettier
-    pip3 install pylint
-    pip3 install autopep8
+    python3 -m pip install pylint
+    python3 -m pip install autopep8
     apt install cppcheck -y
     npm install -g clang-format
 
