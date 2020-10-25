@@ -2,7 +2,7 @@ missing_commands_count=0
 
 commands=(
 node npm pip3 zsh lua5.3 pyenv
-nvim ccls ctags trash nnn zeal
+ccls ctags trash nnn zeal
 gtags rg tmux fzf alacritty
 )
 
