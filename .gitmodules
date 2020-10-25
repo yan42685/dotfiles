@@ -1,3 +1,0 @@
-[submodule "tpm"]
-	path = tpm
-	url = $HOME/.tmux/plugins/tpm
