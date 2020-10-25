@@ -23,7 +23,9 @@ setup_ubuntu_environment() {
     sudo npm install -g n
     sudo n stable
     # 安装pyenv
-    bash ~/installers/pyenv-installer.sh
+    if ! command -v pyenv >/dev/null 2>&1; then
+        bash ~/installers/pyenv-installer.sh
+    fi
 
 
     echo "==================== installing via snap..."
@@ -107,31 +109,43 @@ confirm_reboot() {
 }
 
 deploy() {
-    while true
+    echo "========================================================="
+    echo "==================== starting bootstrap ================="
+    echo "========================================================="
+    echo ""
+
+    deploy_times=0
+    while [[ $deploy_times <= 3 ]]
     do
-    setup_ubuntu_environment
-    echo -n "Do you want to redeploy to autofix missing package? (y/n):"
-    read crm
-    if [ "$crm"x = "y"x ]; then
+        let deploy_times++
+        echo "============ 第 ${deploy_times} 次部署 (3 次后自动退出) ============"
+        setup_ubuntu_environment
+
+        bash ~/.yadm/check_commands.sh
+        #　判断上次命令返回值　是否正常退出
+        if [[ $? == 0 ]]; then
+            break;
+        fi
+
+        echo
+        echo "========== missing commands or files =========="
+        echo "============== need to redeploy =========="
+        echo ""
         echo "=============================================="
         echo "================ redeploying ================="
         echo "=============================================="
-    else
-        break
-    fi
+        echo ""
     done
+
+    echo "============ 第 ${deploy_times} 次部署结束 ============"
 }
 
 
 
 
-echo "========================================================="
-echo "==================== starting bootstrap ================="
-echo "========================================================="
 if [ "$system_type" = "Linux" ]; then
     deploy
 
-    bash ~/.yadm/check_commands.sh
     echo "==================== 需要重启系统使终端和shell配置生效"
     confirm_reboot
 fi

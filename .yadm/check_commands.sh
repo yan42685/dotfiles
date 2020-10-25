@@ -27,12 +27,21 @@ do
     fi
 done
 
+is_missing=flase
 
 if [[ $missing_commands_count != 0 ]]; then
+    is_missing=true
     echo "Missing ${missing_commands_count} commands!"
-    if [[ $missing_files_count != 0 ]]; then
-        echo "Missing ${missing_files_count} files!"
-    fi
+fi
+
+if [[ $missing_files_count != 0 ]]; then
+    is_missing=true
+    echo "Missing ${missing_files_count} files!"
+fi
+
+if [[ $is_missing ]]; then
+    # 用于后续$?处理
+    exit 1
 else
     echo ""
     echo "All packages are installed."
