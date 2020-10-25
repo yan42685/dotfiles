@@ -29,9 +29,9 @@ export FuzzyFinder="fzf"
 # 定义npm包存放的目录 {{{
 export NPM_PACKAGES="${HOME}/.npm-packages"#
 # 确保node可以找到安装的包
-export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
+export NODE_PATH="$NODE_PATH:$NPM_PACKAGES/lib/node_modules"
 # 确保可以使用安装的二进制应用和man文档
-export PATH="$NPM_PACKAGES/bin:$PATH"
+export PATH="$PATH:$NPM_PACKAGES/bin"
 # Unset manpath so we can inherit from /etc/manpath via the `manpath`
 # command
 unset MANPATH # delete if you already modified MANPATH elsewhere in your config
