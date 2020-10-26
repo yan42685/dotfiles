@@ -36,7 +36,6 @@ setup_ubuntu_environment() {
         bash ~/.installers/pyenv-installer.sh
     fi
 
-
     echo "==================== installing via snap..."
     sudo snap install nvim --classic
     sudo snap install ccls --classic
@@ -81,12 +80,12 @@ setup_ubuntu_environment() {
     # gawk　是tmux-finger插件的依赖
     sudo apt install -y gawk tmux
     # tmux插件管理器tpm
-    if [[ ! -f ~/.tmux/plugins/tpm ]]; then
+    if [[ ! -d $HOME/.tmux/plugins/tpm ]]; then
         sudo chown -R $USER $HOME/.tmux/
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 
-    if [ ! -d "~/.zgen" ]; then
+    if [ ! -d "$HOME/.zgen" ]; then
         echo "==================== installing zgen..."
         sudo chown -R $USER $HOME/.zgen
         git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
@@ -108,9 +107,6 @@ setup_ubuntu_environment() {
         sudo apt install -y alacritty
     fi
 
-    # NOTE: 最好放在最后，因为需要手动确认配置
-
-
     echo "==================== 更换默认bash为zsh..."
     chsh -s /bin/zsh
 
@@ -128,7 +124,7 @@ confirm_reboot() {
     fi
 }
 
-deploy() {
+deploy_ubuntu() {
     echo "========================================================="
     echo "==================== starting bootstrap ================="
     echo "========================================================="
@@ -149,14 +145,16 @@ deploy() {
             break;
         fi
 
-        echo
-        echo "========== missing commands or files =========="
-        echo "============== need to redeploy =========="
-        echo ""
-        echo "=============================================="
-        echo "================ redeploying ================="
-        echo "=============================================="
-        echo ""
+        if [[ $deploy_times -lt 3 ]]; then
+            echo ""
+            echo "========== missing commands or files =========="
+            echo "============== need to redeploy =========="
+            echo ""
+            echo "=============================================="
+            echo "================ redeploying ================="
+            echo "=============================================="
+            echo ""
+        fi
     done
 
 }
@@ -165,7 +163,7 @@ deploy() {
 
 
 if [ "$system_type" = "Linux" ]; then
-    deploy
+    deploy_ubuntu
 
     # 安装vim插件
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
