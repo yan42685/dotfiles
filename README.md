@@ -6,7 +6,7 @@
 ## 部署前的准备（只用于加速下载，非必须）
 
 - 包管理器 (apt) 换源
-- 安装 v2rayL 和设置 git 代理
+- 安装 v2rayL
   1. 下载并安装 `bash <(curl -s -L http://dl.thinker.ink/install.sh)`
   2. 自定义 v2rayL 代理端口 (socks 端口与 dotfiles 里.gitconfig 代理端口一致） ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/proxy-setting1.png)
   3. 配置自己提前买到的服务器信息或订阅信息
