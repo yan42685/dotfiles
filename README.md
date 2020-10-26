@@ -16,8 +16,6 @@
 ## 自动部署命令
 
 ```bash
-# 保持 sudo 到终端关闭
-sudo -s
 # 这里设置 git config --system 代理是为了加速 clone　
 # 并且和 --global 不同，可以避免生成~/.gitconfig 导致的 clone 时有已存在文件的异常
 sudo git config --system http.https://github.com.proxy socks5://127.0.0.1:6543

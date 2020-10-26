@@ -19,7 +19,7 @@ setup_ubuntu_environment() {
     pip install --upgrade pip
     pip3 install --upgrade pip
     # 为pip3安装的包授权
-    sudo chown -R $USER $HOME/.cache
+    # sudo chown -R $USER $HOME/.cache
 
     # 更新node版本
     sudo npm cache clean -f
@@ -81,13 +81,13 @@ setup_ubuntu_environment() {
     sudo apt install -y gawk tmux
     # tmux插件管理器tpm
     if [[ ! -d $HOME/.tmux/plugins/tpm ]]; then
-        sudo chown -R $USER $HOME/.tmux/
+        # sudo chown -R $USER $HOME/.tmux/
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 
     if [ ! -d "$HOME/.zgen" ]; then
         echo "==================== installing zgen..."
-        sudo chown -R $USER $HOME/.zgen
+        # sudo chown -R $USER $HOME/.zgen
         git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
     fi
 
