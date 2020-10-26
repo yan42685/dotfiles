@@ -5,12 +5,13 @@ is_missing=flase
 
 
 commands=(
-node npm pip3 zsh lua5.3 pyenv
+node npm pip3 zsh lua5.3
 nvim ccls ctags trash nnn zeal
 gtags rg tmux fzf alacritty
 )
 
 directories=(
+$HOME/.tmux/plugins/tpm
 )
 
 files=(
@@ -26,7 +27,7 @@ done
 
 for directory in ${directories[@]};
 do
-    if ! -d $directory>/dev/null 2>&1; then
+    if [ ! -d $directory ] ; then
         echo "directory $directory not exists!"
         let missing_directories_count++
     fi
@@ -34,7 +35,7 @@ done
 
 for file in ${files[@]};
 do
-    if ! -f $file>/dev/null 2>&1; then
+    if [ ! -f $file ]; then
         echo "file $file not exists!"
         let missing_files_count++
     fi
