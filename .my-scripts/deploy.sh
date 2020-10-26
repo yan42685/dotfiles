@@ -16,8 +16,8 @@ setup_ubuntu_environment() {
     echo "==================== setuping basic packages..."
     sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3
     # 更新pip和pip3版本
-    pip install --upgrade pip
-    pip3 install --upgrade pip
+    python -m pip install --upgrade pip
+    python3 -m pip3 install --upgrade pip
 
     # 更新node版本
     sudo npm cache clean -f
