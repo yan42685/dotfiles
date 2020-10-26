@@ -139,7 +139,7 @@ deploy_ubuntu() {
         echo "============ 第 ${deploy_times} 次部署结束 ============"
         let deploy_times++
 
-        bash ~/.my-scripts/check_commands.sh
+        bash $HOME/.my-scripts/check_commands.sh
         #　判断上次命令返回值　如果命令和文件存在则代表全部安装完成
         if [[ $? == 0 ]]; then
             break;
