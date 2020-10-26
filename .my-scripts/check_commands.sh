@@ -7,11 +7,12 @@ is_missing=flase
 commands=(
 node npm pip3 zsh lua5.3
 nvim ccls ctags trash nnn zeal
-gtags rg tmux fzf alacritty
+gtags rg tmux alacritty
 )
 
 directories=(
 $HOME/.tmux/plugins/tpm
+$HOME/.fzf
 )
 
 files=(

@@ -18,9 +18,6 @@ setup_ubuntu_environment() {
     # 更新pip和pip3版本
     pip install --upgrade pip
     pip3 install --upgrade pip
-    # TODO: 移除权限相关
-    # 为pip3安装的包授权
-    # sudo chown -R $USER $HOME/.cache
 
     # 更新node版本
     sudo npm cache clean -f
@@ -82,13 +79,11 @@ setup_ubuntu_environment() {
     sudo apt install -y gawk tmux
     # tmux插件管理器tpm
     if [[ ! -d $HOME/.tmux/plugins/tpm ]]; then
-        # sudo chown -R $USER $HOME/.tmux/
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 
     if [ ! -d "$HOME/.zgen" ]; then
         echo "==================== installing zgen..."
-        # sudo chown -R $USER $HOME/.zgen
         git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
     fi
 
@@ -109,24 +104,7 @@ setup_ubuntu_environment() {
     fi
 
     echo "==================== 更换默认bash为zsh..."
-    chsh -s /bin/zsh
-
-    echo "==================== 初始化配置文件的 git 仓库"
-    cd $HOME
-    git init
-    # git add 除去字体
-    git add $(dot ls | grep -v .local/share/fonts)
-    git commit -a -m "init"
-
-}
-
-confirm_reboot() {
-    echo -n "Are you sure to reboot now? (y/n):"
-    read crm
-    if [ "$crm"x = "y"x ]; then
-        echo "rebooting"
-        \reboot
-    fi
+    sudo chsh -s /bin/zsh
 }
 
 deploy_ubuntu() {
@@ -164,15 +142,31 @@ deploy_ubuntu() {
 
 }
 
+common_after_deploy() {
+    echo "==================== 初始化配置文件的 git 仓库"
+    cd $HOME
+    git init
+    # git add 除去字体
+    git add $(yadm ls | grep -v .local/share/fonts)
+    git commit -a -m "init"
 
+    # 安装vim插件
+    nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
+}
+
+confirm_reboot() {
+    echo "==================== 需要重启系统使配置生效 =================="
+    echo -n "Are you sure to reboot now? (y/n):"
+    read crm
+    if [ "$crm"x = "y"x ]; then
+        echo "rebooting"
+        \reboot
+    fi
+}
 
 
 if [ "$system_type" = "Linux" ]; then
     deploy_ubuntu
-
-    # 安装vim插件
-    nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
-
-    echo "==================== 需要重启系统使终端和shell配置生效"
+    common_after_deploy
     confirm_reboot
 fi
