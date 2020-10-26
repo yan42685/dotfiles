@@ -100,7 +100,7 @@ setup_ubuntu_environment() {
         # 添加缺失的public key
         sudo apt update 2>&1 1>/dev/null | sed -ne 's/.*NO_PUBKEY //p' | while read key; do if ! [[ ${keys[*]} =~ "$key" ]]; then sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys "$key"; keys+="$key"; fi; done
         sudo apt-get update
-        sudo apt install -y alacritty
+        sudo apt install -y alacritty --fix-missing
     fi
 
     echo "==================== 更换默认bash为zsh..."
