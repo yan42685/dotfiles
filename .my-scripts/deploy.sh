@@ -110,8 +110,12 @@ setup_ubuntu_environment() {
     echo "==================== 更换默认bash为zsh..."
     chsh -s /bin/zsh
 
-    # TODO: to do
     echo "==================== 初始化配置文件的 git 仓库"
+    cd $HOME
+    git init
+    # git add 除去字体
+    git add $(dot ls | grep -v .local/share/fonts)
+    git commit -a -m "init"
 
 }
 
