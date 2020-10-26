@@ -105,6 +105,8 @@ setup_ubuntu_environment() {
 
     echo "==================== 更换默认bash为zsh..."
     sudo chsh -s /bin/zsh
+
+    sudo apt autoremove -y
 }
 
 deploy_ubuntu() {
