@@ -11,13 +11,14 @@ setup_ubuntu_environment() {
     sudo apt update
     sudo apt -y upgrade
     echo "==================== Installing required packages..."
-    sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+    sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
 
     echo "==================== setuping basic packages..."
     sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3
     # 更新pip和pip3版本
     pip install --upgrade pip
     pip3 install --upgrade pip
+    # TODO: 移除权限相关
     # 为pip3安装的包授权
     # sudo chown -R $USER $HOME/.cache
 
