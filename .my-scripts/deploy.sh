@@ -42,7 +42,10 @@ setup_ubuntu_environment() {
     echo "==================== installing applications"
     sudo apt install -y trash-cli
     sudo apt install -y nnn
-    sudo apt-get install -y zeal
+    # 安装zeal
+    sudo add-apt-repository ppa:zeal-developers/ppa -y
+    sudo apt-get update
+    sudo apt-get install -y zeal --fix-missing
 
     echo "==================== installing linter and checker"
     npm install -g eslint
