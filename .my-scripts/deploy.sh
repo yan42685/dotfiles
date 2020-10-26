@@ -36,6 +36,7 @@ setup_ubuntu_environment() {
         bash ~/.installers/pyenv-installer.sh
         export PATH=~/.pyenv/bin:$PATH
         export PYENV_ROOT=~/.pyenv
+        sudo chown -R $USER $HOME/.pyenv/
     fi
 
 
@@ -90,6 +91,7 @@ setup_ubuntu_environment() {
 
     if [ ! -d "~/.zgen" ]; then
         echo "==================== installing zgen..."
+        sudo chown -R $USER $HOME/.zgen
         git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
     fi
 
