@@ -97,9 +97,9 @@ setup_ubuntu_environment() {
         git clone --depth=1 --recursive https://github.com/MaskRay/ccls
         cd ccls
         wget -c http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
-        tar xf clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
-        cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$PWD/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04
-        cmake --build Release
+        tar xf clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz 1>/dev/null
+        cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$PWD/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04 1>/dev/null
+        cmake --build Release 1>/dev/null
         rm clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
         cd $HOME
         export PATH=$PATH:$HOME/.installers/bin
