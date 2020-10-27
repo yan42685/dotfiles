@@ -11,7 +11,7 @@ setup_ubuntu_environment() {
     sudo apt update
     sudo apt -y upgrade
     echo "==================== Installing required packages..."
-    sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
+    sudo apt install -y make cmake build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
 
     echo "==================== setuping basic packages..."
     sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3
@@ -36,7 +36,6 @@ setup_ubuntu_environment() {
 
     echo "==================== installing via snap..."
     sudo snap install nvim --classic
-    sudo snap install ccls --classic
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
@@ -91,6 +90,21 @@ setup_ubuntu_environment() {
         echo "==================== Installing fzf"
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install --all
+    fi
+
+    if ! command -v ccls>/dev/null 2>&1; then
+        echo "==================== Installing ccls (about 15minites)"
+        git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+        cd ccls
+        wget -c http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+        tar xf clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+        cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$PWD/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04
+        cmake --build Release
+        rm clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+        cd $HOME
+        export PATH=$PATH:$HOME/.installers/bin
+        echo "==================== ccls installed successfully!"
+        echo ""
     fi
 
     if ! command -v alacritty >/dev/null 2>&1; then
