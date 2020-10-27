@@ -104,7 +104,7 @@ setup_ubuntu_environment() {
     fi
 
     echo "==================== 更换默认bash为zsh..."
-    sudo chsh -s /bin/zsh
+    sudo usermod -s /usr/bin/zsh $(whoami)
 
     sudo apt autoremove -y
 }
