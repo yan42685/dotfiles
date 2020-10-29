@@ -35,7 +35,8 @@ set -o monitor
 set +o nonotify
 umask 077  # 新建文件的权限
 setopt hist_save_no_dups hist_ignore_dups       # eliminate duplicate entries in history
-setopt correctall                               # enable auto correction
+# 设置自动修改命令
+# setopt correctall                               # enable auto correction
 setopt autopushd pushdignoredups                # auto push dir into stack and and don’t duplicate them
 autoload -U promptinit && promptinit  # FIXME: 不太了解这句话的作用
 # }}}
