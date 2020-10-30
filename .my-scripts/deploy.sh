@@ -120,6 +120,16 @@ setup_ubuntu_environment() {
     gsettings set org.gnome.desktop.peripherals.keyboard delay 250
     echo "=================== 设置桌面背景..."
     gsettings set org.gnome.desktop.background picture-uri "$HOME/.config/images/desktop-background/white-maple-black-background.png"
+    echo "设置字体"
+    gsettings set org.gnome.desktop.interface document-font-name 'Sans 11'
+    gsettings set org.gnome.desktop.interface font-name 'Ubuntu 11'
+    gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 13'
+    # 光标不跳动
+    gsettings set org.gnome.desktop.interface cursor-blink 'false'
+    # 设置快捷键(查询gnome-terminal快捷键用　gsettings list-recursively | grep Terminal.Legacy.Keybindings)
+    KEYBIDINGS_PATH=org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/
+    gsettings set $KEYBIDINGS_PATH paste '<Alt>i'
+
 
     sudo apt autoremove -y
 }
