@@ -28,13 +28,6 @@ bash ~/.my-scripts/deploy.sh
 # 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
 ```
 
-## 解决 nvim 和 tmux 状态栏乱码问题
-
-设置 terminal 的字体为 SauceCodePro NF Regular
-<br>
-
-![Ubuntu18 设置 gnome-terminal 字体示例图](https://raw.githubusercontent.com/yan42685/dotfiles/master/.config/images/README/font-settting.png)
-
 ## 其他问题
 
 - 初次打开 nvim 的 startify 页面，会显示无法读取 viminfo 的警告，下次打开就不会出现了
