@@ -925,7 +925,9 @@ endfunction
 " vmap <expr> <cr> index(g:coc_range_select_map_blacklist, &filetype) >=0 ? '<cr>' : '<Plug>(coc-range-select)'
 " vmap <backspace> <Plug>(coc-range-select-backward)
 " 触发鼠标悬浮事件
-nnoremap <silent> gh :call CocActionAsync('doHover')<cr>
+nnoremap <silent> tk :call CocActionAsync('doHover')<cr>
+" 在源文件与头文件之间切换
+nnoremap <silent> gh :CocCommand clangd.switchSourceHeader<cr>
 " 跳转到声明
 nmap <silent> gD <Plug>(coc-declaration)
 " 跳转到定义
@@ -2818,13 +2820,6 @@ nnoremap <c-s-g> :call ScrollAnotherWindow(6)<CR>
 nnoremap <leader>en :e $MYVIMRC<CR>
 " 快速编辑tmux配置文件
 nnoremap <leader>et :e $HOME/.tmux.conf<cr>
-" 快速在头文件和源文件之间跳转
-nnoremap <leader>eh :execute 'edit' fnamemodify(expand('%'), ':p:r') . '.h'<cr>
-augroup auto_mark_C
-    autocmd!
-    autocmd BufLeave *.{c,cpp} mark C
-augroup end
-nnoremap <leader>ec :execute "normal 'C"<cr>
 " 编辑该文件类型的snippets
 
 " 搜索并alternative文件(比如在c和头文件之间替换, 用于c/cpp和h文件不在同一目录的情况),　具体的可以自己定义字典
