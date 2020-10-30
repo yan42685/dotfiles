@@ -115,20 +115,6 @@ setup_ubuntu_environment() {
     echo ""
     echo "==================== 更换默认bash为zsh..."
     sudo usermod -s /usr/bin/zsh $(whoami)
-    echo "=================== 设置键盘响应速度..."
-    gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30
-    gsettings set org.gnome.desktop.peripherals.keyboard delay 250
-    echo "=================== 设置桌面背景..."
-    gsettings set org.gnome.desktop.background picture-uri "$HOME/.config/images/desktop-background/white-maple-black-background.png"
-    echo "设置字体"
-    gsettings set org.gnome.desktop.interface document-font-name 'Sans 11'
-    gsettings set org.gnome.desktop.interface font-name 'Ubuntu 11'
-    gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 13'
-    # 光标不跳动
-    gsettings set org.gnome.desktop.interface cursor-blink 'false'
-    # 设置快捷键(查询gnome-terminal快捷键用　gsettings list-recursively | grep Terminal.Legacy.Keybindings)
-    KEYBIDINGS_PATH=org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/
-    gsettings set $KEYBIDINGS_PATH paste '<Alt>i'
 
     if [ ! -f $HOME/src/gogh/themes/chalk.sh ]; then
         echo "==================== 安装gnome主题(很慢)..."
@@ -143,6 +129,33 @@ setup_ubuntu_environment() {
         ./chalk.sh
         cd $HOME
     fi
+
+    echo "=================== 设置键盘响应速度..."
+    gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30
+    gsettings set org.gnome.desktop.peripherals.keyboard delay 250
+    echo "=================== 设置桌面背景..."
+    gsettings set org.gnome.desktop.background picture-uri "$HOME/.config/images/desktop-background/white-maple-black-background.png"
+    echo "=================== 设置系统字体"
+    gsettings set org.gnome.desktop.interface document-font-name 'Sans 11'
+    gsettings set org.gnome.desktop.interface font-name 'Ubuntu 11'
+    # gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 13'
+    gsettings set org.gnome.desktop.interface monospace-font-name 'SaurceCodePro NF 13'
+    # 光标不跳动
+    gsettings set org.gnome.desktop.interface cursor-blink 'false'
+    # 设置快捷键(查询gnome-terminal快捷键用　gsettings list-recursively | grep Terminal.Legacy.Keybindings)
+    KEYBIDINGS_PATH=org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/
+    gsettings set $KEYBIDINGS_PATH paste '<Alt>i'
+
+    CURRENT_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
+    CURRENT_PROFILE=${CURRENT_PROFILE:1:-1} # remove leading and trailing single quotes
+    echo "==================== 设置背景透明度和字体"
+    settings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/           ⤷▶legacy/profiles:/:$CURRENT_PROFILE/" use-transparent-background true
+    1
+    2 gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/           ⤷▶legacy/profiles:/:$CURRENT_PROFILE/" background-transparency-percent 4
+     # 使用自定义字体
+    2 gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:         ⤷▶$CURRENT_PROFILE/" use-system-font false
+    1
+  11  gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:         ⤷▶$CURRENT_PROFILE/" font 'SauceCodePro NF 13'
 
 
     sudo apt autoremove -y
