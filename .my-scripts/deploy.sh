@@ -150,11 +150,11 @@ setup_ubuntu_environment() {
     KEYBIDINGS_PATH=org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/
     gsettings set $KEYBIDINGS_PATH paste '<Alt>i'
 
+    echo "==================== 设置背景透明度和字体"
     DEFAULT_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
     DEFAULT_PROFILE=${DEFAULT_PROFILE:1:-1} # remove leading and trailing single quotes
-    echo "==================== 设置背景透明度和字体"
-    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/           ⤷▶legacy/profiles:/:$DEFAULT_PROFILE/" use-transparent-background true
-    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/           ⤷▶legacy/profiles:/:$DEFAULT_PROFILE/" background-transparency-percent 2
+    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$DEFAULT_PROFILE/" use-transparent-background true
+    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$DEFAULT_PROFILE/" background-transparency-percent 2
     # 使用自定义字体
     gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$DEFAULT_PROFILE/" use-system-font false
     gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$DEFAULT_PROFILE/" font 'SauceCodePro NF 13'
