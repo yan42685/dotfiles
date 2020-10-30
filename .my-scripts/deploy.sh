@@ -111,8 +111,13 @@ setup_ubuntu_environment() {
         sudo apt install -y alacritty --fix-missing
     fi
 
+    echo "==================== 系统设置 ================="
+    echo ""
     echo "==================== 更换默认bash为zsh..."
     sudo usermod -s /usr/bin/zsh $(whoami)
+    echo "=================== 设置键盘响应速度..."
+    gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30
+    gsettings set org.gnome.desktop.peripherals.keyboard delay 250
 
     sudo apt autoremove -y
 }
