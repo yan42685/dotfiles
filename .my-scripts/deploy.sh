@@ -118,6 +118,8 @@ setup_ubuntu_environment() {
     echo "=================== 设置键盘响应速度..."
     gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30
     gsettings set org.gnome.desktop.peripherals.keyboard delay 250
+    echo "=================== 设置桌面背景..."
+    gsettings set org.gnome.desktop.background picture-uri "$HOME/.config/images/desktop-background/white-maple-black-background.png"
 
     sudo apt autoremove -y
 }
