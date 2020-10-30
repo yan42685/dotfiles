@@ -142,20 +142,19 @@ setup_ubuntu_environment() {
     gsettings set org.gnome.desktop.interface monospace-font-name 'SaurceCodePro NF 13'
     # 光标不跳动
     gsettings set org.gnome.desktop.interface cursor-blink 'false'
-    # 设置快捷键(查询gnome-terminal快捷键用　gsettings list-recursively | grep Terminal.Legacy.Keybindings)
+    echo "=================== 设置快捷键"
+    # (查询gnome-terminal快捷键用　gsettings list-recursively | grep Terminal.Legacy.Keybindings)
     KEYBIDINGS_PATH=org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/
     gsettings set $KEYBIDINGS_PATH paste '<Alt>i'
 
-    CURRENT_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
-    CURRENT_PROFILE=${CURRENT_PROFILE:1:-1} # remove leading and trailing single quotes
+    DEFAULT_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
+    DEFAULT_PROFILE=${DEFAULT_PROFILE:1:-1} # remove leading and trailing single quotes
     echo "==================== 设置背景透明度和字体"
-    settings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/           ⤷▶legacy/profiles:/:$CURRENT_PROFILE/" use-transparent-background true
-    1
-    2 gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/           ⤷▶legacy/profiles:/:$CURRENT_PROFILE/" background-transparency-percent 4
-     # 使用自定义字体
-    2 gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:         ⤷▶$CURRENT_PROFILE/" use-system-font false
-    1
-  11  gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:         ⤷▶$CURRENT_PROFILE/" font 'SauceCodePro NF 13'
+    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/           ⤷▶legacy/profiles:/:$DEFAULT_PROFILE/" use-transparent-background true
+    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/           ⤷▶legacy/profiles:/:$DEFAULT_PROFILE/" background-transparency-percent 2
+    # 使用自定义字体
+    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$DEFAULT_PROFILE/" use-system-font false
+    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$DEFAULT_PROFILE/" font 'SauceCodePro NF 13'
 
 
     sudo apt autoremove -y
