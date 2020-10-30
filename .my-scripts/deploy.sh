@@ -130,11 +130,14 @@ setup_ubuntu_environment() {
         cd $HOME
     fi
 
+
+    echo "=================== 设置桌面背景..."
+    gsettings set org.gnome.desktop.background picture-uri "$HOME/.config/images/desktop-background/white-maple-black-background.png"
+    echo "=================== 设置快捷栏dock样式..."
+    gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
     echo "=================== 设置键盘响应速度..."
     gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30
     gsettings set org.gnome.desktop.peripherals.keyboard delay 250
-    echo "=================== 设置桌面背景..."
-    gsettings set org.gnome.desktop.background picture-uri "$HOME/.config/images/desktop-background/white-maple-black-background.png"
     echo "=================== 设置系统字体"
     gsettings set org.gnome.desktop.interface document-font-name 'Sans 11'
     gsettings set org.gnome.desktop.interface font-name 'Ubuntu 11'
