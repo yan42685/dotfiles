@@ -39,7 +39,7 @@ bash ~/.my-scripts/deploy.sh
 
 - 初次打开 nvim 的 startify 页面，会显示无法读取 viminfo 的警告，下次打开就不会出现了
 - 打开 zsh 会警告没有 zeal 相关的文件夹，这时只用开启一次 zeal 就会自动创建相关文件夹，下次就不会有警告了
-- 有时因为网络原因，zgen 安装 zsh 插件出了问题，导致 zsh 打开是原生 bash 的效果，这时需要 `rm -rf $HOME/.zgen && git clone https://github.com/tarjoilija/zgen.git ${HOME}/.zgen`　然后再打开 zsh
+- 有时因为网络原因，zgen 安装 zsh 插件出了问题，导致 zsh 打开是原生 bash 的效果，这时需要 `rm -rf $HOME/.zgen && git clone https://github.com/tarjoilija/zgen.git ${HOME}/.zgen && source $HOME/.zshrc`
 
 <br>
 <details>

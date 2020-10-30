@@ -85,6 +85,7 @@ setup_ubuntu_environment() {
     if [ ! -d "$HOME/.zgen" ]; then
         echo "==================== installing zgen..."
         git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+        source $HOME/.zshrc
     fi
 
     if ! command -v fzf>/dev/null 2>&1; then
