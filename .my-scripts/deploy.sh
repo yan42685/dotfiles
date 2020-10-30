@@ -78,13 +78,11 @@ setup_ubuntu_environment() {
     sudo apt install -y gawk tmux
     # tmux插件管理器tpm
     if [[ ! -d $HOME/.tmux/plugins/tpm ]]; then
-        rm -rf ~/.tmux/plugins/tpm
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 
     if [ ! -d "$HOME/.zgen" ]; then
         echo "==================== installing zgen..."
-        rm -rf $HOME/.zgen
         git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
     fi
 
