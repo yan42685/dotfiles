@@ -530,7 +530,8 @@ ps-kill-all() {
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-source $HOME/.config/.zsh-theme-forest-night
+# zsh主题
+source $HOME/.config/zsh/.zsh-theme-forest-night
 
 # Created by `userpath` on 2020-03-18 21:41:57
 export PATH="$PATH:/root/.local/bin"
