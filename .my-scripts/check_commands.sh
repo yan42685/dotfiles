@@ -28,7 +28,7 @@ done
 
 for directory in ${directories[@]};
 do
-    if [ ! -d $directory ] ; then
+    if [ ! -d $directory ]; then
         echo "directory $directory not exists!"
         let missing_directories_count++
     fi

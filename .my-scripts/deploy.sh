@@ -130,6 +130,20 @@ setup_ubuntu_environment() {
     KEYBIDINGS_PATH=org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/
     gsettings set $KEYBIDINGS_PATH paste '<Alt>i'
 
+    if [ ! -f $HOME/src/gogh/themes/chalk.sh ]; then
+        echo "==================== 安装gnome主题(很慢)..."
+        rm -rf $HOME/src/gogh/
+        mkdir -p "$HOME/src"
+        cd "$HOME/src"
+        git clone https://github.com/Mayccoll/Gogh.git gogh
+        cd gogh/themes
+        # necessary on ubuntu
+        export TERMINAL=gnome-terminal
+        # install themes (注册在gnome-terminal鼠标右键的profile里)
+        ./chalk.sh
+        cd $HOME
+    fi
+
 
     sudo apt autoremove -y
 }
