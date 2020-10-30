@@ -78,22 +78,26 @@ setup_ubuntu_environment() {
     sudo apt install -y gawk tmux
     # tmux插件管理器tpm
     if [[ ! -d $HOME/.tmux/plugins/tpm ]]; then
+        rm -rf ~/.tmux/plugins/tpm
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 
     if [ ! -d "$HOME/.zgen" ]; then
         echo "==================== installing zgen..."
+        rm -rf $HOME/.zgen
         git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
     fi
 
     if ! command -v fzf>/dev/null 2>&1; then
         echo "==================== Installing fzf"
+        rm -rf $HOME/.fzf
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install --all
     fi
 
     if ! command -v ccls>/dev/null 2>&1; then
         echo "==================== Installing ccls (about 15minites)"
+        rm -rf $HOME/ccls
         git clone --depth=1 --recursive https://github.com/MaskRay/ccls
         cd ccls
         wget -c http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
