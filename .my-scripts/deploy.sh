@@ -36,6 +36,7 @@ setup_ubuntu_environment() {
 
     echo "==================== installing via snap..."
     sudo snap install nvim --classic
+    sudo snap install ccls --classic
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
@@ -91,22 +92,6 @@ setup_ubuntu_environment() {
         rm -rf $HOME/.fzf
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install --all
-    fi
-
-    if ! command -v ccls>/dev/null 2>&1; then
-        echo "==================== Installing ccls (about 15minites)"
-        rm -rf $HOME/ccls
-        git clone --depth=1 --recursive https://github.com/MaskRay/ccls
-        cd ccls
-        wget -c http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
-        tar xf clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz 1>/dev/null
-        cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$PWD/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04 1>/dev/null
-        cmake --build Release 1>/dev/null
-        rm clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
-        cd $HOME
-        export PATH=$PATH:$HOME/.installers/bin
-        echo "==================== ccls installed successfully!"
-        echo ""
     fi
 
     if ! command -v alacritty >/dev/null 2>&1; then
