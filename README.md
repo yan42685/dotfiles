@@ -3,11 +3,11 @@
 - 这是自动化部署自用软件及其依赖、配置的项目，方便迁移到新的虚拟机 / 实体机
 - 应该只能用于 Ubuntu 18.04 或以上版本的刚安装好的纯净镜像
 
-## 部署前的准备（只用于加速下载，非必须）
+## 部署前的准备
 
 - 包管理器 (apt) 换源
 - 安装必备软件 `sudo apt install -y git curl`
-- 安装 v2rayL
+- 安装 v2rayL 设置代理（只用于加速下载，非必须）
 
   1. 下载并安装 `bash <(curl -s -L http://dl.thinker.ink/install.sh)`
   2. 自定义 v2rayL 代理端口 (socks 端口与 dotfiles 里.gitconfig 代理端口一致） ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/proxy-setting1.png)
@@ -30,8 +30,6 @@ bash ~/.my-scripts/deploy.sh
 
 ## 其他问题
 
-- 初次打开 nvim 的 startify 页面，会显示无法读取 viminfo 的警告，下次打开就不会出现了
-- 打开 zsh 会警告没有 zeal 相关的文件夹，这时只用开启一次 zeal 就会自动创建相关文件夹，下次就不会有警告了
 - 有时因为网络原因，zgen 安装 zsh 插件出了问题，导致 zsh 打开是原生 bash 的效果，这时需要 `rm -rf $HOME/.zgen && git clone https://github.com/tarjoilija/zgen.git ${HOME}/.zgen && source $HOME/.zshrc`
 
 <br>
