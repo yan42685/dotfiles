@@ -75,7 +75,9 @@ setup_ubuntu_environment() {
 
     if ! command -v clangd >/dev/null 2>&1; then
         echo "==================== Installing clangd"
-        sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+        sudo apt install -y clangd-10
+        # 设置clangd-10为默认的clangd
+        sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-10 100
     fi
 
     echo "==================== installing tmux"

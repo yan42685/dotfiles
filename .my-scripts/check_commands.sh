@@ -6,7 +6,7 @@ is_missing=flase
 
 commands=(
 node npm pip3 zsh lua5.3
-nvim ccls ctags trash nnn zeal
+nvim clangd ctags trash nnn zeal
 gtags rg tmux alacritty
 )
 

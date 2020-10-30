@@ -659,15 +659,6 @@ if g:disable_laggy_plugins_for_large_file == 0
     let g:ale_fix_on_save = 1
     " 配置状态栏信息
     let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
-    " Note that the C options are also used for C++.
-    " let g:ale_c_clangformat_options = '-style=google'
-    " 设置ccls的缓存目录
-    let g:ale_cpp_ccls_init_options = {
-    \   'cache': {
-    \       'directory': '/tmp/ccls/cache'
-    \   }
-    \ }
     "}}}
 endif
 "}}}
