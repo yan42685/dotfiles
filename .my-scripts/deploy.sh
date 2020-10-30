@@ -154,6 +154,7 @@ common_after_deploy() {
     git commit -a -m "init"
 
     # 安装vim插件
+    # NOTE: post执行脚本会卡一段时间，耐心等待就好
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
 }
 
