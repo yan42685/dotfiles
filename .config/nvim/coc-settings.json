@@ -37,17 +37,5 @@
   "python.jediEnabled": false,
   // 只显示ale的lint信息, 不显示Coc的
   "diagnostic.displayByAle": true,
-  "languageserver": {
-    "ccls": {
-      "command": "ccls",
-      "filetypes": ["c", "cpp", "objc", "objcpp"],
-      "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
-      "initializationOptions": {
-        "cache": {
-          "directory": "/tmp/ccls"
-        }
-      }
-    }
-  },
   "java.format.settings.url": "/home/yy/.config/coc/extensions/node_modules/redhat.java/eclipse-formatter.xml"
 }

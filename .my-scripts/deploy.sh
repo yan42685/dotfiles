@@ -36,7 +36,6 @@ setup_ubuntu_environment() {
 
     echo "==================== installing via snap..."
     sudo snap install nvim --classic
-    sudo snap install ccls --classic
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
@@ -72,6 +71,11 @@ setup_ubuntu_environment() {
     if ! command -v rg >/dev/null 2>&1; then
         echo "==================== installing riggrep"
         sudo dpkg -i $HOME/.installers/ripgrep_11.0.2_amd64.deb
+    fi
+
+    if ! command -v clangd >/dev/null 2>&1; then
+        echo "==================== Installing clangd"
+        sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
     fi
 
     echo "==================== installing tmux"
