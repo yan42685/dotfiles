@@ -329,20 +329,11 @@ bindkey '^[x' insert-last-command-output  # insert last command result
 
 
 ############################################################
-# {{{ [弃用] Vim单实例
-# if [ -z "$VIMRUNTIME" ]; then
-# alias vim='vim --servername FOO';
-# else
-# # 单引号不用转义
-# alias vim='vim --servername $VIM_SERVERNAME --remote "+wincmd o | Tclose"';
-# fi
-# }}}
 # 解决ls命令出现奇怪背景色的问题{{{
 # Change ls colours
 LS_COLORS="ow=01;36;40" && export LS_COLORS
 # }}}
-# {{{
-# 解决zeal不能显示mdn文档的问题
+# 解决zeal不能显示mdn文档的问题 {{{
 zeal-docs-fix() {
 dirname="$HOME/.local/share/Zeal/Zeal/docsets"
 if [ -d $dirname  ];then
