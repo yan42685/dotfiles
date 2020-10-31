@@ -192,6 +192,9 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 # }}}
 
+# 需要在 zgen load Aloxaf/fzf-tab 之前
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # FIXME: 如果ohmyzsh的插件安装失败，那就把.zgen/robbyrussell这个文件夹删了，再zgen reset  下次进入终端会卡一段时间(重新下载robbyrussell) 然后就没问题了
 # load zgen Plugins
 # {{{
@@ -217,7 +220,8 @@ if ! zgen saved; then
     zgen load romkatv/powerlevel10k powerlevel10k
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load zsh-users/zsh-autosuggestions
-    zgen load zsh-users/zsh-completions
+    # 用fzf自带的fzf-completion替代
+    # zgen load zsh-users/zsh-completions
     zgen load zsh-users/zsh-history-substring-search
     zgen load djui/alias-tips  # 如果使用的不是缩写命令，会自动提醒你之前定义的alias
     zgen load urbainvaes/fzf-marks
@@ -513,7 +517,6 @@ ps-kill-all() {
 }
 # }}}
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
