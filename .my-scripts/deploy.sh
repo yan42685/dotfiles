@@ -24,10 +24,12 @@ setup_ubuntu_environment() {
     sudo npm install -g n
     sudo n stable
 
-    # 为将来npm授权
-    sudo chown -R $USER /usr/local/bin
-    sudo chown -R $USER /usr/local/lib
-    sudo chown -R $USER /usr/local/man
+    # 设置npm代理和 install -g 到本地用户防止权限问题
+    npm config set registry https://registry.npm.taobao.org/
+    mkdir ${HOME}/.npm-packages
+    npm config set prefix ${HOME}/.npm-packages
+    # export PATH 需要在.zshrc里也写一遍
+    export PATH=${PATH}:${HOME}/.npm-packages/bin
 
     # 安装pyenv
     if [ ! -d $HOME/.pyenv ] ; then

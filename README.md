@@ -1,18 +1,33 @@
 ## 这是什么以及适用条件
 
 - 这是自动化部署自用软件及其依赖、配置的项目，方便迁移到新的虚拟机 / 实体机
-- 应该只能用于 Ubuntu 18.04 刚安装好的纯净镜像 (想要不出问题最好用 18.04 而不是更高版本的, 已知 18.04.5 由于系统内核的问题导致 fzf preview 功能失效，显示 Failed to read /dev/tty 从而 fzf-tab 无法使用)
+- 应该只能用于 Ubuntu 18.04 刚安装好的纯净镜像 （想要不出问题最好用 18.04 而不是更高版本的，已知 18.04.5 由于系统内核的问题导致 fzf preview 功能失效，显示 Failed to read /dev/tty 从而 fzf-tab 无法使用）
 
 ## 部署前的准备
 
 - 包管理器 (apt) 换源
-- 安装必备软件 `sudo apt install -y git curl`
-- 安装 v2rayL 设置代理（只用于加速下载，非必须）
+- 设置永不自动锁屏　 Settings-Power-Blank Screen 的值为 never
+- 安装必备软件 `sudo apt install -y git curl wget unzip`
+- 安装 qv2ray 并设置代理（仅用于加速，非必须）
 
-  1. 下载并安装（默认开机自启动） `bash <(curl -s -L http://dl.thinker.ink/install.sh)`
-  2. 自定义 v2rayL 代理端口 (socks 端口与 dotfiles 里.gitconfig 代理端口一致） ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/proxy-setting1.png)
-  3. 配置自己提前买到的服务器信息或订阅信息
-  4. 设置系统代理为步骤 2 的 http 端口 ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/proxy-setting2.png)
+  ```bash
+     sudo snap install qv2ray
+     mkdir -p $HOME/.config/qv2ray/vcore
+     cd $HOME/.config/qv2ray/vcore
+     wget https://github.com/v2fly/v2ray-core/releases/download/v4.31.3/v2ray-linux-64.zip
+     unzip v2ray-linux-64.zip
+     chmod +x v2ray v2ctl
+     rm v2ray-linux-64.zip
+     cd $HOME
+     qv2ray
+  ```
+
+<!-- * 安装 v2rayL 设置代理（只用于加速下载，非必须） -->
+<!--  -->
+<!--   1. 下载并安装（默认开机自启动） `bash <(curl -s -L http://dl.thinker.ink/install.sh)` -->
+<!--   2. 自定义 v2rayL 代理端口 (socks 端口与 dotfiles 里.gitconfig 代理端口一致） ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/proxy-setting1.png) -->
+<!--   3. 配置自己提前买到的服务器信息或订阅信息 -->
+<!--   4. 设置系统代理为步骤 2 的 http 端口 ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/proxy-setting2.png) -->
 
 ## 自动部署命令
 
@@ -36,6 +51,7 @@ bash ~/.my-scripts/deploy.sh
 <summary>其他说明</summary>
 
 - dotfiles 里的.local/share/nvim/site/autoload/plug.vim 是 vim-plug 插件管理器的源文件，意味着不会更新 vim-plug 了
+- 为了避免 npm install -g 安装到 /usr/local/lib 里导致的普通用户权限问题，本配置默认将 npm 包安装到 \$HOME/.npm-packages 里
 
 </details>
 

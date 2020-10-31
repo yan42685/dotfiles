@@ -16,6 +16,8 @@ fi
 # }}}
 # export PATH variables{{{
 export PATH=$PATH:$HOME/.local/bin
+# 自定义npm包安装的bin
+export PATH=${PATH}:${HOME}/.npm-packages/bin
 export TERM=xterm-256color
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
 export EDITOR=nvim
