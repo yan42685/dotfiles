@@ -149,11 +149,12 @@ setup_ubuntu_environment() {
     echo "==================== 设置背景透明度和字体"
     DEFAULT_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
     DEFAULT_PROFILE=${DEFAULT_PROFILE:1:-1} # remove leading and trailing single quotes
-    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$DEFAULT_PROFILE/" use-transparent-background true
-    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$DEFAULT_PROFILE/" background-transparency-percent 2
+    DEFAULT_PROFILE="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${DEFAULT_PROFILE}/"
+    gsettings set ${DEFAULT_PROFILE} use-transparent-background true
+    gsettings set ${DEFAULT_PROFILE} background-transparency-percent 2
     # 使用自定义字体
-    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$DEFAULT_PROFILE/" use-system-font false
-    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$DEFAULT_PROFILE/" font 'SauceCodePro NF 13'
+    gsettings set ${DEFAULT_PROFILE} use-system-font false
+    gsettings set ${DEFAULT_PROFILE} font 'SauceCodePro NF 13'
 
 
     sudo apt autoremove -y
