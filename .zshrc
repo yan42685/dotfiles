@@ -537,8 +537,3 @@ export PATH="$PATH:/root/.local/bin"
 export PATH=~/.pyenv/bin:$PATH
 export PYENV_ROOT=~/.pyenv
 eval "$(pyenv init -)"
-
-# 自动开启tmux
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
-fi
