@@ -9,7 +9,7 @@
 - 安装必备软件 `sudo apt install -y git curl`
 - 安装 v2rayL 设置代理（只用于加速下载，非必须）
 
-  1. 下载并安装(默认开机自启动) `bash <(curl -s -L http://dl.thinker.ink/install.sh)`
+  1. 下载并安装（默认开机自启动） `bash <(curl -s -L http://dl.thinker.ink/install.sh)`
   2. 自定义 v2rayL 代理端口 (socks 端口与 dotfiles 里.gitconfig 代理端口一致） ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/proxy-setting1.png)
   3. 配置自己提前买到的服务器信息或订阅信息
   4. 设置系统代理为步骤 2 的 http 端口 ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/proxy-setting2.png)
@@ -33,13 +33,12 @@ bash ~/.my-scripts/deploy.sh
 
 <br>
 <details>
-<summary>其他详情</summary>
+<summary>其他说明</summary>
 
 - dotfiles 里的.local/share/nvim/site/autoload/plug.vim 是 vim-plug 插件管理器的源文件，意味着不会更新 vim-plug 了
 
 </details>
 
-<br>
 <details>
 <summary>手动部署详情</summary>
 
