@@ -227,11 +227,6 @@ if ! zgen saved; then
                                           # NOTE: This was built on a Mac. 在Linux不一定有效, 并且只有当文件夹名字和远程仓库一致才有效
     zgen load StackExchange/blackbox  # 在VCS里选择性加密文件 you don't have to worry about storing your VCS repo on an untrusted server
     zgen load unixorn/autoupdate-zgen  # 自动更新zgen及相关插件
-    # zgen load https://github.com/sainnhe/dotfiles/raw/master/.zsh-theme-gruvbox-material-dark
-    # zgen load yan42685/dotfiles .zsh-theme/.gruvbox-material-dark
-    # zgen load sainnhe/dotfiles .zsh-theme-gruvbox-material-dark
-
-    # zgen load /path/to/super-secret-private-plugin
 
     # save all to init script
     zgen save
