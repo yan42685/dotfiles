@@ -81,8 +81,14 @@ setup_ubuntu_environment() {
     fi
 
     echo "==================== installing tmux"
-    # gawk　是tmux-finger插件的依赖
-    sudo apt install -y gawk tmux
+    if ! command -v tmux >/dev/null 2>&1; then
+        # gawk　是tmux-finger插件的依赖
+        sudo apt install -y gawk tmux
+        # 启动tmux-server
+        tmux
+        # 需要在tmux环境中使用source
+        tmux source ~/.tmux.conf
+    fi
 
     if [ ! -d "$HOME/.zgen" ]; then
         echo "==================== installing zgen..."
