@@ -1,3 +1,6 @@
+# NOTE:
+#   1. 不要试图用修改.zshrc的方式使得gnome-terminal自动开启tmux, 因为那会导致gnome-terminal有时无法开启，最好的办法是只用Alacritty
+
 # 想用root账户也使用，可以使用软连接.zhsrc  .config .vim 到/home目录下, 但是.zgen软连接好像会出错，那就复制过去好了
 # 需要下载的软件: fzf, nnn, trash, lua
 # NOTE: 这些是必须放在p10k-instant-prompt前面的命令{{{
