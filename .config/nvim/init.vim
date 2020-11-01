@@ -1750,7 +1750,7 @@ augroup temporar_change_manpager_mapping
 augroup end
 
 " 显示搜索的的数量以及当前位置
-Plug 'osyo-manga/vim-anzu', {'on': ['<Plug>(anzu-star-with-echo)', '<Plug>(anzu-sharp-with-echo)']}
+Plug 'osyo-manga/vim-anzu'
 nmap n <Plug>(anzu-n-with-echo)zv
 nmap N <Plug>(anzu-N-with-echo)zv
 nmap * <Plug>(anzu-star-with-echo)zv
