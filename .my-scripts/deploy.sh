@@ -84,16 +84,19 @@ setup_ubuntu_environment() {
         sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-10 100
     fi
 
+    if [ ! -d "$HOME/.zgen" ]; then
+        echo "==================== installing zgen..."
+        git clone https://${CLONE_DOMAIN}/tarjoilija/zgen.git "${HOME}/.zgen"
+        source ${HOME}.zshrc
+    fi
+
     echo "==================== installing tmux"
     if ! command -v tmux >/dev/null 2>&1; then
         # gawk　是tmux-finger插件的依赖
         sudo apt install -y gawk tmux
-    fi
-
-    if [ ! -d "$HOME/.zgen" ]; then
-        echo "==================== installing zgen..."
-        git clone https://${CLONE_DOMAIN}/tarjoilija/zgen.git "${HOME}/.zgen"
-        source $HOME/.zshrc
+        # 启动tmux 并安装tpm和tmux插件
+        # 此句尽量在安装.zgen之后，因为要用到zsh
+        tmux new -s my-session 'tmux source ${HOME}/.tmux.conf; zsh; git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins; exit'
     fi
 
     if ! command -v fzf>/dev/null 2>&1; then
@@ -213,8 +216,6 @@ common_after_deploy() {
     # NOTE: post执行脚本会卡一段时间，耐心等待就好
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
 
-    # 启动tmux-server 并安装tpm和tmux插件
-    tmux new -s foo 'tmux source ${HOME}/.tmux.conf; zsh'
 }
 
 # confirm_reboot() {
