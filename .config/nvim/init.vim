@@ -51,7 +51,7 @@
 "        for python
 "            pip3 install pylint && pip3 install autopep8
 "        for C,CPP
-"            apt install cppcheck -y && npm install -g clang-format
+"            sudo apt install cppcheck -y && npm install -g clang-format
 "
 "  5. 安装riggrep 配合Leaderf rg使用, 快速搜索文本行:
 "            curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && sudo dpkg -i ripgrep_11.0.2_amd64.deb

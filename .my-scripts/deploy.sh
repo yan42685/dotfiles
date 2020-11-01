@@ -51,7 +51,7 @@ setup_ubuntu_environment() {
     npm install -g prettier
     python3 -m pip install pylint --user
     python3 -m pip install autopep8 --user
-    apt install cppcheck -y
+    sudo apt install cppcheck -y
     npm install -g clang-format
 
     echo "==================== installing neovim-remote"
