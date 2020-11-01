@@ -12,8 +12,9 @@
 
   ```bash
   # 这里使用了 fastgit 代理 raw.githubusercontent.com，installer.sh 脚本里也有 fastgit 代理
+  cd $HOME
   sudo bash <(wget https://raw.fastgit.org/yan42685/dotfiles/master/.installers/v2ray-installer.sh)
-  rm v2ray-installer.sh
+  rm v2ray-installer.sh && wget-log
   ```
 
 <!-- * 安装 v2rayL 设置代理（只用于加速下载，非必须） -->
