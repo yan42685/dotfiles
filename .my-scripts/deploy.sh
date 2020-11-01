@@ -226,7 +226,10 @@ common_after_deploy() {
 #         \reboot
 #     fi
 # }
+
 reboot_in_3seconds() {
+    echo "===================== deploy finished ======================="
+    echo ""
     echo "===================== system will reboot in 3 seconds... ======================="
     sleep 1
     echo "===================== system will reboot in 2 seconds... ======================="
