@@ -20,10 +20,13 @@ setup_ubuntu_environment() {
 
     # 设置npm代理和 install -g 到本地用户防止权限问题
     npm config set registry https://registry.npm.taobao.org/
-    mkdir ${HOME}/.npm-packages
-    npm config set prefix ${HOME}/.npm-packages
+    NPM_PREFIX=${HOME}/.npm-packages
+    mkdir -p ${NPM_PREFIX}
+    npm config set prefix ${NPM_PREFIX}
+    # 单独为n设置环境变量
+    export N_PREFIX=${NPM_PREFIX}
     # export PATH 需要在.zshrc里也写一遍
-    export PATH=${PATH}:${HOME}/.npm-packages/bin
+    export PATH=${PATH}:${NPM_PREFIX}/bin
 
     # 更新node版本
     npm cache clean -f
