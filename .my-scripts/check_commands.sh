@@ -1,7 +1,8 @@
 missing_commands_count=0
 missing_directories_count=0
 missing_files_count=0
-is_missing=flase
+# 0 是 true  1 是false
+is_missing=1
 
 
 commands=(
@@ -43,22 +44,21 @@ do
 done
 
 if [[ $missing_commands_count != 0 ]]; then
-    is_missing=true
+    is_missing=0
     echo "Missing ${missing_commands_count} commands!"
 fi
 
 if [[ $missing_directories_count != 0 ]]; then
-    is_missing=true
+    is_missing=0
     echo "Missing ${missing_directories_count} directories!"
 fi
 
 if [[ $missing_files_count != 0 ]]; then
-    is_missing=true
+    is_missing=0
     echo "Missing ${missing_files_count} files!"
 fi
 
-
-if [[ $is_missing ]]; then
+if [[ $is_missing == 0 ]]; then
     # 用于后续$?处理
     exit 1
 else
