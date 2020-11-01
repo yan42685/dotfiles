@@ -15,6 +15,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 # }}}
 # export PATH variables{{{
+# pip默认安装位置
 export PATH=$PATH:$HOME/.local/bin
 # 自定义npm包安装的bin
 export PATH=${PATH}:${HOME}/.npm-packages/bin

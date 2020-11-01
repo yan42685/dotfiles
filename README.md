@@ -8,18 +8,12 @@
 - 包管理器 (apt) 换源
 - 设置永不自动锁屏　 Settings-Power-Blank Screen 的值为 never
 - 安装必备软件 `sudo apt install -y git curl wget unzip`
-- 安装 qv2ray 并设置代理（仅用于加速，非必须）
+- 安装 v2ray
 
   ```bash
-     sudo snap install qv2ray
-     mkdir -p $HOME/.config/qv2ray/vcore
-     cd $HOME/.config/qv2ray/vcore
-     wget https://github.com/v2fly/v2ray-core/releases/download/v4.31.3/v2ray-linux-64.zip
-     unzip v2ray-linux-64.zip
-     chmod +x v2ray v2ctl
-     rm v2ray-linux-64.zip
-     cd $HOME
-     qv2ray
+  # 这里使用了 fastgit 代理 raw.githubusercontent.com，installer.sh 脚本里也有 fastgit 代理
+  wget https://raw.fastgit.org/yan42685/dotfiles/.installers/v2ray-instaler.sh
+  bash v2ray-instaler.sh
   ```
 
 <!-- * 安装 v2rayL 设置代理（只用于加速下载，非必须） -->
@@ -52,6 +46,7 @@ bash ~/.my-scripts/deploy.sh
 
 - dotfiles 里的.local/share/nvim/site/autoload/plug.vim 是 vim-plug 插件管理器的源文件，意味着不会更新 vim-plug 了
 - 为了避免 npm install -g 安装到 /usr/local/lib 里导致的普通用户权限问题，本配置默认将 npm 包安装到 \$HOME/.npm-packages 里
+- 用 fastgit 可以加速 git clone 和 wget 下载 详见`https://doc.fastgit.org/zh-cn/guide.html#web-%E7%9A%84%E4%BD%BF%E7%94%A8`
 
 </details>
 
