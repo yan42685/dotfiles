@@ -87,7 +87,7 @@ setup_ubuntu_environment() {
     if [ ! -d "$HOME/.zgen" ]; then
         echo "==================== installing zgen..."
         git clone https://${CLONE_DOMAIN}/tarjoilija/zgen.git "${HOME}/.zgen"
-        source ${HOME}.zshrc
+        source ${HOME}/.zshrc
     fi
 
     echo "==================== installing tmux"
@@ -95,7 +95,6 @@ setup_ubuntu_environment() {
         # gawk　是tmux-finger插件的依赖
         sudo apt install -y gawk tmux
         # 启动tmux 并安装tpm和tmux插件
-        # 此句尽量在安装.zgen之后，因为要用到zsh
         tmux new -s my-session 'tmux source ${HOME}/.tmux.conf; zsh; git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins; exit'
     fi
 
