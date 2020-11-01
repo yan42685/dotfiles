@@ -17,14 +17,6 @@ setup_ubuntu_environment() {
 
     echo "==================== setuping basic packages..."
     sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3
-    # 更新pip和pip3版本
-    python -m pip install --upgrade pip
-    python3 -m pip install --upgrade pip
-
-    # 更新node版本
-    sudo npm cache clean -f
-    sudo npm install -g n
-    sudo n stable
 
     # 设置npm代理和 install -g 到本地用户防止权限问题
     npm config set registry https://registry.npm.taobao.org/
@@ -32,6 +24,15 @@ setup_ubuntu_environment() {
     npm config set prefix ${HOME}/.npm-packages
     # export PATH 需要在.zshrc里也写一遍
     export PATH=${PATH}:${HOME}/.npm-packages/bin
+
+    # 更新node版本
+    npm cache clean -f
+    npm install -g n
+    n stable
+
+    # 更新pip和pip3版本
+    python -m pip install --upgrade pip
+    python3 -m pip install --upgrade pip
 
     # 安装pyenv
     if [ ! -d $HOME/.pyenv ] ; then
