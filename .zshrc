@@ -18,8 +18,11 @@ fi
 # pip默认安装位置
 export PATH=$HOME/.local/bin:$PATH
 # 自定义npm包安装的bin
-# bin目录写在PATH前面可以覆盖/usr/bin里旧的node
-export PATH=${HOME}/.npm-packages/bin:${PATH}
+# NOTE: bin目录写在PATH前面可以覆盖/usr/bin里旧的node
+NPM_PREFIX=${HOME}/.npm-packages
+# 更新npm的工具n
+export N_PREFIX=${NPM_PREFIX}
+export PATH=${NPM_PREFIX}/bin:${PATH}
 export TERM=xterm-256color
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
 export EDITOR=nvim

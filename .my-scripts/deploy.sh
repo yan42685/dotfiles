@@ -18,11 +18,6 @@ setup_ubuntu_environment() {
     echo "==================== setuping basic packages..."
     sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3
 
-    # 更新node版本 需要在设置NPM_PREFIX之前
-    sudo npm cache clean -f
-    sudo npm install -g n
-    sudo n stable
-
     # 设置npm代理和 install -g 到本地用户防止权限问题
     npm config set registry https://registry.npm.taobao.org/
     NPM_PREFIX=${HOME}/.npm-packages
@@ -32,6 +27,13 @@ setup_ubuntu_environment() {
     export N_PREFIX=${NPM_PREFIX}
     # export PATH 需要在.zshrc里也写一遍
     export PATH=${NPM_PREFIX}/bin:${PATH}
+
+    # 更新node版本
+    npm cache clean -f
+    npm install -g n
+    n stable
+    # 更新PATH
+    export PATH=$PATH
 
     # 更新pip和pip3版本
     python -m pip install --upgrade pip
@@ -91,7 +93,8 @@ setup_ubuntu_environment() {
     if [ ! -d "$HOME/.zgen" ]; then
         echo "==================== installing zgen..."
         git clone https://${CLONE_DOMAIN}/tarjoilija/zgen.git "${HOME}/.zgen"
-        source ${HOME}/.zshrc
+        # 新tab页安装zsh插件
+        gnome-terminal --tab --title="test" --command="zsh"
     fi
 
     echo "==================== installing tmux"
@@ -126,7 +129,7 @@ setup_ubuntu_environment() {
     sudo usermod -s /usr/bin/zsh $(whoami)
 
     if [ ! -f $HOME/src/gogh/themes/chalk.sh ]; then
-        echo "==================== 安装gnome主题(很慢)..."
+        echo "==================== 安装gnome主题..."
         rm -rf $HOME/src/gogh/
         mkdir -p "$HOME/src"
         cd "$HOME/src"
@@ -160,6 +163,7 @@ setup_ubuntu_environment() {
     gsettings set $KEYBIDINGS_PATH paste '<Alt>i'
 
     echo "==================== 设置背景透明度和字体"
+    # TODO: 设置默认profile
     DEFAULT_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
     DEFAULT_PROFILE=${DEFAULT_PROFILE:1:-1} # remove leading and trailing single quotes
     DEFAULT_PROFILE="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${DEFAULT_PROFILE}/"
