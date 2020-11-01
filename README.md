@@ -26,6 +26,7 @@
   # 设置 snap 代理
   sudo snap set system proxy.http="socks5://127.0.0.1:6543"
   sudo snap set system proxy.https="socks5://127.0.0.1:6543"
+  # 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
   ```
 
   2. <details>
