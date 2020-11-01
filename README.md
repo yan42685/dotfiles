@@ -16,7 +16,7 @@
   # 这里使用了 fastgit 代理 raw.githubusercontent.com
   # 安装 v2ray-core
   curl -O https://cdn.jsdelivr.net/gh/v2rayA/v2rayA@master/install/go.sh
-  sudo bash go.sh
+  sudo bash go.sh && rm $HOME/go.sh
   # 安装 v2rayA
   wget -qO - https://raw.fastgit.org/v2rayA/v2raya-apt/master/key/public-key.asc | sudo apt-key add -
   echo "deb https://raw.fastgit.org/v2rayA/v2raya-apt/master/ v2raya main" | sudo tee /etc/apt/sources.list.d/v2raya.list
@@ -27,12 +27,10 @@
 
   1. <details>
      <summary>配置代理端口</summary>
-        1. 浏览器打开localhost:2017
+        1. 浏览器打开 localhost:2017
         2.
 
     </details>
-
-````
 
 ## 自动部署命令
 
@@ -45,7 +43,7 @@ yadm clone https://github.com/yan42685/dotfiles --no-bootstrap
 sudo git config --system --unset http.proxy
 bash ~/.my-scripts/deploy.sh
 # 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
-````
+```
 
 ## 其他问题
 
