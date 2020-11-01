@@ -27,30 +27,31 @@
   # 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
   ```
 
-<details><summary>配置代理端口</summary>
-<!-- 浏览器打开 localhost:2017 -->
-![代理设置步骤 1](.config/images/README/v2rayA-settings-step1.png)
+- 配置代理端口
+    <details><summary>浏览器访问 localhost:2017 并参考图示设置</summary><br>
 
-![代理设置步骤 1](https://raw.github.com/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step1.png)
-![代理设置步骤 2](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step2.png)
-![代理设置步骤 3](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step3.png)
-![代理设置步骤 4](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step4.png)
+  ![代理设置步骤 1](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step1.png)
+  ![代理设置步骤 2](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step2.png)
+  ![代理设置步骤 3](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step3.png)
+  ![代理设置步骤 4](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step4.png)
 
-</details>
+    </details>
 
 ## 自动部署命令
 
 ```bash
-# 这里设置 git config --system 代理是为了加速 clone　
-# 并且和 --global 不同，可以避免生成~/.gitconfig 导致的 clone 时有已存在文件的异常
-sudo git config --system http.https://github.com.proxy socks5://127.0.0.1:6543
-sudo git config --system https.https://github.com.proxy socks5://127.0.0.1:6543
-yadm clone https://github.com/yan42685/dotfiles --no-bootstrap
-sudo git config --system --unset http.proxy
-sudo git config --system --unset https.proxy
+yadm clone https://hub.fastgit.org/yan42685/dotfiles --no-bootstrap
 bash ~/.my-scripts/deploy.sh
 # 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
 ```
+
+<!-- 如果 fastgit 有问题了就用下面的 -->
+<!-- # 这里设置 git config --system 代理是为了加速 clone　 -->
+<!-- # 并且和 --global 不同，可以避免生成~/.gitconfig 导致的 clone 时有已存在文件的异常 -->
+<!-- sudo git config --system http.https://github.com.proxy socks5://127.0.0.1:6543 -->
+<!-- sudo git config --system https.https://github.com.proxy socks5://127.0.0.1:6543 -->
+<!-- sudo git config --system --unset http.proxy -->
+<!-- sudo git config --system --unset https.proxy -->
 
 ## 其他问题
 
