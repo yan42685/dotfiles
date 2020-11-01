@@ -88,10 +88,6 @@ setup_ubuntu_environment() {
     if ! command -v tmux >/dev/null 2>&1; then
         # gawk　是tmux-finger插件的依赖
         sudo apt install -y gawk tmux
-        # 启动tmux-server
-        tmux
-        # 需要在tmux环境中使用source
-        tmux source ~/.tmux.conf
     fi
 
     if [ ! -d "$HOME/.zgen" ]; then
@@ -216,21 +212,29 @@ common_after_deploy() {
     # 安装vim插件
     # NOTE: post执行脚本会卡一段时间，耐心等待就好
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
+
+    # 启动tmux-server
+    tmux
+    # 需要在tmux环境中使用source
+    tmux source ~/.tmux.conf
 }
 
-confirm_reboot() {
-    echo "==================== 需要重启系统使配置生效 =================="
-    echo -n "Are you sure to reboot now? (y/n):"
-    read crm
-    if [ "$crm"x = "y"x ]; then
-        echo "rebooting"
-        \reboot
+# confirm_reboot() {
+#     echo "==================== 需要重启系统使配置生效 =================="
+#     echo -n "Are you sure to reboot now? (y/n):"
+#     read crm
+#     if [ "$crm"x = "y"x ]; then
+#         echo "rebooting"
+#         \reboot
+#     fi
+# }
+
+main() {
+    if [ "$system_type" = "Linux" ]; then
+        deploy_ubuntu
+        common_after_deploy
+        reboot
     fi
 }
 
-
-if [ "$system_type" = "Linux" ]; then
-    deploy_ubuntu
-    common_after_deploy
-    confirm_reboot
-fi
+main
