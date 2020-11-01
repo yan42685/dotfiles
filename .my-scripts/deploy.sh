@@ -95,6 +95,7 @@ setup_ubuntu_environment() {
         # gawk　是tmux-finger插件的依赖
         sudo apt install -y gawk tmux
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+        # 后台启动tmux 并用tpm安装tmux插件 new-session可以简化为new -d 必须在-s 之前
         tmux new-session -d -s my-session '~/.tmux/plugins/tpm/bin/install_plugins'
     fi
 
