@@ -38,6 +38,8 @@ setup_ubuntu_environment() {
     # 更新pip和pip3版本
     python -m pip install --upgrade pip
     python3 -m pip install --upgrade pip
+    # 使check_commands.sh找得到pip安装的包
+    export PATH=${HOME}.local/bin:${PATH}
 
     # 安装pyenv
     if [ ! -d $HOME/.pyenv ] ; then
@@ -193,6 +195,8 @@ deploy_ubuntu() {
         echo "============ 第 ${deploy_times} 次部署结束 ============"
         let deploy_times++
 
+        # 使安装过程中添加的export PATH生效, 比如fzf安装时添加的.bashrc、.zshrc配置
+        source $HOME/.bashrc
         bash $HOME/.my-scripts/check_commands.sh
         #　判断上次命令返回值　如果命令和文件存在则代表全部安装完成
         if [[ $? == 0 ]]; then
@@ -224,7 +228,6 @@ common_after_deploy() {
     # 安装vim插件
     # NOTE: post执行脚本会卡一段时间，耐心等待就好
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
-
 }
 
 # confirm_reboot() {
