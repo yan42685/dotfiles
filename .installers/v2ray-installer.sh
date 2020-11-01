@@ -597,6 +597,7 @@ main() {
     start_v2ray
   else
     sudo systemctl enable v2ray && sudo systemctl start v2ray
+    echo "v2ray started successfully and will automatically boot on startup"
     # echo 'Please execute the command: systemctl enable v2ray; systemctl start v2ray'
   fi
 }
