@@ -8,21 +8,31 @@
 - 包管理器 (apt) 换源
 - 设置永不自动锁屏　 Settings-Power-Blank Screen 的值为 never
 - 安装必备软件 `sudo apt install -y git curl wget unzip`
-- 安装 v2ray
+- 安装 v2rayA 设置代理加速后续安装过程（可选）
+
+  1. 安装 v2ray-core 和 v2rayA
 
   ```bash
-  # 这里使用了 fastgit 代理 raw.githubusercontent.com，installer.sh 脚本里也有 fastgit 代理
-  cd $HOME
-  sudo bash <(wget https://raw.fastgit.org/yan42685/dotfiles/master/.installers/v2ray-installer.sh)
-  rm v2ray-installer.sh && wget-log
+  # 这里使用了 fastgit 代理 raw.githubusercontent.com
+  # 安装 v2ray-core
+  curl -O https://cdn.jsdelivr.net/gh/v2rayA/v2rayA@master/install/go.sh
+  sudo bash go.sh
+  # 安装 v2rayA
+  wget -qO - https://raw.fastgit.org/v2rayA/v2raya-apt/master/key/public-key.asc | sudo apt-key add -
+  echo "deb https://raw.fastgit.org/v2rayA/v2raya-apt/master/ v2raya main" | sudo tee /etc/apt/sources.list.d/v2raya.list
+  sudo apt update
+  sudo apt install v2raya
+  sudo systemctl enable v2ray && sudo systemctl start v2ray
   ```
 
-<!-- * 安装 v2rayL 设置代理（只用于加速下载，非必须） -->
-<!--  -->
-<!--   1. 下载并安装（默认开机自启动） `bash <(curl -s -L http://dl.thinker.ink/install.sh)` -->
-<!--   2. 自定义 v2rayL 代理端口 (socks 端口与 dotfiles 里.gitconfig 代理端口一致） ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/proxy-setting1.png) -->
-<!--   3. 配置自己提前买到的服务器信息或订阅信息 -->
-<!--   4. 设置系统代理为步骤 2 的 http 端口 ![](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/proxy-setting2.png) -->
+  1. <details>
+     <summary>配置代理端口</summary>
+        1. 浏览器打开localhost:2017
+        2.
+
+    </details>
+
+````
 
 ## 自动部署命令
 
@@ -35,7 +45,7 @@ yadm clone https://github.com/yan42685/dotfiles --no-bootstrap
 sudo git config --system --unset http.proxy
 bash ~/.my-scripts/deploy.sh
 # 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
-```
+````
 
 ## 其他问题
 
