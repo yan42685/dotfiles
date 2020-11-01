@@ -10,7 +10,7 @@
 - 安装必备软件 `sudo apt install -y git curl wget unzip`
 - 安装 v2rayA 设置代理加速后续安装过程（可选）
 
-  1. 安装 v2ray-core 和 v2rayA
+  1. 安装并设置相关代理
 
   ```bash
   # 这里使用了 fastgit 代理 raw.githubusercontent.com
@@ -23,12 +23,16 @@
   sudo apt update
   sudo apt install v2raya
   sudo systemctl enable v2ray && sudo systemctl start v2ray
+  # 设置 snap 代理
+  sudo snap set system proxy.http="socks5://127.0.0.1:6543"
+  sudo snap set system proxy.https="socks5://127.0.0.1:6543"
   ```
 
-  1. <details>
+  2. <details>
      <summary>配置代理端口</summary>
         1. 浏览器打开 localhost:2017
         2.
+
 
     </details>
 
