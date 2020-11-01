@@ -11,6 +11,7 @@ gtags rg tmux alacritty
 )
 
 directories=(
+$HOME/.tmux/plugins/tpm
 $HOME/.fzf
 )
 

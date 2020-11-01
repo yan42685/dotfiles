@@ -213,10 +213,8 @@ common_after_deploy() {
     # NOTE: post执行脚本会卡一段时间，耐心等待就好
     nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
 
-    # 启动tmux-server
-    tmux
-    # 需要在tmux环境中使用source
-    tmux source ~/.tmux.conf
+    # 启动tmux-server 并安装tpm和tmux插件
+    tmux new -s foo 'tmux source ${HOME}/.tmux.conf; zsh'
 }
 
 # confirm_reboot() {
@@ -228,12 +226,21 @@ common_after_deploy() {
 #         \reboot
 #     fi
 # }
+reboot_in_3seconds() {
+    echo "===================== system will reboot in 3 seconds... ======================="
+    sleep 1
+    echo "===================== system will reboot in 2 seconds... ======================="
+    sleep 1
+    echo "===================== system will reboot in 1 seconds... ======================="
+    sleep 1
+    reboot
+}
 
 main() {
     if [ "$system_type" = "Linux" ]; then
         deploy_ubuntu
         common_after_deploy
-        reboot
+        reboot_in_3seconds
     fi
 }
 
