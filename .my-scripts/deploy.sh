@@ -94,15 +94,16 @@ setup_ubuntu_environment() {
         echo "==================== installing zgen..."
         git clone https://${CLONE_DOMAIN}/tarjoilija/zgen.git "${HOME}/.zgen"
         # 新tab页安装zsh插件
-        gnome-terminal --tab --title="test" --command="zsh"
+        gnome-terminal --tab --title="zgen install zsh plugins" --command="zsh"
     fi
 
     echo "==================== installing tmux"
     if ! command -v tmux >/dev/null 2>&1; then
         # gawk　是tmux-finger插件的依赖
         sudo apt install -y gawk tmux
-        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+        git clone https://${CLONE_DOMAIN}/tmux-plugins/tpm ~/.tmux/plugins/tpm
         # 后台启动tmux 并用tpm安装tmux插件 new-session可以简化为new -d 必须在-s 之前
+        echo "=================== Installing tpm and tmux-plugins in the background..."
         tmux new-session -d -s my-session '~/.tmux/plugins/tpm/bin/install_plugins'
     fi
 
