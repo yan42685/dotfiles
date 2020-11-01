@@ -132,21 +132,16 @@ setup_ubuntu_environment() {
     sudo usermod -s /usr/bin/zsh $(whoami)
 
     # 此段最好在gsettings之前
-    if [ ! -f $HOME/src/gogh/themes/chalk.sh ]; then
+    if [ ! -f $HOME/.gnome-terminal-themes/themes/chalk.sh ]; then
         echo "==================== 安装gnome主题..."
-        rm -rf $HOME/src/gogh/
-        mkdir -p "$HOME/src"
-        cd "$HOME/src"
-        git clone https://${CLONE_DOMAIN}/Mayccoll/Gogh.git gogh
-        cd gogh/themes
+        rm -rf $HOME/.gnome-terminal-themes/
+        git clone https://${CLONE_DOMAIN}/Mayccoll/Gogh.git ${HOME}/.gnome-terminal-themes
         # necessary on ubuntu
         export TERMINAL=gnome-terminal
-        # install themes (注册在gnome-terminal鼠标右键的profile里)
-        ./chalk.sh
-        # 设置默认profile, 用于后续设置主题
-        bash $HOME/.my-scripts/set-Chalk-as-default-profile.sh
-        cd $HOME
     fi
+    bash ${HOME}/.gnome-terminal-themes/themes/chalk.sh
+    # 设置默认profile, 用于后续设置主题
+    bash ${HOME}/.my-scripts/set-Chalk-as-default-profile.sh
 
 
     echo "=================== 设置桌面背景..."
