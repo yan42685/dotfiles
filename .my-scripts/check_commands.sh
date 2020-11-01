@@ -8,13 +8,11 @@ is_missing=1
 commands=(
 node npm pip3 zsh lua5.3 nvim clangd ctags trash nnn zeal
 eslint prettier pylint autopep8 cppcheck clang-format
-gtags rg tmux alacritty
+gtags rg tmux fzf alacritty
 )
 
 directories=(
 $HOME/.tmux/plugins/tpm
-# fzf比较特殊，不能检查命令
-$HOME/.fzf
 )
 
 files=(
