@@ -12,11 +12,11 @@
 
   1.  安装
 
-  ```bash
-    wget https://raw.fastgit.org/yan42685/dotfiles/master/.installers/v2rayA-installer.sh
-    bash v2rayA-installer.sh
-    rm v2rayA-installer.sh
-  ```
+      ```bash
+          wget https://raw.fastgit.org/yan42685/dotfiles/master/.installers/v2rayA-installer.sh
+          bash v2rayA-installer.sh
+          rm v2rayA-installer.sh
+      ```
 
   2.  配置代理端口
       <details><summary>浏览器访问 localhost:2017 并参考图示设置</summary><br>
