@@ -31,10 +31,10 @@
   2. <details>
      <summary>配置代理端口</summary>
         1. 浏览器打开 localhost:2017
-        2. ![代理设置步骤 1](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/v2rayA-settings-step1.png)
-        3. ![代理设置步骤 2](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/v2rayA-settings-step2.png)
-        4. ![代理设置步骤 3](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/v2rayA-settings-step3.png)
-        5. ![代理设置步骤 4](https://github.com/yan42685/dotfiles/blob/master/.config/images/README/v2rayA-settings-step4.png)
+        2. ![代理设置步骤 1](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step1.png)
+        3. ![代理设置步骤 2](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step2.png)
+        4. ![代理设置步骤 3](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step3.png)
+        5. ![代理设置步骤 4](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step4.png)
 
     </details>
 
