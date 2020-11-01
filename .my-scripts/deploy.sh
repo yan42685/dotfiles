@@ -141,9 +141,9 @@ setup_ubuntu_environment() {
         # necessary on ubuntu
         export TERMINAL=gnome-terminal
         # install themes (注册在gnome-terminal鼠标右键的profile里)
-        # 设置默认profile, 用于后续设置主题
-        bash $HOME/.my-scripts/set-Unnamed-as-default-profile.sh
         ./chalk.sh
+        # 设置默认profile, 用于后续设置主题
+        bash $HOME/.my-scripts/set-Chalk-as-default-profile.sh
         cd $HOME
     fi
 

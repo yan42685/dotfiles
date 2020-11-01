@@ -19,7 +19,7 @@ get_profile_uuid() {
     done
 }
 
-id=$(get_profile_uuid Unnamed)
+id=$(get_profile_uuid Chalk)
 
 # 设为默认Profile
 dconf write $dconfdir/default "'$id'"
