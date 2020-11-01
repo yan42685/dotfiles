@@ -16,6 +16,7 @@
           wget https://raw.fastgit.org/yan42685/dotfiles/master/.installers/v2rayA-installer.sh
           bash v2rayA-installer.sh
           rm v2rayA-installer.sh
+          # 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
       ```
 
   2.  配置代理端口

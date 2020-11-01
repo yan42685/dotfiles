@@ -26,12 +26,14 @@ setup_ubuntu_environment() {
     # 单独为n设置环境变量
     export N_PREFIX=${NPM_PREFIX}
     # export PATH 需要在.zshrc里也写一遍
-    export PATH=${PATH}:${NPM_PREFIX}/bin
+    # bin目录写在PATH前面可以覆盖/usr/bin里旧的node
+    export PATH=${NPM_PREFIX}/bin:${PATH}
 
     # 更新node版本
     npm cache clean -f
     npm install -g n
     n stable
+
 
     # 更新pip和pip3版本
     python -m pip install --upgrade pip

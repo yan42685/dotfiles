@@ -16,9 +16,10 @@ fi
 # }}}
 # export PATH variables{{{
 # pip默认安装位置
-export PATH=$PATH:$HOME/.local/bin
+export PATH=$HOME/.local/bin:$PATH
 # 自定义npm包安装的bin
-export PATH=${PATH}:${HOME}/.npm-packages/bin
+# bin目录写在PATH前面可以覆盖/usr/bin里旧的node
+export PATH=${HOME}/.npm-packages/bin:${PATH}
 export TERM=xterm-256color
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
 export EDITOR=nvim
@@ -527,7 +528,7 @@ ps-kill-all() {
 source $HOME/.config/zsh/.zsh-theme-forest-night
 
 # Created by `userpath` on 2020-03-18 21:41:57
-export PATH="$PATH:/root/.local/bin"
+export PATH=/root/.local/bin:$PATH
 # pyenv
 export PATH=~/.pyenv/bin:$PATH
 export PYENV_ROOT=~/.pyenv
