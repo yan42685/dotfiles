@@ -33,8 +33,6 @@ setup_ubuntu_environment() {
     # export PATH 需要在.zshrc里也写一遍
     export PATH=${NPM_PREFIX}/bin:${PATH}
 
-
-
     # 更新pip和pip3版本
     python -m pip install --upgrade pip
     python3 -m pip install --upgrade pip
@@ -43,6 +41,17 @@ setup_ubuntu_environment() {
     if [ ! -d $HOME/.pyenv ] ; then
         bash ~/.installers/pyenv-installer.sh
     fi
+
+    echo "==================== installing linter and checker"
+    npm install -g eslint
+    npm install -g prettier
+    python3 -m pip install pylint --user
+    python3 -m pip install autopep8 --user
+    apt install cppcheck -y
+    npm install -g clang-format
+
+    echo "==================== installing neovim-remote"
+    python3 -m pip install neovim-remote --user
 
     echo "==================== installing via snap..."
     sudo snap install nvim --classic
@@ -55,17 +64,6 @@ setup_ubuntu_environment() {
     sudo add-apt-repository ppa:zeal-developers/ppa -y
     sudo apt-get update
     sudo apt-get install -y zeal --fix-missing
-
-    echo "==================== installing linter and checker"
-    npm install -g eslint
-    npm install -g prettier
-    python3 -m pip install pylint --user
-    python3 -m pip install autopep8 --user
-    apt install cppcheck -y
-    npm install -g clang-format
-
-    echo "==================== installing neovim-remote"
-    python3 -m pip install neovim-remote --user
 
     if ! command -v gtags >/dev/null 2>&1; then
         echo "==================== installing GNU GLOBAL (gtags)"
