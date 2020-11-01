@@ -10,8 +10,6 @@
 - 安装必备软件 `sudo apt install -y git curl wget unzip yadm`
 - 安装 v2rayA 设置代理加速后续安装过程（可选）
 
-  1. 安装并设置相关代理
-
   ```bash
   # 这里使用了 fastgit 代理 raw.githubusercontent.com
   # 安装 v2ray-core
@@ -29,16 +27,16 @@
   # 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
   ```
 
-  2. <details>
-     <summary>配置代理端口</summary>
-        1. 浏览器打开 localhost:2017
-        2. 按图示设置
-         ![代理设置步骤 1](https://raw.github.com/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step1.png)
-         ![代理设置步骤 2](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step2.png)
-         ![代理设置步骤 3](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step3.png)
-         ![代理设置步骤 4](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step4.png)
+<details><summary>配置代理端口</summary>
+<!-- 浏览器打开 localhost:2017 -->
+![代理设置步骤 1](.config/images/README/v2rayA-settings-step1.png)
 
-    </details>
+![代理设置步骤 1](https://raw.github.com/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step1.png)
+![代理设置步骤 2](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step2.png)
+![代理设置步骤 3](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step3.png)
+![代理设置步骤 4](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step4.png)
+
+</details>
 
 ## 自动部署命令
 
@@ -60,8 +58,7 @@ sudo bash ~/.my-scripts/deploy.sh
 - 有时因为网络原因，zgen 安装 zsh 插件出了问题，导致 zsh 打开是原生 bash 的效果，这时需要 `rm -rf $HOME/.zgen && git clone https://github.com/tarjoilija/zgen.git ${HOME}/.zgen && source $HOME/.zshrc`
 
 <br>
-<details>
-<summary>其他说明</summary>
+<details><summary>其他说明</summary>
 
 - dotfiles 里的.local/share/nvim/site/autoload/plug.vim 是 vim-plug 插件管理器的源文件，意味着不会更新 vim-plug 了
 - 为了避免 npm install -g 安装到 /usr/local/lib 里导致的普通用户权限问题，本配置默认将 npm 包安装到 \$HOME/.npm-packages 里
@@ -69,8 +66,7 @@ sudo bash ~/.my-scripts/deploy.sh
 
 </details>
 
-<details>
-<summary>手动部署详情</summary>
+<details><summary>手动部署详情</summary>
 
 ## 依赖
 
