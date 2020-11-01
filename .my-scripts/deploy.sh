@@ -231,12 +231,14 @@ common_after_deploy() {
 reboot_in_3seconds() {
     echo "===================== deploy finished ======================="
     echo ""
-    echo "===================== system will reboot in 3 seconds... ======================="
-    sleep 1
-    echo "===================== system will reboot in 2 seconds... ======================="
-    sleep 1
-    echo "===================== system will reboot in 1 seconds... ======================="
-    sleep 1
+
+    remain_seconds=5
+    for i in {1..5}
+    do
+        echo "===================== system will reboot in ${remain_seconds} seconds... ======================="
+        let remain_seconds--
+        sleep 1
+    done
     reboot
 }
 
