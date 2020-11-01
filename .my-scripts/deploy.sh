@@ -18,6 +18,11 @@ setup_ubuntu_environment() {
     echo "==================== setuping basic packages..."
     sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3
 
+    # 更新node版本 需要在设置NPM_PREFIX之前
+    sudo npm cache clean -f
+    sudo npm install -g n
+    sudo n stable
+
     # 设置npm代理和 install -g 到本地用户防止权限问题
     npm config set registry https://registry.npm.taobao.org/
     NPM_PREFIX=${HOME}/.npm-packages
@@ -26,13 +31,8 @@ setup_ubuntu_environment() {
     # 单独为n设置环境变量
     export N_PREFIX=${NPM_PREFIX}
     # export PATH 需要在.zshrc里也写一遍
-    # bin目录写在PATH前面可以覆盖/usr/bin里旧的node
     export PATH=${NPM_PREFIX}/bin:${PATH}
 
-    # 更新node版本
-    npm cache clean -f
-    npm install -g n
-    n stable
 
 
     # 更新pip和pip3版本
