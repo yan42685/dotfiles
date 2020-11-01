@@ -1,4 +1,6 @@
 #!/bin/sh
+# fastgit代理地址
+CLONE_DOMAIN="hub.fastgit.org"
 
 # 系统类型
 system_type=$(uname -s)
@@ -94,14 +96,14 @@ setup_ubuntu_environment() {
 
     if [ ! -d "$HOME/.zgen" ]; then
         echo "==================== installing zgen..."
-        git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+        git clone https://${CLONE_DOMAIN}/tarjoilija/zgen.git "${HOME}/.zgen"
         source $HOME/.zshrc
     fi
 
     if ! command -v fzf>/dev/null 2>&1; then
         echo "==================== Installing fzf"
         rm -rf $HOME/.fzf
-        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        git clone --depth 1 https://${CLONE_DOMAIN}/junegunn/fzf.git ~/.fzf
         ~/.fzf/install --all
     fi
 
@@ -125,7 +127,7 @@ setup_ubuntu_environment() {
         rm -rf $HOME/src/gogh/
         mkdir -p "$HOME/src"
         cd "$HOME/src"
-        git clone https://github.com/Mayccoll/Gogh.git gogh
+        git clone https://${CLONE_DOMAIN}/Mayccoll/Gogh.git gogh
         cd gogh/themes
         # necessary on ubuntu
         export TERMINAL=gnome-terminal
