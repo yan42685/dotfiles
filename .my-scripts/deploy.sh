@@ -141,6 +141,8 @@ setup_ubuntu_environment() {
         # necessary on ubuntu
         export TERMINAL=gnome-terminal
         # install themes (注册在gnome-terminal鼠标右键的profile里)
+        # 设置默认profile, 用于后续设置主题
+        bash $HOME/.my-scripts/set-Unnamed-as-default-profile.sh
         ./chalk.sh
         cd $HOME
     fi
@@ -166,7 +168,7 @@ setup_ubuntu_environment() {
     gsettings set $KEYBIDINGS_PATH paste '<Alt>i'
 
     echo "==================== 设置背景透明度和字体"
-    # TODO: 设置默认profile
+    # TODO: 设置默认profile 解决办法新建一个profile
     DEFAULT_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default)
     DEFAULT_PROFILE=${DEFAULT_PROFILE:1:-1} # remove leading and trailing single quotes
     DEFAULT_PROFILE="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${DEFAULT_PROFILE}/"
