@@ -10,34 +10,23 @@
 - 安装必备软件 `sudo apt install -y git curl wget unzip yadm`
 - 安装 v2rayA 设置代理加速后续安装过程（可选）
 
-  1. 安装
+  1.  安装
 
-     ```bash
-     # 这里使用了 fastgit 代理 raw.githubusercontent.com
-     # 安装 v2ray-core
-     curl -O https://cdn.jsdelivr.net/gh/v2rayA/v2rayA@master/install/go.sh
-     sudo bash go.sh && rm $HOME/go.sh
-     # 安装 v2rayA
-     wget -qO - https://raw.fastgit.org/v2rayA/v2raya-apt/master/key/public-key.asc | sudo apt-key add -
-     echo "deb https://raw.fastgit.org/v2rayA/v2raya-apt/master/ v2raya main" | sudo tee /etc/apt/sources.list.d/v2raya.list
-     sudo apt update
-     sudo apt install v2raya
-     sudo systemctl enable v2ray && sudo systemctl start v2ray
-     # 设置 snap 代理
-     sudo snap set system proxy.http="socks5://127.0.0.1:6543"
-     sudo snap set system proxy.https="socks5://127.0.0.1:6543"
-     # 复制这行注释可以让倒数第二行命令自动执行，否则会停留在缓冲区
-     ```
+  ```bash
+    wget https://raw.fastgit.org/yan42685/dotfiles/master/.installers/v2rayA-installer.sh
+    bash v2rayA-installer.sh
+    rm v2rayA-installer.sh
+  ```
 
-  2. 配置代理端口
-     <details><summary>浏览器访问 localhost:2017 并参考图示设置</summary><br>
+  2.  配置代理端口
+      <details><summary>浏览器访问 localhost:2017 并参考图示设置</summary><br>
 
-     ![代理设置步骤 1](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step1.png)
-     ![代理设置步骤 2](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step2.png)
-     ![代理设置步骤 3](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step3.png)
-     ![代理设置步骤 4](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step4.png)
+      ![代理设置步骤 1](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step1.png)
+      ![代理设置步骤 2](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step2.png)
+      ![代理设置步骤 3](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step3.png)
+      ![代理设置步骤 4](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/v2rayA-settings-step4.png)
 
-     </details>
+      </details>
 
 ## 自动部署命令
 
