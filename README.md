@@ -12,7 +12,7 @@
 
   ```bash
   # 这里使用了 fastgit 代理 raw.githubusercontent.com，installer.sh 脚本里也有 fastgit 代理
-  wget https://raw.fastgit.org/yan42685/dotfiles/.installers/v2ray-instaler.sh
+  wget https://raw.fastgit.org/yan42685/dotfiles/master/.installers/v2ray-installer.sh
   bash v2ray-instaler.sh
   ```
 
