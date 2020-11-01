@@ -13,6 +13,7 @@ gtags rg tmux alacritty
 
 directories=(
 $HOME/.tmux/plugins/tpm
+# fzf比较特殊，不能检查命令
 $HOME/.fzf
 )
 
