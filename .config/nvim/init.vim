@@ -1109,6 +1109,8 @@ map <silent> b <Plug>CamelCaseMotion_b
 map <silent> e <Plug>CamelCaseMotion_e
 omap <silent> iw <Plug>CamelCaseMotion_iw
 xmap <silent> iw <Plug>CamelCaseMotion_iw
+" diw用CamelCase, ciw用原始的比较好
+nnoremap ciw ciw
 sunmap w
 sunmap b
 sunmap e
@@ -1896,7 +1898,6 @@ Plug 'junegunn/limelight.vim', {'on': 'Limelight'}
 " MarkDown预览, 目前似乎只支持本地图片, 不支持在线的图片
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vimwiki']}
 "{{{
-let g:mkdp_open_to_the_world = 1  " 可以让别人浏览
 let g:mkdp_command_for_global = 1  " 所有文件中可以使用预览markdown命令
 "}}}
 nmap <leader>mp <Plug>MarkdownPreviewToggle
