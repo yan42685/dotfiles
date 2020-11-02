@@ -45,6 +45,12 @@ bash ~/.my-scripts/deploy.sh
 <!-- sudo git config --system --unset http.proxy -->
 <!-- sudo git config --system --unset https.proxy -->
 
+## 部署后手动操作部分
+
+- 设置搜狗输入法
+  1. `fcitx-config-gtk3`
+  2. 看图
+
 ## 其他问题
 
 - 有时因为网络原因，zgen 安装 zsh 插件出了问题，导致 zsh 打开是原生 bash 的效果，这时需要 `rm -rf $HOME/.zgen && git clone https://github.com/tarjoilija/zgen.git ${HOME}/.zgen && source $HOME/.zshrc`
