@@ -57,6 +57,8 @@ bash ~/.my-scripts/deploy.sh
 
   </details>
 
+- 在 github 设置 ssh-key 为 `cat ${HOME}/.ssh/id_rsa.pub` 命令输出的值
+
 ## 其他问题
 
 - 有时因为网络原因，zgen 安装 zsh 插件出了问题，导致 zsh 打开是原生 bash 的效果，这时需要 `rm -rf $HOME/.zgen && git clone https://github.com/tarjoilija/zgen.git ${HOME}/.zgen && source $HOME/.zshrc`

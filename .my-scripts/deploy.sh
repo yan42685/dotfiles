@@ -133,8 +133,12 @@ setup_ubuntu_environment() {
     echo ""
     echo "==================== 更换默认bash为zsh..."
     sudo usermod -s /usr/bin/zsh $(whoami)
+    echo "==================== 生成SSH Key 并添加dotfile 远程仓库 =============="
+    bash ${HOME}/.installers/ssh-key-installer.sh
+    # 需要在github设置ssh-key
+    yadm remote set-url origin git@github.com:yan42685/dotfiles.git
 
-    # 此段最好在gsettings之前
+
     if [ ! -f $HOME/.gnome-terminal-themes/themes/chalk.sh ]; then
         echo "==================== 安装gnome主题..."
         rm -rf $HOME/.gnome-terminal-themes/
@@ -144,6 +148,7 @@ setup_ubuntu_environment() {
     fi
     bash ${HOME}/.gnome-terminal-themes/themes/chalk.sh
     # 设置默认profile, 用于后续设置主题
+    # 要在gsettings之前, 因为gsettings可能会用到Default Profile
     bash ${HOME}/.my-scripts/set-Chalk-as-default-profile.sh
 
 
