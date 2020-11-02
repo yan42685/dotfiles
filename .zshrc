@@ -199,8 +199,6 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 # }}}
 
-# 需要在 zgen load Aloxaf/fzf-tab 之前
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # FIXME: 如果ohmyzsh的插件安装失败，那就把.zgen/robbyrussell这个文件夹删了，再zgen reset  下次进入终端会卡一段时间(重新下载robbyrussell) 然后就没问题了
 # load zgen Plugins
@@ -314,8 +312,8 @@ bindkey ',' autosuggest-accept
 bindkey 'kj' vi-cmd-mode
 bindkey '^h' beginning-of-line
 bindkey '^l' end-of-line
-# 增量查询历史命令记录
-bindkey '^r' history-incremental-search-backward
+# (被fzf替代)增量查询历史命令记录
+# bindkey '^r' history-incremental-search-backward
 bindkey '^k' history-substring-search-up
 bindkey '^j' history-substring-search-down
 bindkey ',' autosuggest-accept  # 采纳补全建议
@@ -527,6 +525,7 @@ ps-kill-all() {
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # zsh主题
 source $HOME/.config/zsh/.zsh-theme-forest-night
 
