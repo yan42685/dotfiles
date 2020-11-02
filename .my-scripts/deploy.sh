@@ -126,6 +126,9 @@ setup_ubuntu_environment() {
         sudo apt install -y alacritty --fix-missing
     fi
 
+    echo "==================== Installing Sogou Input Method ============="
+    bash ${HOME}/.installers/sogoupinyin-installer.sh
+
     echo "==================== 系统设置 ================="
     echo ""
     echo "==================== 更换默认bash为zsh..."
