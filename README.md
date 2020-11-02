@@ -48,6 +48,7 @@ bash ~/.my-scripts/deploy.sh
 ## 其他问题
 
 - 有时因为网络原因，zgen 安装 zsh 插件出了问题，导致 zsh 打开是原生 bash 的效果，这时需要 `rm -rf $HOME/.zgen && git clone https://github.com/tarjoilija/zgen.git ${HOME}/.zgen && source $HOME/.zshrc`
+- tmux 不显示网速，原因是 tmux 插件未安装，进入 tmux 后按 <C-Space>I 即可
 - 出现其他问题 99% 的原因是部署时网速不好
 
 <br>

@@ -106,7 +106,7 @@ setup_ubuntu_environment() {
         git clone https://${CLONE_DOMAIN}/tmux-plugins/tpm ~/.tmux/plugins/tpm
         # 后台启动tmux 并用tpm安装tmux插件 new-session可以简化为new -d 必须在-s 之前
         echo "=================== Installing tpm and tmux-plugins in the background..."
-        tmux new-session -d -s my-session '~/.tmux/plugins/tpm/bin/install_plugins'
+        tmux new-session -d -s my-session '~/.tmux/plugins/tpm/bin/install_plugins; bash'
     fi
 
     if ! command -v fzf>/dev/null 2>&1; then
