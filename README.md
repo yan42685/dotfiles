@@ -48,8 +48,14 @@ bash ~/.my-scripts/deploy.sh
 ## 部署后手动操作部分
 
 - 设置搜狗输入法
-  1. `fcitx-config-gtk3`
-  2. 看图
+  <details><summary>具体步骤</summary><br>
+
+  ![步骤 1](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin1.png)
+  ![步骤 2](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin2.png)
+  ![步骤 3](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin3.png)
+  ![步骤 4](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin4.png)
+
+  </details>
 
 ## 其他问题
 
