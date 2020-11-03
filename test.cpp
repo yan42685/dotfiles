@@ -5,5 +5,23 @@ int main(int argc, const char *argv[]) { return 0; }
 
 void test1() {
     cout << "hello" << endl;
+    cout << "hello" << endl;
+    cout << "hello" << endl;
+    cout << "hello" << endl;
+    cout << "hello" << endl;
+    cout << "hello" << endl;
+    cout << "hello" << endl;  cout << "hello" << endl;
+    cout << "hello" << endl;
+    
+    
+    
+    cout << "hello" << endl;
+    cout << "hello" << endl;cout << "hello" << endl;
+    cout << "hello" << endl;cout << "hello" << endl;
+    cout << "hello" << endl;
+    cout << "hello" << endl;
+    cout << "hello" << endl;
+    cout << "hello" << endl;
+    cout << "hello" << endl;
     return;
 }
