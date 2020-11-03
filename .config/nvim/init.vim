@@ -1472,6 +1472,7 @@ augroup end
 " 进入终端前复制当前buffer所在目录, 以便于快速进入该buffer的目录
 nnoremap <silent> <m-n> :FloatermNew<cr>
 tnoremap <silent> <m-n> <c-\><c-n>:FloatermNew<cr>
+tnoremap <silent> <c-d> <c-\><c-n>:FloatermKill<cr>
 " 进入普通模式
 tnoremap <c-m-n> <c-\><c-n>
 " 可以作为从编辑器回到浮动窗口的快捷键
