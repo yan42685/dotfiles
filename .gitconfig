@@ -31,12 +31,12 @@
     path = nvim
 
 [merge]
-    tool = editor
-    conflictStyle = vimdiff3
+    tool = vim_mergetool
+    conflictStyle = diff3
 [mergetool]
     prompt = false
     trustExitCode = true
-[mergetool "editor"]
+[mergetool "vim_mergetool"]
     cmd = editor -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
 
 ; [diff]
