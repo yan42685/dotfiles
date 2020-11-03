@@ -13,6 +13,10 @@
     editor = nvim
     quotepath = false  # 解决git ls不显示中文的问题
 
+[commit]
+    # 设置commit 模板文件
+    template = ~/.config/git/.gitmessage
+
 [pager]
     # 查看log，NOTE: 依赖Flog.vim插件
 	log = nvim -c 'Flog' -c 'tabprevious' -c 'bd!' -c 'tabclose'

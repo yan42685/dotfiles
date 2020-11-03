@@ -272,6 +272,7 @@ alias vifast="nvim -c 'let g:disable_laggy_plugins_for_large_file = 1'"
 alias dot='yadm'
 alias tk='asynctask -f'   # 用fzf搜索task, 可以把复杂的命令都丢进去
 alias rm='trash'
+alias la='ls -a'
 alias nnn='PAGER= nnn'
 alias zz='z ~'
 alias zh='z -I -t .'  # MRU

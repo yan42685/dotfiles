@@ -93,10 +93,19 @@ let mapleader='<space>'  " 此条命令的位置应在插件之前
 let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
 " 进入git commit buffer在normal模式按<tab>可以显示预设补全
-let g:My_commit_completion_source = ['🔧 refactor: ', '🔨 fix: ', '💦 chore: ',
-                \ '🍻 improvement: ', '🎉 feat: ', '🍦 style: ',  '📝 docs: ',
-                \ '🔎 test: ', '⚡ perf: ', '❗ revert: ', '☕ build: ', '🐳 ci: ',
+let g:My_commit_completion_source = ['🔧 refactor: ', '🔨 fix: ',
+                \  '🎉 feat: ', '📝 docs: ', '🏁 test: ',
+                \  '⚡ perf: ', '💦 chore: ', '❗ revert: ',
                 \ ]
+
+" style基本用不上, 以及虽然Angular团队把chore改成了ci和build但是对于更通用的提
+" 交来说，chore是有存在必要的
+" style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+
+" let g:My_commit_completion_source = ['🔧 refactor: ', '🔨 fix: ', '💦 chore: ',
+"                 \ '🍻 improvement: ', '🎉 feat: ', '🍦 style: ',  '📝 docs: ',
+"                 \ '🔎 test: ', '⚡ perf: ', '❗ revert: ', '☕ build: ', '🐳 ci: ',
+"                 \ ]
 
 " 👀 🐮 🐼 📖 ⚓ 🚧 ✈ 🚀 🔥 ❄ 🎁 🎃 ✨ 🎯 💎 🔔 🎵 🎶 💡 📝 💊 ⚠ ❓ ‼
 " ✅ 🉑 ⏰
