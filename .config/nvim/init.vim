@@ -684,34 +684,21 @@ endif
 " 可视化merge NOTE: 恢复merge前的状态使用: git checkout --conflict=diff3 {file}
 Plug 'samoshkin/vim-mergetool'
 "{{{
-" let g:mergetool_layout = 'rbl,m'  " `local`, `base`, `remote`, `merged`
 let g:mergetool_layout = 'RML'  " `local`, `base`, `remote`, `merged`
 let g:mergetool_prefer_revision = 'unmodified'
 " mergetool 模式关闭语法检查和语法高亮 FIXME: 可能是unknown filetype报错的原因
 function s:on_mergetool_set_layout(split)
   set syntax=off
   set nospell
-  if a:split["layout"] ==# 'rbl,m' && a:split["split"] ==# 'm'
+  if a:split["layout"] ==# 'RML' && a:split["split"] ==# 'm'
       " 可自定义
       "
   endif
 endfunction
 let g:MergetoolSetLayoutCallback = function('s:on_mergetool_set_layout')
 
-let g:mergetool_layout_custom = 0
-function! MergetoolLayoutCustom()
-  if g:mergetool_layout_custom == 0
-    let g:mergetool_layout_custom = 1
-    execute 'MergetoolToggleLayout rbl,m'
-  else
-    let g:mergetool_layout_custom = 0
-    execute 'MergetoolToggleLayout rbl'
-  endif
-endfunction
 "}}}
 nmap <leader>mt <plug>(MergetoolToggle)
-" 切换视图
-nnoremap <silent> <leader>mc :<C-u>call MergetoolLayoutCustom()<CR>
 " 移动diff hunk NOTE: 不仅用于merge mode 也能用于diff mode
 " 快捷键需要定义在coc那里, 因为还可以用gh跳转到头文件
 " nmap <expr> gh &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<esc>'

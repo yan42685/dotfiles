@@ -37,6 +37,7 @@
     prompt = false
     trustExitCode = true
 [mergetool "vim_mergetool"]
+    # floaterm用nvr mergetool 有bug 还是nvim好, 然后<Alt-o>放大floaterm
     cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
 
 [alias]
