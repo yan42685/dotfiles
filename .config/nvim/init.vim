@@ -682,16 +682,17 @@ endif
 "}}}
 "{{{ Git 相关
 " 可视化merge NOTE: 恢复merge前的状态使用: git checkout --conflict=diff3 {file}
-Plug 'samoshkin/vim-mergetool', {'on': ['<plug>(MergetoolToggle)', 'MergetoolStart', 'MergetoolToggleLayout']}
+Plug 'samoshkin/vim-mergetool'
 "{{{
-let g:mergetool_layout = 'rbl,m'  " `local`, `base`, `remote`, `merged`
+" let g:mergetool_layout = 'rbl,m'  " `local`, `base`, `remote`, `merged`
+let g:mergetool_layout = 'RML'  " `local`, `base`, `remote`, `merged`
 let g:mergetool_prefer_revision = 'unmodified'
 " mergetool 模式关闭语法检查和语法高亮 FIXME: 可能是unknown filetype报错的原因
 function s:on_mergetool_set_layout(split)
   set syntax=off
   set nospell
   if a:split["layout"] ==# 'rbl,m' && a:split["split"] ==# 'm'
-      "
+      " 可自定义
       "
   endif
 endfunction
@@ -712,10 +713,9 @@ nmap <leader>mt <plug>(MergetoolToggle)
 " 切换视图
 nnoremap <silent> <leader>mc :<C-u>call MergetoolLayoutCustom()<CR>
 " 移动diff hunk NOTE: 不仅用于merge mode 也能用于diff mode
-nmap <expr> <C-A-h> &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<C-A-h>'
-nmap <expr> <C-A-l> &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<C-A-l>'
-nmap <expr> <C-A-j> &diff? '<Plug>(MergetoolDiffExchangeDown)' : '<C-A-j>'
-nmap <expr> <C-A-k> &diff? '<Plug>(MergetoolDiffExchangeUp)' : '<C-A-k>'
+" 快捷键需要定义在coc那里, 因为还可以用gh跳转到头文件
+" nmap <expr> gh &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<esc>'
+" nmap <expr> gl &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<esc>'
 
 " 显示当前行的commit信息, o下一个commit，O上一个，d打开该commit在当前文件的diff hunks，
 " D打开该commit的所有diff hunks
@@ -953,6 +953,12 @@ endfunction
 " nmap <expr> <cr> index(g:coc_range_select_map_blacklist, &filetype) >=0 ? '<cr>' : '<Plug>(coc-range-select)'
 " vmap <expr> <cr> index(g:coc_range_select_map_blacklist, &filetype) >=0 ? '<cr>' : '<Plug>(coc-range-select)'
 " vmap <backspace> <Plug>(coc-range-select-backward)
+"
+" 在源文件与头文件之间切换
+" nnoremap <silent> <leader>gh :CocCommand clangd.switchSourceHeader<cr>
+nmap <expr> gh &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<esc>:CocCommand clangd.switchSourceHeader<cr>'
+nmap <expr> gl &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<esc>'
+"
 " Note coc#float#scroll works on neovim >= 0.4.3 or vim >= 8.2.0750
 nnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
 nnoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-e>"
@@ -966,8 +972,6 @@ if has('nvim')
 endif
 " 触发鼠标悬浮事件
 nnoremap <silent> tk :call CocActionAsync('doHover')<cr>
-" 在源文件与头文件之间切换
-nnoremap <silent> gh :CocCommand clangd.switchSourceHeader<cr>
 " 跳转到声明
 nmap <silent> gD <Plug>(coc-declaration)
 " 跳转到定义
@@ -1464,7 +1468,7 @@ Plug 'voldikss/vim-floaterm'  " NOTE: 作者不推荐延迟加载
 fun My_reset_floaterm_config()
     let g:floaterm_type = 'floating'   "　终端出现形式, 可选normal
     " let g:floaterm_type = 'normal'   "　终端出现形式, 可选normal
-    let g:floaterm_winblend = 35  " 背景透明度百分比
+    let g:floaterm_winblend = 0  " 背景透明度百分比
     let g:floaterm_position = 'center'  " 浮动窗口位置
     " 从终端打开文件的方式 Available: 'edit', 'split', 'vsplit', 'tabe', 'drop'. Default: 'edit'
     let g:floaterm_open_command = 'tabe'

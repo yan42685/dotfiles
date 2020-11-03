@@ -37,19 +37,7 @@
     prompt = false
     trustExitCode = true
 [mergetool "vim_mergetool"]
-    cmd = editor -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
-
-; [diff]
-;     tool = nvr
-; [difftool "nvr"]
-;     prompt = false
-;     cmd = nvr -s -d $LOCAL $REMOTE
-; [merge]
-;     tool = nvr
-; [mergetool "nvr"]
-;     cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
-
-
+    cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
 
 [alias]
     # remerge 重新merge
