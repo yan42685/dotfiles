@@ -95,7 +95,7 @@ let g:maplocalleader = ','
 " 进入git commit buffer在normal模式按<tab>可以显示预设补全
 let g:My_commit_completion_source = ['🔧 refactor: ', '🔨 fix: ',
                 \  '🎉 feat: ', '📝 docs: ', '🏁 test: ',
-                \  '⚡ perf: ', '💦 chore: ', '❗ revert: ',
+                \  '⚡ perf: ', '💦 chore: ', '⏪ revert: ',
                 \ ]
 
 " style基本用不上, 以及虽然Angular团队把chore改成了ci和build但是对于更通用的提
@@ -104,10 +104,10 @@ let g:My_commit_completion_source = ['🔧 refactor: ', '🔨 fix: ',
 
 " let g:My_commit_completion_source = ['🔧 refactor: ', '🔨 fix: ', '💦 chore: ',
 "                 \ '🍻 improvement: ', '🎉 feat: ', '🍦 style: ',  '📝 docs: ',
-"                 \ '🏁 test: ', '⚡ perf: ', '❗ revert: ', '☕ build: ', '🐳 ci: ',
+"                 \ '🏁 test: ', '⚡ perf: ', '⏪ revert: ', '☕ build: ', '🐳 ci: ',
 "                 \ ]
 
-" 👀 🐮 🐼 📖 ⚓ 🚧 ✈ 🚀 🔥 ❄ 🎁 🎃 ✨ 🎯 💎 🔔 🎵 🎶 💡 📝 💊 ⚠ ❓ ‼
+" 👀 🐮 🐼 📖 ⚓ 🚧 ✈ 🚀 🔥 ❄ 🎁 🎃 ✨ 🎯 💎 🔔 🎵 🎶 💡 📝 💊 ⚠ ❓ ‼ ❗
 " ✅ 🉑 ⏰
 
 
