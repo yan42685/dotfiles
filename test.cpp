@@ -10,23 +10,25 @@ void test1() {
     cout << "remote add" << endl;
     cout << "remote add" << endl;
     cout << "remote add" << endl;
-    cout << "remote add" << endl;
     cout << "hello" << endl;
     cout << "hello" << endl;
     cout << "hello" << endl;
     cout << "local change" << endl;
-    cout << "local change" << endl;
-    cout << "local change" << endl;
-    cout << "hello" << endl;
-    cout << "hello" << endl;
-    cout << "hello" << endl;
-
     cout << "hello" << endl;
     cout << "hello" << endl;
     cout << "hello" << endl;
     cout << "hello" << endl;
     cout << "hello" << endl;
 
+    printf("local local local local local");
+    printf("local local local local local");
+    printf("local local local local local");
+    printf("local local local local local");
+    printf("local local local local local");
+    printf("local local local local local");
+    printf("local local local local local");
+
+    printf("local local local local local");
     printf("local local local local local");
     printf("local local local local local");
     printf("local local local local local");
