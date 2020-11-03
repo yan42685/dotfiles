@@ -13,28 +13,6 @@ void test1() {
     cout << "hello" << endl;
     cout << "hello" << endl;
     cout << "hello" << endl;
-    cout << "local change" << endl;
-    cout << "hello" << endl;
-    cout << "hello" << endl;
-    cout << "hello" << endl;
-    cout << "hello" << endl;
-    cout << "hello" << endl;
 
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
-
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
-    printf("local local local local local");
     return;
 }
