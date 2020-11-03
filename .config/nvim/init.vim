@@ -978,7 +978,6 @@ nnoremap <silent> <leader>ml :CocList --normal --number-select marks<cr>
 nnoremap <silent> <leader>sl :CocList sessions<cr>
 " 查看文档,并跳转
 nnoremap <silent> <m-q> :call <SID>show_documentation()<CR>
-" 打开鼠标位置下的链接
 nmap <silent> <leader>re <Plug>(coc-rename)
 " 重构
 imap <silent> <c-m-v> <esc><Plug>(coc-codeaction)
@@ -1760,6 +1759,31 @@ nmap gq <plug>(asyncrun-qftoggle)
 
 "}}}
 "{{{杂项, 优化使用体验
+"
+" TODO: 用Plug ... on 命令优化启动
+" 打开链接
+Plug 'tyru/open-browser.vim'
+let g:openbrowser_browser_commands = [
+		\ {"name": "firefox",
+		\  "args": ["{browser}", "{uri}"]},
+		\ ]
+ " Open URI under cursor.
+nmap <leader>gl <Plug>(openbrowser-open)
+" Open selected URI.
+vmap <leader>gl <Plug>(openbrowser-open)
+" https://www.douban.com
+
+" 打开文件对应github地址 (依赖open-browser.vim, git命令)
+" 还有其他功能参考github网站
+" TODO: 还不会用这个功能
+Plug 'tyru/open-browser-github.vim'
+" Opens a specific file in github.com repository(it also opens in the current branch by default).
+nnoremap ,gg :OpenGithubFile<cr>
+" Opens a specific Issue. (可在命令后面设置数字)
+nnoremap ,gi :OpenGithubIssue<cr>
+nnoremap ,gp :OpenGithubPullReq<cr>
+
+"
 " 编辑嵌套的代码，可以有独立的缩进和补全，使用场景: JS, Css在Html里面，
 " Markdown内嵌代码，Vue组件，代码内嵌SQL
 Plug 'AndrewRadev/inline_edit.vim', {'on': 'InlineEdit'}
@@ -1999,7 +2023,7 @@ Plug 'uiiaoo/java-syntax.vim', {'for': ['java']}
 " coc-import-cost (仅用于JS和TS)
 " coc-github
 " coc-css-block-comments
-" coc-sql (lint和format, format似乎要手动, 看ale能不能自动调用这个插件自带的sql-formatter把)
+" coc-sql (lint和format, format似乎要手动, 看ale能不能自动调用这个插件自带的sql-formatter吧)
 
 " 似乎是vim唯一的test插件, 支持CI
 " Plug 'janko/vim-test'
@@ -2576,7 +2600,7 @@ augroup auto_actions_for_better_experience
 
 augroup end
 "}}}
-"{{{ 自定义高亮 Highlighting, ColorScheme
+"{{{ 自定义高亮 Highlighting, 必须在使用colorscheme之后定义
 
 " {{{ 基础调色盘
 let s:palette = {
