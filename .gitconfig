@@ -19,7 +19,7 @@
 
 [pager]
     # 查看log，NOTE: 依赖Flog.vim插件
-    log = editor -c 'Flog' -c 'tabprevious' -c 'bd!' -c 'tabclose'
+    log = editor --git-log
 
 # difftool用editor(nvr) 有bug， 还是vimdiff3 好
 [diff]

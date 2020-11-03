@@ -948,6 +948,12 @@ nnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(
 nnoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-e>"
 inoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
 inoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+" NeoVim-only mapping for visual mode scroll
+" Useful on signatureHelp after jump placeholder of snippet expansion
+if has('nvim')
+  vnoremap <nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<C-d>"
+  vnoremap <nowait><expr> <C-e> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<C-e>"
+endif
 " 触发鼠标悬浮事件
 nnoremap <silent> tk :call CocActionAsync('doHover')<cr>
 " 在源文件与头文件之间切换

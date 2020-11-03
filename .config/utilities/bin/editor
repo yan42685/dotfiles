@@ -1,6 +1,63 @@
-if [ -n "$NVIM_LISTEN_ADDRESS" ] ; then
-    # 需要 pip3 install neovim-remote 安装nvr
-    nvr --remote-tab "$@"
-else
-    nvim "$@"
-fi
+#!/bin/bash
+
+showHelp() {
+    echo " \
+Usage: $0 [--flag...]
+
+no flag                 Start nvim or nvr
+--help                  Display help
+--git-log               Open git log
+        "
+}
+
+args=$@
+
+start-edit() {
+    if [ -n "$NVIM_LISTEN_ADDRESS" ] ; then
+        # 需要 pip3 install neovim-remote 安装nvr
+        nvr --remote-tab ${args}
+    else
+        nvim ${args}
+    fi
+}
+
+
+# 根据是否在内嵌终端执行不同的log命令
+show-git-log() {
+    if [ -n "$NVIM_LISTEN_ADDRESS" ] ; then
+        # nvr --remote-tab -c 'Flog' -c 'tabprevious' -c 'bd!' -c 'tabnext'
+        nvr --remote-tab -c 'Flog'
+    else
+        nvim -c 'Flog' -c 'tabprevious' -c 'bd!' -c 'tabclose'
+    fi
+}
+
+
+# 数组
+options=$(getopt -l "help,git-log" -o "hl" -a -- ${args})
+
+
+# set --:
+# If no arguments follow this option, then the positional parameters are unset. Otherwise, the positional parameters
+# are set to the arguments, even if some of them begin with a ‘-’.
+eval set -- "$options"
+
+
+while true
+do
+    case $1 in
+        --help | -h)
+            showHelp
+            exit 0
+            ;;
+        --)
+            start-edit
+            exit 0
+            ;;
+        --git-log | -l)
+            show-git-log
+            exit 0
+            ;;
+        esac
+    shift
+done
