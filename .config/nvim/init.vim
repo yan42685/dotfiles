@@ -943,6 +943,11 @@ endfunction
 " nmap <expr> <cr> index(g:coc_range_select_map_blacklist, &filetype) >=0 ? '<cr>' : '<Plug>(coc-range-select)'
 " vmap <expr> <cr> index(g:coc_range_select_map_blacklist, &filetype) >=0 ? '<cr>' : '<Plug>(coc-range-select)'
 " vmap <backspace> <Plug>(coc-range-select-backward)
+" Note coc#float#scroll works on neovim >= 0.4.3 or vim >= 8.2.0750
+nnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+nnoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-e>"
+inoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
 " 触发鼠标悬浮事件
 nnoremap <silent> tk :call CocActionAsync('doHover')<cr>
 " 在源文件与头文件之间切换
@@ -2155,14 +2160,12 @@ cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 cnoremap <c-h> <home>
 cnoremap <c-l> <end>
-cnoremap <c-e> <delete>
 cnoremap <m-p> <c-r>0
 
 inoremap <c-h> <esc>I
 inoremap <c-l> <esc>A
 nnoremap <c-h> ^
 nnoremap <c-l> $
-inoremap <c-e> <delete>
 inoremap <m-p> <c-r>0
 nnoremap <m-p> "0p
 "}}}
@@ -2830,8 +2833,9 @@ endfunc
 "}}}
 nnoremap <c-k> :call ScrollAnotherWindow(1)<CR>
 nnoremap <c-j> :call ScrollAnotherWindow(2)<CR>
-nnoremap <c-e> :call ScrollAnotherWindow(3)<CR>
-nnoremap <c-d> :call ScrollAnotherWindow(4)<CR>
+" <c-e><c-d> 和之前coc滚动float窗口快捷键冲突 就不定义了
+" nnoremap <c-e> :call ScrollAnotherWindow(3)<CR>
+" nnoremap <c-d> :call ScrollAnotherWindow(4)<CR>
 nnoremap <c-g><c-g> :call ScrollAnotherWindow(5)<CR>
 nnoremap <c-s-g> :call ScrollAnotherWindow(6)<CR>
 "}}}
