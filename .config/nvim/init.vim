@@ -104,7 +104,7 @@ let g:My_commit_completion_source = ['🔧 refactor: ', '🔨 fix: ',
 
 " let g:My_commit_completion_source = ['🔧 refactor: ', '🔨 fix: ', '💦 chore: ',
 "                 \ '🍻 improvement: ', '🎉 feat: ', '🍦 style: ',  '📝 docs: ',
-"                 \ '🔎 test: ', '⚡ perf: ', '❗ revert: ', '☕ build: ', '🐳 ci: ',
+"                 \ '🏁 test: ', '⚡ perf: ', '❗ revert: ', '☕ build: ', '🐳 ci: ',
 "                 \ ]
 
 " 👀 🐮 🐼 📖 ⚓ 🚧 ✈ 🚀 🔥 ❄ 🎁 🎃 ✨ 🎯 💎 🔔 🎵 🎶 💡 📝 💊 ⚠ ❓ ‼
