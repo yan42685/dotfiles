@@ -682,10 +682,10 @@ endif
 "}}}
 "{{{ Git 相关
 " 可视化merge NOTE: 恢复merge前的状态使用: git checkout --conflict=diff3 {file}
-Plug 'samoshkin/vim-mergetool', {'on': '<plug>(MergetoolToggle)'}
+Plug 'samoshkin/vim-mergetool', {'on': ['<plug>(MergetoolToggle)', 'MergetoolStart', 'MergetoolToggleLayout']}
 "{{{
 let g:mergetool_layout = 'rbl,m'  " `local`, `base`, `remote`, `merged`
-let g:mergetool_prefer_revision = 'undefined'
+let g:mergetool_prefer_revision = 'unmodified'
 " mergetool 模式关闭语法检查和语法高亮 FIXME: 可能是unknown filetype报错的原因
 function s:on_mergetool_set_layout(split)
   if a:split["layout"] ==# 'rbl,m' && a:split["split"] ==# 'b'
@@ -700,10 +700,10 @@ let g:mergetool_layout_custom = 0
 function! MergetoolLayoutCustom()
   if g:mergetool_layout_custom == 0
     let g:mergetool_layout_custom = 1
-    execute 'MergetoolToggleLayout lbr,m'
+    execute 'MergetoolToggleLayout rbl,m'
   else
     let g:mergetool_layout_custom = 0
-    execute 'MergetoolToggleLayout mr'
+    execute 'MergetoolToggleLayout rbl'
   endif
 endfunction
 "}}}
