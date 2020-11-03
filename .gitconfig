@@ -14,7 +14,7 @@
     quotepath = false  # 解决git ls不显示中文的问题
 
 [commit]
-    # 设置commit 模板文件
+    # 设置 commit 模板文件路径
     template = ~/.config/git/.gitmessage
 
 [pager]
