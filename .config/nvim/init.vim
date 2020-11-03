@@ -688,10 +688,11 @@ let g:mergetool_layout = 'rbl,m'  " `local`, `base`, `remote`, `merged`
 let g:mergetool_prefer_revision = 'unmodified'
 " mergetool 模式关闭语法检查和语法高亮 FIXME: 可能是unknown filetype报错的原因
 function s:on_mergetool_set_layout(split)
-  if a:split["layout"] ==# 'rbl,m' && a:split["split"] ==# 'b'
-    set nodiff
-    set syntax=on
-    resize 15
+  set syntax=off
+  set nospell
+  if a:split["layout"] ==# 'rbl,m' && a:split["split"] ==# 'm'
+      "
+      "
   endif
 endfunction
 let g:MergetoolSetLayoutCallback = function('s:on_mergetool_set_layout')
@@ -710,6 +711,11 @@ endfunction
 nmap <leader>mt <plug>(MergetoolToggle)
 " 切换视图
 nnoremap <silent> <leader>mc :<C-u>call MergetoolLayoutCustom()<CR>
+" 移动diff hunk NOTE: 不仅用于merge mode 也能用于diff mode
+nmap <expr> <C-A-h> &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<C-A-h>'
+nmap <expr> <C-A-l> &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<C-A-l>'
+nmap <expr> <C-A-j> &diff? '<Plug>(MergetoolDiffExchangeDown)' : '<C-A-j>'
+nmap <expr> <C-A-k> &diff? '<Plug>(MergetoolDiffExchangeUp)' : '<C-A-k>'
 
 " 显示当前行的commit信息, o下一个commit，O上一个，d打开该commit在当前文件的diff hunks，
 " D打开该commit的所有diff hunks

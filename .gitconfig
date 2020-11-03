@@ -52,6 +52,8 @@
 
 
 [alias]
+    # remerge 重新merge
+    rem = checkout --conflict=diff3
     # 很多alias来自 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt
     ### add ###
     ad = add
@@ -192,13 +194,13 @@
     ps = push
     ft = fetch
     pl = pull
-    mt = mergetool
     st = status
     br = branch
     dt = difftool
     dt-staged = difftool --staged
     ; df = diff --color
     df = difftool
+    mg = mergetool
     df-staged = diff --staged --color
     df-fzf = !zsh $HOME/repo/scripts/func/forgit.zsh diff
     ad-u = reset HEAD --

@@ -227,7 +227,7 @@ common_after_deploy() {
     cd $HOME
     git init
     # git add 除去字体
-    git add $(yadm ls | grep -v .local/share/fonts)
+    git add -f $(yadm ls | grep -v .local/share/fonts)
     git commit -a -m "init"
 
     # 安装vim插件

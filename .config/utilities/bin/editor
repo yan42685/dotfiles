@@ -34,7 +34,8 @@ show-git-log() {
 
 
 # 数组
-options=$(getopt -l "help,git-log" -o "hl" -a -- ${args})
+# NOTE: getopt -q 表示不显示错误
+options=$(getopt -q -l "help,git-log" -o "hl" -a -- ${args})
 
 
 # set --:
