@@ -1,0 +1,6 @@
+if [ -n "$NVIM_LISTEN_ADDRESS" ] ; then
+    # 需要 pip3 install neovim-remote 安装nvr
+    nvr --remote-tab "$@"
+else
+    nvim "$@"
+fi

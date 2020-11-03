@@ -23,11 +23,15 @@ NPM_PREFIX=${HOME}/.npm-packages
 # 更新npm的工具n
 export N_PREFIX=${NPM_PREFIX}
 export PATH=${NPM_PREFIX}/bin:${PATH}
+# 自定义的可执行文件
+chmod -R +x ${HOME}/.config/utilities/bin
+export PATH=${HOME}/.config/utilities/bin:${PATH}
 export TERM=xterm-256color
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
-export EDITOR=nvim
+# 用于neovim终端里nvim使用新tab打开 editor在~/.config/utilities/bin/editor
+export EDITOR=editor
 # 下面这条选项会让git的输出用nvim来打开
-export PAGER="nvim"
+export PAGER=editor
 # export MANPAGER="nvim"
 export BROWSER="chromium"
 export NNN_COLORS="2136"                        # use a different color for each context
@@ -245,7 +249,7 @@ fi
 
 alias note='vi ~/vimwiki/index.md'
 alias fzfh="rg --hidden -l --glob='!node_modules/' --glob='!.git/' '' | fzf"  # fzf搜索隐藏文件
-alias vif='nvim $(fzf)'
+alias vif='editor $(fzf)'
 alias vifh='nvim $(rg --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
 alias hdfs=/usr/local/hadoop/bin/hdfs
 alias hadoop=/usr/local/hadoop/bin/hadoop
@@ -258,14 +262,14 @@ alias mv='nocorrect mv -i'
 alias cp='nocorrect cp -ip'
 alias mkdir='nocorrect mkdir'
 alias md='nocorrect mkdir'
-alias vi='nvim'
+alias vi=editor
 # floaterm 插件提供的功能，以本vim实例进行编辑
 alias vii='floaterm'
-alias vinp='nvim --noplugin'
+alias vinp='editor --noplugin'
 # 检查性能，进入nvim后，输入:profile stop命令(或<leader>cp)再退出，然后查看profile.log文件 翻到最底部查看函数耗时统计
-alias vicp="nvim -c 'profile start profile.log' -c 'profile file *' -c 'profile func *' -c 'let g:check_performance_enabled = 1'"
+alias vicp="editor -c 'profile start profile.log' -c 'profile file *' -c 'profile func *' -c 'let g:check_performance_enabled = 1'"
 # 禁用部分大文件下十分影响性能的插件
-alias vifast="nvim -c 'let g:disable_laggy_plugins_for_large_file = 1'"
+alias vifast="editor -c 'let g:disable_laggy_plugins_for_large_file = 1'"
 # alias vim='nvim'
 # alias vimm='\vim'   # 用转义符防止递归映射
 # alias dot='/usr/bin/git --git-dir=/home/yy/.dotfiles/ --work-tree=/home/yy'   # 用于存放dotfiles

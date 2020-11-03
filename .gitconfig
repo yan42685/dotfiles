@@ -19,23 +19,36 @@
 
 [pager]
     # 查看log，NOTE: 依赖Flog.vim插件
-	log = nvim -c 'Flog' -c 'tabprevious' -c 'bd!' -c 'tabclose'
+	log = editor -c 'Flog' -c 'tabprevious' -c 'bd!' -c 'tabclose'
 
+# difftool用editor(nvr) 有bug， 还是vimdiff3 好
 [diff]
     tool = vimdiff3
 [difftool]
     prompt = false
     trustExitCode = true
-
 [difftool "vimdiff3"]
     path = nvim
 
 [merge]
-    tool = vimdiff3
-    conflictStyle = diff3
-[mergetool "vim_mergetool"]
-    cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
+    tool = editor
+    conflictStyle = vimdiff3
+[mergetool]
+    prompt = false
     trustExitCode = true
+[mergetool "editor"]
+    cmd = editor -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
+
+; [diff]
+;     tool = nvr
+; [difftool "nvr"]
+;     prompt = false
+;     cmd = nvr -s -d $LOCAL $REMOTE
+; [merge]
+;     tool = nvr
+; [mergetool "nvr"]
+;     cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
+
 
 
 [alias]

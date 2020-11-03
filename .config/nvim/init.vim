@@ -78,6 +78,15 @@
 " }}}
 " =========================================
 "{{{可自行调整的全局配置
+
+" 设置nvr (neovim-remote 用于在内嵌终端使用outer nvim打开文件) {{{
+" editor定义在~/.config/utilities/bin 是可执行的bash文件
+let $GIT_EDITOR = 'editor'
+augroup setting_for_nvr
+    autocmd!
+    autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete  " 用于nvr提交git信息
+augroup end
+"}}}
 let g:enable_front_end_layer = 1  " 前端Layer, 启动所有前端相关插件
 let g:enable_file_autosave = 1  " 是否自动保存
 let g:disable_laggy_plugins_for_large_file = 0  " 在启动参数里设置为1就可以加快打开速度
@@ -772,23 +781,24 @@ nnoremap <silent> ,gl :Flog<cr>
 " 选中多行查看历史
 vnoremap <silent> ,gl :Flog<cr>
 
-" 更好看的commit界面, 只用从命令行输入git commit才生效, 不对fugitive打开的commit buffer生效
-Plug 'rhysd/committia.vim'
-"{{{
-let g:committia_min_window_width = 150
-let g:committia_hooks = {}
-"}}}
-function! g:committia_hooks.edit_open(info)
-    " if a:info.vcs ==# 'git' && getline(1) ==# ''  " If no commit message, start with insert mode
-        " startinsert
-    " endif
-
-    " Scroll the diff window from insert mode
-    imap <buffer> <expr> <c-j> pumvisible() ? '<c-n>' : '<Plug>(committia-scroll-diff-down-half)'
-    imap <buffer> <expr> <c-k> pumvisible() ? '<c-p>' : '<Plug>(committia-scroll-diff-up-half)'
-    nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
-    nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
-endfunction
+" 【废弃】更好看的commit界面, 只用从命令行输入git commit才生效, 不对fugitive打开的commit buffer生效
+" Plug 'rhysd/committia.vim'
+" "{{{
+" let g:committia_min_window_width = 150
+" let g:committia_hooks = {}
+" "}}}
+" function! g:committia_hooks.edit_open(info)
+"     " If no commit message, start with insert mode
+"     " if a:info.vcs ==# 'git' && getline(1) ==# ''
+"     "     startinsert
+"     " endif
+"     "
+"     " Scroll the diff window from insert mode
+"     imap <buffer> <expr> <c-j> pumvisible() ? '<c-n>' : '<Plug>(committia-scroll-diff-down-half)'
+"     imap <buffer> <expr> <c-k> pumvisible() ? '<c-p>' : '<Plug>(committia-scroll-diff-up-half)'
+"     nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
+"     nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
+" endfunction
 
 "}}}
 "{{{coc 生态系统, 补全框架
