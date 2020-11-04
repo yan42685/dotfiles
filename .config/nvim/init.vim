@@ -1761,28 +1761,34 @@ nmap gq <plug>(asyncrun-qftoggle)
 "}}}
 "{{{杂项, 优化使用体验
 "
-" TODO: 用Plug ... on 命令优化启动
-" 打开链接
-Plug 'tyru/open-browser.vim'
-let g:openbrowser_browser_commands = [
-		\ {"name": "firefox",
-		\  "args": ["{browser}", "{uri}"]},
-		\ ]
+" NOTE: 如果用snap安装nvim 会有nvim.desktop图标，这样从nvim打开的不是真正的firefox
+"       解决办法是用其他不带桌面图标的方式安装nvim
+" 打开链接  因为open-browser-github.vim依赖这个插件，所以on延迟加载里需要放上open-browser-github.vim的命令
+Plug 'tyru/open-browser.vim', {'on': ['<Plug>(openbrowser-open)', 'OpenGithubFile',
+                                    \ 'OpenGithubIssue', 'OpenGithubPullReq', 'OpenGithubProject']}
+" settings {{{
+" let g:openbrowser_browser_commands = [
+"         \ {"name": "firefox",
+"         \  "args": ["firefox", "{uri}"]},
+"         \ ]
+"}}}
  " Open URI under cursor.
 nmap <leader>gl <Plug>(openbrowser-open)
 " Open selected URI.
 vmap <leader>gl <Plug>(openbrowser-open)
 " https://www.douban.com
 
+" TODO: 还不会用这个功能, 显示找不到User
 " 打开文件对应github地址 (依赖open-browser.vim, git命令)
-" 还有其他功能参考github网站
-" TODO: 还不会用这个功能
-Plug 'tyru/open-browser-github.vim'
+" 还有其他功能参考 https://github.com/tyru/open-browser-github.vim
+Plug 'tyru/open-browser-github.vim', {'on': ['<Plug>(openbrowser-open)', 'OpenGithubFile', 'OpenGithubIssue',
+                                           \ 'OpenGithubPullReq', 'OpenGithubProject']}
 " Opens a specific file in github.com repository(it also opens in the current branch by default).
 nnoremap ,gg :OpenGithubFile<cr>
 " Opens a specific Issue. (可在命令后面设置数字)
 nnoremap ,gi :OpenGithubIssue<cr>
 nnoremap ,gp :OpenGithubPullReq<cr>
+nnoremap ,gP :OpenGithubProject<cr>
 
 "
 " 编辑嵌套的代码，可以有独立的缩进和补全，使用场景: JS, Css在Html里面，
