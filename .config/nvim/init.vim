@@ -297,7 +297,7 @@ let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.xml,*.jsx,*.tsx'
 " markdown代码内高亮
 Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'vimwiki']}
 "{{{
-let g:vim_markdown_fenced_languages = ['c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini', 'csharp=cs']
+let g:vim_markdown_fenced_languages = ['c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini', 'csharp=cs', 'vim', 'help']
 "}}}
 
 " 与tmux整合的插件
