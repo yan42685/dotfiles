@@ -16,7 +16,7 @@ setup_ubuntu_environment() {
     sudo apt install -y make cmake build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
 
     echo "==================== setuping basic packages..."
-    sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3 
+    sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3 openjdk-8-jdk
 
     # 设置npm代理和 install -g 到本地用户防止权限问题
     npm config set registry https://registry.npm.taobao.org/
