@@ -1190,7 +1190,9 @@ let g:startify_session_persistence = 1  " 持久化session
 let g:startify_fortune_use_unicode = 1  " 首页banner使用utf-8字符编码
 let g:startify_enable_special = 0  " 不显示<empty buffer> 和 <quit>
 let g:startify_session_sort = 1  " Sort sessions by modification time (when the session files were written) rather than alphabetically.
-let g:startify_custom_indices = map(range(1,100), 'string(v:val)')  " index从1开始数起
+" let g:startify_custom_indices = map(range(1,100), 'string(v:val)')  " index从1开始数起
+let g:startify_custom_indices = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+                                \'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']  " index从1开始数起
 " I got it from https://fsymbols.com/text-art/
 let g:utf8_double_moon = [
             \ '┊┊┊┊      ' . '███████╗██╗     ██╗ ██████╗ ██████╗ ███████╗██████╗ ',
