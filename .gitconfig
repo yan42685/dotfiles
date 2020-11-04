@@ -40,6 +40,9 @@
     # floaterm用nvr mergetool 有bug 还是nvim好, 然后<Alt-o>放大floaterm
     cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
 
+[pull]
+	rebase = true
+
 [alias]
     # remerge 重新merge
     rem = checkout --conflict=diff3
@@ -204,5 +207,3 @@
     rg-ls = !rg $(git rev-parse --show-toplevel) --files
     rg-all = !rg $(git rev-parse --show-toplevel) --column --smart-case --no-ignore --hidden -g '!.git' -e
     rg-all-ls = !rg $(git rev-parse --show-toplevel) --no-ignore --hidden -g '!.git' --files
-[pull]
-	rebase = true
