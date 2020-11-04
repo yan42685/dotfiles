@@ -101,7 +101,7 @@ let s:lightline_schemes = ['quantum', 'gruvbox_material', 'forest_night',
 let mapleader='<space>'  " 此条命令的位置应在插件之前
 let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
-" 进入git commit buffer在normal模式按<tab>可以显示预设补全
+" 进入git commit buffer在normal模式按<tab>可以显示预设补全, 可以按数字 1...n 快速选择
 let g:My_commit_completion_source = ['🔧 refactor: ', '🔨 fix: ',
                 \  '🎉 feat: ', '📝 docs: ', '🏁 test: ',
                 \  '⚡ perf: ', '💦 chore: ', '⏪ revert: ',
@@ -2540,14 +2540,18 @@ augroup tab_indent_settings_by_filetype
         inoremap <buffer> 7 <c-n><c-n><c-n><c-n><c-n><c-n><c-y><esc>:call Clear_buffer_mapping_for_number()<cr>a<space>
         inoremap <buffer> 8 <c-n><c-n><c-n><c-n><c-n><c-n><c-n><c-y><esc>:call Clear_buffer_mapping_for_number()<cr>a<space>
         inoremap <buffer> 9 <c-n><c-n><c-n><c-n><c-n><c-n><c-n><c-n><c-y><esc>:call Clear_buffer_mapping_for_number()<cr>a<space>
+        " 映射<cr>选择补全项
+        inoremap <buffer> <cr> <c-y><esc>:call Clear_buffer_mapping_for_number()<cr>a<space>
 
         return ''
     endf
 
+    " 取消对数字和<cr>的映射
     fun Clear_buffer_mapping_for_number()
         for i in range(1, 9)
             execute 'iunmap <buffer>' . i
         endfor
+        iunmap <buffer> <cr>
     endf
 "}}}
     autocmd filetype gitcommit nnoremap <silent> <buffer> <tab> i<C-r>=My_custom_completion_trigger(g:My_commit_completion_source, 1)<cr>
