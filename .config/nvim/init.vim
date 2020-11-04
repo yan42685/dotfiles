@@ -859,7 +859,7 @@ let g:coc_global_extensions = [
   \ 'coc-stylelint', 'coc-sh', 'coc-dictionary', 'coc-word', 'coc-emmet',
   \ 'coc-syntax', 'coc-marketplace', 'coc-todolist', 'coc-emoji',
   \ 'coc-gitignore', 'coc-bookmark', 'coc-java', 'coc-tag', 'coc-floaterm',
-  \ 'coc-markdownlint', 'coc-clangd',
+  \ 'coc-markdownlint', 'coc-clangd', 'coc-git'
   \ ]
 
 
