@@ -1469,13 +1469,14 @@ augroup fix_bug_in_floaterm_and_startify
 augroup end
 "}}}
 " 进入终端前复制当前buffer所在目录, 以便于快速进入该buffer的目录
-nnoremap <silent> <m-n> :FloatermNew<cr>
+nnoremap <silent> <m-n> :lcd %:p:h<cr>:FloatermNew<cr>
 tnoremap <silent> <m-n> <c-\><c-n>:FloatermNew<cr>
 tnoremap <silent> <c-d> <c-\><c-n>:FloatermKill<cr>
 " 进入普通模式
 tnoremap <c-m-n> <c-\><c-n>
 " 可以作为从编辑器回到浮动窗口的快捷键
-nnoremap <silent> <m-m> :FloatermToggle<cr>
+" 打开终端会自动跳转dir
+nnoremap <silent> <m-m> :lcd %:p:h<cr>:FloatermToggle<cr>
 "{{{ function My_toggle_full_screen_floterm
 let g:My_full_screen_floterm_status = 0
 function My_toggle_full_screen_floterm()
@@ -2138,8 +2139,6 @@ imap [[ <esc>A<space>{<cr>
 nnoremap tj J
 " 废弃ZZ退出
 noremap ZZ <nop>
-" 这里判断&buftype是否为nofile是为了在命令模式按<c-f>之后进入的buffer内可以回车执行命令
-map <expr> <cr> &buftype == 'nofile' ? '<cr>' : '%'
 "}}}
 "{{{ 更便捷的移动以及视角居中
 "set wrap之后，在折行之间也可以跳, 指定行数后会忽视wrap的行
