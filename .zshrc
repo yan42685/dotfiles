@@ -263,6 +263,8 @@ alias mv='nocorrect mv -i'
 alias cp='nocorrect cp -ip'
 alias mkdir='nocorrect mkdir'
 alias md='nocorrect mkdir'
+# 用文件浏览器打开当前目录
+alias open='nautilus $PWD &'
 alias vi=editor
 # floaterm 插件提供的功能，以本vim实例进行编辑
 alias vii='floaterm'
