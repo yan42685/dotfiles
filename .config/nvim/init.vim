@@ -2379,6 +2379,7 @@ set autoread  " 文件在外界被修改之后自动载入
 set autowriteall  " edit, next等动作时自动写入
 set timeout ttimeoutlen=50  " 连续识别按键的延迟
 set clipboard+=unnamedplus
+set clipboard+=unnamed
 set shortmess=atI  " 启动的时候不显示那个援助乌干达儿童的提示
 set noswapfile
 set nobackup nowritebackup  " 取消备份文件
