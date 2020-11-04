@@ -1225,9 +1225,23 @@ let g:vista_executive_for = {
     \ }
 
 let g:vista#renderer#enable_icon = 1  " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+   "variable": '\uf71b',
+  " function": '\uf794',
+
 let g:vista#renderer#icons = {
-\   "function": "\uf794",
-\   "variable": "\uf71b",
+\   'module': '',
+\   'interface': '',
+\   'class': '',
+\   'constructor': '',
+\   'method': '',
+\   'field': '',
+\   'enum': '',
+\   'enum member': '',
+\   'function': '',
+\   'variable': '',
+\   'property': '',
+\   'constant': '',
+\   'struct': '',
 \  }
 "}}}
 " NOTE: 内置快捷键 p: preview     s: sort     q: close vista
