@@ -1531,7 +1531,7 @@ nmap - <Plug>(choosewin)
 " 切换到项目根目录
 Plug 'airblade/vim-rooter'
 "{{{
-" let g:rooter_manual_only = 1  " 停止自动Rooter
+" let g:rooter_manual_only = 1  " 注释了这行代表开启自动Rooter
 let g:rooter_resolve_links = 1  " resolve软硬链接
 let g:rooter_silent_chdir = 1  " 静默change dir
 "}}}
