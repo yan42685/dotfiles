@@ -859,7 +859,7 @@ let g:coc_global_extensions = [
   \ 'coc-stylelint', 'coc-sh', 'coc-dictionary', 'coc-word', 'coc-emmet',
   \ 'coc-syntax', 'coc-marketplace', 'coc-todolist', 'coc-emoji',
   \ 'coc-gitignore', 'coc-bookmark', 'coc-tag', 'coc-floaterm',
-  \ 'coc-markdownlint', 'coc-clangd', 'coc-git'
+  \ 'coc-markdownlint', 'coc-clangd', 'coc-git', 'coc-vimlsp'
   \ ]
 
 
@@ -1214,17 +1214,36 @@ nnoremap <leader>pc :SClose<cr>
 nnoremap <leader>pd :SDelete!<cr>
 
 " Vista浏览tags, 函数，类 大纲
-Plug 'liuchengxu/vista.vim', {'on': 'Vista'}
+" NOTE: 可以为不同的文件类型设置不同的执行命令coc或ctags
+Plug 'liuchengxu/vista.vim'
 "{{{
-let g:vista_default_executive = 'ctags'  " Executive used when opening vista sidebar without specifying it.
+let g:vista_default_executive = 'coc'
+let g:vista_sidebar_width = 50
+let g:vista_update_on_text_changed = 1
+let g:vista_update_on_text_changed_delay = 500
+" default: `['└ ', '│ ']`
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+" let g:vista_echo_cursor_strategy = 'floating_win'
+let g:vista_executive_for = {
+    \ 'vimwiki': 'markdown',
+    \ 'pandoc': 'markdown',
+    \ 'markdown': 'toc',
+    \ }
+
 let g:vista#renderer#enable_icon = 1  " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
 let g:vista#renderer#icons = {
 \   "function": "\uf794",
 \   "variable": "\uf71b",
 \  }
 "}}}
-nnoremap <leader>ot :Vista<cr>
-" nnoremap vo :Vista<cr>
+" NOTE: 内置快捷键 p: preview     s: sort     q: close vista
+" 两个感叹号是Toggle
+nnoremap <leader>vo :Vista!!<cr>
+" show table of contents of the markdown file.
+nnoremap <leader>to :Vista!! toc<cr>
+
+
+
 
 " 查看uodo历史及持久化
 Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}

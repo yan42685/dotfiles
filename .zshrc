@@ -282,6 +282,7 @@ alias rm='trash'
 alias la='ls -a'
 alias nnn='PAGER= nnn'
 alias zz='z ~'
+alias zt='z ~/coding/test'
 alias zh='z -I -t .'  # MRU
 alias zb='z -b'  # 项目目录
 alias zc='z -c' # 严格匹配当前路径的子路径
