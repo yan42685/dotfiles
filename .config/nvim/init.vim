@@ -841,6 +841,7 @@ nnoremap <leader>tu :CocCommand todolist.upload<cr>
 " export todolist as a json/yaml file
 " nnoremap <leader>te :CocCommand todolist.export<cr>
 
+
 " COC自动补全框架
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "{{{
@@ -919,7 +920,6 @@ endfunction
 
 let g:coc_snippet_next = '<tab>'
 
-
 " 展示文档
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -928,10 +928,7 @@ function! s:show_documentation()
     call CocActionAsync('doHover')
   endif
 endfunction
-
 "}}}
-" 跳转Placeholder的时候自动显示函数签名
-" autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 " <C-o>  切换到正常模式(q退出) <C-c>  - 关闭coclist
 
 " 层进式范围选择
@@ -959,6 +956,9 @@ if has('nvim')
 endif
 " 触发鼠标悬浮事件
 nnoremap <silent> tk :call CocActionAsync('doHover')<cr>
+" 查看文档,并跳转
+nnoremap <silent> <m-q> :call <SID>show_documentation()<CR>
+nmap <silent> <leader>re <Plug>(coc-rename)
 " 跳转到声明
 nmap <silent> gD <Plug>(coc-declaration)
 " 跳转到定义
@@ -976,15 +976,10 @@ xmap af <Plug>(coc-funcobj-a)
 nmap <leader>do <Plug>(coc-codeaction)
 nnoremap <silent> <leader>ml :CocList --normal --number-select marks<cr>
 nnoremap <silent> <leader>sl :CocList sessions<cr>
-" 查看文档,并跳转
-nnoremap <silent> <m-q> :call <SID>show_documentation()<CR>
-nmap <silent> <leader>re <Plug>(coc-rename)
 " 重构
 imap <silent> <c-m-v> <esc><Plug>(coc-codeaction)
 nmap <silent> <c-m-v> <Plug>(coc-codeaction)
 vmap <silent> <c-m-v> <Plug>(coc-codeaction-selected)
-" TODO: 测试效果 在代码片段跳转后显示函数签名。
-" autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 " FIXME: 如果不想显示ref的虚拟文本，需要在coc-setting里关闭codelents
 nnoremap <leader>cc :CocCommand<cr>
 nnoremap <leader>cg :CocConfig<cr>
@@ -1239,9 +1234,6 @@ let g:vista#renderer#icons = {
 " NOTE: 内置快捷键 p: preview     s: sort     q: close vista
 " 两个感叹号是Toggle
 nnoremap <leader>vo :Vista!!<cr>
-" show table of contents of the markdown file.
-nnoremap <leader>to :Vista!! toc<cr>
-
 
 
 
