@@ -46,8 +46,9 @@ setup_ubuntu_environment() {
         bash ~/.installers/pyenv-installer.sh
     fi
 
-    echo "==================== installing linter and checker"
+    echo "==================== installing linter and formatter"
     npm install -g eslint
+    npm install -g vim-language-server
     npm install -g prettier
     python3 -m pip install pylint --user
     python3 -m pip install autopep8 --user
