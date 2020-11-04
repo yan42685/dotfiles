@@ -2527,7 +2527,9 @@ augroup tab_indent_settings_by_filetype
     autocmd filetype fugitiveblame,fugitive nnoremap <silent> <buffer> q :q!<cr>
     autocmd filetype gitcommit nnoremap <silent> <buffer> q :wq<cr>
     " Java 自动优化import
-    autocmd BufWritePost *.java :silent! call CocActionAsync('runCommand', 'editor.action.organizeImport')<cr>
+    if executable('editor.action.organizeImport')
+        autocmd BufWritePost *.java :silent! call CocActionAsync('runCommand', 'editor.action.organizeImport')<cr>
+    endif
     " autocmd BufWritePost *.ts,*.js silent! call CocActionAsync('runCommand', 'tsserver.organizeImports')
     " commit buffer在normal模式按<tab>触发预设补全, 按数字键或者tab确认补全
 "{{{ function for trigger_custom_completion_source

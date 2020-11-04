@@ -37,6 +37,5 @@
   "python.jediEnabled": false,
   // 只显示ale的lint信息, 不显示Coc的
   "diagnostic.displayByAle": true,
-  "java.format.settings.url": "${HOME}/.config/coc/extensions/node_modules/redhat.java/eclipse-formatter.xml"
-  // "git.enableGutters": false
+  "git.enableGutters": false
 }
