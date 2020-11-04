@@ -2851,17 +2851,25 @@ augroup end
 " ------------------------------------
 " --------需要主动了解的功能----------
 " {{{对vim作为git difftoll的增强, <leader><leader>q 强制退出difftool
+"function Settings_for_difftool_mode(){{{
+function Settings_for_difftool_mode() abort
+    if &diff
+        syn off  " 自动关闭语法高亮
+        " 强制退出difftool, 不再自动唤起difftool
+        noremap <leader><leader>q <esc>:cq<cr>
+        noremap Q <esc>:qa<cr>
+        " 在diff hunk之间跳转
+        noremap gj ]c
+        noremap gk [c
+    endif
+endfunction
+"}}}
 " 当把vim作为git的difftool时，设置 git config --global difftool.trustExitCode true && git config --global mergetool.trustExitCode true
 " 在git difftool或git mergetool之后  可以用:cq进行强制退出diff/merge模式，而不会不停地recall another diff/merge file
-if &diff
-    syn off  " 自动关闭语法高亮
-    " 强制退出difftool, 不再自动唤起difftool
-    noremap <leader><leader>q <esc>:cq<cr>
-    noremap Q <esc>:qa<cr>
-    " 在diff hunk之间跳转
-    noremap gj ]c
-    noremap gk [c
-endif
+augroup auto_syntax_off_on_nvim_as_mergetool
+    autocmd!
+    autocmd VimEnter * if (&filetype != 'startify') | call Settings_for_difftool_mode()
+augroup end
 "}}}
 "{{{当有两个窗口时, 滚动另一个窗口 <c-j/k/d/e/gg/G>
 "{{{ function
