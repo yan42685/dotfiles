@@ -698,7 +698,7 @@ endfunction
 let g:MergetoolSetLayoutCallback = function('s:on_mergetool_set_layout')
 
 "}}}
-nmap <leader>mt <plug>(MergetoolToggle)
+nmap ,gmt <plug>(MergetoolToggle)
 " 移动diff hunk NOTE: 不仅用于merge mode 也能用于diff mode
 " 快捷键需要定义在coc那里, 因为还可以用gh跳转到头文件
 " nmap <expr> gh &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<esc>'
@@ -755,7 +755,6 @@ nnoremap <silent> ,gg :Ggrep<space>
     " Rename your file on disk.  Rename the file in git repo.
     " Reload the file into the current buffer.  Preserve undo history.
 nnoremap <silent> ,gma :G commit --amend %<cr>
-nnoremap <silent> ,gmt :G mergetool -y<cr>
 nnoremap <silent> .go :Git checkout<Space>
 nnoremap <silent> ,gr :G add %<cr>:Gmove <c-r>=expand('%:p:h')<cr>/
 nnoremap <silent> ,ps :G push<cr>
@@ -813,7 +812,7 @@ function ToggleCocExplorer()
   execute 'CocCommand explorer --toggle --width=35 --sources=buffer+,file+ ' . getcwd()
 endfunction
 "}}}
-nnoremap <silent> <leader>er :call ToggleCocExplorer()<CR>
+nnoremap <silent> <leader>eo :call ToggleCocExplorer()<CR>
 
 " 使用coc-yank (自带复制高亮)
 nnoremap <silent> gy :<C-u>CocList --normal -A yank<cr>
@@ -1236,7 +1235,6 @@ let g:vista#renderer#icons = {
 nnoremap <leader>vo :Vista!!<cr>
 
 
-
 " 查看uodo历史及持久化
 Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 " reference: https://vi.stackexchange.com/questions/6/how-can-i-use-the-undofile
@@ -1250,7 +1248,7 @@ endif
 set undodir=~/.vim/undo-dir
 set undofile
 "}}}
-nnoremap <leader>ut :MundoToggle<cr>
+nnoremap <leader>mo :MundoToggle<cr>
 
 " 更方便地调整window
 Plug 'simeji/winresizer', {'on': 'WinResizerStartResize'}
