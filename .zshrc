@@ -248,9 +248,10 @@ fi
 
 
 alias note='vi ~/vimwiki/index.md'
-alias fzfh="rg --hidden -l --glob='!node_modules/' --glob='!.git/' '' | fzf"  # fzf搜索隐藏文件
+# rg --no-messages去除permission denied等警告信息
+alias fzfh='rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf'  # fzf搜索隐藏文件
 # alias vif='editor $(fzf)'
-alias vif='editor $(rg --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
+alias vif='editor $(rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
 alias hdfs=/usr/local/hadoop/bin/hdfs
 alias hadoop=/usr/local/hadoop/bin/hadoop
 alias start-dfs=/usr/local/hadoop/sbin/start-dfs.sh
