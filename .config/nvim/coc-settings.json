@@ -3,7 +3,6 @@
   "coc.source.emoji.filetypes": ["markdown", "gitcommit", "vimwiki", "wiki"],
   "codeLens.separator": "  ‣",
   // "codeLens.enable": true, // 使用codelens特性
-  "bookmark.signHi": "BlueSign",
   "snippets.priority": 130, // 从默认的90提高到130的优先级
   "session.directory": "~/.local/share/nvim/session", // coclist查找session文件的地址
   "todolist.maxsize": 99999, // 最多可存放的todo数量
@@ -24,7 +23,8 @@
   "coc.source.word.shortcut": "word", // 补全列表显示的source名字
   "list.insertMappings": {
     // 切换过滤匹配模式 普通/严格/正则
-    "<c-r>": "do:switch"
+    "<c-r>": "do:switch",
+    "<c-d>": "exit"
   },
   "list.normalMappings": {
     "q": "do:exit"

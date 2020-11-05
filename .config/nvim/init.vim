@@ -2736,7 +2736,7 @@ function s:Enable_normal_scheme() abort
 "{{{让JSONC的注释高亮正常
 augroup enable_comment_highlighting_for_json
     autocmd!
-    autocmd FileType json syntax match Comment +\/\/.\+$+
+    autocmd Filetype,BufWinEnter json set syntax=off | set syntax=on | syntax match Comment +\/\/.\+$+
 augroup end
 "}}}
 "{{{ Vim-Which-Key高亮
