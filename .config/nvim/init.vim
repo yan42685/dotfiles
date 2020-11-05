@@ -946,7 +946,7 @@ nmap <expr> gl &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<esc>'
 nnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
 nnoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-e>"
 inoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+inoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<del>"
 " NeoVim-only mapping for visual mode scroll
 " Useful on signatureHelp after jump placeholder of snippet expansion
 if has('nvim')
@@ -2222,6 +2222,7 @@ cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 cnoremap <c-h> <home>
 cnoremap <c-l> <end>
+cnoremap <c-e> <del>
 cnoremap <m-p> <c-r>0
 
 inoremap <c-h> <esc>I
