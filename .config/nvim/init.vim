@@ -901,17 +901,10 @@ inoremap <silent> <expr> <TAB>
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? (strwidth(getline('.')) == 0 && index(g:My_quick_tab_blacklist, &filetype) < 0 ? '<esc>cc' : '<tab>') :
       \ coc#refresh()
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if has('patch8.1.1068')
-    " Use `complete_info` if your (Neo)Vim version supports it.
-    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position
+cnoremap <expr> <cr> pumvisible() ? "\<C-y><BS>" : "<CR>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" NOTE: 这段代码和后面的ScrollAnotherWindow函数耦合性很高,
-" 效果是在补全的时候<c-j>是向下，<c-k>是向上, 而之后又设置了在有多个窗口的时候<c-k/j>控制另一个窗口的移动
 augroup coc_completion_keybindings
     autocmd!
     autocmd VimEnter * inoremap <silent><expr> <c-j>
@@ -919,6 +912,14 @@ augroup coc_completion_keybindings
         \ <SID>check_back_space() ? '<esc>a' :
         \ coc#refresh()
     autocmd VimEnter * inoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<esc>a'
+
+    " TODO: 完成这个还有<c-r>确认选择，还有括号自动删除
+    " 参考 https://github.com/romgrk/nvim/blob/master/rc/keymap.vim  1543行
+    " autocmd VimEnter * cnoremap <silent><expr> <c-j>
+    "     \ pumvisible() ? '<c-n>' :
+    "     \ <SID>check_back_space() ? '<Down>' :
+    "     \ coc#refresh()
+    " autocmd VimEnter * cnoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<up>'
 
     " 补全时显示文档和详情
     autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
@@ -2237,10 +2238,12 @@ nnoremap ch c0
 nnoremap cl c$
 
 " 命令行和插入模式增强
-" 上下相比于<c-n> <c-p>更智能的地方:  可以根据已输入的字符补全历史命令
-cnoremap ' ''<left>
-cnoremap " ""<left>
-cnoremap ( ()<left>
+" (下三行废弃，因为在最后有功能更强的mapCmdPairs()函数实现)
+" cnoremap ' ''<left>
+" cnoremap " ""<left>
+" cnoremap ( ()<left>
+
+" <up>和<down>相比于<c-n> <c-p>更智能的地方:  可以根据已输入的字符补全历史命令
 cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 cnoremap <c-h> <home>
@@ -2334,6 +2337,62 @@ xnoremap <leader>rSu :s/\v//gc<left><left><left><left>
 "}}}
 "{{{修改默认快捷键到更令人舒适的行为
 
+" cnoremap 命令模式的autopair{{{
+function! s:cmdClosingPair (closing, opening)
+    let pos  = getcmdpos()
+    let line = getcmdline()
+    let next = line[pos - 1]
+    if next == a:closing
+        return "\<Right>"
+    elseif a:closing == a:opening
+        return a:opening . a:closing . "\<Left>"
+    else
+        return a:closing
+    end
+endfunction
+
+function! s:isAtEndOfCmdline ()
+  return 1
+    return getcmdpos() == 1+len(getcmdline())
+endfunction
+
+function! s:cmdDeletePair (char)
+    let pos  = getcmdpos()
+    let line = getcmdline()
+    let char_before = line[pos - 2]
+    let char_after  = line[pos - 1]
+    if has_key(s:cmd_pairs, char_before)
+      \ && s:cmd_pairs[char_before] == char_after
+        return "\<Right>\<BS>\<BS>"
+    else
+        return a:char
+    end
+endfunction
+
+function! s:mapCmdPairs()
+    let s:cmd_pairs = {
+    \'(': ')',
+    \'[': ']',
+    \'{': '}',
+    \'"': '"',
+    \"'": "'"
+    \}
+    for k in keys(s:cmd_pairs)
+    let opening = k
+    let closing = s:cmd_pairs[k]
+    execute 'cnoremap ' . opening . ' ' . opening . closing .'<Left>'
+    if closing == '"'
+        execute "cnoremap <expr>" . closing . " <SID>cmdClosingPair('" . closing . "', '" . opening ."')"
+    else
+        execute 'cnoremap <expr>' . closing . ' <SID>cmdClosingPair("' . closing . '", "' . opening .'")'
+    end
+    endfor
+    cnoremap <expr><BS>  <SID>cmdDeletePair("\<BS>")
+    cnoremap <expr><C-h> <SID>cmdDeletePair("\<C-h>")
+endfunction
+
+call <SID>mapCmdPairs()
+"}}}
 "{{{ 更方便的跳转标记
 let s:alphabet =['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
             \'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
