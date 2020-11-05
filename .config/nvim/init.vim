@@ -1203,7 +1203,7 @@ let g:startify_custom_header =
 " Project(Session) index
 nnoremap <leader>Si :Startify<cr>
 nnoremap <leader>Ss :SSave .vim<left><left><left><left>
-nnoremap <leader>Sl :SLoad<cr>
+nnoremap <leader>Sl :CocList sessions<cr>
 nnoremap <leader>Sc :SClose<cr>
 nnoremap <leader>Sd :SDelete!<cr>
 

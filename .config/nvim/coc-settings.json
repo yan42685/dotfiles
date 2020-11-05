@@ -23,8 +23,7 @@
   "coc.source.word.shortcut": "word", // 补全列表显示的source名字
   "list.insertMappings": {
     // 切换过滤匹配模式 普通/严格/正则
-    "<c-r>": "do:switch",
-    "<c-d>": "exit"
+    "<c-r>": "do:switch"
   },
   "list.normalMappings": {
     "q": "do:exit"
