@@ -466,6 +466,7 @@ function LightLineFiletype()
         let l:result = &ft != "" ? &ft : "no ft"
     else
         let l:result = &ft != "" ? &ft . ' ' . WebDevIconsGetFileTypeSymbol() : "no ft"
+    endif
     return winwidth(0) > 70 ? l:result : ''
 endfunction
 
@@ -1205,7 +1206,17 @@ nnoremap <leader>Si :Startify<cr>
 nnoremap <leader>Ss :SSave .vim<left><left><left><left>
 nnoremap <leader>Sl :CocList sessions<cr>
 nnoremap <leader>Sc :SClose<cr>
-nnoremap <leader>Sd :SDelete!<cr>
+" function Session_delete() {{{
+function Session_delete() abort
+    let l:session_name = input('Delete session (without .vim): ') . '.vim'
+    execute 'SDelete! ' . l:session_name
+    if &filetype == 'startify'
+        " 刷新Startify页面
+        execute 'Startify'
+    endif
+endfunction
+"}}}
+nnoremap <leader>Sd :call Session_delete()<cr>
 
 " Vista浏览tags, 函数，类 大纲
 " NOTE: 可以为不同的文件类型设置不同的执行命令coc或ctags
@@ -2416,7 +2427,8 @@ set updatecount =100  " FIXME:如果编辑大文件很慢那么考虑调大这�
 set cursorline  " 突出显示当前行
 set diffopt+=vertical,algorithm:patience
 set sessionoptions-=curdir  " curdir和sesdir不能同时存在, 后者可以保存多个project的buffer
-set sessionoptions+=tabpages,localoptions,winpos,options,resize,sesdir
+set sessionoptions-=blank   " 这样加载Session就不会显示coc-explorer和Vista之类的空白页了
+set sessionoptions+=localoptions,winpos,options,resize,sesdir
 " set t_ti= t_te=  " 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制, 不需要可以去掉,
                     " 好处：误删什么的，如果以前屏幕打开，可以找回
 " set mouse=r  " 启用鼠标, 可以用右键使用系统剪切板来复制粘贴
