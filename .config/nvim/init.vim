@@ -2373,14 +2373,14 @@ vnoremap gu gUgv<esc>
 noremap <silent> <leader>q <esc>:q<cr>
 "{{{ 退出Vim并自动保存会话
 " 如果当前不在Session中就保存到default.vim，否则保存当前Session
-function s:Save_default_session_and_exit() abort
+function Save_default_session_and_exit() abort
     let session_name = fnamemodify(v:this_session,':t')
     let session_name = session_name == '' ? 'default.vim' : session_name
     execute 'SSave! ' . session_name
     execute 'qa'
 endfunction
 "}}}
-noremap <silent> Q <esc>:call <SID>Save_default_session_and_exit()<cr>
+noremap <silent> Q <esc>:call Save_default_session_and_exit()<cr>
 
 " 快速调整折叠层级
 for i in range(10)
