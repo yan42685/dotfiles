@@ -73,6 +73,7 @@
 "      找不到该函数且不是silent! call的话，就会一直报错，导致vim没法使用
 "   8. 如果需要覆盖插件定义的映射，可用如下方式
 "      autocmd VimEnter * noremap <leader>cc echo "my purpose"
+"   9. 如果用了<silent>那么映射到命令行是不会显示字符的比如nnoremap <silent> ,gO :G checkout -b<space>是不会立刻显示命令模式的字符的
 
 "}}}
 " }}}
@@ -721,7 +722,8 @@ Plug 'tpope/vim-fugitive'
 nnoremap <silent> ,ga :G add %:p<CR>
 " add 所有 tracted 文件, 感觉不怎么实用
 " nnoremap ,gA  :G add --update<CR>
-nnoremap <silent> ,gb :Git branch<Space>
+" nnoremap ,gb :Git branch<Space>
+nnoremap <silent> ,gb :CocList branches<cr>
 nnoremap <silent> ,gc :G commit --all<cr>
 " {{{  定义 autocmd User MyEnterDiffMode
 " 定义进入diff的事件，然后当前窗口关闭syntax
@@ -745,18 +747,19 @@ nnoremap <silent> ,,gD :G difftool -y<cr>:silent! doautocmd User MyEnterDiffMode
 " diff index 与 local repository
 nnoremap <silent> ,,GD :G difftool --cached -y<cr>:silent! doautocmd User MyEnterDiffMode<cr>
 " 编辑其他分支的文件 Gedit branchname:path/to/file,  branchname:%表示当前buffer的文件
-nnoremap <silent> ,ge :Gedit<space>
+nnoremap ,ge :Gedit<space>
 nnoremap <silent> ,gf :G fetch<cr>
 " nnoremap ,gl  :Glog<cr>  " 由Flog插件替代
 " git status
-nnoremap <silent> ,gs:vert Git<cr>
-nnoremap <silent> ,gg :Ggrep<space>
+nnoremap <silent> ,gs :vert Git<cr>
+nnoremap ,gg :Ggrep<space>
 " 重命名git项目下的文件
 " This will:
     " Rename your file on disk.  Rename the file in git repo.
     " Reload the file into the current buffer.  Preserve undo history.
-nnoremap <silent> ,gma :G commit --amend %<cr>
-nnoremap <silent> .go :Git checkout<Space>
+nnoremap <silent> ,gma :G commit --amend<cr>
+nnoremap ,go :Git checkout<Space>
+nnoremap ,gO :Git checkout -b<Space>
 nnoremap <silent> ,gr :G add %<cr>:Gmove <c-r>=expand('%:p:h')<cr>/
 nnoremap <silent> ,ps :G push<cr>
 nnoremap <silent> ,pl :G pull<cr>
@@ -2368,14 +2371,15 @@ vnoremap gu gUgv<esc>
 " 退出系列
 noremap <silent> <leader>q <esc>:q<cr>
 "{{{ 退出Vim并自动保存会话
-function s:auto_save_session() abort
+" 如果当前不在Session中就保存到default.vim，否则保存当前Session
+function s:Save_default_session_and_exit() abort
     let session_name = fnamemodify(v:this_session,':t')
     let session_name = session_name == '' ? 'default.vim' : session_name
     execute 'SSave! ' . session_name
     execute 'qa'
 endfunction
 "}}}
-noremap <silent> Q <esc>:call <SID>auto_save_session()<cr>
+noremap <silent> Q <esc>:call s:Save_default_session_and_exit()<cr>
 
 " 快速调整折叠层级
 for i in range(10)
