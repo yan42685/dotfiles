@@ -907,19 +907,16 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 augroup coc_completion_keybindings
     autocmd!
+    " 用VimEnter事件做映射确保最后加载，覆盖插件的默认映射
     autocmd VimEnter * inoremap <silent><expr> <c-j>
         \ pumvisible() ? '<c-n>' :
         \ <SID>check_back_space() ? '<esc>a' :
         \ coc#refresh()
     autocmd VimEnter * inoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<esc>a'
 
-    " TODO: 完成这个还有<c-r>确认选择，还有括号自动删除
-    " 参考 https://github.com/romgrk/nvim/blob/master/rc/keymap.vim  1543行
-    " autocmd VimEnter * cnoremap <silent><expr> <c-j>
-    "     \ pumvisible() ? '<c-n>' :
-    "     \ <SID>check_back_space() ? '<Down>' :
-    "     \ coc#refresh()
-    " autocmd VimEnter * cnoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<up>'
+    autocmd VimEnter * cnoremap <expr> <c-j> pumvisible() ? '<c-n>' : '<down>'
+    autocmd VimEnter * cnoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<up>'
+    " autocmd VimEnter * cnoremap <expr> <tab> pumvisible() ? '<c-y>' : '<tab>'
 
     " 补全时显示文档和详情
     autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
@@ -2445,13 +2442,8 @@ endfunction
 "}}}
 noremap <silent> Q <esc>:call Save_default_session_and_exit()<cr>
 
-" 快速调整折叠层级
-for i in range(10)
-    execute 'nnoremap <leader>o' . i . ' :setlocal foldlevel=' . i . '<cr>zz'
-endfor
-
 " toggle foldlevel=0 / foldlevel=1
-" {{{function
+" {{{function My_toggle_foldlevel()
 let g:My_toggle_foldlevel_mode = 0
 fun My_toggle_foldlevel()
     if g:My_toggle_foldlevel_mode == 0
@@ -2463,7 +2455,14 @@ fun My_toggle_foldlevel()
     endif
 endf
 "}}}
-nnoremap <silent> <leader>oo :call My_toggle_foldlevel()<cr>
+nnoremap <silent> z0 :call My_toggle_foldlevel()<cr>
+" 快速调整折叠层级
+for i in range(1, 10)
+    execute 'nnoremap z' . i . ' :setlocal foldlevel=' . i . '<cr>zz'
+endfor
+nnoremap z- :setlocal foldlevel-=1 <Bar> call Info('&foldlevel = ' . &foldlevel)<CR>
+nnoremap z+ :setlocal foldlevel+=1 <Bar> call Info('&foldlevel = ' . &foldlevel)<CR>
+
 " 在markdown中调整conceallevel (visible)
 nnoremap <expr> <silent> <leader>vi &conceallevel == 3 ? ':set conceallevel=0<cr>' : ':set conceallevel=3<cr>'
 
