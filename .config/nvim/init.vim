@@ -753,15 +753,15 @@ nnoremap <silent> ,gf :G fetch<cr>
 " git status
 nnoremap <silent> ,gs :vert Git<cr>
 nnoremap ,gg :Ggrep<space>
-" 重命名git项目下的文件
-" This will:
-    " Rename your file on disk.  Rename the file in git repo.
-    " Reload the file into the current buffer.  Preserve undo history.
 nnoremap <silent> ,gma :G commit --amend<cr>
 nnoremap ,go :Git checkout<Space>
 nnoremap ,gO :Git checkout -b<Space>
+" 重命名git项目下的文件
+" This will:  Rename your file on disk.  Rename the file in git repo.
+"             Reload the file into the current buffer.  Preserve undo history.
 nnoremap <silent> ,gr :G add %<cr>:Gmove <c-r>=expand('%:p:h')<cr>/
 nnoremap <silent> ,ps :G push<cr>
+nnoremap <silent> ,pb :G push -u origin <C-R>=trim(system('git rev-parse --abbrev-ref HEAD'))<CR><CR>:cclose<cr>
 nnoremap <silent> ,pl :G pull<cr>
 
 " 更方便的查看commit g?查看键位 enter查看详细信息 <c-n> <c-p> 跳到上下commit
@@ -1790,13 +1790,13 @@ augroup asyncrun
     au User asyncrun.vim nnoremap <silent> <plug>(asyncrun-qftoggle) :call asyncrun#quickfix_toggle(10)<cr>
 augroup end
 " 整合fugitive, 现在G push和G fetch变成异步的了
-command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>ocommand! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>mmand! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 "}}}
 " 任务完成自动打开qf{{{
 augroup auto_open_quickfix
     autocmd!
-    " autocmd QuickFixCmdPost * botright copen 8 | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
-    " autocmd QuickFixCmdPost * execute 'CocList --normal quickfix' | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
+    autocmd QuickFixCmdPost * botright copen 8 | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
+    autocmd QuickFixCmdPost * execute 'CocList --normal quickfix' | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
 augroup end
 "}}}
 nmap gq <plug>(asyncrun-qftoggle)
