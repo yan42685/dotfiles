@@ -1842,13 +1842,17 @@ nnoremap <leader>ei :InlineEdit<cr>a
 xnoremap <leader>ei :InlineEdit<cr>a
 
 " sudo for neovim  (原来的tee trick只对vim有用，对neovim无效)
-Plug 'lambdalisue/suda.vim', {'on': ['W', 'E']}
+Plug 'lambdalisue/suda.vim'
+"{{{
+" suda automatically switch a buffer name when the target file is not readable or writable.
+let g:suda_smart_edit = 1
+"}}}
 "{{{suda.vim-usage
 " :E filename  sudo edit
 " :W       sudo edit
 "}}}
-command! -nargs=1 E  edit  suda://<args>
-command! W w suda://%
+command! -nargs=1 E SudaRead <args>
+command! W SudaWrite %
 
 " 用vim看man
 Plug 'lambdalisue/vim-manpager', {'on': 'Man'}
