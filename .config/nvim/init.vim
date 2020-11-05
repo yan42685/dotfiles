@@ -3122,7 +3122,7 @@ function Copy_to_registers(text) abort  "{{{
     let @* = a:text  " system clipboard on Windows
 endfunction
 "}}}
-nnoremap <leader>ynm :call Copy_to_registers(expand('%:t'))<cr>:echo printf('filename yanked: %s', expand('%:t'))<cr>
+nnoremap <leader>yfn :call Copy_to_registers(expand('%:t'))<cr>:echo printf('filename yanked: %s', expand('%:t'))<cr>
 nnoremap <leader>yap :call Copy_to_registers(expand('%:p'))<cr>:echo printf('absolute path yanked: %s', expand('%:p'))<cr>
 nnoremap <leader>ydr :call Copy_to_registers(expand('%:p:h'))<cr>:echo printf('absolute dir yanked: %s', expand('%:p:h'))<cr>
 "}}}
