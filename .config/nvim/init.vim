@@ -1427,8 +1427,6 @@ let g:which_key_map_g.b = 'next-braket'
 let g:which_key_map_g.c = 'line-commit-message'
 let g:which_key_map_g.i = 'last-edit-positon-insert-mode'
 let g:which_key_map_g.q = 'toggle-quickfix-window'
-let g:which_key_map_g.u = 'toggle-upper-case-<cword>'
-let g:which_key_map_g.U = 'toggle-upper-case-<cWORD>'
 let g:which_key_map_g.y = 'yank-history'
 "}}}
 "{{{ "t" 快捷键注释
@@ -2346,10 +2344,9 @@ nnoremap R @q
 " 可以在选中的行执行宏　xnoremap <expr> <leader>@ ":norm! @".nr2char(getchar())."<CR>"
 xnoremap <expr> R ":norm! @q<CR>"
 
-" 切换大小写
-nnoremap gu viw~gv<esc>
-nnoremap gU viW~gv<esc>
-vnoremap gu ~gv<esc>
+" 转换成大写
+nnoremap gu viWgUgv<esc>
+vnoremap gu gUgv<esc>
 
 " 退出系列
 noremap <silent> <leader>q <esc>:q<cr>
