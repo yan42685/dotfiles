@@ -759,8 +759,10 @@ nnoremap ,gO :Git checkout -b<Space>
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.
 nnoremap <silent> ,gr :G add %<cr>:Gmove <c-r>=expand('%:p:h')<cr>/
-nnoremap <silent> ,gf :G fetch<cr>:cclose<cr>
+nnoremap <silent> ,ft :G fetch<cr>:cclose<cr>
 nnoremap <silent> ,ps :G push<cr>:cclose<cr>
+" git publish
+" The -u flag is used to set origin as the upstream remote in your git config
 nnoremap <silent> ,pb :G push -u origin <C-R>=trim(system('git rev-parse --abbrev-ref HEAD'))<CR><CR>:cclose<cr>
 nnoremap <silent> ,pl :G pull<cr>:cclose<cr>
 
