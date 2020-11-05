@@ -1201,11 +1201,11 @@ let g:startify_custom_header =
             \ 'startify#pad(g:utf8_double_moon)'
 "}}}
 " Project(Session) index
-nnoremap <leader>pi :Startify<cr>
-nnoremap <leader>ps :SSave .vim<left><left><left><left>
-nnoremap <leader>pl :SLoad<cr>
-nnoremap <leader>pc :SClose<cr>
-nnoremap <leader>pd :SDelete!<cr>
+nnoremap <leader>Si :Startify<cr>
+nnoremap <leader>Ss :SSave .vim<left><left><left><left>
+nnoremap <leader>Sl :SLoad<cr>
+nnoremap <leader>Sc :SClose<cr>
+nnoremap <leader>Sd :SDelete!<cr>
 
 " Vista浏览tags, 函数，类 大纲
 " NOTE: 可以为不同的文件类型设置不同的执行命令coc或ctags
