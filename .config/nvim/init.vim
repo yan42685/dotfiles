@@ -1516,7 +1516,8 @@ augroup end
 " 进入终端前复制当前buffer所在目录, 以便于快速进入该buffer的目录
 nnoremap <silent> <m-n> :lcd %:p:h<cr>:FloatermNew<cr>
 tnoremap <silent> <m-n> <c-\><c-n>:FloatermNew<cr>
-tnoremap <silent> <c-d> <c-\><c-n>:FloatermKill<cr>
+" 这里末尾加<esc>:echo <cr>是为了清空提示消息
+tnoremap <silent> <c-d> <c-\><c-n>:silent! FloatermKill<cr><esc>:echo <cr>
 " 进入普通模式
 tnoremap <c-m-n> <c-\><c-n>
 " 可以作为从编辑器回到浮动窗口的快捷键
@@ -1543,9 +1544,9 @@ function My_toggle_full_screen_floterm()
 endf
 "}}}
 " 浮动终端开关全屏模式
-tnoremap <silent> <m-o> <c-\><c-n>:call My_toggle_full_screen_floterm()<cr>
-nnoremap <silent> <m-o> <c-\><c-n>:call My_toggle_full_screen_floterm()<cr>
-tnoremap <silent> <m-m> <c-\><c-n>:FloatermToggle<cr>
+tnoremap <silent> <m-o> <c-\><c-n>:call My_toggle_full_screen_floterm()<cr><c-\><c-n>:echo <cr>a
+nnoremap <silent> <m-o> <c-\><c-n>:call My_toggle_full_screen_floterm()<cr><c-\><c-n>:echo <cr>a
+tnoremap <silent> <m-m> <c-\><c-n>:FloatermToggle<cr><esc>:echo <cr>
 nnoremap <silent> <m-j> :FloatermNext<cr>
 tnoremap <silent> <m-j> <c-\><c-n>:FloatermNext<cr>
 nnoremap <silent> <m-k> :FloatermPrev<cr>
