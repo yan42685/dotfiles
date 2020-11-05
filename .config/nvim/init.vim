@@ -814,6 +814,12 @@ function ToggleCocExplorer()
 endfunction
 "}}}
 nnoremap <silent> <leader>eo :call ToggleCocExplorer()<CR>
+" 如果nvim 打开一个目录就自动打开coc-explorer
+augroup Nvim_dir_auto_open_coc_explorer
+  autocmd!
+  autocmd VimEnter * sil! au! FileExplorer *
+  autocmd BufEnter * let d = expand('%') | if isdirectory(d) | bd | call ToggleCocExplorer() | endif
+augroup END
 
 " 使用coc-yank (自带复制高亮)
 nnoremap <silent> gy :<C-u>CocList --normal -A yank<cr>
