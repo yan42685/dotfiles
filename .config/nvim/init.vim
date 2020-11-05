@@ -748,7 +748,6 @@ nnoremap <silent> ,,gD :G difftool -y<cr>:silent! doautocmd User MyEnterDiffMode
 nnoremap <silent> ,,GD :G difftool --cached -y<cr>:silent! doautocmd User MyEnterDiffMode<cr>
 " 编辑其他分支的文件 Gedit branchname:path/to/file,  branchname:%表示当前buffer的文件
 nnoremap ,ge :Gedit<space>
-nnoremap <silent> ,gf :G fetch<cr>
 " nnoremap ,gl  :Glog<cr>  " 由Flog插件替代
 " git status
 nnoremap <silent> ,gs :vert Git<cr>
@@ -760,9 +759,10 @@ nnoremap ,gO :Git checkout -b<Space>
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.
 nnoremap <silent> ,gr :G add %<cr>:Gmove <c-r>=expand('%:p:h')<cr>/
-nnoremap <silent> ,ps :G push<cr>
+nnoremap <silent> ,gf :G fetch<cr>:cclose<cr>
+nnoremap <silent> ,ps :G push<cr>:cclose<cr>
 nnoremap <silent> ,pb :G push -u origin <C-R>=trim(system('git rev-parse --abbrev-ref HEAD'))<CR><CR>:cclose<cr>
-nnoremap <silent> ,pl :G pull<cr>
+nnoremap <silent> ,pl :G pull<cr>:cclose<cr>
 
 " 更方便的查看commit g?查看键位 enter查看详细信息 <c-n> <c-p> 跳到上下commit
 Plug 'rbong/vim-flog', {'on': ['Flog']}
@@ -1796,7 +1796,6 @@ command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 augroup auto_open_quickfix
     autocmd!
     autocmd QuickFixCmdPost * botright copen 8 | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
-    autocmd QuickFixCmdPost * execute 'CocList --normal quickfix' | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
 augroup end
 "}}}
 nmap gq <plug>(asyncrun-qftoggle)
