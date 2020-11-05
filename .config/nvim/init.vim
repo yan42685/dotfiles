@@ -2380,7 +2380,7 @@ function s:Save_default_session_and_exit() abort
     execute 'qa'
 endfunction
 "}}}
-noremap <silent> Q <esc>:call s:Save_default_session_and_exit()<cr>
+noremap <silent> Q <esc>:call <SID>Save_default_session_and_exit()<cr>
 
 " 快速调整折叠层级
 for i in range(10)
