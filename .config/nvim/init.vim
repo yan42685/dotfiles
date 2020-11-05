@@ -914,9 +914,11 @@ augroup coc_completion_keybindings
         \ coc#refresh()
     autocmd VimEnter * inoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<esc>a'
 
-    autocmd VimEnter * cnoremap <expr> <c-j> pumvisible() ? '<c-n>' : '<down>'
-    autocmd VimEnter * cnoremap <expr> <c-k> pumvisible() ? '<c-p>' : '<up>'
-    " autocmd VimEnter * cnoremap <expr> <tab> pumvisible() ? '<c-y>' : '<tab>'
+" <up>和<down> 可以根据已输入的字符补全历史命令
+    autocmd VimEnter * cnoremap <expr> <c-j>
+                            \ pumvisible() ? '<c-n>' : '<down>'
+    autocmd VimEnter * cnoremap <expr> <c-k>
+                            \ pumvisible() ? '<c-p>' : '<up>'
 
     " 补全时显示文档和详情
     autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
@@ -2240,9 +2242,6 @@ nnoremap cl c$
 " cnoremap " ""<left>
 " cnoremap ( ()<left>
 
-" <up>和<down>相比于<c-n> <c-p>更智能的地方:  可以根据已输入的字符补全历史命令
-cnoremap <c-k> <up>
-cnoremap <c-j> <down>
 cnoremap <c-h> <home>
 cnoremap <c-l> <end>
 cnoremap <c-e> <del>
