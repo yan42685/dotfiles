@@ -186,7 +186,7 @@
     ps = push
     ft = fetch
     pl = pull
-    st = status
+    st = status --short
     br = branch
     dt = difftool
     dt-staged = difftool --staged
