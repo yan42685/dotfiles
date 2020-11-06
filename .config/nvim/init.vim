@@ -2290,6 +2290,24 @@ noremap <silent> <leader>l :wincmd l<cr>
 " Tab操作
 nnoremap <leader><leader>h gT
 nnoremap <leader><leader>l gt
+
+function! TabCloseRight(bang)
+    let cur=tabpagenr()
+    while cur < tabpagenr('$')
+        exe 'tabclose' . a:bang . ' ' . (cur + 1)
+    endwhile
+endfunction
+
+function! TabCloseLeft(bang)
+    while tabpagenr() > 1
+        exe 'tabclose' . a:bang . ' 1'
+    endwhile
+endfunction
+command! -bang Tabcloseright call TabCloseRight('<bang>')
+command! -bang Tabcloseleft call TabCloseLeft('<bang>')
+
+nnoremap gxl :Tabcloseright<cr>
+nnoremap gxh :Tabcloseleft<cr>
 nnoremap gxo :tabonly<cr>
 nnoremap t. :+tabmove<CR>
 nnoremap t, :-tabmove<CR>
@@ -2404,8 +2422,8 @@ vnoremap y ygv<esc>
 " 同时visual模式s表示删除，x表示剪切
 nnoremap s "_s
 vnoremap s "_s
-" 创建折叠的同时也执行折叠
-vnoremap zf zfzc
+" 创建折叠自动在上下两行添上注释;  zc在创建折叠的同时也执行折叠
+vnoremap zf <esc>o<esc>gvo<esc>O<esc>gvkojzfzc
 
 "}}}
 " {{{通过快捷键实现新功能
