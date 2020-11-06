@@ -768,15 +768,9 @@ nnoremap <silent> ,pl :G pull<cr>:cclose<cr>
 
 " 更方便的查看commit g?查看键位 enter查看详细信息 <c-n> <c-p> 跳到上下commit
 Plug 'rbong/vim-flog', {'on': ['Flog']}
-function! Flogdiff()  " {{{
-  let first_commit = flog#get_commit_data(line("'<")).short_commit_hash
-  let last_commit = flog#get_commit_data(line("'>")).short_commit_hash
-  call flog#git('vertical belowright', '!', 'diff ' . last_commit . ' ' . first_commit )
-endfunction
-"}}}
-augroup flog
-    " 在FlogGraph中visual模式选中两个commit 再按gd可以显示新commit相比旧commit有哪些区别
-    autocmd FileType floggraph vnoremap gd :<C-U>call Flogdiff()<CR>
+augroup Flog
+  " 在FlogGraph中visual模式选中两个commit 再按gd可以显示新commit相比旧commit有哪些区别
+  au FileType floggraph vnoremap <buffer> <silent> gd :<C-U>call flog#run_tmp_command("vertical belowright Git diff %(h'>) %(h'<)")<CR>
 augroup end
 let g:flog_default_arguments = { 'max_count': 1000 }  " 约束最大显示的commit数量，防止打开太慢
 nnoremap <silent> ,gl :Flog<cr>
