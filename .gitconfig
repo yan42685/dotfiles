@@ -43,6 +43,9 @@
 [pull]
 	rebase = true
 
+[push]
+	followTags = true
+
 [alias]
     # remerge 重新merge
     rem = checkout --conflict=diff3
