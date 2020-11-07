@@ -82,6 +82,7 @@
     ### checkout ###
     # checkout - update the working tree to match a branch or paths. [same as "o" for "out"]
     co = checkout
+    cob = checkout -b
     co-rs = checkout --
 
     ### cherry-pick ###
@@ -126,6 +127,8 @@
     ### merge ###
     # merge but without autocommit, and with a commit even if the merge resolved as a fast-forward.
     me = merge --no-commit --no-ff
+    # merge并删除被merge的分支
+    mgd = "!git mg $1 && git br -d $1; #"
 
     ### remote ###
     # remote - manage set of tracked repositories [same as "r"].
