@@ -121,6 +121,8 @@
     cp-nx = cherry-pick --no-commit -x
 
     ### diff ###
+    dt = difftool
+    dt-staged = difftool --staged
     # diff - show changes not yet staged
     dc = diff --cached
     # diff - show changes about to be commited
@@ -154,7 +156,9 @@
     ; # merge but without autocommit, and with a commit even if the merge resolved as a fast-forward.
     ; mg = merge --no-commit --no-ff
     # merge but without autocommit, and with a commit 除非这个是同一路径上可以快进(faster-forward)的merge
+    ; mg = merge --no-commit
     mg = merge
+    mt = mergetool
     # merge并删除被merge的分支
     mgd = "!git merge $1 && git branch -d $1; #"
     ; mgs = merge --squash
@@ -196,8 +200,9 @@
     # status with short format and showing branch and tracking info.
     ssb = status --short --branch
 
+    ### command ###
     # Ignore all untracked files by appending them to .gitignore:
-    ignore = "!git status | grep -P \"^\\t\" | grep -vF .gitignore | sed \"s/^\\t//\" >> .gitignore"
+    ignore-untracked = "!git status | grep -P \"^\\t\" | grep -vF .gitignore | sed \"s/^\\t//\" >> .gitignore"
 
     uncommit = reset --soft HEAD~1
     uncommit-h = reset --hard HEAD~1
@@ -210,24 +215,24 @@
     # such as accidentally committing a file of sensitive data, such as passwords.
     # After you use command, you will likely need to force push everything.
     # See https://help.github.com/articles/removing-sensitive-data-from-a-repository/
-    expunge = !"f() { git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all }; f"
+    expunge = "!f() { git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all }; f"
 
     # Delete all branches that have already been merged into the master branch.
-    master-cleanse = "!git master-cleanse-local"; git master-cleanse-remote
+    master-branch-clean = "!git master-branch-clean-local"
     # Delete all local branches that have been merged into the local master branch.
-    master-cleanse-local = "!git checkout master && git branch --merged | xargs git branch --delete"
+    master-branch-clean-local = "!git checkout master && git branch --merged | xargs git branch --delete"
     # Delete all remote branches that have been merged into the remote master branch.
-    master-cleanse-remote = !"git branch --remotes --merged origin/master | sed 's# *origin/##' | grep -v '^master$' xargs -I% git push origin :% 2>&1 | grep --colour=never 'deleted'"
+    master-branch-clean-remote = "!git branch --remotes --merged origin/master | sed 's# *origin/##' | grep -v '^master$' xargs -I% git push origin :% 2>&1 | grep --colour=never 'deleted'"
     # Get the current branch name (not so useful in itself, but used in other aliases)
     branch-name = "!git rev-parse --abbrev-ref HEAD"
     # Push the current branch to the remote "origin", and set it to track
     # the upstream branch
     publish = "!git push -u origin $(git branch-name)"
     # Delete the remote version of the current branch
-    unpublish = "!git push origin :$(git branch-name)"
+    unpublish = "!git push origin :"
     # Fire up your difftool (e.g. Kaleidescope) with all the changes that
     # are on the current branch.
-    code-review = difftool origin/master...
+    code-review = "!git difftool origin/$(git branch-name)..."
 
     # Delete a branch name, then create the same branch name based on master -
     # useful if you have, for example, a development branch and master branch
@@ -235,18 +240,12 @@
     #
     # Calls the `publish` and `unpublish` aliases.
     #
-    recreate = !"f() { [[ -n $@ ]] && git checkout \"$@\" && git unpublish && git checkout master && git branch -D \"$@\" && git checkout -b \"$@\" && git publish; }; f"
+    recreate = "!f() { [[ -n $@ ]] && git checkout \"$@\" && git unpublish && git checkout master && git branch -D \"$@\" && git checkout -b \"$@\" && git publish; }; f"
 
-    ahead-of-master = log --oneline origin/master..HEAD  # Show commits that haven't made it to master yet.
+    ahead-of-master = "!git log --oneline origin/$(git branch-name)..HEAD"  # Show commits that haven't made it to remote master yet.
     ps = push
     ft = fetch
     pl = pull
-    br = branch
-    dt = difftool
-    dt-staged = difftool --staged
-    ; df = diff --color
-    df = difftool
-    mt = mergetool
     df-staged = diff --staged --color
     df-fzf = !zsh $HOME/repo/scripts/func/forgit.zsh diff
     ad-u = reset HEAD --
