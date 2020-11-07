@@ -44,7 +44,7 @@
 	rebase = true
 
 [push]
-    # 自动带上tags
+    # push自动带上tags
 	followTags = true
 
 [alias]
