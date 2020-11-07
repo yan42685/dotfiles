@@ -30,9 +30,9 @@ export TERM=xterm-256color
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
 # 用于neovim终端里nvim使用新tab打开 editor在~/.config/utilities/bin/editor
 export EDITOR=editor
-# 下面这条选项会让git的输出(比如branch, tag)用nvim来打开
-# export PAGER=editor
-# export MANPAGER="nvim"
+# 下面这条选项会让git的输出(比如branch, tag)用nvim来打开, 还有man的输出
+export PAGER=editor
+# export MANPAGER=editor
 export BROWSER="chromium"
 export NNN_COLORS="2136"                        # use a different color for each context
 export NNN_TRASH=1     # trash (needs trash-cli) instead of delete

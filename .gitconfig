@@ -19,7 +19,8 @@
 
 [pager]
     # 查看log，NOTE: 依赖Flog.vim插件
-    log = editor --git-log
+    ; log = editor --git-log
+    log = false
 	branch = false
     tag = false
 
@@ -124,12 +125,12 @@
     gr = grep --break --heading --line-number --color
 
     ### log ###
+    # NOTE: log 加了--graph 会让使用nvim 作为log的 pager时出bug
     # log with a text-based graphical representation of the commit history.
-    # NOTE: log 加了--graph 会让使用nvim 作为pager时出bug
-    lg = log --graph
+    ; lg = log --graph
     # log like - we like this summarization our key performance indicators. Also aliased as `log-like`.
-    ; ll = log --graph --topo-order --date=short --abbrev-commit --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'
-    ll = log
+    lg = log -10 --graph --topo-order --date=short --abbrev-commit --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'
+    ll = "!editor --git-log"
     # log like long  - we like this summarization our key performance indicators. Also aliased as `log-like-long`.
     lll = log --graph --topo-order --date=iso8601-strict --no-abbrev-commit --abbrev=40 --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn <%ce>]%Creset %Cblue%G?%Creset'
 
@@ -148,7 +149,9 @@
     mgd = "!git merge $1 && git branch -d $1; #"
     ; mgs = merge --squash
     ; merge squash 默认删除之前的分支，常用于开发feature分支
-    mgs = "!git merge --squash $1 && git branch -d $1; #"
+    ; TODO: 测试
+    mgs = "!git merge --squash $1 && git commit -a && git branch -d $1; #"
+
 
     ### remote ###
     # remote - manage set of tracked repositories [same as "r"].
