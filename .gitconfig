@@ -24,6 +24,7 @@
 	branch = false
     tag = false
     reflog = false
+    diff = false
 
 # difftool用editor(nvr) 有bug， 还是vimdiff3 好
 [diff]
@@ -65,7 +66,7 @@
     rem = checkout --conflict=diff3
     # 很多alias来自 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt
     ### add ###
-    ad = add
+    a = add
     # add all
     aa = add -A
     # add by patch - looks at each change, and asks if we want to put it in the repo.
@@ -117,6 +118,7 @@
     cp-nx = cherry-pick --no-commit -x
 
     ### diff ###
+    d = diff
     dt = difftool
     dt-staged = difftool --staged
     # diff - show changes not yet staged
@@ -176,9 +178,9 @@
     # 删除远程分支origin (origin可以换成别的)
     remote-delete-branch = push origin --delete
     # remote - manage set of tracked repositories [same as "r"].
-    rr = remote
+    ro = remote
     # remote show - gives some information about the remote <name>.
-    rrs = remote show
+    ros = remote show
 
     ### revert ###
     # revert - undo the changes from some existing commits
@@ -242,6 +244,8 @@
     ps = push
     ft = fetch
     pl = pull
+    # 最后一个commit
+    last = log -1 HEAD
     df-staged = diff --staged --color
     df-fzf = !zsh $HOME/repo/scripts/func/forgit.zsh diff
     ad-u = reset HEAD --
