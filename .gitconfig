@@ -192,7 +192,7 @@
 
     ### status ###
     # status with short format instead of full details
-    ss = status --short
+    st = status --short
     # status with short format and showing branch and tracking info.
     ssb = status --short --branch
 
@@ -213,17 +213,21 @@
     expunge = !"f() { git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all }; f"
 
     # Delete all branches that have already been merged into the master branch.
-    master-cleanse = !git master-cleanse-local; git master-cleanse-remote
+    master-cleanse = "!git master-cleanse-local"; git master-cleanse-remote
     # Delete all local branches that have been merged into the local master branch.
     master-cleanse-local = "!git checkout master && git branch --merged | xargs git branch --delete"
     # Delete all remote branches that have been merged into the remote master branch.
     master-cleanse-remote = !"git branch --remotes --merged origin/master | sed 's# *origin/##' | grep -v '^master$' xargs -I% git push origin :% 2>&1 | grep --colour=never 'deleted'"
-    # Publish the current branch by pushing it to the remote "origin",
-    # and setting the current branch to track the upstream branch.
-    publish = !"git push --set-upstream origin"
-    # Unpublish the current branch by deleting the
-    # remote version of the current branch.
-    unpublish = !"git push origin :"
+    # Get the current branch name (not so useful in itself, but used in other aliases)
+    branch-name = "!git rev-parse --abbrev-ref HEAD"
+    # Push the current branch to the remote "origin", and set it to track
+    # the upstream branch
+    publish = "!git push -u origin $(git branch-name)"
+    # Delete the remote version of the current branch
+    unpublish = "!git push origin :$(git branch-name)"
+    # Fire up your difftool (e.g. Kaleidescope) with all the changes that
+    # are on the current branch.
+    code-review = difftool origin/master...
 
     # Delete a branch name, then create the same branch name based on master -
     # useful if you have, for example, a development branch and master branch
@@ -231,13 +235,12 @@
     #
     # Calls the `publish` and `unpublish` aliases.
     #
-    reincarnate = !"f() { [[ -n $@ ]] && git checkout \"$@\" && git unpublish && git checkout master && git branch -D \"$@\" && git checkout -b \"$@\" && git publish; }; f"
+    recreate = !"f() { [[ -n $@ ]] && git checkout \"$@\" && git unpublish && git checkout master && git branch -D \"$@\" && git checkout -b \"$@\" && git publish; }; f"
 
     ahead-of-master = log --oneline origin/master..HEAD  # Show commits that haven't made it to master yet.
     ps = push
     ft = fetch
     pl = pull
-    st = status --short
     br = branch
     dt = difftool
     dt-staged = difftool --staged
@@ -253,7 +256,7 @@
     logs-all = log --oneline --decorate --graph --all --pretty=format:\"(%h)  %an, %ar: %s\"
     log-fzf = !zsh $HOME/repo/scripts/func/forgit.zsh log
     ig-fzf = !zsh $HOME/repo/scripts/func/forgit.zsh ignore
-    edit = !nvim `git ls-files -m --other --exclude-standard` -p
+    ; edit = !nvim `git ls-files -m --other --exclude-standard` -p
     rg = !rg $(git rev-parse --show-toplevel) --column --smart-case -e
     rg-ls = !rg $(git rev-parse --show-toplevel) --files
     rg-all = !rg $(git rev-parse --show-toplevel) --column --smart-case --no-ignore --hidden -g '!.git' -e

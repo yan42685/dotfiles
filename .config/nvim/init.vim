@@ -886,7 +886,7 @@ set signcolumn=yes  " Always show the signcolumn, otherwise it would shift the t
 "       \ coc#refresh()
 " 用于在空白行第一列按tab一步缩进到位
 " FIXME: 没有添加到下面列表里的文件类型如果cc不能缩进，则tab也不能缩进了, 那么就需要在下面的list新增文件类型
-let g:My_quick_tab_blacklist = ['markdown', 'text', 'vim', 'vimwiki', 'gitcommit', 'snippets']
+let g:My_quick_tab_blacklist = ['markdown', 'text', 'vim', 'vimwiki', 'gitcommit', 'snippets', 'gitconfig']
 " inoremap <silent> <expr> <TAB>
 "       \ pumvisible() ? coc#_select_confirm() :
 "       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
