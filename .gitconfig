@@ -64,6 +64,10 @@
 
     ### branch
     b = branch
+    bd = branch -d
+    # 强制删除未merge的分支
+    bD = branch -D
+    # 也显示远程分支
     branches = branch -a
     tags = tag -n1 --list
     stashes = stash list
@@ -114,6 +118,7 @@
 
     ### log ###
     # log with a text-based graphical representation of the commit history.
+    # NOTE: log 加了--graph 会让使用nvim 作为pager时出bug
     lg = log --graph
     # log like - we like this summarization our key performance indicators. Also aliased as `log-like`.
     ; ll = log --graph --topo-order --date=short --abbrev-commit --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'
@@ -132,6 +137,7 @@
     ; mg = merge --no-commit --no-ff
     # merge but without autocommit, and with a commit 除非这个是同一路径上可以快进(faster-forward)的merge
     mg = merge --no-commit
+    mgsd = merge --squash --no-commit
     # merge并删除被merge的分支
     mgd = "!git mg $1 && git br -d $1; #"
 
@@ -204,7 +210,7 @@
     dt-staged = difftool --staged
     ; df = diff --color
     df = difftool
-    mg = mergetool
+    mt = mergetool
     df-staged = diff --staged --color
     df-fzf = !zsh $HOME/repo/scripts/func/forgit.zsh diff
     ad-u = reset HEAD --
