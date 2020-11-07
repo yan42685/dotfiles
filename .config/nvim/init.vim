@@ -736,18 +736,18 @@ augroup end
 "}}}
 " [ 本文件内diff ]
 " diff working directory与local repository (即HEAD)
-nnoremap <silent> ,gd :G difftool HEAD % -y<cr>:silent! doautocmd User MyEnterDiffMode<cr>
+nnoremap <silent> ,gd :G difftool HEAD % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
 " diff working directory与index (即暂存区) -y表示 在新tab中打开
-nnoremap <silent> ,gD :G difftool % -y<cr>:silent! doautocmd User MyEnterDiffMode<cr>
+nnoremap <silent> ,gD :G difftool % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
 " diff index 与 local repository
-nnoremap <silent> ,GD :G difftool --cached % -y<cr>:silent! doautocmd User MyEnterDiffMode<cr>
+nnoremap <silent> ,GD :G difftool --cached % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
 " [ 仓库内diff ]
 " diff working directory与local repository (即HEAD)
-nnoremap <silent> ,,gd :G difftool HEAD -y<cr>:silent! doautocmd User MyEnterDiffMode<cr>
+nnoremap <silent> ,,gd :G difftool HEAD -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
 " diff working directory与index (即暂存区) -y表示 在新tab中打开
-nnoremap <silent> ,,gD :G difftool -y<cr>:silent! doautocmd User MyEnterDiffMode<cr>
+nnoremap <silent> ,,gD :G difftool -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
 " diff index 与 local repository
-nnoremap <silent> ,,GD :G difftool --cached -y<cr>:silent! doautocmd User MyEnterDiffMode<cr>
+nnoremap <silent> ,,GD :G difftool --cached -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
 " 编辑其他分支的文件 Gedit branchname:path/to/file,  branchname:%表示当前buffer的文件
 nnoremap ,ge :Gedit<space>
 " nnoremap ,gl  :Glog<cr>  " 由Flog插件替代
@@ -759,13 +759,13 @@ nnoremap <silent> ,gme :G add --update<cr><esc>:G commit --amend<cr>
 " 重命名git项目下的文件
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.
-nnoremap <silent> ,gr :G add %<cr>:Gmove <c-r>=expand('%:p:h')<cr>/
-nnoremap <silent> ,ft :G fetch<cr>:cclose<cr>
-nnoremap <silent> ,ps :G push<cr>:cclose<cr>
+nnoremap <silent> ,gr :G add %<cr><esc>:Gmove <c-r>=expand('%:p:h')<cr>/
+nnoremap <silent> ,ft :G fetch<cr><esc>:cclose<cr>
+nnoremap <silent> ,ps :G push<cr><esc>:cclose<cr>
 " git publish
 " The -u flag is used to set origin as the upstream remote in your git config
-nnoremap <silent> ,pb :G push -u origin <C-R>=trim(system('git rev-parse --abbrev-ref HEAD'))<CR><CR>:cclose<cr>
-nnoremap <silent> ,pl :G pull<cr>:cclose<cr>
+nnoremap <silent> ,pb :G push -u origin <C-R>=trim(system('git rev-parse --abbrev-ref HEAD'))<CR><CR><esc>:cclose<cr>
+nnoremap <silent> ,pl :G pull<cr><esc>:cclose<cr>
 
 " 更方便的查看commit g?查看键位 enter查看详细信息 <c-n> <c-p> 跳到上下commit
 Plug 'rbong/vim-flog', {'on': ['Flog']}
