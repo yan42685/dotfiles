@@ -317,7 +317,7 @@ Plug 'RRethy/vim-illuminate'
 let g:Illuminate_ftblacklist = [
             \ 'vim', 'text', 'markdown', 'css', 'help',
             \ 'coc-explorer', 'vista', 'qf', 'vimwiki', 'zsh',
-            \ 'tmux',
+            \ 'tmux', 'gitconfig',
             \ ]
 "}}}
 
@@ -753,8 +753,9 @@ nnoremap ,ge :Gedit<space>
 nnoremap <silent> ,gs :vert Git<cr>
 nnoremap ,gg :Ggrep<space>
 nnoremap <silent> ,gma :G commit --amend<cr>
-nnoremap ,go :Git checkout<Space>
-nnoremap ,gO :Git checkout -b<Space>
+" 清除对当前文件的修改
+nnoremap ,go :G checkout<Space><C-r>=expand('%')<cr><cr>
+nnoremap ,gO :G checkout -b<Space>
 " 重命名git项目下的文件
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.

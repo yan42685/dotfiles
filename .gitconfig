@@ -64,11 +64,18 @@
 
     ### branch
     b = branch
+    # 显示所有分支，包括远程
+    ba = branch -a
+    # 显示最后一次提交
+    bv = branch -v
+    bav = branch -v -a
+    bmg = branch --merged
+    bnmg = branch --no-merged
+
     bd = branch -d
     # 强制删除未merge的分支
     bD = branch -D
-    # 也显示远程分支
-    branches = branch -a
+    # 可在--list 后面写搜索版本号, 比如git tgs '*1' (如果不加引号要用\*转义) 也可不写搜索内容
     tags = tag -n1 --list
     stashes = stash list
 
@@ -136,10 +143,12 @@
     ; # merge but without autocommit, and with a commit even if the merge resolved as a fast-forward.
     ; mg = merge --no-commit --no-ff
     # merge but without autocommit, and with a commit 除非这个是同一路径上可以快进(faster-forward)的merge
-    mg = merge --no-commit
-    mgsd = merge --squash --no-commit
+    mg = merge
     # merge并删除被merge的分支
-    mgd = "!git mg $1 && git br -d $1; #"
+    mgd = "!git merge $1 && git branch -d $1; #"
+    ; mgs = merge --squash
+    ; merge squash 默认删除之前的分支，常用于开发feature分支
+    mgs = "!git merge --squash $1 && git branch -d $1; #"
 
     ### remote ###
     # remote - manage set of tracked repositories [same as "r"].
