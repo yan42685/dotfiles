@@ -1027,6 +1027,9 @@ let s:key_mappings_of_surround = [
 for keymap in s:key_mappings_of_surround
     silent! call repeat#set(keymap, v:count)
 endfor
+" 让surround<cr>不显示^M字符，可以直接添加新行,  `char2nr("\<CR>")` == 13
+let g:surround_13 = "\n\r\n"
+
 "}}}
 " {{{让cs修改的surround不包括空格
 fun My_get_inverse_bracket(x)  "
@@ -2291,6 +2294,7 @@ noremap <silent> <leader>l :wincmd l<cr>
 nnoremap <leader><leader>h gT
 nnoremap <leader><leader>l gt
 
+" functions {{{
 function! TabCloseRight(bang)
     let cur=tabpagenr()
     while cur < tabpagenr('$')
@@ -2305,7 +2309,7 @@ function! TabCloseLeft(bang)
 endfunction
 command! -bang Tabcloseright call TabCloseRight('<bang>')
 command! -bang Tabcloseleft call TabCloseLeft('<bang>')
-
+"}}}
 nnoremap gxl :Tabcloseright<cr>
 nnoremap gxh :Tabcloseleft<cr>
 nnoremap gxo :tabonly<cr>
@@ -2423,7 +2427,8 @@ vnoremap y ygv<esc>
 nnoremap s "_s
 vnoremap s "_s
 " 创建折叠自动在上下两行添上注释;  zc在创建折叠的同时也执行折叠
-vnoremap zf <esc>o<esc>gvo<esc>O<esc>gvkojzfzc
+" S<cr>依赖surround.vim插件
+vmap zf S<cr>gv<esc>o<esc>gvj:fold<cr>zc
 
 "}}}
 " {{{通过快捷键实现新功能
