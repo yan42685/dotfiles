@@ -639,6 +639,9 @@ if g:disable_laggy_plugins_for_large_file == 0
     " 侧栏显示git diff情况
     Plug 'mhinz/vim-signify'
     nnoremap gp :SignifyHunkDiff<cr>
+    " 清除对当前文件的修改
+    nnoremap ,gU :G checkout<Space><C-r>=expand('%')<cr><cr>
+    " 清除对hunk的修改
     nnoremap ,gu :SignifyHunkUndo<cr>
     nmap gk <plug>(signify-prev-hunk)
     nmap gj <plug>(signify-next-hunk)
@@ -717,13 +720,13 @@ let g:git_messenger_no_default_mappings = v:true
 nmap gc <Plug>(git-messenger)
 
 " git
+" G表示外部git命令 支持~/.gitconfig里定义的alias
 Plug 'tpope/vim-fugitive'
 " Gread就是清空暂存区 即checkkout %    " 还有diffget和diffput可以使用
 nnoremap <silent> ,ga :G add %:p<CR>
 " add 所有 tracted 文件, 感觉不怎么实用
 " nnoremap ,gA  :G add --update<CR>
-" nnoremap ,gb :Git branch<Space>
-nnoremap <silent> ,gb :CocList branches<cr>
+nnoremap <silent> ,gbl :CocList branches<cr>
 nnoremap <silent> ,gc :G commit --all<cr>
 " {{{  定义 autocmd User MyEnterDiffMode
 " 定义进入diff的事件，然后当前窗口关闭syntax
@@ -753,9 +756,6 @@ nnoremap ,ge :Gedit<space>
 nnoremap <silent> ,gs :vert Git<cr>
 nnoremap ,gg :Ggrep<space>
 nnoremap <silent> ,gma :G commit --amend<cr>
-" 清除对当前文件的修改
-nnoremap ,go :G checkout<Space><C-r>=expand('%')<cr><cr>
-nnoremap ,gO :G checkout -b<Space>
 " 重命名git项目下的文件
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.
