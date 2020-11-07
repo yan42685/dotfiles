@@ -769,6 +769,7 @@ nnoremap <silent> ,pl :G pull<cr>:cclose<cr>
 
 " 更方便的查看commit g?查看键位 enter查看详细信息 <c-n> <c-p> 跳到上下commit
 Plug 'rbong/vim-flog', {'on': ['Flog']}
+" 用法:  gr 显示reflog  y<C-g>复制简略哈希值 Floggit等同于G
 augroup Flog
   " 在FlogGraph中visual模式选中两个commit 再按gd可以显示新commit相比旧commit有哪些区别
   au FileType floggraph vnoremap <buffer> <silent> gd :<C-U>call flog#run_tmp_command("vertical belowright Git diff %(h'>) %(h'<)")<CR>

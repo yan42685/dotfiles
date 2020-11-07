@@ -23,6 +23,7 @@
     log = false
 	branch = false
     tag = false
+    reflog = false
 
 # difftool用editor(nvr) 有bug， 还是vimdiff3 好
 [diff]
@@ -149,9 +150,11 @@
     mgd = "!git merge $1 && git branch -d $1; #"
     ; mgs = merge --squash
     ; merge squash 默认删除之前的分支，常用于开发feature分支
-    ; TODO: 测试
-    mgs = "!git merge --squash $1 && git commit -a && git branch -d $1; #"
+    mgs = "!git merge --squash $1 && git commit -a; #"
 
+    ### reflog ###
+    # 恢复一个删除的分支用 checkout -b <branch> <SHA>
+    ref = reflog --no-abbrev
 
     ### remote ###
     # remote - manage set of tracked repositories [same as "r"].
