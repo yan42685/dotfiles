@@ -47,7 +47,9 @@
     cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
 
 [pull]
-	rebase = true
+    # pull时用rebase="interactive"替代merge
+    ; rebase = "interactive"
+    rebase = true
 
 [push]
     # push自动带上tags
@@ -162,7 +164,7 @@
     ### rebase ###
     rb = rebase
     rba = rebase --abort
-    rbc = rebase --continue
+    rbc = "!git add --update && git rebase --continue"
     rbi = rebase -i
 
     ### reflog ###
