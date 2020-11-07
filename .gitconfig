@@ -20,6 +20,8 @@
 [pager]
     # 查看log，NOTE: 依赖Flog.vim插件
     log = editor --git-log
+	branch = false
+    tag = false
 
 # difftool用editor(nvr) 有bug， 还是vimdiff3 好
 [diff]
@@ -61,6 +63,7 @@
     au = add --update
 
     ### branch
+    b = branch
     branches = branch -a
     tags = tag -n1 --list
     stashes = stash list
@@ -125,8 +128,10 @@
     ls-ignored = ls-files --others --i --exclude-standard
 
     ### merge ###
-    # merge but without autocommit, and with a commit even if the merge resolved as a fast-forward.
-    me = merge --no-commit --no-ff
+    ; # merge but without autocommit, and with a commit even if the merge resolved as a fast-forward.
+    ; mg = merge --no-commit --no-ff
+    # merge but without autocommit, and with a commit 除非这个是同一路径上可以快进(faster-forward)的merge
+    mg = merge --no-commit
     # merge并删除被merge的分支
     mgd = "!git mg $1 && git br -d $1; #"
 
