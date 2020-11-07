@@ -51,6 +51,11 @@
     # push自动带上tags
 	followTags = true
 
+# 缓存HTTP/HTTPS方式输入的用户名密码时间, 设置为
+[credential]
+    # 时间单位为秒 此处为大于10年
+	helper = cache --timeout=360000000
+
 [alias]
     # remerge 重新merge
     rem = checkout --conflict=diff3
