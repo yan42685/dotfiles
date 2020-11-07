@@ -726,7 +726,6 @@ Plug 'tpope/vim-fugitive'
 nnoremap <silent> ,ga :G add %:p<CR>
 " add 所有 tracted 文件, 感觉不怎么实用
 " nnoremap ,gA  :G add --update<CR>
-nnoremap <silent> ,gbl :CocList branches<cr>
 nnoremap <silent> ,gc :G commit --all<cr>
 " {{{  定义 autocmd User MyEnterDiffMode
 " 定义进入diff的事件，然后当前窗口关闭syntax
@@ -755,7 +754,8 @@ nnoremap ,ge :Gedit<space>
 " git status
 nnoremap <silent> ,gs :vert Git<cr>
 nnoremap ,gg :Ggrep<space>
-nnoremap <silent> ,gma :G commit --amend<cr>
+nnoremap <silent> ,gmd :G add --update<cr>:G commit --amend --no-edit<cr>
+nnoremap <silent> ,gmde :G add --update<cr>:G commit --amend<cr>
 " 重命名git项目下的文件
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.
