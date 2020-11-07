@@ -754,8 +754,8 @@ nnoremap ,ge :Gedit<space>
 " git status
 nnoremap <silent> ,gs :vert Git<cr>
 nnoremap ,gg :Ggrep<space>
-nnoremap <silent> ,gmd :G add --update<cr>:G commit --amend --no-edit<cr>
-nnoremap <silent> ,gmde :G add --update<cr>:G commit --amend<cr>
+nnoremap <silent> ,gmd :G add --update<cr><esc>:G commit --amend --no-edit<cr>
+nnoremap <silent> ,gme :G add --update<cr><esc>:G commit --amend<cr>
 " 重命名git项目下的文件
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.
