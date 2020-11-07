@@ -67,7 +67,7 @@ autoload -U +X bashcompinit && bashcompinit
 
 # Set options
 setopt MENU_COMPLETE       # press <Tab> one time to select item
-setopt COMPLETEALIASES     # complete alias
+# setopt COMPLETEALIASES     # complete alias
 setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
 setopt ALWAYS_TO_END       # Move cursor to the end of a completed word.
 setopt PATH_DIRS           # Perform path search even on command names with slashes.
@@ -96,11 +96,17 @@ zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*:options' description 'yes'
 zstyle ':completion:*:options' auto-description '%d'
 zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
-zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
 zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
 zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
 zstyle ':completion:*:default' list-prompt '%S%M matches%s'
-zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
+#
+# fzf-tab配置
+zstyle ":completion:*:git-checkout:*" sort false
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+#
+#
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
 
@@ -227,7 +233,7 @@ if ! zgen saved; then
 
     # zgen oh-my-zsh plugins/git-auto-fetch
     zgen load romkatv/powerlevel10k powerlevel10k
-    zgen load zsh-users/zsh-syntax-highlighting
+    zgen load zdharma/fast-syntax-highlighting
     zgen load zsh-users/zsh-autosuggestions
     # 用fzf自带的fzf-completion替代
     # zgen load zsh-users/zsh-completions

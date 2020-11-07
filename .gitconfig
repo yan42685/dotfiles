@@ -171,6 +171,8 @@
 
 
     ### remote ###
+    # 删除远程分支origin (origin可以换成别的)
+    remote-delete-branch = push origin --delete
     # remote - manage set of tracked repositories [same as "r"].
     rr = remote
     # remote show - gives some information about the remote <name>.
