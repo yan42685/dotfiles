@@ -1730,8 +1730,6 @@ Plug 'skywind3000/asyncrun.vim', { 'on': ['AsyncRun', 'AsyncStop', '<plug>(async
 augroup auto_open_quickfix
     autocmd!
     autocmd QuickFixCmdPost * botright copen 8 | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
-    " TODO: ...
-    " autocmd AsyncRunStop * FloatermToggle
 augroup end
 "}}}
 " {{{lazy load
@@ -1745,7 +1743,8 @@ let g:asyncrun_save = 1  " 运行前保存当前文件
 nmap gq <plug>(asyncrun-qftoggle)
 
 " 类似VSCode的编译/测试/部署 任务工具
-" 因为和Leaderf整合了要用到asyctasks的函数，所以不能延迟加载
+" 不能延迟加载, 因为和Leaderf整合了要用到asyctasks的函数
+" 不能在lightline显示运行情况，因为没有类似asynctasks#status()这样的函数
 Plug 'skywind3000/asynctasks.vim'
 "settings{{{
 " let g:asyncrun_open = 8  " 如果不设置就不会在运行时开启quickfix情况
