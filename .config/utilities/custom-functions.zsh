@@ -1,6 +1,6 @@
 # Utility Functions 可以在命令行直接使用
 #
-# 开关某个git仓库是否自动fetch
+# 开关某个git仓库是否自动fetch NOTE: 本来是配合OMZ的git-auto-fetch插件使用，现在修改为和cronjob配合使用
 # {{{ toggle_auto_fetch()
 toggle_auto_fetch() {
     `command git rev-parse --is-inside-work-tree 2>/dev/null` || return

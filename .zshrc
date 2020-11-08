@@ -208,10 +208,6 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' l
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 # }}}
-# source功能函数, 一个zsh 一个bash
-source ~/.config/utilities/custom-functions.sh
-source ~/.config/utilities/custom-functions.zsh
-
 # FIXME: 如果ohmyzsh的插件安装失败，那就把.zgen/robbyrussell这个文件夹删了，再zgen reset  下次进入终端会卡一段时间(重新下载robbyrussell) 然后就没问题了
 # load zgen Plugins
 # {{{
@@ -351,6 +347,10 @@ bindkey '^[x' insert-last-command-output  # insert last command result
 
 
 ############################################################
+# source功能函数, 一个zsh 一个bash
+source ~/.config/utilities/custom-functions.sh
+source ~/.config/utilities/custom-functions.zsh
+
 # 解决ls命令出现奇怪背景色的问题{{{
 # Change ls colours
 LS_COLORS="ow=01;36;40" && export LS_COLORS
@@ -500,6 +500,7 @@ ps-kill-all() {
     fi
 }
 # }}}
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
