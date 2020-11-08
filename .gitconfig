@@ -310,6 +310,10 @@
     push-to-all-remotes = !git remote | xargs -I% -n1 git push %
     # Show who contributed, in descending order by number of commits
     whorank = shortlog --summary --numbered --no-merges
+    # 快速切换或者创建新分支
+    z = checkout -B
+    zd = checkout -B dev
+    zm = checkout master
 
 
 
