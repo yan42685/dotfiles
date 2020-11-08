@@ -253,6 +253,8 @@ fi
 # }}}
 
 
+alias rn='asynctask file-run'
+alias rnf='asynctask'
 alias note='vi ~/vimwiki/index.md'
 # rg --no-messages去除permission denied等警告信息
 alias fzfh='rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf'  # fzf搜索隐藏文件
@@ -262,7 +264,6 @@ alias hdfs=/usr/local/hadoop/bin/hdfs
 alias hadoop=/usr/local/hadoop/bin/hadoop
 alias start-dfs=/usr/local/hadoop/sbin/start-dfs.sh
 alias stop-dfs=/usr/local/hadoop/sbin/stop-dfs.sh
-alias t='tmux'
 alias ts="trash"
 # 安全的cp和mv，防止误操作覆盖同名文件
 alias mv='nocorrect mv -i'
