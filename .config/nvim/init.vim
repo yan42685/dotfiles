@@ -1651,6 +1651,7 @@ let g:Lf_ShortcutB = ''
 nnoremap <silent> <c-p> :Leaderf command<cr>
 let g:Lf_CommandMap = {
             \ '<C-]>':['<C-l>'],
+            \ '<C-c>':['<C-d>', '<C-c>'],
             \}  " 搜索后<c-l>在右侧窗口打开文件
 nnoremap <silent> <leader>gf :Leaderf file<cr>
 nnoremap <silent> <leader>gr :Leaderf mru<cr>
