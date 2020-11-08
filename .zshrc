@@ -275,8 +275,6 @@ alias md='nocorrect mkdir'
 # 用文件浏览器打开当前目录
 alias open='nautilus $PWD &'
 alias vi=editor
-# floaterm 插件提供的功能，以本vim实例进行编辑
-alias vii='floaterm'
 alias vinp='editor --noplugin'
 # 检查性能，进入nvim后，输入:profile stop命令(或<leader>cp)再退出，然后查看profile.log文件 翻到最底部查看函数耗时统计
 alias vicp="editor -c 'profile start profile.log' -c 'profile file *' -c 'profile func *' -c 'let g:check_performance_enabled = 1'"
@@ -286,7 +284,6 @@ alias vifast="editor -c 'let g:disable_laggy_plugins_for_large_file = 1'"
 # alias vimm='\vim'   # 用转义符防止递归映射
 # alias dot='/usr/bin/git --git-dir=/home/yy/.dotfiles/ --work-tree=/home/yy'   # 用于存放dotfiles
 alias dot='yadm'
-alias tk='asynctask -f'   # 用fzf搜索task, 可以把复杂的命令都丢进去
 alias rm='trash'
 alias la='ls -a'
 alias nnn='PAGER= nnn'
