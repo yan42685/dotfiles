@@ -54,3 +54,11 @@ if [[ "$var"x == "1"x ]]; then
 fi
 }
 # }}}
+
+# 用于git更新追踪所有的dotfiles
+git-update-tracted-dotfiles() {
+    cd ~
+    git add -f $(yadm ls | grep -v .local/share/fonts)
+    # 返回上次目录, 对于z.lua也生效
+    cd -
+}

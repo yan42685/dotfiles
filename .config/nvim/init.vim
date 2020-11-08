@@ -1451,6 +1451,7 @@ augroup end
 " nnoremap <silent> <leader>gt :CocList -A floaterm <cr>
 "}}}
 " 打开终端会自动跳转dir
+inoremap <silent> <m-m> <esc>:lcd %:p:h<cr><esc>:FloatermToggle<cr>
 nnoremap <silent> <m-m> :lcd %:p:h<cr><esc>:FloatermToggle<cr>
 " 这里末尾加<esc>:echo <cr>是为了清空提示消息
 tnoremap <silent> <m-m> <c-\><c-n>:FloatermToggle<cr><esc>:echo <cr>
