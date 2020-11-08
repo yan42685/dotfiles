@@ -8,14 +8,3 @@ function git-fetch-all {
   GIT_SSH_COMMAND="command ssh -o BatchMode=yes" \
     command git fetch --all 2>/dev/null &>! $dir/FETCH_LOG &)
 }
-
-# 开关某个git仓库是否自动fetch
-function toggle-auto-fetch {
-  `command git rev-parse --is-inside-work-tree 2>/dev/null` || return
-  guard="`command git rev-parse --git-dir`/NO_AUTO_FETCH"
-
-  (rm $guard 2>/dev/null &&
-    echo "${fg_bold[green]}enabled${reset_color}") ||
-  (touch $guard &&
-    echo "${fg_bold[red]}disabled${reset_color}")
-}

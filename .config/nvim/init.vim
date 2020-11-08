@@ -681,7 +681,7 @@ nnoremap <silent> ,gme :G add --update<cr><esc>:G commit --amend<cr>
 " 重命名git项目下的文件
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.
-nnoremap <silent> ,gr :G add %<cr><esc>:Gmove <c-r>=expand('%:p:h')<cr>/
+nnoremap ,gr :G add %<cr><esc>:Gmove <c-r>=expand('%:p:h')<cr>/
 nnoremap <silent> ,ft :AsyncTask git-fetch<cr>
 nnoremap <silent> ,ps :AsyncTask git-push<cr>
 nnoremap <silent> ,pl :AsyncTask git-pull<cr>
