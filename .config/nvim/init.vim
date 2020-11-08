@@ -1513,13 +1513,10 @@ augroup fix_bug_in_floaterm_and_startify
     autocmd User Startified setlocal buflisted
 augroup end
 "}}}
-" 进入终端前复制当前buffer所在目录, 以便于快速进入该buffer的目录
-nnoremap <silent> <m-n> :lcd %:p:h<cr>:FloatermNew<cr>
-tnoremap <silent> <m-n> <c-\><c-n>:FloatermNew<cr>
 " 这里末尾加<esc>:echo <cr>是为了清空提示消息
 tnoremap <silent> <c-d> <c-\><c-n>:silent! FloatermKill<cr><esc>:echo <cr>
 " 进入普通模式
-tnoremap <c-m-n> <c-\><c-n>
+tnoremap <m-n> <c-\><c-n>
 " 可以作为从编辑器回到浮动窗口的快捷键
 " 打开终端会自动跳转dir
 nnoremap <silent> <m-m> :lcd %:p:h<cr>:FloatermToggle<cr>
@@ -1556,10 +1553,11 @@ nnoremap <silent> <leader>gt :CocList -A floaterm <cr>
 " 向终端送去命令去除空白但保持缩进 NOTE: 不适用于浮动窗口，只能当 g:floaterm_type = 'normal'时才能用
 nnoremap <silent> ts :FloatermSend!<cr>
 vnoremap <silent> ts :FloatermSend!<cr>
-tnoremap <m-h> <c-\><c-n><c-w>h
-tnoremap <m-l> <c-\><c-n><c-w>l
-" " 粘贴寄存器0的内容到终端
-tnoremap <expr> <m-p> '<C-\><C-n>"0pi'
+" AsyncRun不支持多浮动终端的情况，不建议使用多个浮动终端
+" nnoremap <silent> <m-n> :lcd %:p:h<cr>:FloatermNew<cr>
+" tnoremap <silent> <m-n> <c-\><c-n>:FloatermNew<cr>
+" tnoremap <m-h> <c-\><c-n><c-w>h
+" tnoremap <m-l> <c-\><c-n><c-w>l
 
 " -快速选择tab和窗口, s交换窗口 ;选择本窗口 ][在tab间移动, 0第一个tab, x关掉tab
 Plug 't9md/vim-choosewin', {'on': '<Plug>(choosewin)'}
