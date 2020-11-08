@@ -208,7 +208,9 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' l
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 # }}}
-
+# source功能函数, 一个zsh 一个bash
+source ~/.config/utilities/custom-functions.sh
+source ~/.config/utilities/custom-functions.zsh
 
 # FIXME: 如果ohmyzsh的插件安装失败，那就把.zgen/robbyrussell这个文件夹删了，再zgen reset  下次进入终端会卡一段时间(重新下载robbyrussell) 然后就没问题了
 # load zgen Plugins
@@ -387,45 +389,6 @@ export FZF_DEFAULT_OPTS="
 FZF_MARKS_FILE="$HOME/.cache/fzf-marks"
 FZF_MARKS_COMMAND="fzf"
 FZF_MARKS_COLOR_RHS="249"
-# }}}
-# {{{Utility Functions 可以在命令行直接使用
-test_cmd_pre() { # {{{
-    command -v "$1" >/dev/null
-} # }}}
-test_cmd() { # {{{
-    test_cmd_pre "$1" && echo 'yes' || echo 'no'
-} # }}}
-# {{{zcomp-gen
-zcomp-gen () {
-    echo "[1] manpage  [2] help"
-    read -r var
-    if [[ "$var"x == ""x ]]; then
-        var=1
-    fi
-    if [[ "$var"x == "1"x ]]; then
-        TARGET=$(find -L /usr/share/man -type f -print -o -type l \
-            -print -o  \( -path '*/\.*' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \) \
-            -prune 2> /dev/null |\
-            sed 's|\./||g' |\
-            sed '1i [cancel]' |\
-            fzf)
-        if [[ "$TARGET"x == "[cancel]"x ]]; then
-            echo ""
-        else
-            echo "$TARGET" | xargs -i sh ~/.zplugin/plugins/nevesnunes---sh-manpage-completions/gencomp-manpage {}
-            zpcompinit
-        fi
-    elif [[ "$var"x == "2"x ]]; then
-        TARGET=$(compgen -cb | sed '1i [cancel]' | fzf)
-        if [[ "$TARGET"x == "[cancel]"x ]]; then
-            echo ""
-        else
-            gencomp "$TARGET"
-            zpcompinit
-        fi
-    fi
-}
-# }}}
 # }}}
 # Z.lua{{{
 export _ZL_DATA="$HOME/.cache/.zlua"
