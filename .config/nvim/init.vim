@@ -1597,6 +1597,7 @@ let g:Lf_RgConfig = [
       \ '--glob=!**/.ccache/*',
       \ '--glob=!**/GTAGS',
       \ '--glob=!**/GRTAGS',
+      \ '--glob=!**\.vim/undo\-dir/*',
       \ '--glob=!**/GPATH',
       \ '--glob=!**/tags',
       \ '--glob=!**/prj_tags',
