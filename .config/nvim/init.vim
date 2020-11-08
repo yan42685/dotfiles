@@ -1597,7 +1597,7 @@ let g:Lf_RgConfig = [
       \ '--glob=!**/.ccache/*',
       \ '--glob=!**/GTAGS',
       \ '--glob=!**/GRTAGS',
-      \ '--glob=!**\.vim/undo\-dir/*',
+      \ '--glob=!\.vim/undo\-dir/*',
       \ '--glob=!**/GPATH',
       \ '--glob=!**/tags',
       \ '--glob=!**/prj_tags',
@@ -1608,7 +1608,7 @@ let g:Lf_RgConfig = [
       \ "-g '!.git'",
       \ ]
 let g:Lf_WildIgnore = {
-            \ 'dir': ['.svn','.git','.hg','.vscode','.wine','.deepinwine','.oh-my-zsh'],
+            \ 'dir': ['.svn','.git','.hg','.vscode','.wine','.deepinwine','.oh-my-zsh','undo-dir'],
             \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
             \}
 
