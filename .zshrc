@@ -55,7 +55,8 @@ autoload -U promptinit && promptinit  # FIXME: 不太了解这句话的作用
 # Plugin settings{{{
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)  # .zshrc修改时自动更新zgen
 ZGEN_AUTOLOAD_COMPINIT=0  # 不要使用ZGEN的compinit
-# GIT_AUTO_FETCH_INTERVAL=1200 #in seconds
+# git自动fetch的间隔（至少60秒）
+GIT_AUTO_FETCH_INTERVAL=60 #in seconds
 # zsh-autosuggestion
 export ZSH_AUTOSUGGEST_USE_ASYNC="true"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
@@ -230,7 +231,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/colorize
 
 
-    # zgen oh-my-zsh plugins/git-auto-fetch
+    zgen oh-my-zsh plugins/git-auto-fetch
     zgen load romkatv/powerlevel10k powerlevel10k
     zgen load zdharma/fast-syntax-highlighting
     zgen load zsh-users/zsh-autosuggestions

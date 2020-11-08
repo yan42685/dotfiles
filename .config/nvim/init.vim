@@ -886,7 +886,8 @@ set signcolumn=yes  " Always show the signcolumn, otherwise it would shift the t
 "       \ coc#refresh()
 " 用于在空白行第一列按tab一步缩进到位
 " FIXME: 没有添加到下面列表里的文件类型如果cc不能缩进，则tab也不能缩进了, 那么就需要在下面的list新增文件类型
-let g:My_quick_tab_blacklist = ['markdown', 'text', 'vim', 'vimwiki', 'gitcommit', 'snippets', 'gitconfig']
+let g:My_quick_tab_blacklist = ['markdown', 'text', 'vim', 'vimwiki', 'gitcommit',
+            \ 'snippets', 'gitconfig', 'crontab']
 " inoremap <silent> <expr> <TAB>
 "       \ pumvisible() ? coc#_select_confirm() :
 "       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
@@ -1799,6 +1800,25 @@ augroup auto_open_quickfix
     autocmd!
     autocmd QuickFixCmdPost * botright copen 8 | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
 augroup end
+"}}}
+"用floaterm打开{{{
+function! s:runner_proc(opts)
+    let curr_bufnr = floaterm#curr()
+    if has_key(a:opts, 'silent') && a:opts.silent == 1
+        FloatermHide!
+    endif
+    let cmd = 'cd ' . shellescape(getcwd())
+    call floaterm#terminal#send(curr_bufnr, [cmd])
+    call floaterm#terminal#send(curr_bufnr, [a:opts.cmd])
+    stopinsert
+    if &filetype == 'floaterm' && g:floaterm_autoinsert
+        call floaterm#util#startinsert()
+    endif
+endfunction
+
+let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
+let g:asyncrun_runner.floaterm = function('s:runner_proc')
+let g:asynctasks_term_pos = 'floaterm'
 "}}}
 nmap gq <plug>(asyncrun-qftoggle)
 
