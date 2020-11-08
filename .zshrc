@@ -253,8 +253,10 @@ fi
 # }}}
 
 
+# 运行
 alias rn='asynctask file-run'
-alias rnf='asynctask'
+# 查找命令 后面可接文件/目录名也可不接
+alias rnf='asynctask -f'
 alias note='vi ~/vimwiki/index.md'
 # rg --no-messages去除permission denied等警告信息
 alias fzfh='rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf'  # fzf搜索隐藏文件
