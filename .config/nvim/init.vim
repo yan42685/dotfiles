@@ -1,82 +1,4 @@
-﻿" {{{ 前言
-"{{{ 简介
-"       只考虑NeoVim，不一定兼容Vim
-"       如果遇到了一些问题, 可以试着在本文件搜索FIXME, NOTE
-"
-" 一些经验:
-"   1. 抓住主要问题, 用相对简单和有意义的按键映射出现频率高的操作, 而非常冷门的操作
-"      设置较长的快捷键，或者设置成command
-"   2. 用尽可能简单的方式组合来完成复杂的需求, 比如easy-motion插件有很多功能，
-"      但其实<Plug>(easymotion-bd-f)就足以胜任日常快速移动所需要的绝大部分功能,
-"      过多的快捷键及功能反而会是干扰
-"
-" 键位设计原则:
-"   1. 有意义，容易记忆.
-"   2. 每个指令均衡左右手指击键, 如果都在同一边手上则尽量用不同的手指击键，尽量减小
-"      手指移动距离和次数
-"
-"  不建议用appimge安装，因为这样的话将nvim作为manpager会出现奇怪的权限问题
-"}}}
-" 【依赖说明】{{{
-"  coc.nvim补全插件需要安装node.js和npm LeaderF依赖Python3, vista依赖global-ctags
-"  leaderF和far依赖rg
-"}}}
-" 【必做事项】{{{
-"  1. :PlugInstall
-"  2. 提供python和系统剪切板支持 pip3 install pynvim && apt install xsel
-"  3. rm -rf ~/.viminfo 这样可以使自动回到上次编辑的地方功能生效, 然后重新打开vim(注意要以当前用户打开),vim会自动重建该文件.
-"  4. ubuntu下用snap包管理器安装ccls, 作为C、C++的LSP (推荐用snap安装, 因为ccls作者提供的编译安装方式似乎有问题, 反正Ubuntu18.04不行)
-"  5. 安装Sauce Code Pro Nerd Font Complete字体(coc-explorer要用到), 然后设置终端字体为这个, 注意不是原始的Source Code Pro),
-"     最简单的安装方法就是下载ttf文件然后双击安装
-"  6. 需要在/etc/crontab设置以下定时任务，定期清理undofile
-"{{{
-"     # m h  dom mon dow   command
-"     43 00 *   *   3     find /home/{username}/.vim/undo-dir -type f -mtime +90 -delete
-"}}}
-"  7. 安装gtags(需要>6.63(需要>6.63)) 并用 pygments扩展语言类型
-"           在官网下载最新的tar.gz 解压后进入 执行 sudo apt install ncurses-dev && ./configure && make && sudo make install && sudo pip3 install pygments
-"  8. ctags(插件vista依赖):
-        " sudo apt install software-properties-common && sudo add-apt-repository ppa:hnakamur/universal-ctags && sudo apt update && sudo apt install universal-ctags
-"  9.  "coc-tabnine需要**单独**用CocCommand tabnine.openConfig 设置'ignore_all_lsp': true来加强补全效果
-"
-"}}}
-" 【可选项】{{{
-"  1. 使用Alacritty终端模拟器 设置cursor不闪烁, <c-c>复制，<m-i>粘贴系统剪切板， 而Vim里面的<m-i>会被终端拦截，所以有相同的效果，
-"          然后在Vim映射<m-p>是粘贴0寄存器的内容. 设置透明终端, 用<leader>tt可以切换透明模式, 设置开启时窗口大小来达到启动max-size的目的
-"  2. 然后终端设置General-勾消Show menubar by default in new terminals
-"  3. 只能稍微调快一点键盘响应速度，调太快会导致一次按键多次响应
-"  4. 静态代码检查linter与排版器formatter（记得先换源）:
-"        for javascript
-"            npm install -g eslint && npm install -g prettier
-"        for python
-"            pip3 install pylint && pip3 install autopep8
-"        for C,CPP
-"            sudo apt install cppcheck -y && npm install -g clang-format
-"
-"  5. 安装riggrep 配合Leaderf rg使用, 快速搜索文本行:
-"            curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb && sudo dpkg -i ripgrep_11.0.2_amd64.deb
-"            FIXME: 如果在Leaderf里调用rg出现~/.config文件夹permission deny的情况 就需要 sudo chown -R $USER:$GROUP ~/.config
-"  6. 使用vim-signify显示diff，必须要注册好git账户，比如git config --global user.name "username" && git config --global user.email "useremail@qq.com"
-"  7. 安装zeal: sudo add-apt-repository ppa:zeal-developers/ppa && sudo apt-get update && sudo apt-get install zeal
-"       NOTE: 注意要在zeal GUI 设置 Minimize to system tray instead of taskbar
-"       和　Hide to system tran on window close 这样才会每次都能快速唤出窗口
-"}}}
-" 【配置过程中遇到的坑】{{{
-"   1. 映射<Plug>(...)时必须用递归映射
-"   2. 映射ex命令的时候尽量不用noremap, 因为这可能会导致按键出现奇奇怪怪的结果, 应该改成nnoremap
-"   3. vimrc文件let语句的等号两边不能有空格
-"   4. 单引号是raw String 而双引号才可以转义， 所以设置unicode字体的时候应该用双引号比如"\ue0b0"
-"   5. 用{'on': '<Plug>(?)'}来延迟加载时，必须要自己设置相关映射，否则无法加载(因为原插件的映射并不会被加载)，但是command就不用自己设置映射，比如
-"       {'on': 'Rooter'}这种
-"   6. 因为一行过长导致VimL语法不被成功解析，应该用\ 拆成多行
-"   7. 如果调用了插件的函数，最好使用silent! 因为在使用--noplugin打开时，如果
-"      找不到该函数且不是silent! call的话，就会一直报错，导致vim没法使用
-"   8. 如果需要覆盖插件定义的映射，可用如下方式
-"      autocmd VimEnter * noremap <leader>cc echo "my purpose"
-"   9. 如果用了<silent>那么映射到命令行是不会显示字符的比如nnoremap <silent> ,gO :G checkout -b<space>是不会立刻显示命令模式的字符的
-
-"}}}
-" }}}
+﻿
 " =========================================
 "{{{可自行调整的全局配置
 
@@ -760,12 +682,11 @@ nnoremap <silent> ,gme :G add --update<cr><esc>:G commit --amend<cr>
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.
 nnoremap <silent> ,gr :G add %<cr><esc>:Gmove <c-r>=expand('%:p:h')<cr>/
-nnoremap <silent> ,ft :G fetch<cr><esc>:cclose<cr>
-nnoremap <silent> ,ps :G push<cr><esc>:cclose<cr>
+nnoremap <silent> ,ft :AsyncTask git-fetch<cr>
+nnoremap <silent> ,ps :AsyncTask git-push<cr>
+nnoremap <silent> ,pl :AsyncTask git-pull<cr>
 " git publish
-" The -u flag is used to set origin as the upstream remote in your git config
-nnoremap <silent> ,pb :G push -u origin <C-R>=trim(system('git rev-parse --abbrev-ref HEAD'))<CR><CR><esc>:cclose<cr>
-nnoremap <silent> ,pl :G pull<cr><esc>:cclose<cr>
+" nnoremap <silent> ,pb :G push -u origin <C-R>=trim(system('git rev-parse --abbrev-ref HEAD'))<CR><CR>
 
 " 更方便的查看commit g?查看键位 enter查看详细信息 <c-n> <c-p> 跳到上下commit
 Plug 'rbong/vim-flog', {'on': ['Flog']}
@@ -1495,7 +1416,7 @@ let g:neoterm_size = 10  " 调整terminal的大小
 
 " 浮动终端
 Plug 'voldikss/vim-floaterm'  " NOTE: 作者不推荐延迟加载
-"{{{
+"settings{{{
 fun My_reset_floaterm_config()
     let g:floaterm_type = 'floating'   "　终端出现形式, 可选normal
     " let g:floaterm_type = 'normal'   "　终端出现形式, 可选normal
@@ -1513,13 +1434,26 @@ augroup fix_bug_in_floaterm_and_startify
     autocmd User Startified setlocal buflisted
 augroup end
 "}}}
-" 这里末尾加<esc>:echo <cr>是为了清空提示消息
-tnoremap <silent> <c-d> <c-\><c-n>:silent! FloatermKill<cr><esc>:echo <cr>
-" 进入普通模式
-tnoremap <m-n> <c-\><c-n>
-" 可以作为从编辑器回到浮动窗口的快捷键
+"Deprecated 映射{{{
+" 向终端送去命令去除空白但保持缩进 NOTE: 不适用于浮动窗口，只能当 g:floaterm_type = 'normal'时才能用
+" nnoremap <silent> ts :FloatermSend!<cr>
+" vnoremap <silent> ts :FloatermSend!<cr>
+" AsyncRun不支持多浮动终端的情况，不建议使用多个浮动终端
+" nnoremap <silent> <m-n> :lcd %:p:h<cr>:FloatermNew<cr>
+" tnoremap <silent> <m-n> <c-\><c-n>:FloatermNew<cr>
+" nnoremap <silent> <m-j> :FloatermNext<cr>
+" tnoremap <silent> <m-j> <c-\><c-n>:FloatermNext<cr>
+" nnoremap <silent> <m-k> :FloatermPrev<cr>
+" tnoremap <silent> <m-k> <c-\><c-n>:FloatermPrev<cr>
+" tnoremap <m-h> <c-\><c-n><c-w>h
+" tnoremap <m-l> <c-\><c-n><c-w>l
+" 在浮动终端执行命令 -A表示自动预览
+" nnoremap <silent> <leader>gt :CocList -A floaterm <cr>
+"}}}
 " 打开终端会自动跳转dir
-nnoremap <silent> <m-m> :lcd %:p:h<cr>:FloatermToggle<cr>
+nnoremap <silent> <m-m> :lcd %:p:h<cr><esc>:FloatermToggle<cr>
+" 这里末尾加<esc>:echo <cr>是为了清空提示消息
+tnoremap <silent> <m-m> <c-\><c-n>:FloatermToggle<cr><esc>:echo <cr>
 "{{{ function My_toggle_full_screen_floterm
 let g:My_full_screen_floterm_status = 0
 function My_toggle_full_screen_floterm()
@@ -1543,21 +1477,9 @@ endf
 " 浮动终端开关全屏模式
 tnoremap <silent> <m-o> <c-\><c-n>:call My_toggle_full_screen_floterm()<cr><c-\><c-n>:echo <cr>a
 nnoremap <silent> <m-o> <c-\><c-n>:call My_toggle_full_screen_floterm()<cr><c-\><c-n>:echo <cr>a
-tnoremap <silent> <m-m> <c-\><c-n>:FloatermToggle<cr><esc>:echo <cr>
-nnoremap <silent> <m-j> :FloatermNext<cr>
-tnoremap <silent> <m-j> <c-\><c-n>:FloatermNext<cr>
-nnoremap <silent> <m-k> :FloatermPrev<cr>
-tnoremap <silent> <m-k> <c-\><c-n>:FloatermPrev<cr>
-" 在浮动终端执行命令 -A表示自动预览
-nnoremap <silent> <leader>gt :CocList -A floaterm <cr>
-" 向终端送去命令去除空白但保持缩进 NOTE: 不适用于浮动窗口，只能当 g:floaterm_type = 'normal'时才能用
-nnoremap <silent> ts :FloatermSend!<cr>
-vnoremap <silent> ts :FloatermSend!<cr>
-" AsyncRun不支持多浮动终端的情况，不建议使用多个浮动终端
-" nnoremap <silent> <m-n> :lcd %:p:h<cr>:FloatermNew<cr>
-" tnoremap <silent> <m-n> <c-\><c-n>:FloatermNew<cr>
-" tnoremap <m-h> <c-\><c-n><c-w>h
-" tnoremap <m-l> <c-\><c-n><c-w>l
+" 进入普通模式
+tnoremap <m-n> <c-\><c-n>
+tnoremap <silent> <c-d> <c-\><c-n>:silent! FloatermKill<cr><esc>:echo <cr>
 
 " -快速选择tab和窗口, s交换窗口 ;选择本窗口 ][在tab间移动, 0第一个tab, x关掉tab
 Plug 't9md/vim-choosewin', {'on': '<Plug>(choosewin)'}
@@ -1584,8 +1506,59 @@ nnoremap <leader>rt :Rooter<cr>:echo printf('Rooter to %s', FindRootDirectory())
 
 " 模糊搜索 弹窗后按<c-r>进行正则搜索模式, visual模式 '*' 查找函数依赖这个插件，所以不要延迟加载
 Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
-"{{{
+"settings{{{
 " let g:Lf_ShowDevIcons = 0  " 因为和devicon的整合在Startify的session里有bug，所以不显示devicon了
+" 整合AsyncTask{{{
+function! s:lf_task_source(...)
+	let rows = asynctasks#source(&columns * 48 / 100)
+	let source = []
+	for row in rows
+		let name = row[0]
+		let source += [name . '  ' . row[1] . '  : ' . row[2]]
+	endfor
+	return source
+endfunction
+
+
+function! s:lf_task_accept(line, arg)
+	let pos = stridx(a:line, '<')
+	if pos < 0
+		return
+	endif
+	let name = strpart(a:line, 0, pos)
+	let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
+	if name != ''
+		exec "AsyncTask " . name
+	endif
+endfunction
+
+function! s:lf_task_digest(line, mode)
+	let pos = stridx(a:line, '<')
+	if pos < 0
+		return [a:line, 0]
+	endif
+	let name = strpart(a:line, 0, pos)
+	return [name, 0]
+endfunction
+
+function! s:lf_win_init(...)
+	setlocal nonumber
+	setlocal nowrap
+endfunction
+
+
+let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
+let g:Lf_Extensions.task = {
+			\ 'source': string(function('s:lf_task_source'))[10:-3],
+			\ 'accept': string(function('s:lf_task_accept'))[10:-3],
+			\ 'get_digest': string(function('s:lf_task_digest'))[10:-3],
+			\ 'highlights_def': {
+			\     'Lf_hl_funcScope': '^\S\+',
+			\     'Lf_hl_funcDirname': '^\S\+\s*\zs<.*>\ze\s*:',
+			\ },
+		\ }
+" }}}
+
 let g:Lf_RgConfig = [
       \ '--glob=!\.git/*',
       \ '--glob=!\.svn/*',
@@ -1648,6 +1621,7 @@ let g:Lf_WorkingDirectoryMode = 'a'  " the nearest ancestor of current directory
 let g:Lf_ShortcutF = ''  " 这两项是为了覆盖默认设置的键位
 let g:Lf_ShortcutB = ''
 "}}}
+nnoremap <silent> <leader>gt :Leaderf --nowrap task<cr>
 nnoremap <silent> <c-p> :Leaderf command<cr>
 let g:Lf_CommandMap = {
             \ '<C-]>':['<C-l>'],
@@ -1747,19 +1721,58 @@ Plug 'ronakg/quickr-preview.vim', {'for': 'qf'}
 let g:quickr_preview_keymaps = 0  " 禁用默认映射
 let g:quickr_preview_on_cursor = 1  " 自动预览
 
-" 类似VSCode的编译/测试/部署 任务工具
-Plug 'skywind3000/asynctasks.vim', {'on': 'AsyncTask'}
-"{{{
-let g:asyncrun_open = 6
-let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
-let g:asynctasks_term_pos = 'floaterm' " 使用浮动终端
-" let g:asynctasks_term_pos = 'bottom' " 可选tab
-let g:asynctasks_term_rows = 10
-let g:asynctasks_term_reuse = 1  " 如果用tab模式打开终端，则会复用
-let g:asynctasks_config_name = '.git/tasks.ini'
+" NOTE: 所有可以用AsyncRun的地方都能用AsyncTask替代，而asyncrun不能打开
+"       floaterm，所以只用AsyncTask就好, 这个插件就当一下依赖包好了
+" 异步运行，测试
+Plug 'skywind3000/asyncrun.vim', { 'on': ['AsyncRun', 'AsyncStop', '<plug>(asyncrun-qftoggle)'] }
+"settings{{{
+" 任务完成自动打开qf{{{
+augroup auto_open_quickfix
+    autocmd!
+    autocmd QuickFixCmdPost * botright copen 8 | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
+    " TODO: ...
+    " autocmd AsyncRunStop * FloatermToggle
+augroup end
 "}}}
-noremap <silent> <leader><leader>e :AsyncTaskEdit<cr>
-" 触发UIEnter事件方便自动修改mapping{{{
+" {{{lazy load
+augroup asyncrun
+    au!
+    au User asyncrun.vim nnoremap <silent> <plug>(asyncrun-qftoggle) :call asyncrun#quickfix_toggle(10)<cr>
+augroup end
+"}}}
+let g:asyncrun_save = 1  " 运行前保存当前文件
+"}}}
+nmap gq <plug>(asyncrun-qftoggle)
+
+" 类似VSCode的编译/测试/部署 任务工具
+" 因为和Leaderf整合了要用到asyctasks的函数，所以不能延迟加载
+Plug 'skywind3000/asynctasks.vim'
+"settings{{{
+" let g:asyncrun_open = 8  " 如果不设置就不会在运行时开启quickfix情况
+let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
+"用floaterm打开的函数{{{
+function! s:runner_proc(opts)
+    let curr_bufnr = floaterm#curr()
+    if has_key(a:opts, 'silent') && a:opts.silent == 1
+        FloatermHide!
+    endif
+    let cmd = 'cd ' . shellescape(getcwd())
+    call floaterm#terminal#send(curr_bufnr, [cmd])
+    call floaterm#terminal#send(curr_bufnr, [a:opts.cmd])
+    stopinsert
+    if &filetype == 'floaterm' && g:floaterm_autoinsert
+        call floaterm#util#startinsert()
+    endif
+endfunction
+
+let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
+let g:asyncrun_runner.floaterm = function('s:runner_proc')
+"}}}
+" let g:asynctasks_term_pos = 'tab'  " 也可以是bottom
+let g:asynctasks_term_pos = 'floaterm'
+let g:asynctasks_term_rows = 10
+let g:asynctasks_config_name = '.git/tasks.ini'
+" 触发UIEnter事件方便自动修改quickfix的mapping{{{
 function Async_build_file() abort
     execute 'AsyncTask file-build'
     doautocmd UIEnter
@@ -1780,47 +1793,12 @@ function Async_run_project() abort
     doautocmd UIEnter
 endfunc
 "}}}
+"}}}
+noremap <silent> <leader><leader>e :AsyncTaskEdit<cr>
 noremap <silent> <leader>bf :call Async_build_file()<cr>
 noremap <silent> <leader>rf :call Async_run_file()<cr>
 noremap <silent> <leader>bp :call Async_build_project<cr>
 noremap <silent> <leader>rp :call Async_run_project<cr>
-
-" 异步运行，测试
-Plug 'skywind3000/asyncrun.vim', { 'on': ['AsyncRun', 'AsyncStop', '<plug>(asyncrun-qftoggle)'] }
-" {{{lazy load
-augroup asyncrun
-    au!
-    au User asyncrun.vim nnoremap <silent> <plug>(asyncrun-qftoggle) :call asyncrun#quickfix_toggle(10)<cr>
-augroup end
-" 整合fugitive, 现在G push和G fetch变成异步的了
-command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
-"}}}
-" 任务完成自动打开qf{{{
-augroup auto_open_quickfix
-    autocmd!
-    autocmd QuickFixCmdPost * botright copen 8 | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
-augroup end
-"}}}
-"用floaterm打开{{{
-function! s:runner_proc(opts)
-    let curr_bufnr = floaterm#curr()
-    if has_key(a:opts, 'silent') && a:opts.silent == 1
-        FloatermHide!
-    endif
-    let cmd = 'cd ' . shellescape(getcwd())
-    call floaterm#terminal#send(curr_bufnr, [cmd])
-    call floaterm#terminal#send(curr_bufnr, [a:opts.cmd])
-    stopinsert
-    if &filetype == 'floaterm' && g:floaterm_autoinsert
-        call floaterm#util#startinsert()
-    endif
-endfunction
-
-let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
-let g:asyncrun_runner.floaterm = function('s:runner_proc')
-let g:asynctasks_term_pos = 'floaterm'
-"}}}
-nmap gq <plug>(asyncrun-qftoggle)
 
 "}}}
 "{{{杂项, 优化使用体验
