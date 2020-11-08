@@ -29,6 +29,7 @@ export PATH=${HOME}/.config/utilities/bin:${PATH}
 export TERM=xterm-256color
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
 # 用于neovim终端里nvim使用新tab打开 editor在~/.config/utilities/bin/editor
+# BUG: 不能用于在nvim内置终端使用crontab -e 原因未知
 export EDITOR=editor
 # 下面这条选项会让git的输出(比如branch, tag)用nvim来打开, 还有man的输出
 export PAGER=editor
