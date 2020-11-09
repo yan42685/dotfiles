@@ -298,7 +298,8 @@
     #
     recreate = "!f() { [[ -n $@ ]] && git checkout \"$@\" && git unpublish && git checkout master && git branch -D \"$@\" && git checkout -b \"$@\" && git publish; }; f"
 
-    ahead-of-origin = "!git log --oneline origin/$(git branch-name)..HEAD"  # Show commits that haven't made it to remote master yet.
+    # ahead of origin, Show commits that haven't made it to remote master yet.
+    ahead = "!git log --oneline origin/$(git branch-name)..HEAD"
     ps = push
     ft = fetch
     pl = pull
