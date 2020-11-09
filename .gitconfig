@@ -59,8 +59,8 @@
     helper = cache --timeout=3600000000
 ; }}}
 
-# 很多alias来自 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt
-[alias]
+[alias]    # 很多alias来自 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt
+
 ; {{{ ### work flow ###
 
     ; 编辑和暂存有冲突的文件
@@ -81,7 +81,7 @@
 ; }}}
 
 ; {{{ ### add ###
-;
+
     a = add
     # add all
     aa = add -A
@@ -90,19 +90,15 @@
     # add just the files that are updated.
     au = add --update
 
-
 ; }}}
 ; {{{ ### branch ###
-;
+
     b = branch
-    # 显示分支列表
-    bl = branch -av
+    bl = branch -av  # 显示分支列表
     bm = branch --merged
     bnm = branch --no-merged
-
     bd = branch -d
-    # 强制删除未merge的分支
-    bD = branch -D
+    bD = branch -D  # 强制删除未merge的分支
     # 可在--list 后面写搜索版本号, 比如git tgs '*1' (如果不加引号要用\*转义) 也可不写搜索内容
     tags = tag -n1 --list
     stashes = stash list
@@ -114,7 +110,7 @@
 
 ; }}}
 ; {{{ ### commit ###
-;
+
     # commit with a message
     c = commit -a
     # 将新的修改全部应用到上次commit里
@@ -124,7 +120,6 @@
     # commit and push
     cap = "!f() { git commit --all -m \"$@\" && git push; }; f"
 
-
 ; }}}
 ; {{{ ### checkout ###
 
@@ -132,7 +127,6 @@
     co = checkout
     cob = checkout -b
     co-rs = checkout --
-
 
 ; }}}
 ; {{{ ### cherry-pick ###
@@ -145,7 +139,6 @@
     cpc = cherry-pick --continue
     # cherry-pick without making a commit, and when when recording the commit, append a line that says "(cherry picked from commit ...)"
     cp-nx = cherry-pick --no-commit -x
-
 
 ; }}}
 ; {{{ ### diff ###
@@ -162,7 +155,6 @@
     # diff deep - show changes with our preferred options. Also aliased as `diff-deep`.
     dd = diff --check --dirstat --find-copies --find-renames --histogram --color
 
-
 ; }}}
 ; {{{ ### grep ###
 
@@ -172,7 +164,6 @@
     rg-ls = !rg $(git rev-parse --show-toplevel) --files
     rg-all = !rg $(git rev-parse --show-toplevel) --column --smart-case --no-ignore --hidden -g '!.git' -e
     rg-all-ls = !rg $(git rev-parse --show-toplevel) --no-ignore --hidden -g '!.git' --files
-
 
 ; }}}
 ; {{{ ### log ###
@@ -186,7 +177,6 @@
     ll = "!${EDITOR:-vi} --git-log"
     # log like long  - we like this summarization our key performance indicators. Also aliased as `log-like-long`.
     lll = log --graph --topo-order --date=iso8601-strict --no-abbrev-commit --abbrev=40 --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn <%ce>]%Creset %Cblue%G?%Creset'
-
 
     ; }}}
 ; {{{ ### merge ###
@@ -203,7 +193,6 @@
     ; merge squash 默认删除之前的分支，常用于开发feature分支
     mgs = "!git merge --squash $1 && git commit -a; #"
 
-
 ; }}}
 ; {{{ ### rebase ###
 
@@ -218,7 +207,6 @@
     # 直到某个hash的rebase
     rihs = "!git rebase -i "$1"; #"
     refix = checkout --conflict=diff3  # 对某个文件回到解决冲突前的状态
-
 
 ; }}}
 ; {{{ ### remote ###
@@ -250,7 +238,7 @@
     rvnc = revert --no-commit
 
 ; }}}
-; {{{ ### stash
+; {{{ ### stash ###
 
     save = stash push
     pop = stash pop
@@ -287,6 +275,7 @@
 
 ; }}}
 ; {{{ ### undo ###
+
     uncommit = reset --soft HEAD~1
     # 命令末尾的#不能少
     uncommit-n = "!git reset --soft HEAD~$1; #"
@@ -297,6 +286,7 @@
     unstage = reset HEAD
     # Discard changes in a (list of) file(s) in working tree
     discard = checkout --
+
 ; }}}
 
 ; {{{ ### short alias ###
@@ -311,7 +301,7 @@
     s = status --short --branch
 
 ; }}}
-; {{{ ### other command ###
+; {{{ ### other commands ###
 
     # initalize a repo and immediate add an empty commit, which makes rebase easier.
     init-empty = !"f() { git init && git commit --allow-empty --allow-empty-message --message ''; }; f"
@@ -323,7 +313,6 @@
 
     # 修改旧的commit      See https://blog.filippo.io/git-fixup-amending-an-older-commit/
     fixup = "!f() { TARGET=$(git rev-parse \"$1\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; }; f"
-
 
     # Ignore all untracked files by appending them to .gitignore:
     ignore-untracked = "!git status | grep -P \"^\\t\" | grep -vF .gitignore | sed \"s/^\\t//\" >> .gitignore"
