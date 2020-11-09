@@ -176,7 +176,7 @@
             git push; \
             git checkout \"$base_branch\"; \
             git branch --delete \"$topic_branch\"; \
-            git push origin \":$topic_branch\"; \
+            git push origin --delete \"$topic_branch\"; \
         fi; \
         };f"
 
@@ -190,12 +190,22 @@
             printf \"Please checkout the topic branch that you want,\n\"; \
             printf \"then retry the git topic delete command.\n\"; \
         else \
-            git checkout \"$base_branch\"; \
+            git checkout \"$base_branch\" >/dev/null 2>&1; \
             git branch --delete \"$topic_branch\"; \
         fi; \
         };f"
     tsp = "!git topic-stop-local"
 
+
+; {{{ topic-sync介绍
+    ##
+    # Update the current topic branch by synchronizing changes.
+    #
+    # If you use any kind of testing framework, or test driven development,
+    # then it can be wise to test your topic immediately after running this,
+    # to ensure that any available updates are successfully integrated.
+    ##
+; }}}
     topic-sync = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
@@ -206,6 +216,7 @@
             printf \"Please checkout the topic branch that you want,\n\"; \
             printf \"then retry the git topic delete command.\n\"; \
         else \
+            git checkout \"$topic_branch\" >/dev/null 2>&1; \
             git pull; \
             git push; \
         fi; \
