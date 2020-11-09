@@ -59,11 +59,29 @@
     helper = cache --timeout=3600000000
 ; }}}
 
+# 很多alias来自 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt
 [alias]
-    # remerge 重新merge
-    rem = checkout --conflict=diff3
-    # 很多alias来自 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt
-    ### add ###
+; {{{ ### work flow ###
+
+    ; 编辑和暂存有冲突的文件
+    ; NOTE: 工作流:
+    ;             $ git edit-unmerged
+    ;                 ... edit ...
+    ;                 ... test ...
+    ;             $ git add-unmerged
+    ;             $ git commit  # or git rebase --continue or whatever
+    edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; ${EDITOR:-vi} `f`"
+    add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
+
+    # 预存提交信息
+    todo = !${EDITOR:-vi} $(git rev-parse --git-dir)/.template
+    # 用预存在文件里的信息提交
+    cm = !git commit -F $(git rev-parse --git-dir)/.template
+
+; }}}
+
+; {{{ ### add ###
+;
     a = add
     # add all
     aa = add -A
@@ -72,7 +90,10 @@
     # add just the files that are updated.
     au = add --update
 
-    ### branch
+
+; }}}
+; {{{ ### branch ###
+;
     b = branch
     # 显示分支列表
     bl = branch -av
@@ -86,7 +107,14 @@
     tags = tag -n1 --list
     stashes = stash list
 
-    ### commit ###
+    # 快速切换或者创建新分支
+    z = checkout -B
+    zd = checkout -B dev
+    zm = checkout master
+
+; }}}
+; {{{ ### commit ###
+;
     # commit with a message
     c = commit -a
     # 将新的修改全部应用到上次commit里
@@ -96,13 +124,19 @@
     # commit and push
     cap = "!f() { git commit --all -m \"$@\" && git push; }; f"
 
-    ### checkout ###
+
+; }}}
+; {{{ ### checkout ###
+
     # checkout - update the working tree to match a branch or paths. [same as "o" for "out"]
     co = checkout
     cob = checkout -b
     co-rs = checkout --
 
-    ### cherry-pick ###
+
+; }}}
+; {{{ ### cherry-pick ###
+
     # cherry-pick - apply the changes introduced by some existing commits; useful for moving small chunks of code between branches.
     cp = cherry-pick
     # cherry-pick - abort the picking process
@@ -112,7 +146,10 @@
     # cherry-pick without making a commit, and when when recording the commit, append a line that says "(cherry picked from commit ...)"
     cp-nx = cherry-pick --no-commit -x
 
-    ### diff ###
+
+; }}}
+; {{{ ### diff ###
+
     d = diff
     df = difftool
     dt-staged = difftool --staged
@@ -125,11 +162,21 @@
     # diff deep - show changes with our preferred options. Also aliased as `diff-deep`.
     dd = diff --check --dirstat --find-copies --find-renames --histogram --color
 
-    ### grep ###
+
+; }}}
+; {{{ ### grep ###
+
     # grep group - search with our preferred options. Also aliased as `grep-group`.
     gr = grep --break --heading --line-number --color
+    rg = !rg $(git rev-parse --show-toplevel) --column --smart-case -e
+    rg-ls = !rg $(git rev-parse --show-toplevel) --files
+    rg-all = !rg $(git rev-parse --show-toplevel) --column --smart-case --no-ignore --hidden -g '!.git' -e
+    rg-all-ls = !rg $(git rev-parse --show-toplevel) --no-ignore --hidden -g '!.git' --files
 
-    ### log ###
+
+; }}}
+; {{{ ### log ###
+
     # NOTE: log 加了--graph 会让使用nvim 作为log的 pager时出bug
     # log like - we like this summarization our key performance indicators. Also aliased as `log-like`.
     lg = log -10 --graph --topo-order --date=short --abbrev-commit --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'
@@ -140,19 +187,10 @@
     # log like long  - we like this summarization our key performance indicators. Also aliased as `log-like-long`.
     lll = log --graph --topo-order --date=iso8601-strict --no-abbrev-commit --abbrev=40 --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn <%ce>]%Creset %Cblue%G?%Creset'
 
-    ### init ###
 
-    # initalize a repo and immediate add an empty commit, which makes rebase easier.
-    init-empty = !"f() { git init && git commit --allow-empty --allow-empty-message --message ''; }; f"
+    ; }}}
+; {{{ ### merge ###
 
-
-    ## ls-files ##
-    # ls-files - show information about files in the index and the working tree; like Unix "ls" command.
-    ls = ls-files
-    # ls-ignored -  list files that git has ignored.
-    ls-ignored = ls-files --others --i --exclude-standard
-
-    ### merge ###
     ; # merge but without autocommit, and with a commit even if the merge resolved as a fast-forward.
     ; mg = merge --no-commit --no-ff
     # merge but without autocommit, and with a commit 除非这个是同一路径上可以快进(faster-forward)的merge
@@ -165,7 +203,10 @@
     ; merge squash 默认删除之前的分支，常用于开发feature分支
     mgs = "!git merge --squash $1 && git commit -a; #"
 
-    ### rebase ###
+
+; }}}
+; {{{ ### rebase ###
+
     r = rebase
     ra = rebase --abort
     rc = "!git add --update && git rebase --continue"
@@ -176,18 +217,12 @@
     rin = "!git rebase -i HEAD~"$1"; #"
     # 直到某个hash的rebase
     rihs = "!git rebase -i "$1"; #"
-
-    # See https://blog.filippo.io/git-fixup-amending-an-older-commit/
-    # 修改旧的commit
-    fixup = "!f() { TARGET=$(git rev-parse \"$1\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; }; f"
+    refix = checkout --conflict=diff3  # 对某个文件回到解决冲突前的状态
 
 
-    ### reflog ###
-    # 恢复一个删除的分支用 checkout -b <branch> <SHA>
-    ref = reflog --no-abbrev
+; }}}
+; {{{ ### remote ###
 
-
-    ### remote ###
     # 如果本地分支追踪的远程分支被删除，那么这个追踪会被删除，但是本地分支不会删除
     remote-prune-all = !git remote | xargs -n 1 git remote prune
     # 删除远程分支origin (origin可以换成别的)
@@ -197,68 +232,61 @@
     # remote show - gives some information about the remote <name>.
     ros = remote show
 
-    ### revert ###
+    # Push the current branch to the remote "origin", and set it to track
+    # the upstream branch
+    publish = "!git push -u origin $(git branch-name)"
+    # Delete the remote version of the current branch
+    unpublish = "!git push origin :"
+    # Fire up your difftool (e.g. Kaleidescope) with all the changes that
+    # are on the current branch.
+    code-review = "!git difftool origin/$(git branch-name)..."
+
+; }}}
+; {{{ ### revert ###
+
     # revert - undo the changes from some existing commits
     rv = revert
     # revert without autocommit; useful when you're reverting more than one commits' effect to your index in a row.
     rvnc = revert --no-commit
 
-    ### show-branch ###
-    # show-branch - print a list of branches and their commits.
-    sb = show-branch
+; }}}
+; {{{ ### stash
 
-    ### status ###
-    # status with short format instead of full details
-    s = status --short --branch
-
-    ### stash
     save = stash push
     pop = stash pop
+; {{{ snapshot 介绍
+
     # Stash snapshot - from http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
     # Take a snapshot of your current working tree without removing changes.
     # This is handy for refactoring where you can't quite fit what you've done
     # into a commit but daren't stray too far from now without a backup.
     #
     # Running this:
-    #
     #    $ git snapshot
     #
     # Creates this stash:
-    #
     #    stash@{0}: On feature/handy-git-tricks: snapshot: Mon Apr 8 12:39:06 BST 2013
     #
     # And seemingly no changes to your working tree.
+; }}}
     snapshot = !git stash push "snapshot: $(date)" && git stash apply "stash@{0}"
 
+; }}}
+; {{{ ### submodule ###
 
-
-    ### submodule ###
     # submodule - enables foreign repositories to be embedded within a dedicated subdirectory of the source tree.
     sm = submodule
-
-    # submodule init
     smi = submodule init
-
-    # submodule add
     sma = submodule add
-
-    # submodule sync
     sms = submodule sync
-
-    # submodule update
     smu = submodule update
-
     # submodule update with initialize
     smui = submodule update --init
-
     # submodule update with initialize and recursive; this is useful to bring a submodule fully up to date.
     smuir = submodule update --init --recursive
 
-
-    ### command ###
-    # Ignore all untracked files by appending them to .gitignore:
-    ignore-untracked = "!git status | grep -P \"^\\t\" | grep -vF .gitignore | sed \"s/^\\t//\" >> .gitignore"
-
+; }}}
+; {{{ ### undo ###
     uncommit = reset --soft HEAD~1
     # 命令末尾的#不能少
     uncommit-n = "!git reset --soft HEAD~$1; #"
@@ -269,7 +297,36 @@
     unstage = reset HEAD
     # Discard changes in a (list of) file(s) in working tree
     discard = checkout --
+; }}}
 
+; {{{ ### short alias ###
+
+    ps = push
+    ft = fetch
+    pl = pull
+    # 恢复一个删除的分支用 checkout -b <branch> <SHA>, 其中SHA可以从ref获取
+    ref = reflog --no-abbrev
+
+    # status with short format instead of full details
+    s = status --short --branch
+
+; }}}
+; {{{ ### other command ###
+
+    # initalize a repo and immediate add an empty commit, which makes rebase easier.
+    init-empty = !"f() { git init && git commit --allow-empty --allow-empty-message --message ''; }; f"
+
+    # ls-files - show information about files in the index and the working tree; like Unix "ls" command.
+    ls = ls-files
+    # ls-ignored -  list files that git has ignored.
+    ls-ignored = ls-files --others --i --exclude-standard
+
+    # 修改旧的commit      See https://blog.filippo.io/git-fixup-amending-an-older-commit/
+    fixup = "!f() { TARGET=$(git rev-parse \"$1\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; }; f"
+
+
+    # Ignore all untracked files by appending them to .gitignore:
+    ignore-untracked = "!git status | grep -P \"^\\t\" | grep -vF .gitignore | sed \"s/^\\t//\" >> .gitignore"
     # Expunge a file everywhere; this command is typically for a serious problem,
     # such as accidentally committing a file of sensitive data, such as passwords.
     # After you use command, you will likely need to force push everything.
@@ -282,17 +339,8 @@
     master-branch-clean-local = "!git checkout master && git branch --merged | xargs git branch --delete"
     # Delete all remote branches that have been merged into the remote master branch.
     master-branch-clean-remote = "!git branch --remotes --merged origin/master | sed 's# *origin/##' | grep -v '^master$' xargs -I% git push origin :% 2>&1 | grep --colour=never 'deleted'"
-    # Get the current branch name (not so useful in itself, but used in other aliases)
+    # 获取当前branch名字，主要用在其他alias里
     branch-name = "!git rev-parse --abbrev-ref HEAD"
-    # Push the current branch to the remote "origin", and set it to track
-    # the upstream branch
-    publish = "!git push -u origin $(git branch-name)"
-    # Delete the remote version of the current branch
-    unpublish = "!git push origin :"
-    # Fire up your difftool (e.g. Kaleidescope) with all the changes that
-    # are on the current branch.
-    code-review = "!git difftool origin/$(git branch-name)..."
-
     # Delete a branch name, then create the same branch name based on master -
     # useful if you have, for example, a development branch and master branch
     # and they go out of sync, and you want to nuke the development branch.
@@ -303,9 +351,6 @@
 
     # ahead of origin, Show commits that haven't made it to remote master yet.
     ahead = "!git log --oneline origin/$(git branch-name)..HEAD"
-    ps = push
-    ft = fetch
-    pl = pull
     # 最后一个commit
     last = log -1 HEAD
     ; Get everything new:
@@ -314,32 +359,12 @@
     push-to-all-remotes = !git remote | xargs -I% -n1 git push %
     # Show who contributed, in descending order by number of commits
     whorank = shortlog --summary --numbered --no-merges
-    # 快速切换或者创建新分支
-    z = checkout -B
-    zd = checkout -B dev
-    zm = checkout master
     ; 获取hash全称，在遇到hash冲突的时候很有用
     abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
 
-    ; 编辑和暂存有冲突的文件
-    ; NOTE: 工作流:
-    ;             $ git edit-unmerged
-    ;                 ... edit ...
-    ;                 ... test ...
-    ;             $ git add-unmerged
-    ;             $ git commit  # or git rebase --continue or whatever
-    edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; ${EDITOR:-vi} `f`"
-    add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
+; }}}
 
-	todo = !${EDITOR:-vi} $(git rev-parse --git-dir)/.template
-	cm = !git commit -F $(git rev-parse --git-dir)/.template
-
-
-
-
-
-
-
+; {{{ ### unused ###
 
     df-staged = diff --staged --color
     df-fzf = !zsh $HOME/repo/scripts/func/forgit.zsh diff
@@ -351,7 +376,5 @@
     log-fzf = !zsh $HOME/repo/scripts/func/forgit.zsh log
     ig-fzf = !zsh $HOME/repo/scripts/func/forgit.zsh ignore
     ; edit = !nvim `git ls-files -m --other --exclude-standard` -p
-    rg = !rg $(git rev-parse --show-toplevel) --column --smart-case -e
-    rg-ls = !rg $(git rev-parse --show-toplevel) --files
-    rg-all = !rg $(git rev-parse --show-toplevel) --column --smart-case --no-ignore --hidden -g '!.git' -e
-    rg-all-ls = !rg $(git rev-parse --show-toplevel) --no-ignore --hidden -g '!.git' --files
+
+; }}}
