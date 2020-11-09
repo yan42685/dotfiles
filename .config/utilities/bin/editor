@@ -15,7 +15,8 @@ args=$@
 start-edit() {
     if [ -n "$NVIM_LISTEN_ADDRESS" ] ; then
         # 需要 pip3 install neovim-remote 安装nvr
-        nvr --remote-tab ${args}
+        # NOTE: 由于nvr不能在当前vim window打开，所以改成floaterm了
+        floaterm ${args}
     else
         nvim ${args}
     fi

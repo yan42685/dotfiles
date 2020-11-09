@@ -1058,20 +1058,20 @@ nnoremap tl :SidewaysRight<cr>
 nnoremap th :SidewaysLeft<cr>
 
 " 驼峰跳转 FIXME: 修改了默认的b w e映射
-Plug 'bkad/CamelCaseMotion'
-let g:camelcasemotion_key = '<C-S-M-F12>'  " 禁用默认快捷键
-"{{{
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> b <Plug>CamelCaseMotion_b
-map <silent> e <Plug>CamelCaseMotion_e
-omap <silent> iw <Plug>CamelCaseMotion_iw
-xmap <silent> iw <Plug>CamelCaseMotion_iw
-" diw用CamelCase, ciw用原始的比较好
-nnoremap ciw ciw
-sunmap w
-sunmap b
-sunmap e
-"}}}
+" Plug 'bkad/CamelCaseMotion'
+" let g:camelcasemotion_key = '<C-S-M-F12>'  " 禁用默认快捷键
+" "{{{
+" map <silent> w <Plug>CamelCaseMotion_w
+" map <silent> b <Plug>CamelCaseMotion_b
+" map <silent> e <Plug>CamelCaseMotion_e
+" omap <silent> iw <Plug>CamelCaseMotion_iw
+" xmap <silent> iw <Plug>CamelCaseMotion_iw
+" " diw用CamelCase, ciw用原始的比较好
+" nnoremap ciw ciw
+" sunmap w
+" sunmap b
+" sunmap e
+" "}}}
 
 " 支持v:count 块选择模式整列的递增/减数字 <c-a> <c-x>
 Plug 'triglav/vim-visual-increment', {'on': ['<Plug>(VisualIncrement)', '<Plug>(VisualDecrement)']}
@@ -1423,7 +1423,7 @@ fun My_reset_floaterm_config()
     let g:floaterm_winblend = 0  " 背景透明度百分比
     let g:floaterm_position = 'center'  " 浮动窗口位置
     " 从终端打开文件的方式 Available: 'edit', 'split', 'vsplit', 'tabe', 'drop'. Default: 'edit'
-    let g:floaterm_open_command = 'tabe'
+    let g:floaterm_open_command = 'edit'
     " 使用git commit时触发
     let g:floaterm_gitcommit = 'split'  " split vsplit tabe可选
 endf
