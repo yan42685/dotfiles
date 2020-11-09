@@ -190,6 +190,8 @@
 
 
     ### remote ###
+    # 如果本地分支追踪的远程分支被删除，那么这个追踪会被删除，但是本地分支不会删除
+    remote-prune-all = !git remote | xargs -n 1 git remote prune
     # 删除远程分支origin (origin可以换成别的)
     remote-delete-branch = push origin --delete
     # remote - manage set of tracked repositories [same as "r"].
@@ -320,6 +322,16 @@
     zm = checkout master
     ; 获取hash全称，在遇到hash冲突的时候很有用
     abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
+
+    ; 编辑和暂存有冲突的文件
+    ; NOTE: 工作流:
+    ;             $ git edit-unmerged
+    ;                 ... edit ...
+    ;                 ... test ...
+    ;             $ git add-unmerged
+    ;             $ git commit  # or git rebase --continue or whatever
+    edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; editor `f`"
+    add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
 
 
 
