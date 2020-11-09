@@ -672,7 +672,6 @@ nnoremap <silent> ,,gD :G difftool -y<cr><esc>:silent! doautocmd User MyEnterDif
 nnoremap <silent> ,,GD :G difftool --cached -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
 " 编辑其他分支的文件 Gedit branchname:path/to/file,  branchname:%表示当前buffer的文件
 nnoremap ,ge :Gedit<space>
-" nnoremap ,gl  :Glog<cr>  " 由Flog插件替代
 " git status
 nnoremap <silent> ,gs :vert Git<cr>
 nnoremap ,gg :Ggrep<space>
