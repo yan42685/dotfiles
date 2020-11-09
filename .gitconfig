@@ -159,8 +159,18 @@
     stashes = stash list
 
     # 快速切换或者创建新分支
-    z = checkout -B
-    zd = checkout -B dev
+    z = "!f() { \
+                local branch=${1} \
+                local existed_in_local=$(git branch --list ${branch}) \
+                if [[ -z ${existed_in_local} ]]; then  \
+                    git checkout $1  \
+                else  \
+                    git checkout -b $1  \
+                fi  \
+             }; f"
+
+    ; z = checkout -B
+    zd = z dev
     zm = checkout master
 
 ; }}}

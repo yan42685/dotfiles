@@ -2162,8 +2162,10 @@ nnoremap <silent> <leader>? :nohls<cr>
 " 重复上次搜索
 nnoremap g? /<c-r>/<cr>
 noremap ; :
+" 打开或折叠一个fold
 nmap zo za
-nmap zO zA
+" 打开或折叠所有的fold
+nnoremap <expr> zzo &foldlevel ? 'zM' :'zR'
 noremap ,; ;
 nnoremap ,w :w<cr>
 " 解决通过命令let @" = {text}设置的@" 不能被p正确粘贴的问题
@@ -2206,9 +2208,9 @@ nnoremap <expr> j
         \ v:count == 0 ? 'gj' : 'j'
 vnoremap <expr> j
         \ v:count == 0 ? 'gj' : 'j'
-" 在同一个折叠的首位跳转
-nnoremap zzj ]z
-nnoremap zzk [z
+" 在同一个折叠的首尾部跳转
+nnoremap zj ]z
+nnoremap zk [z
 noremap J <C-f>
 noremap K <C-b>
 " 去上次修改的地方
