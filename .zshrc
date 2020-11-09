@@ -230,8 +230,9 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/colorize
 
 
-    # NOTE: 用自定义的cron替代git-auto-fetch
-    # zgen oh-my-zsh plugins/git-auto-fetch
+    # NOTE: 没必要用crontab定义自动fetch, 这个插件提供的根据 zle-line-init 触发就足够用了,
+    #       因为一般的工作流总是需要先 pull 再 push 的
+    zgen oh-my-zsh plugins/git-auto-fetch
     zgen load romkatv/powerlevel10k powerlevel10k
     zgen load zdharma/fast-syntax-highlighting
     zgen load zsh-users/zsh-autosuggestions
