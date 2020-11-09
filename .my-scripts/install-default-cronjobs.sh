@@ -1,8 +1,8 @@
+# DEPRECIATED: 本脚本尚未放入~/.my-scripts/deploy.sh 因为Oh-My-Zsh自带的git-auto-fetch插件足够用了
+
 # NOTE: 1. 检查cron语法是否正确的网站： https://crontab.guru/
 #       2. 因为cron默认所有输出都会保存在一个文件里, 时间长了会撑爆硬盘,
 #          所以最好每个命令末尾加上 >/dev/null 2>&1
-#
-# FIXME: 本脚本尚未放入~/.my-scripts/deploy.sh
 
 REDIRECT_TO_NULL=" >/dev/null 2>&1"
 cronjobs_path=~/.my-scripts/default-cronjobs

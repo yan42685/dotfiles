@@ -2800,12 +2800,12 @@ function s:Enable_normal_scheme() abort
 
     augroup highlight_my_keywords
         autocmd!
-        autocmd Syntax * call matchadd('MyTodo',  '\W\zs\(TODO\|CHANGED\|XXX\|DONE\):')
-        autocmd Syntax * call matchadd('MyNote',  '\W\zsNOTE:')
-        autocmd Syntax * call matchadd('MyFixme', '\W\zsFIXME:')
-        autocmd Syntax * call matchadd('MyBug',   '\W\zsBUG:')
-        autocmd Syntax * call matchadd('MyHack',  '\W\zsHACK:')
-        autocmd Syntax * call matchadd('MyTip',   '\W\zsTIP:')
+        autocmd Syntax * call matchadd('MyTodo',       '\W\zs\(TODO\|CHANGED\|XXX\|DONE\):')
+        autocmd Syntax * call matchadd('MyNote',       '\W\zsNOTE:')
+        autocmd Syntax * call matchadd('MyFixme',      '\W\zsFIXME:')
+        autocmd Syntax * call matchadd('MyBug',        '\W\zs\(BUG\|DEPRECIATED\):')
+        autocmd Syntax * call matchadd('MyHack',       '\W\zsHACK:')
+        autocmd Syntax * call matchadd('MyTip',        '\W\zsTIP:')
     augroup end
     "}}}
     " {{{折叠，侧栏，Signature的mark标记
