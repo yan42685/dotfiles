@@ -57,6 +57,11 @@
     # 缓存HTTP/HTTPS方式输入的用户名密码时间, 设置为
     # 时间单位为秒 此处为大于100年
     helper = cache --timeout=3600000000
+
+# 用于 topic 工作流
+[gitalias "topic.base.branch"]
+	name = master
+
 ; }}}
 
 [alias]    # 很多alias来自 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt
@@ -80,21 +85,27 @@
 
 ; {{{ ======== topic 工作流 =========
     ; 参考 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt#L1217
-    topic-base-branch-name = "!f(){ \
+    set-global-base-branch = config --global gitalias.topic.base.branch.name
+    set-local-base-branch = config --local gitalias.topic.base.branch.name
+    ; global base-branch 默认是master， 这里设置local base-branch
+    set-bb = "!git set-local-base-branch"
+    base-branch = "!f(){ \
         git config --get gitalias.topic.base.branch.name || printf '%s\n' main; \
         };f"
+    bb = "!git base-branch"
 
     topic-start = "!f(){ \
         topic_branch=\"$1\"; \
-        base_branch=$(git topic-base-branch-name); \
+        base_branch=$(git base-branch); \
         git checkout \"$base_branch\"; git pull; \
         git checkout -b \"$topic_branch\" \"$base_branch\"; \
         git push --set-upstream origin \"$topic_branch\"; \
         };f"
+    tst = "!git topic-start"
 
     topic-stop = "!f(){ \
         topic_branch=$(git branch-name); \
-        base_branch=$(git topic-base-branch-name); \
+        base_branch=$(git base-branch); \
         if [ \"$topic_branch\" = \"$base_branch\" ]; then \
         printf \"You are asking to do git topic-stop,\n\"; \
         printf \"but you are not currently on a topic branch;\n\"; \
@@ -108,10 +119,11 @@
         git push origin \":$topic_branch\"; \
         fi; \
         };f"
+    tsp = "!git topic-stop"
 
     topic-sync = "!f(){ \
         topic_branch=$(git branch-name); \
-        base_branch=$(git topic-base-branch-name); \
+        base_branch=$(git base-branch); \
         if [ \"$topic_branch\" = \"$base_branch\" ]; then \
         printf \"You are asking to do git topic-sync,\n\"; \
         printf \"but you are not currently on a topic branch;\n\"; \
@@ -123,6 +135,7 @@
         git push; \
         fi; \
         };f"
+    tsy = "!git topic-sync"
 
     topic-move = "!f(){ \
         new_branch=\"$1\"; \
@@ -130,6 +143,7 @@
         git branch --move \"$old_branch\" \"$new_branch\"; \
         git push origin \":$old_branch\" \"$new_branch\"; \
         };f"
+    tmv = "!git topic-move"
 
 ; }}}
 
@@ -158,18 +172,8 @@
     tags = tag -n1 --list
     stashes = stash list
 
-    # 快速切换或者创建新分支
-    z = "!f() { \
-                local branch=${1} \
-                local existed_in_local=$(git branch --list ${branch}) \
-                if [[ -z ${existed_in_local} ]]; then  \
-                    git checkout $1  \
-                else  \
-                    git checkout -b $1  \
-                fi  \
-             }; f"
-
-    ; z = checkout -B
+    z = checkout
+    zb = checkout -b
     zd = z dev
     zm = checkout master
 
