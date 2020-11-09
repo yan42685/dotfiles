@@ -265,6 +265,7 @@
     uncommit-h = reset --hard HEAD~1
     uncommit-hn = "!git reset --hard HEAD~$1; #"
     unadd = reset HEAD
+    untracke = rm --cache --
     unstage = reset HEAD
     # Discard changes in a (list of) file(s) in working tree
     discard = checkout --
@@ -317,6 +318,9 @@
     z = checkout -B
     zd = checkout -B dev
     zm = checkout master
+    ; 获取hash全称，在遇到hash冲突的时候很有用
+    abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
+
 
 
 
