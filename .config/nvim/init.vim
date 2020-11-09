@@ -2942,7 +2942,7 @@ endif
 "{{{ 自动根据文件类型选择折叠方法
 function Change_fold_method_by_filetype()
     set foldlevel=99  " 第一次进入时不折叠
-    let s:marker_fold_list = ['vim', 'text', 'zsh', 'tmux', 'dosini']  " 根据文件类型选择不同的折叠模式
+    let s:marker_fold_list = ['vim', 'text', 'zsh', 'tmux', 'dosini', 'gitconfig']  " 根据文件类型选择不同的折叠模式
     let s:indent_fold_list = ['python']
     let s:expression_fold_list = ['markdown', 'rust', 'vimwiki']
     if index(s:marker_fold_list, &filetype) >= 0

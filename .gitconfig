@@ -1,14 +1,12 @@
-; [url "https://"]
-;     insteadOf = git://
-
+;基础设置 {{{
 # 专为github设置的代理
 [http "https://github.com"]
     proxy = socks5://127.0.0.1:6543
 [https "https://github.com"]
     proxy = socks5://127.0.0.1:6543
 [user]
-	name = alex
-	email = 419725794@qq.com
+    name = alex
+    email = 419725794@qq.com
 [core]
     editor = nvim
     quotepath = false  # 解决git ls不显示中文的问题
@@ -16,18 +14,16 @@
 [commit]
     # 设置 commit 模板文件路径
     template = ~/.config/git/.gitmessage
-
 [pager]
-    # 查看log，NOTE: 依赖Flog.vim插件
-    ; log = editor --git-log
+    # 以下命令不使用$PAGER浏览
     log = false
-	branch = false
+    branch = false
     tag = false
     reflog = false
     diff = false
     shortlog = false
 
-# difftool用editor(nvr) 有bug， 还是vimdiff3 好
+# difftool用editor(nvr) 有bug， 还是nvim 好
 [diff]
     tool = vimdiff3
 [difftool]
@@ -43,7 +39,7 @@
     prompt = false
     trustExitCode = true
     # 这样在解决冲突后就不会保留.orig文件了
-	keepBackup = false
+    keepBackup = false
 [mergetool "vim_mergetool"]
     # floaterm用nvr mergetool 有bug 还是nvim好, 然后<Alt-o>放大floaterm
     cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
@@ -55,12 +51,13 @@
 
 [push]
     # push自动带上tags
-	followTags = true
+    followTags = true
 
 [credential]
     # 缓存HTTP/HTTPS方式输入的用户名密码时间, 设置为
     # 时间单位为秒 此处为大于100年
     helper = cache --timeout=3600000000
+; }}}
 
 [alias]
     # remerge 重新merge
@@ -138,7 +135,8 @@
     lg = log -10 --graph --topo-order --date=short --abbrev-commit --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'
     # 自定义log行数
     lgn = "!git log -$1 --graph --topo-order --date=short --abbrev-commit --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'; #"
-    ll = "!editor --git-log"
+    # 查看log，NOTE: 依赖Flog.vim插件
+    ll = "!${EDITOR:-vi} --git-log"
     # log like long  - we like this summarization our key performance indicators. Also aliased as `log-like-long`.
     lll = log --graph --topo-order --date=iso8601-strict --no-abbrev-commit --abbrev=40 --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn <%ce>]%Creset %Cblue%G?%Creset'
 
@@ -330,9 +328,11 @@
     ;                 ... test ...
     ;             $ git add-unmerged
     ;             $ git commit  # or git rebase --continue or whatever
-    edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; editor `f`"
+    edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; ${EDITOR:-vi} `f`"
     add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
 
+	todo = !${EDITOR:-vi} $(git rev-parse --git-dir)/.template
+	cm = !git commit -F $(git rev-parse --git-dir)/.template
 
 
 
