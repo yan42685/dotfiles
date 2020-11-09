@@ -60,5 +60,5 @@ git-update-tracted-dotfiles() {
     cd ~
     git add -f $(yadm ls | grep -v .local/share/fonts)
     # 返回上次目录, 对于z.lua也生效
-    cd -
+    cd - >/dev/null
 }
