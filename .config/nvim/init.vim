@@ -676,8 +676,13 @@ nnoremap ,ge :Gedit<space>
 " git status
 nnoremap <silent> ,gs :vert Git<cr>
 nnoremap ,gg :Ggrep<space>
-nnoremap <silent> ,gmd :G add --update<cr><esc>:G commit --amend --no-edit<cr>
-nnoremap <silent> ,gme :G add --update<cr><esc>:G commit --amend<cr>
+" nnoremap <silent> ,gmd :G add --update<cr><esc>:G commit --amend --no-edit<cr>
+" 因为连续使用G会出一些bug，所以就用.gitconfig里定义的alias
+" 不用编辑提交信息 git add --update && git commit --amend --no-edit
+nnoremap <silent> ,gmd :!git cmd --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
+" 需要编辑提交信息 git add --update && git commit --amend
+nnoremap <silent> ,gme :G cme --quiet<cr>
+
 " 重命名git项目下的文件
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.
