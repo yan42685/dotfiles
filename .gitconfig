@@ -78,6 +78,61 @@
     # 用预存在文件里的信息提交
     cm = !git commit -F $(git rev-parse --git-dir)/.template
 
+; {{{ ======== topic 工作流 =========
+    ; 参考 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt#L1217
+    topic-base-branch-name = "!f(){ \
+        git config --get gitalias.topic.base.branch.name || printf '%s\n' main; \
+        };f"
+
+    topic-start = "!f(){ \
+        topic_branch=\"$1\"; \
+        base_branch=$(git topic-base-branch-name); \
+        git checkout \"$base_branch\"; git pull; \
+        git checkout -b \"$topic_branch\" \"$base_branch\"; \
+        git push --set-upstream origin \"$topic_branch\"; \
+        };f"
+
+    topic-stop = "!f(){ \
+        topic_branch=$(git branch-name); \
+        base_branch=$(git topic-base-branch-name); \
+        if [ \"$topic_branch\" = \"$base_branch\" ]; then \
+        printf \"You are asking to do git topic-stop,\n\"; \
+        printf \"but you are not currently on a topic branch;\n\"; \
+        printf \"you are on the base branch: $base_branch.\n\"; \
+        printf \"Please checkout the topic branch that you want,\n\"; \
+        printf \"then retry the git topic delete command.\n\"; \
+        else \
+        git push; \
+        git checkout \"$base_branch\"; \
+        git branch --delete \"$topic_branch\"; \
+        git push origin \":$topic_branch\"; \
+        fi; \
+        };f"
+
+    topic-sync = "!f(){ \
+        topic_branch=$(git branch-name); \
+        base_branch=$(git topic-base-branch-name); \
+        if [ \"$topic_branch\" = \"$base_branch\" ]; then \
+        printf \"You are asking to do git topic-sync,\n\"; \
+        printf \"but you are not currently on a topic branch;\n\"; \
+        printf \"you are on the base branch: $base_branch.\n\"; \
+        printf \"Please checkout the topic branch that you want,\n\"; \
+        printf \"then retry the git topic delete command.\n\"; \
+        else \
+        git pull; \
+        git push; \
+        fi; \
+        };f"
+
+    topic-move = "!f(){ \
+        new_branch=\"$1\"; \
+        old_branch=$(git branch-name); \
+        git branch --move \"$old_branch\" \"$new_branch\"; \
+        git push origin \":$old_branch\" \"$new_branch\"; \
+        };f"
+
+; }}}
+
 ; }}}
 
 ; {{{ ### add ###
@@ -301,6 +356,19 @@
     s = status --short --branch
 
 ; }}}
+; {{{ ### SHELL SCRIPTING ALIASES ###
+    # 这些是用在其他alias里面的
+    # Get the top level directory name
+    top-name = rev-parse --show-toplevel
+    # Get the current branch name
+    branch-name = rev-parse --abbrev-ref HEAD
+    # Get the upstream branch name
+    upstream-name = !git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)
+    # Execute shell scripts. Git always runs scripts in the top directory.
+    # For example "git exec pwd" will always show you the top directory.
+    exec = ! exec
+
+; }}}
 ; {{{ ### other commands ###
 
     # initalize a repo and immediate add an empty commit, which makes rebase easier.
@@ -328,8 +396,8 @@
     master-branch-clean-local = "!git checkout master && git branch --merged | xargs git branch --delete"
     # Delete all remote branches that have been merged into the remote master branch.
     master-branch-clean-remote = "!git branch --remotes --merged origin/master | sed 's# *origin/##' | grep -v '^master$' xargs -I% git push origin :% 2>&1 | grep --colour=never 'deleted'"
-    # 获取当前branch名字，主要用在其他alias里
-    branch-name = "!git rev-parse --abbrev-ref HEAD"
+
+
     # Delete a branch name, then create the same branch name based on master -
     # useful if you have, for example, a development branch and master branch
     # and they go out of sync, and you want to nuke the development branch.
