@@ -89,13 +89,10 @@
     set-local-base-branch = config --local gitalias.topic.base.branch.name
     ; global base-branch 默认是master， 这里设置local base-branch
     set-bb = "!git set-local-base-branch"
-    base-branch = "!f(){ \
-        git config --get gitalias.topic.base.branch.name || printf '%s\n' main; \
-        };f"
     bb = "!git base-branch"
 
 
-; {{{ 介绍
+; {{{ topic-start-remote 介绍
     ##
     # Start a topic branch.
     #
@@ -124,7 +121,7 @@
 
 ; }}}
     ; 开始一个topic分支并推送到remote
-    topic-start-and-share = "!git topic-start-local $1 && git push --set-upstream origin $1; #"
+    topic-start-remote = "!git topic-start-local $1 && git push --set-upstream origin $1; #"
     ; 只在本地开启一个topic
     topic-start-local = "!f(){ \
         topic_branch=\"$1\"; \
@@ -134,36 +131,83 @@
         };f"
     tst = "!git topic-start-local"
 
-    topic-stop = "!f(){ \
-        topic_branch=$(git current-branch); \
-        base_branch=$(git base-branch); \
+; {{{ topic-stop-remote 介绍
+    ##
+    # Stop a topic branch; this must be the current branch.
+    #
+    # Example:
+    #
+    #     git topic-stop
+    #
+    # We use this alias to complete work on a new feature,
+    # new task, new fix, new refactor, new optimization, etc.
+    #
+    # Customize this alias as you like for your own workflow.
+    #
+    # Our workflow does these steps:
+    #
+    #   1. Push the topic branch.
+    #   2. Delete the topic branch locally.
+    #   3. Delete the topic branch remotely.
+    #
+    # If you use a sharing site such a GitHub, and use typical settings,
+    # then this implementation deletes your branch for the site.
+    #
+    # Many teams choose to delete topic branches when they are finished,
+    # to keep the repositories clean and with a smaller number of branches.
+    #
+    # If git says "unable to push to unqualified destination" then it means
+    # that the remote branch doesn't exist, so git is unable to delete it.
+    # That's fine; it means someone else has already deleted the branch.
+    # To synchronize your branch list, use "git fetch --prune".
+    ##
+
+; }}}
+    topic-stop-remote = "!f(){ \
+        topic_branch=${1:-$(git current-branch)}; \
+        base_branch=$(git topic-base-branch-name); \
         if [ \"$topic_branch\" = \"$base_branch\" ]; then \
-        printf \"You are asking to do git topic-stop,\n\"; \
-        printf \"but you are not currently on a topic branch;\n\"; \
-        printf \"you are on the base branch: $base_branch.\n\"; \
-        printf \"Please checkout the topic branch that you want,\n\"; \
-        printf \"then retry the git topic delete command.\n\"; \
+            printf \"You are asking to do git topic-stop,\n\"; \
+            printf \"but you are not currently on a topic branch;\n\"; \
+            printf \"you are on the base branch: $base_branch.\n\"; \
+            printf \"Please checkout the topic branch that you want,\n\"; \
+            printf \"then retry the git topic delete command.\n\"; \
         else \
-        git push; \
-        git checkout \"$base_branch\"; \
-        git branch --delete \"$topic_branch\"; \
-        git push origin \":$topic_branch\"; \
+            git push; \
+            git checkout \"$base_branch\"; \
+            git branch --delete \"$topic_branch\"; \
+            git push origin \":$topic_branch\"; \
         fi; \
         };f"
-    tsp = "!git topic-stop"
 
-    topic-sync = "!f(){ \
-        topic_branch=$(git current-branch); \
+    topic-stop-local = "!f(){ \
+        topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         if [ \"$topic_branch\" = \"$base_branch\" ]; then \
-        printf \"You are asking to do git topic-sync,\n\"; \
-        printf \"but you are not currently on a topic branch;\n\"; \
-        printf \"you are on the base branch: $base_branch.\n\"; \
-        printf \"Please checkout the topic branch that you want,\n\"; \
-        printf \"then retry the git topic delete command.\n\"; \
+            printf \"You are asking to do git topic-stop,\n\"; \
+            printf \"but you are not currently on a topic branch;\n\"; \
+            printf \"you are on the base branch: $base_branch.\n\"; \
+            printf \"Please checkout the topic branch that you want,\n\"; \
+            printf \"then retry the git topic delete command.\n\"; \
         else \
-        git pull; \
-        git push; \
+            git checkout \"$base_branch\"; \
+            git branch --delete \"$topic_branch\"; \
+        fi; \
+        };f"
+    tsp = "!git topic-stop-local"
+
+    topic-sync = "!f(){ \
+        topic_branch=${1:-$(git current-branch)}; \
+        base_branch=$(git base-branch); \
+        if [ \"$topic_branch\" = \"$base_branch\" ]; then \
+            printf \"You are asking to do git topic-sync,\n\"; \
+            printf \"but you are not currently on a topic branch;\n\"; \
+            printf \"you are on the base branch: $base_branch.\n\"; \
+            printf \"Please checkout the topic branch that you want,\n\"; \
+            printf \"then retry the git topic delete command.\n\"; \
+        else \
+            git pull; \
+            git push; \
         fi; \
         };f"
     tsy = "!git topic-sync"
@@ -316,19 +360,16 @@
 
     # 如果本地分支追踪的远程分支被删除，那么这个追踪会被删除，但是本地分支不会删除
     remote-prune-all = !git remote | xargs -n 1 git remote prune
-    # 删除远程分支origin (origin可以换成别的)
-    remote-delete-branch = push origin --delete
     # remote - manage set of tracked repositories [same as "r"].
     ro = remote
     # remote show - gives some information about the remote <name>.
-    ros = remote show
+    ros = "!git remote show ${1:-origin}"
 
-    # Push the current branch to the remote "origin", and set it to track
-    # the upstream branch
-    publish = "!git push -u origin $(git current-branch)"
-    publish = "!target_branch=${1:-$(git current-branch)} && git push -u origin $target_branch"
+    remote-untrack = "!git branch --unset-upstream ${1:-$(git current-branch)}"
+    # Push the current branch to the remote "origin", and set it to track the upstream branch
+    publish = "!git push -u origin ${1:-$(git current-branch)}"
     # 删除远程分支(若不指定分支名就是当前分支的名字)
-    unpublish = "!target_branch=${1:-$(git current-branch)} && git push origin --delete $target_branch"
+    unpublish = "!git push origin --delete ${1:-$(git current-branch)}"
     # Fire up your difftool (e.g. Kaleidescope) with all the changes that
     # are on the current branch.
     code-review = "!git difftool origin/$(git current-branch)..."
@@ -416,6 +457,11 @@
     # Execute shell scripts. Git always runs scripts in the top directory.
     # For example "git exec pwd" will always show you the top directory.
     exec = ! exec
+    # topic work flow 依赖的base branch
+    base-branch = "!f(){ \
+    git config --get gitalias.topic.base.branch.name || printf '%s\n' main; \
+    };f"
+
 
 ; }}}
 ; {{{ ### other commands ###
@@ -445,7 +491,6 @@
     master-branch-clean-local = "!git checkout master && git branch --merged | xargs git branch --delete"
     # Delete all remote branches that have been merged into the remote master branch.
     master-branch-clean-remote = "!git branch --remotes --merged origin/master | sed 's# *origin/##' | grep -v '^master$' xargs -I% git push origin :% 2>&1 | grep --colour=never 'deleted'"
-
 
     # Delete a branch name, then create the same branch name based on master -
     # useful if you have, for example, a development branch and master branch
