@@ -58,7 +58,7 @@
     # 时间单位为秒 此处为大于100年
     helper = cache --timeout=3600000000
 
-# 用于 topic 工作流
+# 用于 topic 工作流的自定义变量，定义主要用于向远程仓库推送的分支
 [gitalias "topic.base.branch"]
 	name = master
 
@@ -104,7 +104,7 @@
     tst = "!git topic-start"
 
     topic-stop = "!f(){ \
-        topic_branch=$(git branch-name); \
+        topic_branch=$(git current-branch); \
         base_branch=$(git base-branch); \
         if [ \"$topic_branch\" = \"$base_branch\" ]; then \
         printf \"You are asking to do git topic-stop,\n\"; \
@@ -122,7 +122,7 @@
     tsp = "!git topic-stop"
 
     topic-sync = "!f(){ \
-        topic_branch=$(git branch-name); \
+        topic_branch=$(git current-branch); \
         base_branch=$(git base-branch); \
         if [ \"$topic_branch\" = \"$base_branch\" ]; then \
         printf \"You are asking to do git topic-sync,\n\"; \
@@ -139,7 +139,7 @@
 
     topic-move = "!f(){ \
         new_branch=\"$1\"; \
-        old_branch=$(git branch-name); \
+        old_branch=$(git current-branch); \
         git branch --move \"$old_branch\" \"$new_branch\"; \
         git push origin \":$old_branch\" \"$new_branch\"; \
         };f"
@@ -163,7 +163,8 @@
 ; {{{ ### branch ###
 
     b = branch
-    bl = branch -av  # 显示分支列表
+    # 显示分支列表并 untrack 被删除的remote分支
+    bl = "!git branch -av; git remote-prune-all &"
     bm = branch --merged
     bnm = branch --no-merged
     bd = branch -d
@@ -171,9 +172,11 @@
     # 可在--list 后面写搜索版本号, 比如git tgs '*1' (如果不加引号要用\*转义) 也可不写搜索内容
     tags = tag -n1 --list
     stashes = stash list
+    sl = stash list
 
     z = checkout
     zb = checkout -b
+    zz = "!git checkout $(git base-branch)"
     zd = z dev
     zm = checkout master
 
@@ -291,12 +294,12 @@
 
     # Push the current branch to the remote "origin", and set it to track
     # the upstream branch
-    publish = "!git push -u origin $(git branch-name)"
+    publish = "!git push -u origin $(git current-branch)"
     # Delete the remote version of the current branch
     unpublish = "!git push origin :"
     # Fire up your difftool (e.g. Kaleidescope) with all the changes that
     # are on the current branch.
-    code-review = "!git difftool origin/$(git branch-name)..."
+    code-review = "!git difftool origin/$(git current-branch)..."
 
 ; }}}
 ; {{{ ### revert ###
@@ -375,7 +378,7 @@
     # Get the top level directory name
     top-name = rev-parse --show-toplevel
     # Get the current branch name
-    branch-name = rev-parse --abbrev-ref HEAD
+    current-branch = rev-parse --abbrev-ref HEAD
     # Get the upstream branch name
     upstream-name = !git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)
     # Execute shell scripts. Git always runs scripts in the top directory.
@@ -421,7 +424,7 @@
     recreate = "!f() { [[ -n $@ ]] && git checkout \"$@\" && git unpublish && git checkout master && git branch -D \"$@\" && git checkout -b \"$@\" && git publish; }; f"
 
     # ahead of origin, Show commits that haven't made it to remote master yet.
-    ahead = "!git log --oneline origin/$(git branch-name)..HEAD"
+    ahead = "!git log --oneline origin/$(git current-branch)..HEAD"
     # 最后一个commit
     last = log -1 HEAD
     ; Get everything new:
