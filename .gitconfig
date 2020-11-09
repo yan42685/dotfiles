@@ -134,22 +134,12 @@
 
 ; {{{ topic-stop-remote 介绍
     ##
-    # Stop a topic branch; this must be the current branch.
-    #
-    # Example:
-    #
-    #     git topic-stop
-    #
     # We use this alias to complete work on a new feature,
     # new task, new fix, new refactor, new optimization, etc.
     #
-    # Customize this alias as you like for your own workflow.
-    #
     # Our workflow does these steps:
-    #
-    #   1. Push the topic branch.
-    #   2. Delete the topic branch locally.
-    #   3. Delete the topic branch remotely.
+    #   1. Delete the topic branch locally.
+    #   2. Delete the topic branch remotely.
     #
     # If you use a sharing site such a GitHub, and use typical settings,
     # then this implementation deletes your branch for the site.
@@ -160,7 +150,6 @@
     # If git says "unable to push to unqualified destination" then it means
     # that the remote branch doesn't exist, so git is unable to delete it.
     # That's fine; it means someone else has already deleted the branch.
-    # To synchronize your branch list, use "git fetch --prune".
     ##
 
 ; }}}
@@ -177,6 +166,7 @@
             git checkout \"$base_branch\" >/dev/null 2>&1; \
             git branch --delete \"$topic_branch\"; \
             git push origin --delete \"$topic_branch\"; \
+            git remote-prune-all;  \
         fi; \
         };f"
 
