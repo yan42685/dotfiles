@@ -94,14 +94,45 @@
         };f"
     bb = "!git base-branch"
 
-    topic-start = "!f(){ \
+
+; {{{ 介绍
+    ##
+    # Start a topic branch.
+    #
+    # Example:
+    #
+    #     git topic-start add-feature-foo
+    #
+    # We use this alias to begin work on a new feature,
+    # new task, new fix, new refactor, new optimization, etc.
+    #
+    # Customize this alias as you like for your own workflow.
+    #
+    # Our workflow does these steps:
+    #
+    #   1. Update the base branch.
+    #   2. Create a new branch with your topic name, based on the base branch.
+    #   3. Push the topic branch, so our team members can see the new branch.
+    #
+    # If you use a sharing site such a GitHub, and use typical settings,
+    # then this implementation makes your branch visible to collaborators.
+    #
+    # Many teams share branches before they are fully ready, to help
+    # the team provide feedback on the work-in-progress, and also to
+    # run any automatic tests to verify the branch runs successfully.
+    ##
+
+; }}}
+    ; 开始一个topic分支并推送到remote
+    topic-start-and-share = "!git topic-start-local $1 && git push --set-upstream origin $1; #"
+    ; 只在本地开启一个topic
+    topic-start-local = "!f(){ \
         topic_branch=\"$1\"; \
         base_branch=$(git base-branch); \
         git checkout \"$base_branch\"; git pull; \
         git checkout -b \"$topic_branch\" \"$base_branch\"; \
-        git push --set-upstream origin \"$topic_branch\"; \
         };f"
-    tst = "!git topic-start"
+    tst = "!git topic-start-local"
 
     topic-stop = "!f(){ \
         topic_branch=$(git current-branch); \
@@ -295,8 +326,9 @@
     # Push the current branch to the remote "origin", and set it to track
     # the upstream branch
     publish = "!git push -u origin $(git current-branch)"
-    # Delete the remote version of the current branch
-    unpublish = "!git push origin :"
+    publish = "!target_branch=${1:-$(git current-branch)} && git push -u origin $target_branch"
+    # 删除远程分支(若不指定分支名就是当前分支的名字)
+    unpublish = "!target_branch=${1:-$(git current-branch)} && git push origin --delete $target_branch"
     # Fire up your difftool (e.g. Kaleidescope) with all the changes that
     # are on the current branch.
     code-review = "!git difftool origin/$(git current-branch)..."
