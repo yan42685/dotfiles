@@ -394,6 +394,7 @@
 ; }}}
 ; {{{ ### stash ###
 
+    # 保存对tracked文件的修改(包括未暂存和已暂存)
     save = "!git stash push -m \"$(git log -1 HEAD --pretty=format:'%h - %s') - $(date '+%Y-%m-%d %H:%M:%S %A') - WIP\""
     pop = stash pop
 ; {{{ snapshot 介绍

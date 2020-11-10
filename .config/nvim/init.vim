@@ -728,6 +728,9 @@ vnoremap <silent> ,gl :Flog<cr>
 " coc-lists
 nnoremap <leader>cl :CocList<cr>
 
+" coc-git
+" NOTE: 在CocConfig里关闭了gutter功能, 现在用的是signify的功能
+
 " coc-bookmark
 nnoremap <leader>bl :CocList bookmark<cr>
 nmap <leader>bm <Plug>(coc-bookmark-toggle)
@@ -811,7 +814,7 @@ set signcolumn=yes  " Always show the signcolumn, otherwise it would shift the t
 "       \ coc#refresh()
 " 用于在空白行第一列按tab一步缩进到位
 " FIXME: 没有添加到下面列表里的文件类型如果cc不能缩进，则tab也不能缩进了, 那么就需要在下面的list新增文件类型
-let g:My_quick_tab_blacklist = ['markdown', 'text', 'vim', 'vimwiki', 'gitcommit',
+let g:My_quick_tab_blacklist = ['markdown', 'text', 'vim', 'vimwiki', 'gitcommit', 'zsh', 'sh',
             \ 'snippets', 'gitconfig', 'crontab']
 " inoremap <silent> <expr> <TAB>
 "       \ pumvisible() ? coc#_select_confirm() :
@@ -2078,7 +2081,6 @@ Plug 'uiiaoo/java-syntax.vim', {'for': ['java']}
 " 多光标插件有bug 用不了
 
 " coc-import-cost (仅用于JS和TS)
-" coc-github
 " coc-css-block-comments
 " coc-sql (lint和format, format似乎要手动, 看ale能不能自动调用这个插件自带的sql-formatter吧)
 

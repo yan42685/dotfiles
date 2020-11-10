@@ -339,7 +339,7 @@ bindkey -M vicmd 'L' vi-end-of-line
 bindkey -s '^e' '^[[3~'
 
 
-# {{{
+# {{{ insert-last-command-output()
 insert-last-command-output() {
 LBUFFER+="$(eval $history[$((HISTCMD-1))])"
 }
@@ -350,56 +350,29 @@ bindkey '^[x' insert-last-command-output  # insert last command result
 
 
 ############################################################
-# source功能函数, 一个zsh 一个bash
-source ~/.config/utilities/custom-functions.sh
-source ~/.config/utilities/custom-functions.zsh
+# {{{ 自定义函数
+# NOTE: 不可以在shell脚本里调用
 
-# 解决ls命令出现奇怪背景色的问题{{{
-# Change ls colours
-LS_COLORS="ow=01;36;40" && export LS_COLORS
+# {{{ toggle_auto_fetch()
+toggle_auto_fetch() {
+    `command git rev-parse --is-inside-work-tree 2>/dev/null` || return
+    guard="`command git rev-parse --git-dir`/NO_AUTO_FETCH"
+
+    (rm $guard 2>/dev/null &&
+        echo "${fg_bold[green]}enabled${reset_color}") ||
+        (touch $guard &&
+        echo "${fg_bold[red]}disabled${reset_color}")
+    }
 # }}}
-# 解决zeal不能显示mdn文档的问题 {{{
-zeal-docs-fix() {
-dirname="$HOME/.local/share/Zeal/Zeal/docsets"
-if [ -d $dirname  ];then
-    pushd $dirname >/dev/null || return
-    find . -iname 'react-main*.js' -exec rm '{}' \;
-    popd >/dev/null || exit
-fi
+# {{{ git-update-tracted-dotfiles()
+# 用于git更新追踪所有的dotfiles
+git-update-tracted-dotfiles() {
+cd ~
+git add -f $(yadm ls | grep -v .local/share/fonts)
+# 返回上次目录, 对于上次是z.lua跳转的也生效
+cd - >/dev/null
 }
-zeal-docs-fix
-#}}}
-# {{{ 命令行浏览Reddit的工具: rtv
-export RTV_EDITOR="vim"
-export RTV_BROWSER="w3m"
-export RTV_URLVIEWER="urlscan"
 # }}}
-# {{{fzf
-# export FZF_DEFAULT_COMMAND='fd --type f'
-export FZF_DEFAULT_OPTS="
--m --height=50%
---layout=reverse
---prompt='➤ '
---ansi
---tabstop=4
---color=dark
---color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2
---color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11
-"
-# }}}
-# {{{fzf-marks
-# Usage: mark fzm C-d
-FZF_MARKS_FILE="$HOME/.cache/fzf-marks"
-FZF_MARKS_COMMAND="fzf"
-FZF_MARKS_COLOR_RHS="249"
-# }}}
-# Z.lua{{{
-export _ZL_DATA="$HOME/.cache/.zlua"
-export _ZL_MATCH_MODE=1  # 增强匹配模式
-export _ZL_ROOT_MARKERS=".git,.svn,.hg,.root,package.json"  # 设定项目根目录列表
-function _z() { _zlua "$@"; }  # 整合fz与zlua
-# }}}
-
 # {{{FuzzyFinder
 # fuzzy match dirs and cd
 cdf() {
@@ -503,8 +476,66 @@ ps-kill-all() {
     fi
 }
 # }}}
+# {{{ test_cmd_pre()
+test_cmd_pre() {
+    command -v "$1" >/dev/null
+}
+# }}}
+# {{{ test_cmd()
+test_cmd() {
+    test_cmd_pre "$1" && echo 'yes' || echo 'no'
+}
+# }}}
+# }}}
 
 
+# {{{ 其他配置（需要放在插件加载之后)
+# 解决ls命令出现奇怪背景色的问题{{{
+# Change ls colours
+LS_COLORS="ow=01;36;40" && export LS_COLORS
+# }}}
+# 解决zeal不能显示mdn文档的问题 {{{
+zeal-docs-fix() {
+dirname="$HOME/.local/share/Zeal/Zeal/docsets"
+if [ -d $dirname  ];then
+    pushd $dirname >/dev/null || return
+    find . -iname 'react-main*.js' -exec rm '{}' \;
+    popd >/dev/null || exit
+fi
+}
+zeal-docs-fix
+#}}}
+# {{{ 命令行浏览Reddit的工具: rtv
+export RTV_EDITOR="vim"
+export RTV_BROWSER="w3m"
+export RTV_URLVIEWER="urlscan"
+# }}}
+# {{{fzf
+# export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_DEFAULT_OPTS="
+-m --height=50%
+--layout=reverse
+--prompt='➤ '
+--ansi
+--tabstop=4
+--color=dark
+--color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2
+--color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11
+"
+# }}}
+# {{{fzf-marks
+# Usage: mark fzm C-d
+FZF_MARKS_FILE="$HOME/.cache/fzf-marks"
+FZF_MARKS_COMMAND="fzf"
+FZF_MARKS_COLOR_RHS="249"
+# }}}
+# Z.lua{{{
+export _ZL_DATA="$HOME/.cache/.zlua"
+export _ZL_MATCH_MODE=1  # 增强匹配模式
+export _ZL_ROOT_MARKERS=".git,.svn,.hg,.root,package.json"  # 设定项目根目录列表
+function _z() { _zlua "$@"; }  # 整合fz与zlua
+# }}}
+#}}}
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
