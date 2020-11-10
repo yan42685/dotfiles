@@ -232,7 +232,7 @@
     sync = "!f(){ \
         target_branch=${1:-$(git current-branch)}; \
         current_branch=$(git current-branch); \
-        if [ \"$current_branch\" != \"$topic_branch\" ]; then \
+        if [ \"$current_branch\" != \"$target_branch\" ]; then \
             git checkout $target_branch; \
         fi; \
         git pull && git push; \
