@@ -108,28 +108,29 @@
     # run any automatic tests to verify the branch runs successfully.
     ##
 ; }}}
-    ; 开始一个topic分支并推送到remote
+; {{{ topic-start-remote 开始一个topic分支并推送到remote
     topic-start-remote = "!f(){ \
-    topic_branch=$1; \
-    base_branch=$(git base-branch); \
-    current_branch=$(git current-branch); \
-    if [ $current_branch != $base_branch ]; then \
+        topic_branch=$1; \
+        base_branch=$(git base-branch); \
+        current_branch=$(git current-branch); \
+        if [ $current_branch != $base_branch ]; then \
         git checkout $base_branch; \
-    fi; \
-    git pull && git checkout -b $topic_branch $base_branch && git push -u origin $1; \
-    };f"
+        fi; \
+        git pull && git checkout -b $topic_branch $base_branch && git push -u origin $1; \
+        };f"
 
-    ; 只在本地开启一个topic
+; }}}
+; {{{ topic-start-local 只在本地开启一个topic
     topic-start-local = "!f(){ \
         topic_branch=$1; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
         if [ $current_branch != $base_branch ]; then \
-            git checkout $base_branch; \
+        git checkout $base_branch; \
         fi; \
         git checkout -b $topic_branch $base_branch; \
         };f"
-
+; }}}
     tstr = "!git topic-start-remote"
     tst = "!git topic-start-local"
 
@@ -147,29 +148,33 @@
             printf \"but you can't stop master or base branch: $base_branch.\n\"; \
             printf \"Please ask to stop valid topic branch.\n\"; \
         else \
-            if [[ $current_branch != $base_branch ]]; then \
-                git checkout $base_branch; \
+            if [ $current_branch != $topic_branch ]; then \
+                git checkout $topic_branch; \
             fi; \
-            git branch --delete $topic_branch && git push origin --delete $topic_branch && git remote-prune-all;  \
+            git pull && git push && git checkout $base_branch && git branch --delete $topic_branch && git push origin --delete $topic_branch && git remote-prune-all;  \
         fi; \
         };f"
 
 ; }}}
-; {{{ topic-stop-local
+; {{{ topic-stop-local 删除本地topic分支
     ; 删除本地topic分支
     topic-stop-local = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
+        existed_in_remote=$(git ls-remote --heads origin $current_branch); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
             printf \"but you can't stop master or base branch: $base_branch.\n\"; \
             printf \"Please ask to stop valid topic branch.\n\"; \
         else \
-            if [ $current_branch != $base_branch ]; then \
-                git checkout $base_branch; \
+            if [ $current_branch != $topic_branch ]; then \
+                git checkout $topic_branch; \
+                if [ -z $existed_in_remote ]; then \
+                    git pull && git push; \
+                fi; \
             fi; \
-            git branch --delete \"$topic_branch\"; \
+            git checkout $base_branch && git branch --delete \"$topic_branch\"; \
         fi; \
         };f"
 ; }}}
@@ -223,7 +228,7 @@
             fi; \
             git pull && git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge $topic_branch; \
         fi; \
-        }"
+        };f"
 ; }}}
     tmg = "!git topic-merge"
     trb = "!git topic-rebase"

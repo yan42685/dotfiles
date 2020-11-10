@@ -1802,10 +1802,10 @@ endfunc
 "}}}
 "}}}
 noremap <silent> <leader><leader>e :AsyncTaskEdit<cr>
-noremap <silent> <leader>bf :call Async_build_file()<cr>
-noremap <silent> <leader>rf :call Async_run_file()<cr>
-noremap <silent> <leader>bp :call Async_build_project<cr>
-noremap <silent> <leader>rp :call Async_run_project<cr>
+noremap <silent> <leader>bf :FloatermKill!<cr><esc>:call Async_build_file()<cr>
+noremap <silent> <leader>rf :FloatermKill!<cr><esc>:call Async_run_file()<cr>
+noremap <silent> <leader>bp :FloatermKill!<cr><esc>:call Async_build_project<cr>
+noremap <silent> <leader>rp :FloatermKill!<cr><esc>:call Async_run_project<cr>
 
 "}}}
 "{{{杂项, 优化使用体验
