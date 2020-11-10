@@ -87,9 +87,9 @@
     add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
 
     # 预存提交信息
-    todo = !${EDITOR:-vi} $(git rev-parse --git-dir)/.template
+    todo = "!${EDITOR:-vi} $(git rev-parse --git-dir)/.template"
     # 用预存在文件里的信息提交
-    cm = !git commit -F $(git rev-parse --git-dir)/.template
+    cm = "!git commit -F $(git rev-parse --git-dir)/.template"
 
 ; {{{ ======== topic 工作流 =========
 ;   NOTE: 这套工作流正常应用的前提是
@@ -401,7 +401,7 @@
 ; }}}
 ; {{{ ### stash ###
 
-    sapply = "!git stash apply stash@{$1}"
+    sapply = "!git stash apply $1"
     # 保存对tracked文件的修改(包括未暂存和已暂存)
     save = "!git stash push -m \"$(git log -1 HEAD --pretty=format:'%h %s') - $(date '+%Y-%m-%d %H:%M:%S %A') - WIP\""
     pop = stash pop
@@ -421,13 +421,14 @@
     # And seemingly no changes to your working tree.
 ; }}}
     snapshot = "!git save && git stash apply stash@{0} >/dev/null 2>&1"
-    stashes = stash list
+    drop = stash drop
     sl = stash list
     ; 显示最近15次stash的哈希值 NOTE: 前提是stash注释里有WIP以便grep过滤
     ; 找到想要的stash后可以 git stash apply $stash_hash 或者 git branch recovered $stash_hash 恢复它
     stash-history = "!f() { \
         git fsck --unreachable | grep commit | cut -d\\  -f3 | xargs git log -15 --oneline --merges --no-walk --grep=WIP; \
     };f"
+    sh = "!git stash-history"
 
 ; }}}
 ; {{{ ### submodule ###
