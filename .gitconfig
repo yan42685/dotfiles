@@ -52,6 +52,14 @@
     # floaterm用nvr mergetool 有bug 还是nvim好, 然后<Alt-o>放大floaterm
     cmd = nvim -f -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
 
+[rebase]
+    # 在rebase -i 里自动将 之前commit --fixup A 产生的commit 放在 A 之后
+	autosquash = true
+	autoStash = true
+
+[fetch]
+    # fetch自动prune
+	prune = true
 [pull]
     # pull时用rebase="interactive"替代merge
     ; rebase = "interactive"
