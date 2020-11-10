@@ -153,7 +153,7 @@
             if [ $current_branch != $topic_branch ]; then \
                 git checkout $topic_branch; \
             fi; \
-            git pull && git push && git checkout $base_branch && git branch --delete $topic_branch && git push origin --delete $topic_branch && git remote-prune-all;  \
+            git pull origin $current_branch && git push origin $current_branch && git checkout $base_branch && git branch --delete $topic_branch && git push origin --delete $topic_branch && git remote-prune-all;  \
         fi; \
         };f"
 
@@ -174,7 +174,7 @@
                 git checkout $topic_branch; \
             fi; \
             if [ -n \"$existed_in_remote\" ]; then \
-                git pull && git push; \
+                git pull origin $current_branch && git push origin $current_branch; \
             fi; \
             git checkout $base_branch && git branch --delete \"$topic_branch\"; \
         fi; \
