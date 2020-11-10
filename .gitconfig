@@ -423,6 +423,11 @@
     snapshot = "!git save && git stash apply stash@{0} >/dev/null 2>&1"
     stashes = stash list
     sl = stash list
+    ; 显示最近15次stash的哈希值 NOTE: 前提是stash注释里有WIP以便grep过滤
+    ; 找到想要的stash后可以 git stash apply $stash_hash 或者 git branch recovered $stash_hash 恢复它
+    stash-history = "!f() { \
+        git fsck --unreachable | grep commit | cut -d\\  -f3 | xargs git log -15 --oneline --merges --no-walk --grep=WIP; \
+    };f"
 
 ; }}}
 ; {{{ ### submodule ###
