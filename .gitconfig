@@ -184,6 +184,7 @@
     tsp = "!git topic-stop"
 
 ; {{{  topic-merge 通过merge --no-ff 方式合并topic
+;   不立刻删除分支因为以后可能有用, 一般定时删除就好
     topic-merge = "!f() { \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
@@ -196,7 +197,7 @@
             if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
             fi; \
-            git pull && git merge --no-ff $topic_branch; \
+            git pull && git merge --no-ff $topic_branch && git push; \
         fi; \
         };f"
 ; }}}
@@ -213,7 +214,7 @@
             if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
             fi; \
-            git pull && git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge $topic_branch; \
+            git pull && git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge $topic_branch && git push; \
         fi; \
         };f"
 ; }}}
@@ -232,10 +233,10 @@
     sync = "!f(){ \
         target_branch=${1:-$(git current-branch)}; \
         current_branch=$(git current-branch); \
-        if [ \"$current_branch\" != \"$target_branch\" ]; then \
+        if [ $current_branch != $target_branch ]; then \
             git checkout $target_branch; \
         fi; \
-        git pull && git push; \
+        git pull && git push && git checkout $current_branch; \
         };f"
     sn = "!git sync"
 
