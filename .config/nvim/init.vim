@@ -1636,7 +1636,7 @@ nnoremap <silent> <leader>gf :Leaderf file<cr>
 nnoremap <silent> <leader>gr :Leaderf mru<cr>
 nnoremap <silent> <leader>gc :Leaderf cmdHistory<cr>
 nnoremap <silent> <leader>gs :Leaderf searchHistory<cr>
-nnoremap <silent> gb :Leaderf buffer<cr>
+nnoremap <silent> <leader>gb :Leaderf buffer<cr>
 nnoremap <silent> gf :Leaderf function<cr>
 nnoremap <silent> ,gt :Leaderf bufTag<cr>
 " 项目下即时搜索
