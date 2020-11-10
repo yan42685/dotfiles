@@ -611,7 +611,7 @@ endif
 " 可视化merge NOTE: 恢复merge前的状态使用: git checkout --conflict=diff3 {file}
 Plug 'samoshkin/vim-mergetool'
 "{{{
-let g:mergetool_layout = 'RML'  " `local`, `base`, `remote`, `merged`
+let g:mergetool_layout = 'LmR'  " `local`, `base`, `remote`, `merged`
 let g:mergetool_prefer_revision = 'unmodified'
 " mergetool 模式关闭语法检查和语法高亮 FIXME: 可能是unknown filetype报错的原因
 function s:on_mergetool_set_layout(split)

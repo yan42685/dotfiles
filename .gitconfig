@@ -1,3 +1,4 @@
+; FIXME: 在gitconfig里写的bash 应该用[ ] 而不是[[ ]], 不然会报错
 ;基础设置 {{{
 # 专为github设置的代理
 [http "https://github.com"]
@@ -109,7 +110,8 @@
     topic-start-remote = "!f(){ \
     topic_branch=$1; \
     base_branch=$(git base-branch); \
-    if [[ current_branch != $base_branch ]]; then \
+    current_branch=$(git current-branch); \
+    if [ $current_branch != $base_branch ]; then \
         git checkout $base_branch; \
     fi; \
     git pull && git checkout -b $topic_branch $base_branch && git push -u origin $1; \
@@ -119,7 +121,8 @@
     topic-start-local = "!f(){ \
         topic_branch=$1; \
         base_branch=$(git base-branch); \
-        if [[ current_branch != $base_branch ]]; then \
+        current_branch=$(git current-branch); \
+        if [ $current_branch != $base_branch ]; then \
             git checkout $base_branch; \
         fi; \
         git checkout -b $topic_branch $base_branch; \
@@ -136,13 +139,13 @@
     topic-stop-remote = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
-        current_branch = $(git current-branch); \
-        if [[ $topic_branch = $base_branch ]] || [[ $topic_branch = master ]]; then \
+        current_branch=$(git current-branch); \
+        if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
             printf \"but you can't stop master or base branch: $base_branch.\n\"; \
             printf \"Please ask to stop valid topic branch.\n\"; \
         else \
-            if [[ current_branch != $base_branch ]]; then \
+            if [[ $current_branch != $base_branch ]]; then \
                 git checkout $base_branch; \
             fi; \
             git branch --delete $topic_branch && git push origin --delete $topic_branch && git remote-prune-all;  \
@@ -155,13 +158,13 @@
     topic-stop-local = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
-        current_branch = $(git current-branch); \
-        if [[ $topic_branch = $base_branch ]] || [[ $topic_branch = master ]]; then \
+        current_branch=$(git current-branch); \
+        if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
             printf \"but you can't stop master or base branch: $base_branch.\n\"; \
             printf \"Please ask to stop valid topic branch.\n\"; \
         else \
-            if [[ current_branch != $base_branch ]]; then \
+            if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
             fi; \
             git branch --delete \"$topic_branch\"; \
@@ -170,7 +173,6 @@
 ; }}}
     tspr = "!git topic-stop-remote"
     tsp = "!git topic-stop-local"
-
 
     # 参数为修改后的branch名字
     topic-move-remote = "!f(){ \
@@ -191,13 +193,13 @@
     topic-merge = "!f() { \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
-        current_branch = $(git current-branch); \
-        if [[ $topic_branch = $base_branch ]] || [[ $topic_branch = master ]]; then \
+        current_branch=$(git current-branch); \
+        if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
             printf \"but you can't merge master or base branch: $base_branch.\n\"; \
             printf \"Please ask to merge valid topic branch.\n\"; \
         else \
-            if [[ current_branch != $base_branch ]]; then \
+            if [[ $current_branch != $base_branch ]]; then \
                 git checkout $base_branch; \
             fi; \
             # 保证下面任意操作失败则终止后续操作 \
@@ -209,13 +211,13 @@
     topic-rebase = "!f() { \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
-        current_branch = $(git current-branch); \
-        if [[ $topic_branch = $base_branch ]] || [[ $topic_branch = master ]]; then \
+        current_branch=$(git current-branch); \
+        if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
         printf \"You are asking to do git topic-stop,\n\"; \
         printf \"but you can't merge master or base branch: $base_branch.\n\"; \
         printf \"Please ask to merge valid topic branch.\n\"; \
         else \
-        if [[ current_branch != $base_branch ]]; then \
+        if [ $current_branch != $base_branch ]; then \
         git checkout $base_branch; \
         fi; \
         # 保证下面任意操作失败则终止后续操作 \
@@ -225,8 +227,6 @@
 ; }}}
     tmg = "!git topic-merge"
     trb = "!git topic-rebase"
-
-
 ; {{{ sync介绍
     ##
     # Update the current topic branch by synchronizing changes.
@@ -238,8 +238,8 @@
 ; }}}
     sync = "!f(){ \
         target_branch=${1:-$(git current-branch)}; \
-        current_branch = $(git current-branch); \
-        if [[ $current_branch != $topic_branch ]]; then \
+        current_branch=$(git current-branch); \
+        if [ \"$current_branch\" != \"$topic_branch\" ]; then \
             git checkout $target_branch; \
         fi; \
         git pull && git push; \
