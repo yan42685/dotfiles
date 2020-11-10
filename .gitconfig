@@ -3,6 +3,7 @@
 ;           2. 不能写#注释
 ;           3. 注意写分号;
 ;           4. if [ -n  \"$abc\" ]; then 用-n或-z 判断字符串不为空/为空需要用双引号，不能不加引号或者是单引号
+;           5. 双引号内一个 \ 就可以连接多行单命令语句了，用\\会转义空格的
 ;基础设置 {{{
 # 专为github设置的代理
 [http "https://github.com"]
@@ -89,6 +90,10 @@
     cm = !git commit -F $(git rev-parse --git-dir)/.template
 
 ; {{{ ======== topic 工作流 =========
+;   NOTE: 这套工作流正常应用的前提是
+;                   1. 只有一个远程仓库且命名为origin
+;                   2. 本地分支和远程分支名字相同
+;
     ; 参考 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt#L1217
     set-global-base-branch = config --global gitalias.topic.base.branch.name
     set-local-base-branch = config --local gitalias.topic.base.branch.name
@@ -136,53 +141,7 @@
     tstr = "!git topic-start-remote"
     tst = "!git topic-start-local"
 
-; {{{ topic-stop-remote 删除本地和远程topic分支
-    # If git says "unable to push to unqualified destination" then it means
-    # that the remote branch doesn't exist, so git is unable to delete it.
-    # That's fine; it means someone else has already deleted the branch.
-    ##
-    topic-stop-remote = "!f(){ \
-        topic_branch=${1:-$(git current-branch)}; \
-        base_branch=$(git base-branch); \
-        current_branch=$(git current-branch); \
-        if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
-            printf \"You are asking to do git topic-stop,\n\"; \
-            printf \"but you can't stop master or base branch: $base_branch.\n\"; \
-            printf \"Please ask to stop valid topic branch.\n\"; \
-        else \
-            if [ $current_branch != $topic_branch ]; then \
-                git checkout $topic_branch; \
-            fi; \
-            git pull origin $current_branch && git push origin $current_branch && git checkout $base_branch && git branch --delete $topic_branch && git push origin --delete $topic_branch && git remote-prune-all;  \
-        fi; \
-        };f"
-
 ; }}}
-; {{{ topic-stop-local 删除本地topic分支
-    ; 删除本地topic分支
-    topic-stop-local = "!f(){ \
-        topic_branch=${1:-$(git current-branch)}; \
-        base_branch=$(git base-branch); \
-        current_branch=$(git current-branch); \
-        existed_in_remote=$(git ls-remote --heads origin $current_branch); \
-        if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
-            printf \"You are asking to do git topic-stop,\n\"; \
-            printf \"but you can't stop master or base branch: $base_branch.\n\"; \
-            printf \"Please ask to stop valid topic branch.\n\"; \
-        else \
-            if [ $current_branch != $topic_branch ]; then \
-                git checkout $topic_branch; \
-            fi; \
-            if [ -n \"$existed_in_remote\" ]; then \
-                git pull origin $current_branch && git push origin $current_branch; \
-            fi; \
-            git checkout $base_branch && git branch --delete \"$topic_branch\"; \
-        fi; \
-        };f"
-; }}}
-    tspr = "!git topic-stop-remote"
-    tsp = "!git topic-stop-local"
-
     # 参数为修改后的branch名字
     topic-move-remote = "!f(){ \
         new_branch=$1; \
@@ -197,6 +156,31 @@
         };f"
     tmvr = "!git topic-move-remote"
     tmv = "!git topic-move-local"
+
+; {{{ topic-stop 删除远程(如果存在)和本地的topic分支
+    topic-stop = "!f(){ \
+        topic_branch=${1:-$(git current-branch)}; \
+        base_branch=$(git base-branch); \
+        current_branch=$(git current-branch); \
+        existed_in_remote=$(git ls-remote --heads origin $current_branch); \
+        if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
+            printf \"You are asking to do git topic-stop,\n\"; \
+            printf \"but you can't stop master or base branch: $base_branch.\n\"; \
+            printf \"Please ask to stop valid topic branch.\n\"; \
+        else \
+            if [ $current_branch != $topic_branch ]; then \
+                git checkout $topic_branch; \
+            fi; \
+            if [ -n \"$existed_in_remote\" ]; then \
+                git pull origin $current_branch && git push origin $current_branch && git checkout $base_branch && git branch --delete $topic_branch \
+                                                && git push origin --delete $topic_branch && git remote-prune-all; \
+            else \
+                git checkout $base_branch && git branch --delete $topic_branch; \
+            fi; \
+        fi; \
+        };f"
+; }}}
+    tsp = "!git topic-stop"
 
 ; {{{  topic-merge 通过merge --no-ff 方式合并topic
     topic-merge = "!f() { \
