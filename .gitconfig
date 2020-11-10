@@ -130,8 +130,8 @@
         git pull; \
         git checkout -b $topic_branch $base_branch; \
         };f"
-    tst = "!git topic-start-local"
     tstr = "!git topic-start-remote"
+    tst = "!git topic-start-local"
 
 ; {{{ topic-stop-remote 介绍
     ##
@@ -191,6 +191,7 @@
             git branch --delete \"$topic_branch\"; \
         fi; \
         };f"
+    tspr = "!git topic-stop-remote"
     tsp = "!git topic-stop-local"
 
 
@@ -225,6 +226,7 @@
         old_branch=$(git current-branch); \
         git branch --move $old_branch $new_branch; \
         };f"
+    tmvr = "!git topic-move-remote"
     tmv = "!git topic-move-local"
 
 ; }}}
