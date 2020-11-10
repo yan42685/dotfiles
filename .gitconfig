@@ -135,7 +135,7 @@
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
         if [ $current_branch != $base_branch ]; then \
-        git checkout $base_branch; \
+            git checkout $base_branch; \
         fi; \
         git checkout -b $topic_branch $base_branch; \
         };f"
@@ -363,8 +363,7 @@
     ra = rebase --abort
     rc = "!git add --update && git rebase --continue"
     ri = rebase -i
-    # NOTE: 可以改成maser或dev
-    rir = rebase -i origin/master
+    rir = "!git rebase -i origin/$(git current-branch)"
     # 选中n个commit进行rebase
     rin = "!git rebase -i HEAD~"$1"; #"
     # 直到某个hash的rebase
