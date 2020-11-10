@@ -454,7 +454,7 @@
     uncommit-h = reset --hard HEAD~1
     uncommit-hn = "!git reset --hard HEAD~$1; #"
     unadd = reset HEAD
-    untracke = rm --cache --
+    untrack = rm --cache --
     unstage = reset HEAD
     # Discard changes in a (list of) file(s) in working tree
     discard = checkout --
