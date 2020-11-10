@@ -2658,12 +2658,14 @@ augroup tab_indent_settings_by_filetype
     " 在右边窗口打开help,man, q快速退出
     autocmd filetype man,help,tldr wincmd L | nnoremap <silent> <buffer> q :q!<cr>
     autocmd filetype fugitiveblame,fugitive nnoremap <silent> <buffer> q :q!<cr>
-    autocmd filetype gitcommit nnoremap <silent> <buffer> q :wq<cr>
     " Java 自动优化import
     if executable('editor.action.organizeImport')
         autocmd BufWritePost *.java :silent! call CocActionAsync('runCommand', 'editor.action.organizeImport')<cr>
     endif
     " autocmd BufWritePost *.ts,*.js silent! call CocActionAsync('runCommand', 'tsserver.organizeImports')
+    " 隐藏buffer并不delete
+    autocmd filetype gitconfig setlocal bufhidden=hide
+    autocmd filetype gitcommit nnoremap <silent> <buffer> q :wq<cr>
     " commit buffer在normal模式按<tab>触发预设补全, 按数字键或者tab确认补全
 "{{{ function for trigger_custom_completion_source
 

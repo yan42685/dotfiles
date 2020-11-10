@@ -255,8 +255,6 @@
     bD = branch -D  # 强制删除未merge的分支
     # 可在--list 后面写搜索版本号, 比如git tgs '*1' (如果不加引号要用\*转义) 也可不写搜索内容
     tags = tag -n1 --list
-    stashes = stash list
-    sl = stash list
 
     z = checkout
     zb = checkout -b
@@ -388,12 +386,13 @@
 
     # revert - undo the changes from some existing commits
     rv = revert
-    # revert without autocommit; useful when you're reverting more than one commits' effect to your index in a row.
-    rvnc = revert --no-commit
+    # 撤销某次提交的修改，并且不自动提交，这样就可以干涉revert重做过程，手动进行提交
+    rvn = revert --no-commit
 
 ; }}}
 ; {{{ ### stash ###
 
+    sapply = "!git stash apply stash@{$1}"
     # 保存对tracked文件的修改(包括未暂存和已暂存)
     save = "!git stash push -m \"$(git log -1 HEAD --pretty=format:'%h - %s') - $(date '+%Y-%m-%d %H:%M:%S %A') - WIP\""
     pop = stash pop
@@ -413,6 +412,8 @@
     # And seemingly no changes to your working tree.
 ; }}}
     snapshot = "!git save && git stash apply stash@{0} >/dev/null 2>&1"
+    stashes = stash list
+    sl = stash list
 
 ; }}}
 ; {{{ ### submodule ###
@@ -431,7 +432,9 @@
 ; }}}
 ; {{{ ### undo ###
 
+    ; 只撤销了git commit操作，保留了 git add 操作。
     uncommit = reset --soft HEAD~1
+    # 撤销commit， 清空工作区和暂存区
     # 命令末尾的#不能少
     uncommit-n = "!git reset --soft HEAD~$1; #"
     uncommit-h = reset --hard HEAD~1
