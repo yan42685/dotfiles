@@ -1,4 +1,6 @@
-; FIXME: 在gitconfig里写的bash 应该用[ ] 而不是[[ ]], 不然会报错
+; FIXME: 在gitconfig里写的bash 1. 应该用[ ] 而不是[[ ]], 不然会报错
+;                              2. 不能写#注释
+;                              3. 注意写分号;
 ;基础设置 {{{
 # 专为github设置的代理
 [http "https://github.com"]
@@ -199,13 +201,12 @@
             printf \"but you can't merge master or base branch: $base_branch.\n\"; \
             printf \"Please ask to merge valid topic branch.\n\"; \
         else \
-            if [[ $current_branch != $base_branch ]]; then \
+            if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
             fi; \
-            # 保证下面任意操作失败则终止后续操作 \
             git pull && git merge --no-ff $topic_branch; \
         fi; \
-        }"
+        };f"
 ; }}}
 ; {{{ topic-rebase 通过rebase方式合并topic
     topic-rebase = "!f() { \
@@ -213,15 +214,14 @@
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
-        printf \"You are asking to do git topic-stop,\n\"; \
-        printf \"but you can't merge master or base branch: $base_branch.\n\"; \
-        printf \"Please ask to merge valid topic branch.\n\"; \
+            printf \"You are asking to do git topic-stop,\n\"; \
+            printf \"but you can't merge master or base branch: $base_branch.\n\"; \
+            printf \"Please ask to merge valid topic branch.\n\"; \
         else \
-        if [ $current_branch != $base_branch ]; then \
-        git checkout $base_branch; \
-        fi; \
-        # 保证下面任意操作失败则终止后续操作 \
-        git pull && git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge $topic_branch; \
+            if [ $current_branch != $base_branch ]; then \
+                git checkout $base_branch; \
+            fi; \
+            git pull && git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge $topic_branch; \
         fi; \
         }"
 ; }}}
