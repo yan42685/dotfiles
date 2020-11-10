@@ -411,7 +411,7 @@
     #
     # And seemingly no changes to your working tree.
 ; }}}
-    snapshot = !git stash push "snapshot: $(date)" && git stash apply "stash@{0}"
+    snapshot = "!git stash push -m \"$(git log -1 HEAD --pretty=format:'%h - %s') [ Snapshot: $(date '+%Y-%m-%d %H:%M:%S %A') WIP ]\"; git stash apply stash@{0} >\\dev\\null"
 
 ; }}}
 ; {{{ ### submodule ###

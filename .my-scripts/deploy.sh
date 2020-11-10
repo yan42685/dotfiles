@@ -153,6 +153,8 @@ setup_ubuntu_environment() {
     bash ${HOME}/.my-scripts/set-Chalk-as-default-profile.sh
 
 
+    echo "=================== 设置时区为上海..."
+    timedatectl set-timezone Asia/Shanghai
     echo "=================== 设置桌面背景..."
     gsettings set org.gnome.desktop.background picture-uri "$HOME/.config/images/desktop-background/white-maple-black-background.png"
     echo "=================== 设置快捷栏dock样式..."
