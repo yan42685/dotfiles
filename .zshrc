@@ -53,7 +53,7 @@ setopt hist_save_no_dups hist_ignore_dups       # eliminate duplicate entries in
 setopt autopushd pushdignoredups                # auto push dir into stack and and don’t duplicate them
 autoload -U promptinit && promptinit  # FIXME: 不太了解这句话的作用
 # }}}
-# Plugin settings{{{
+# {{{ 插件配置: 需要放在插件加载之前
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)  # .zshrc修改时自动更新zgen
 ZGEN_AUTOLOAD_COMPINIT=0  # 不要使用ZGEN的compinit
 # git自动fetch的最小间隔（默认60秒）
@@ -210,8 +210,7 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.
 zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 # }}}
 # FIXME: 如果ohmyzsh的插件安装失败，那就把.zgen/robbyrussell这个文件夹删了，再zgen reset  下次进入终端会卡一段时间(重新下载robbyrussell) 然后就没问题了
-# load zgen Plugins
-# {{{
+# {{{ zgen 插件配置
 source "${HOME}/.zgen/zgen.zsh"
 # if the init scipt doesn't exist
 if ! zgen saved; then
