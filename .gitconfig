@@ -133,7 +133,7 @@
     tstr = "!git topic-start-remote"
     tst = "!git topic-start-local"
 
-    topic-merge = "!f() { \
+    topic-merge-remote = "!f() { \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch = $(git current-branch); \
@@ -145,13 +145,30 @@
             if [[ current_branch != $base_branch ]]; then \
                 git checkout $base_branch; \
             fi; \
-            git pull; \
-            git checkout $topic_branch; \
-            git rebase $base_branch; \
-            git checkout $base_branch; \
-            git merge $topic_branch; \
+            # 保证下面任意操作失败则终止后续操作 \
+            git pull && git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge --no-ff $topic_branch; \
         fi; \
     }"
+
+    topic-merge-local = "!f() { \
+        topic_branch=${1:-$(git current-branch)}; \
+        base_branch=$(git base-branch); \
+        current_branch = $(git current-branch); \
+        if [[ $topic_branch = $base_branch ]] || [[ $topic_branch = master ]]; then \
+            printf \"You are asking to do git topic-stop,\n\"; \
+            printf \"but you can't merge master or base branch: $base_branch.\n\"; \
+            printf \"Please ask to merge valid topic branch.\n\"; \
+        else \
+            if [[ current_branch != $base_branch ]]; then \
+                git checkout $base_branch; \
+            fi; \
+            # 保证下面任意操作失败则终止后续操作 \
+            git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge --no-ff $topic_branch; \
+        fi; \
+    }"
+
+    tmgr = "!git topic-merge-remote"
+    tmg = "!git topic-merge-local"
 
 
 
