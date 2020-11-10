@@ -394,7 +394,7 @@
 ; }}}
 ; {{{ ### stash ###
 
-    save = stash push
+    save = "!git stash push -m \"$(git log -1 HEAD --pretty=format:'%h - %s') - $(date '+%Y-%m-%d %H:%M:%S %A') - WIP\""
     pop = stash pop
 ; {{{ snapshot 介绍
 
@@ -411,7 +411,7 @@
     #
     # And seemingly no changes to your working tree.
 ; }}}
-    snapshot = "!git stash push -m \"$(git log -1 HEAD --pretty=format:'%h - %s') [ Snapshot: $(date '+%Y-%m-%d %H:%M:%S %A') WIP ]\"; git stash apply stash@{0} >\\dev\\null"
+    snapshot = "!git save; git stash apply stash@{0} >/dev/null 2>&1"
 
 ; }}}
 ; {{{ ### submodule ###
