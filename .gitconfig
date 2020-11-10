@@ -411,7 +411,7 @@
     #
     # And seemingly no changes to your working tree.
 ; }}}
-    snapshot = "!git save; git stash apply stash@{0} >/dev/null 2>&1"
+    snapshot = "!git save && git stash apply stash@{0} >/dev/null 2>&1"
 
 ; }}}
 ; {{{ ### submodule ###
