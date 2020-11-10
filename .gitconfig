@@ -133,6 +133,29 @@
     tstr = "!git topic-start-remote"
     tst = "!git topic-start-local"
 
+    topic-merge = "!f() { \
+        topic_branch=${1:-$(git current-branch)}; \
+        base_branch=$(git base-branch); \
+        current_branch = $(git current-branch); \
+        if [[ $topic_branch = $base_branch ]] || [[ $topic_branch = master ]]; then \
+            printf \"You are asking to do git topic-stop,\n\"; \
+            printf \"but you can't merge master or base branch: $base_branch.\n\"; \
+            printf \"Please ask to merge valid topic branch.\n\"; \
+        else \
+            if [[ current_branch != $base_branch ]]; then \
+                git checkout $base_branch; \
+            fi; \
+            git pull; \
+            git checkout $topic_branch; \
+            git rebase $base_branch; \
+            git checkout $base_branch; \
+            git merge $topic_branch; \
+        fi; \
+    }"
+
+
+
+
 ; {{{ topic-stop-remote 介绍
     ##
     # We use this alias to complete work on a new feature,
@@ -158,12 +181,10 @@
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch = $(git current-branch); \
-        if [[ $topic_branch = $base_branch ]]; then \
+        if [[ $topic_branch = $base_branch ]] || [[ $topic_branch = master ]]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
-            printf \"but you can't stop the base branch: $base_branch.\n\"; \
+            printf \"but you can't stop master or base branch: $base_branch.\n\"; \
             printf \"Please ask to stop valid topic branch.\n\"; \
-        elif [[ $topic_branch = master ]]; then \
-            printf \"You can't stop the master branch.\n\"; \
         else \
             if [[ current_branch != $base_branch ]]; then \
                 git checkout $base_branch; \
@@ -178,12 +199,10 @@
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch = $(git current-branch); \
-        if [[ $topic_branch = $base_branch ]]; then \
+        if [[ $topic_branch = $base_branch ]] || [[ $topic_branch = master ]]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
-            printf \"but you can't stop the base branch: $base_branch.\n\"; \
+            printf \"but you can't stop master or base branch: $base_branch.\n\"; \
             printf \"Please ask to stop valid topic branch.\n\"; \
-        elif [[ $topic_branch = master ]]; then \
-            printf \"You can't stop the master branch.\n\"; \
         else \
             if [[ current_branch != $base_branch ]]; then \
                 git checkout $base_branch; \
@@ -376,7 +395,7 @@
     # Push the current branch to the remote "origin", and set it to track the upstream branch
     publish = "!git push -u origin ${1:-$(git current-branch)}"
     # 删除远程分支(若不指定分支名就是当前分支的名字)
-    unpublish = "!git push origin --delete ${1:-$(git current-branch)}"
+    unpublish = "!git push origin --delete ${1:-$(git current-branch)} && git branch --unset-upstream ${1:-$(git current-branch)}"
     # Fire up your difftool (e.g. Kaleidescope) with all the changes that
     # are on the current branch.
     code-review = "!git difftool origin/$(git current-branch)..."
@@ -394,7 +413,7 @@
 
     sapply = "!git stash apply stash@{$1}"
     # 保存对tracked文件的修改(包括未暂存和已暂存)
-    save = "!git stash push -m \"$(git log -1 HEAD --pretty=format:'%h - %s') - $(date '+%Y-%m-%d %H:%M:%S %A') - WIP\""
+    save = "!git stash push -m \"$(git log -1 HEAD --pretty=format:'%h %s') - $(date '+%Y-%m-%d %H:%M:%S %A') - WIP\""
     pop = stash pop
 ; {{{ snapshot 介绍
 
