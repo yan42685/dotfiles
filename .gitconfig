@@ -133,7 +133,7 @@
         working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $current_branch != $base_branch ]; then \
             if [ -n \"$working_dir_dirty\" ]; then \
-                git save; \
+                git save \"Autosave on topic-start-remote: $topic_branch\"; \
             fi; \
             git checkout $base_branch; \
         fi; \
@@ -148,7 +148,7 @@
         current_branch=$(git current-branch); \
         working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ -n \"$working_dir_dirty\" ]; then \
-            git save; \
+            git save \"Autosave on topic-start-local: $topic_branch\"; \
         fi; \
         git checkout -b $topic_branch $base_branch; \
         };f"
@@ -184,7 +184,7 @@
             printf \"Please ask to stop valid topic branch.\n\"; \
         else \
             if [ -n \"$working_dir_dirty\" ]; then \
-                git save; \
+                git save \"Autosave on topic-stop: $topic_branch\"; \
             fi; \
             if [ $current_branch != $topic_branch ]; then \
                 git checkout $topic_branch; \
@@ -213,7 +213,7 @@
             printf \"Please ask to merge valid topic branch.\n\"; \
         else \
             if [ -n \"$working_dir_dirty\" ]; then \
-                git save; \
+                git save \"Autosave on topic-merge: $topic_branch\"; \
             fi; \
             if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
@@ -234,7 +234,7 @@
             printf \"Please ask to merge valid topic branch.\n\"; \
         else \
             if [ -n \"$working_dir_dirty\" ]; then \
-                git save; \
+                git save \"Autosave on topic-rebase: $topic_branch\"; \
             fi; \
             if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
@@ -438,7 +438,15 @@
 
     sapply = "!git stash apply $1"
     # 保存对tracked文件的修改(包括未暂存和已暂存)
-    save = "!git stash push -m \"$(git log -1 HEAD --pretty=format:'%h %s') - $(date '+%Y-%m-%d %H:%M:%S %A') - WIP\""
+    # 接受一个stash信息可选参数
+    save = "!f() { \
+        custom_message=$1; \
+        WIP_message=WIP; \
+        if [ -n \"$custom_message\" ]; then \
+            WIP_message=\"$WIP_message: $custom_message\"; \
+        fi; \
+        git stash push -m \"$WIP_message - $(date '+%Y-%m-%d %H:%M:%S') - Base commit: $(git log -1 HEAD --pretty=format:'%h %s') \"; \
+    };f"
     pop = stash pop
 ; {{{ snapshot 介绍
 
@@ -464,6 +472,7 @@
         git fsck --unreachable | grep commit | cut -d\\  -f3 | xargs git log -15 --oneline --merges --no-walk --grep=WIP; \
     };f"
     sh = "!git stash-history"
+    ; stash-pick =
 
 ; }}}
 ; {{{ ### submodule ###
