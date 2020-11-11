@@ -272,11 +272,13 @@
 ;   git fork <username>/<repo>  从github fork项目并clone，设置origin
 ;   git release <tag>  新增Release commit (修改ChangeLog) 打tag并推送  (也会执行.git/hooks/pre-release.sh 和 .git/hooks/post-release.sh)
 ;   git ignore 查看或添加ignore    eg: git ignore "*.o" "*.log"
-    ignore-io-serach = "!git ignore-io --search | fzf"
-    ignore-io-append = "!git ignore-io --append"
-    ignore-io-replace = "!git ignore-io --replace"  替换成另一种
+    ignore-io-append = "!git ignore-io --append $(git ignore-io -l | fzf)"
+    adig = "!git ignore-io-append"
+    ignore-io-replace = "!git ignore-io --replace $(git ignore-io -l | fzf)" ; 替换成另一种
 ;   git delete-tag  删除本地和远程tag         eg: git delete-tag 0.0.1
 ;   git setup 初始化一个文件夹并进行第一次提交
+;   git browse 浏览器打开
+;   git sync     pull and push
 ;
 ;   ==== 查看信息 ====
     author-search = "!git authors --list | fzf"
@@ -287,6 +289,8 @@
 ;
 ;   暂时用不到:
 ;   git changelog 建议查文档使用
+;   git pr
+;   git pullrequest
 ;
 ; }}}
 ; {{{ ### add ###
