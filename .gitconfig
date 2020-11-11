@@ -145,6 +145,30 @@
     tstr = "!git topic-start-remote"
     tst = "!git topic-start-local"
 
+; {{{  topic-merge 通过merge --no-ff 方式合并topic 并且自动删除topic分支
+;   merge后立刻删除分支就好，因为有merge历史记录，可以随时找回feature分支
+    topic-merge = "!f() { \
+        topic_branch=${1:-$(git current-branch)}; \
+        base_branch=$(git base-branch); \
+        current_branch=$(git current-branch); \
+        working_dir_dirty=$(git diff --stat | head -n -1); \
+        if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
+            printf \"You are asking to do git topic-stop,\n\"; \
+            printf \"but you can't merge master or base branch: $base_branch.\n\"; \
+            printf \"Please ask to merge valid topic branch.\n\"; \
+        else \
+            if [ -n \"$working_dir_dirty\" ]; then \
+                git save \"Autosave on topic-merge: $topic_branch\"; \
+            fi; \
+            if [ $current_branch != $base_branch ]; then \
+                git checkout $base_branch; \
+            fi; \
+            git pull && git merge --no-ff $topic_branch && git push && git topic-stop $topic_branch; \
+        fi; \
+        };f"
+; }}}
+    tmg = "!git topic-merge"
+
 ; {{{ topic-stop 删除远程(如果存在)和本地的topic分支
     topic-stop = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
@@ -173,30 +197,6 @@
 ; }}}
     tsp = "!git topic-stop"
 
-; {{{  topic-merge 通过merge --no-ff 方式合并topic
-;   merge后立刻删除分支就好，因为有merge历史记录，可以随时找回feature分支
-    topic-merge = "!f() { \
-        topic_branch=${1:-$(git current-branch)}; \
-        base_branch=$(git base-branch); \
-        current_branch=$(git current-branch); \
-        working_dir_dirty=$(git diff --stat | head -n -1); \
-        if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
-            printf \"You are asking to do git topic-stop,\n\"; \
-            printf \"but you can't merge master or base branch: $base_branch.\n\"; \
-            printf \"Please ask to merge valid topic branch.\n\"; \
-        else \
-            if [ -n \"$working_dir_dirty\" ]; then \
-                git save \"Autosave on topic-merge: $topic_branch\"; \
-            fi; \
-            if [ $current_branch != $base_branch ]; then \
-                git checkout $base_branch; \
-            fi; \
-            git pull && git merge --no-ff $topic_branch && git push && git topic-stop $topic_branch; \
-        fi; \
-        };f"
-; }}}
-    tmg = "!git topic-merge"
-
     # 查看自分叉以来的diff
     topic-diff = "!git diff $(git base-branch)...$(git current-branch)"
     tdf = "!git topic-diff"
@@ -205,7 +205,6 @@
         git log -${1:-10} $(git base-branch)...$(git current-branch) --graph --topo-order --date=short --abbrev-commit --decorate --boundary \
                             --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'; \
     }; f"
-
     tlg = "!git topic-log"
 
 ; {{{ === 废弃 ===
