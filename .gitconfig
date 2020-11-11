@@ -160,21 +160,6 @@
     tstr = "!git topic-start-remote"
     tst = "!git topic-start-local"
 
-    # 参数为修改后的branch名字
-    topic-move-remote = "!f(){ \
-        new_branch=$1; \
-        old_branch=$(git current-branch); \
-        git branch --move $old_branch $new_branch; \
-        git push origin :$old_branch $new_branch; \
-        };f"
-    topic-move-local = "!f(){ \
-        new_branch=$1; \
-        old_branch=$(git current-branch); \
-        git branch --move $old_branch $new_branch; \
-        };f"
-    tmvr = "!git topic-move-remote"
-    tmv = "!git topic-move-local"
-
 ; {{{ topic-stop 删除远程(如果存在)和本地的topic分支
     topic-stop = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
@@ -196,9 +181,8 @@
             if [ -n \"$existed_in_remote\" ]; then \
                 git pull origin $current_branch && git push origin $current_branch && git checkout $base_branch && git branch --delete $topic_branch \
                                                 && git push origin --delete $topic_branch && git remote-prune-all; \
-            else \
-                git checkout $base_branch && git branch --delete $topic_branch; \
             fi; \
+            git checkout $base_branch && git branch --delete $topic_branch; \
         fi; \
         };f"
 ; }}}
@@ -262,7 +246,21 @@
     tlg = "!git topic-log"
 ; }}}
 ; }}}
-
+; {{{ ### git-extras 常用命令备注 ###
+;
+;         ==== 查看信息 ====
+;         git standup 查看某个人最近的提交   eg:  git standup -a John -d 7 也可不带参数查看自己
+;         git show-tree  显示所有分支的详情，只显示每个分支最近一次提交
+;         git contrib <username> 显示一个用户最近的提交
+;         git summary --line 每个人代码行数及占比信息
+;
+;         git repl 连续输入命令不用输入git
+;         git commits-since last week/ last month/ yesterday   默认是last week
+;         git fork <username>/<repo>  从github fork项目并clone，设置origin
+;         git release <tag>  新增Release commit (修改ChangeLog) 打tag并推送  (也会执行.git/hooks/pre-release.sh 和 .git/hooks/post-release.sh)
+;
+;
+; }}}
 ; {{{ ### add ###
 
     a = add
@@ -293,6 +291,18 @@
     zz = "!git checkout $(git base-branch)"
     zd = z dev
     zm = checkout master
+
+    # 参数为修改后的branch名字
+    branch-move = "!f(){ \
+        new_branch=$1; \
+        old_branch=$(git current-branch); \
+        existed_in_remote=$(git ls-remote --heads origin $current_branch | head -n -1); \
+        git branch --move $old_branch $new_branch; \
+        if [ -n \"$existed_in_remote\" ]; then \
+            git push origin :$old_branch $new_branch; \
+        fi; \
+        };f"
+    bmv = "!git branch-move"
 
     # Delete all local branches that have been merged into the local master branch.
     branch-clean-local = "!git branch --merged | egrep -v \"(^\\*|master|dev|$(git base-branch))\" | xargs git branch -d"
@@ -341,7 +351,6 @@
     ignore-untracked = "!git status | grep -P \"^\\t\" | grep -vF .gitignore | sed \"s/^\\t//\" >> .gitignore"
 
 ;}}}
-
 ; {{{ ### diff ###
 
     d = diff
@@ -384,11 +393,15 @@
     ; mg = merge --no-commit
     mg = merge
     mt = mergetool
-    # merge并删除被merge的分支
+    ; merge并删除被merge的分支
     mgd = "!git merge $1 && git branch -d $1; #"
     ; mgs = merge --squash
     ; merge squash 默认删除之前的分支，常用于开发feature分支
     mgs = "!git merge --squash $1 && git commit -a; #"
+    ; 显示自共同父节点以来两条分支的提交
+    merge-log = log --oneline --left-right HEAD...MERGE_HEAD
+    ; 显示出现冲突的提交
+    conflict-log = log --oneline --left-right --merge
 
 ; }}}
 ; {{{ ### rebase ###
