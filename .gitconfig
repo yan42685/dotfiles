@@ -205,7 +205,7 @@
     tsp = "!git topic-stop"
 
 ; {{{  topic-merge 通过merge --no-ff 方式合并topic
-;   不立刻删除分支因为以后可能有用, 一般定时删除就好
+;   merge后立刻删除分支就好，因为有merge历史记录，可以随时找回feature分支
     topic-merge = "!f() { \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
@@ -222,7 +222,7 @@
             if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
             fi; \
-            git pull && git merge --no-ff $topic_branch && git push; \
+            git pull && git merge --no-ff $topic_branch && git push && git topic-stop $topic_branch; \
         fi; \
         };f"
 ; }}}
@@ -243,7 +243,7 @@
             if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
             fi; \
-            git pull && git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge $topic_branch && git push; \
+            git pull && git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge $topic_branch && git push && git topic-stop $topic_branch; \
         fi; \
         };f"
 ; }}}
