@@ -401,6 +401,33 @@
     # merge but without autocommit, and with a commit 除非这个是同一路径上可以快进(faster-forward)的merge
     ; mg = merge --no-commit
     mg = merge
+
+; {{{ merge-to merge到另一个分支并删除这个分支
+    merge-to = "!f() { \
+        target_branch=$1; \
+        source_branch=$(git current-branch); \
+        working_dir_dirty=$(git diff --stat | head -n -1); \
+        if [ -n \"$working_dir_dirty\" ]; then \
+        git save \"Autosave on merge-to: $target_branch\"; \
+        fi; \
+        git checkout $target_branch && git merge $source_branch && git branch -d $source_branch; \
+        };f"
+
+; }}}
+    mgto = "!git merge-to"
+; {{{ merge-from 把另一个分支merge到这个分支并删除那个分支
+    merge-from = "!f() { \
+        target_branch=$(git current-branch); \
+        source_branch=$1; \
+        working_dir_dirty=$(git diff --stat | head -n -1); \
+        if [ -n \"$working_dir_dirty\" ]; then \
+        git save \"Autosave on merge-from: $source_branch\"; \
+        fi; \
+        git checkout $target_branch && git merge $source_branch && git branch -d $source_branch; \
+        };f"
+; }}}
+    mgfr = "!git merge-from"
+
     mt = mergetool
     ; merge并删除被merge的分支
     mgd = "!git merge $1 && git branch -d $1; #"
@@ -455,6 +482,7 @@
 
 ; }}}
 ; {{{ ### stash ###
+;   NOTE: 用save和snapshot替代原生stash
 
     sapply = "!git stash apply $1"
     # 保存对tracked文件的修改(包括未暂存和已暂存)
