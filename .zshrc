@@ -268,6 +268,7 @@ alias hadoop=/usr/local/hadoop/bin/hadoop
 alias start-dfs=/usr/local/hadoop/sbin/start-dfs.sh
 alias stop-dfs=/usr/local/hadoop/sbin/stop-dfs.sh
 alias ts="trash"
+alias cl="clear"
 # 安全的cp和mv，防止误操作覆盖同名文件
 alias mv='nocorrect mv -i'
 alias cp='nocorrect cp -ip'
