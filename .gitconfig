@@ -130,8 +130,12 @@
         topic_branch=$1; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
+        working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $current_branch != $base_branch ]; then \
-        git checkout $base_branch; \
+            if [ -n \"$working_dir_dirty\" ]; then \
+                git save; \
+            fi; \
+            git checkout $base_branch; \
         fi; \
         git pull && git checkout -b $topic_branch $base_branch && git push -u origin $1; \
         };f"
@@ -142,8 +146,9 @@
         topic_branch=$1; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
-        if [ $current_branch != $base_branch ]; then \
-            git checkout $base_branch; \
+        working_dir_dirty=$(git diff --stat | head -n -1); \
+        if [ -n \"$working_dir_dirty\" ]; then \
+            git save; \
         fi; \
         git checkout -b $topic_branch $base_branch; \
         };f"
@@ -171,12 +176,16 @@
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
-        existed_in_remote=$(git ls-remote --heads origin $current_branch); \
+        existed_in_remote=$(git ls-remote --heads origin $current_branch | head -n -1); \
+        working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
             printf \"but you can't stop master or base branch: $base_branch.\n\"; \
             printf \"Please ask to stop valid topic branch.\n\"; \
         else \
+            if [ -n \"$working_dir_dirty\" ]; then \
+                git save; \
+            fi; \
             if [ $current_branch != $topic_branch ]; then \
                 git checkout $topic_branch; \
             fi; \
@@ -197,11 +206,15 @@
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
+        working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
             printf \"but you can't merge master or base branch: $base_branch.\n\"; \
             printf \"Please ask to merge valid topic branch.\n\"; \
         else \
+            if [ -n \"$working_dir_dirty\" ]; then \
+                git save; \
+            fi; \
             if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
             fi; \
@@ -214,11 +227,15 @@
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
+        working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
             printf \"but you can't merge master or base branch: $base_branch.\n\"; \
             printf \"Please ask to merge valid topic branch.\n\"; \
         else \
+            if [ -n \"$working_dir_dirty\" ]; then \
+                git save; \
+            fi; \
             if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
             fi; \
