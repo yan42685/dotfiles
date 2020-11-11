@@ -88,21 +88,6 @@
 
 ; {{{ ### work flow ###
 
-    ; 编辑和暂存有冲突的文件
-    ; NOTE: 工作流:
-    ;             $ git edit-unmerged
-    ;                 ... edit ...
-    ;                 ... test ...
-    ;             $ git add-unmerged
-    ;             $ git commit  # or git rebase --continue or whatever
-    edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; ${EDITOR:-vi} `f`"
-    add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
-
-    # 预存提交信息
-    todo = "!${EDITOR:-vi} $(git rev-parse --git-dir)/.template"
-    # 用预存在文件里的信息提交
-    cm = "!git commit -F $(git rev-parse --git-dir)/.template"
-
 ; {{{ ======== topic 工作流 =========
 ;   NOTE: 这套工作流正常应用的前提是
 ;                   1. 只有一个远程仓库且命名为origin
@@ -210,29 +195,7 @@
         fi; \
         };f"
 ; }}}
-; {{{ topic-rebase 通过rebase方式合并topic
-    topic-rebase = "!f() { \
-        topic_branch=${1:-$(git current-branch)}; \
-        base_branch=$(git base-branch); \
-        current_branch=$(git current-branch); \
-        working_dir_dirty=$(git diff --stat | head -n -1); \
-        if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
-            printf \"You are asking to do git topic-stop,\n\"; \
-            printf \"but you can't merge master or base branch: $base_branch.\n\"; \
-            printf \"Please ask to merge valid topic branch.\n\"; \
-        else \
-            if [ -n \"$working_dir_dirty\" ]; then \
-                git save \"Autosave on topic-rebase: $topic_branch\"; \
-            fi; \
-            if [ $current_branch != $base_branch ]; then \
-                git checkout $base_branch; \
-            fi; \
-            git pull && git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge $topic_branch && git push && git topic-stop $topic_branch; \
-        fi; \
-        };f"
-; }}}
     tmg = "!git topic-merge"
-    trb = "!git topic-rebase"
 
     # 查看自分叉以来的diff
     topic-diff = "!git diff $(git base-branch)...$(git current-branch)"
@@ -244,7 +207,49 @@
     }; f"
 
     tlg = "!git topic-log"
+
+; {{{ === 废弃 ===
+; {{{ topic-rebase 通过rebase方式合并topic
+    ; topic-rebase = "!f() { \
+    ;     topic_branch=${1:-$(git current-branch)}; \
+    ;     base_branch=$(git base-branch); \
+    ;     current_branch=$(git current-branch); \
+    ;     working_dir_dirty=$(git diff --stat | head -n -1); \
+    ;     if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
+    ;     printf \"You are asking to do git topic-stop,\n\"; \
+    ;     printf \"but you can't merge master or base branch: $base_branch.\n\"; \
+    ;     printf \"Please ask to merge valid topic branch.\n\"; \
+    ;     else \
+    ;     if [ -n \"$working_dir_dirty\" ]; then \
+    ;     git save \"Autosave on topic-rebase: $topic_branch\"; \
+    ;     fi; \
+    ;     if [ $current_branch != $base_branch ]; then \
+    ;     git checkout $base_branch; \
+    ;     fi; \
+    ;     git pull && git checkout $topic_branch && git rebase $base_branch && git checkout $base_branch && git merge $topic_branch && git push && git topic-stop $topic_branch; \
+    ;     fi; \
+    ;     };f"
+    ;
+    ; trb = "!git topic-rebase"
 ; }}}
+; }}}
+; }}}
+;
+    ; 编辑和暂存有冲突的文件
+    ; NOTE: 工作流:
+    ;             $ git edit-unmerged
+    ;                 ... edit ...
+    ;                 ... test ...
+    ;             $ git add-unmerged
+    ;             $ git commit  # or git rebase --continue or whatever
+    edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; ${EDITOR:-vi} `f`"
+    add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
+
+    # 预存提交信息
+    todo = "!${EDITOR:-vi} $(git rev-parse --git-dir)/.template"
+    # 用预存在文件里的信息提交
+    cm = "!git commit -F $(git rev-parse --git-dir)/.template"
+
 ; }}}
 ; {{{ ### git-extras 常用命令备注 ###
 ;
