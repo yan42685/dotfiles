@@ -281,7 +281,7 @@
     bm = branch --merged
     bnm = branch --no-merged
     bd = branch --delete
-    bdf = branch --D
+    bdf = branch -D
     # 可在--list 后面写搜索版本号, 比如git tgs '*1' (如果不加引号要用\*转义) 也可不写搜索内容
     tags = tag -n1 --list
 
