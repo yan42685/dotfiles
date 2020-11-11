@@ -252,16 +252,21 @@
 ; }}}
 ; {{{ ### git-extras 常用命令备注 ###
 ;
-;         ==== 查看信息 ====
-;         git standup 查看某个人最近的提交   eg:  git standup -a John -d 7 也可不带参数查看自己
-;         git show-tree  显示所有分支的详情，只显示每个分支最近一次提交
-;         git contrib <username> 显示一个用户最近的提交
-;         git summary --line 每个人代码行数及占比信息
+;   ==== 查看信息 ====
+;   git standup 查看某个人最近的提交   eg:  git standup -a John -d 7 也可不带参数查看自己
+;   git show-tree  显示所有分支的详情，只显示每个分支最近一次提交
+;   git contrib <username> 显示一个用户最近的提交
+;   git summary --line 每个人代码行数及占比信息
 ;
-;         git repl 连续输入命令不用输入git
-;         git commits-since last week/ last month/ yesterday   默认是last week
-;         git fork <username>/<repo>  从github fork项目并clone，设置origin
-;         git release <tag>  新增Release commit (修改ChangeLog) 打tag并推送  (也会执行.git/hooks/pre-release.sh 和 .git/hooks/post-release.sh)
+;   git repl 连续输入命令不用输入git
+;   git commits-since last week/ last month/ yesterday   默认是last week
+;   git fork <username>/<repo>  从github fork项目并clone，设置origin
+;   git release <tag>  新增Release commit (修改ChangeLog) 打tag并推送  (也会执行.git/hooks/pre-release.sh 和 .git/hooks/post-release.sh)
+;   git ignore 查看或添加ignore    eg: git ignore "*.o" "*.log"
+    ignore-io-serach = "!git ignore-io --search | fzf"
+    ignore-io-append = "!git ignore-io --append"
+    ignore-io-replace = "!git ignore-io --replace"  替换成另一种
+;   git delete-tag  删除本地和远程tag         eg: git delete-tag 0.0.1
 ;
 ;
 ; }}}
@@ -479,7 +484,14 @@
     #
     # And seemingly no changes to your working tree.
 ; }}}
-    snapshot = "!git save && git stash apply stash@{0} >/dev/null 2>&1"
+    snapshot = "!f() { \
+        custom_message=$1; \
+        Snapshot_message=Snapshot; \
+        if [ -n \"$custom_message\" ]; then \
+            Snapshot_message=\"$Snapshot_message $custom_message\"; \
+        fi; \
+        git save \"Snapshot $1\" && git stash apply 0 >/dev/null 2>&1; \
+    };f"
     drop = stash drop
     sl = stash list
     ; 显示最近15次stash的哈希值 NOTE: 前提是stash注释里有WIP以便grep过滤
