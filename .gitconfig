@@ -81,6 +81,7 @@
 ; }}}
 
 [alias]    # 很多alias来自 https://github.com/GitAlias/gitalias/blob/master/gitalias.txt
+; NOTE: 不要取名alias为 sync, cp 避免和git-extras冲突
 
 ; {{{ ### work flow ###
 
@@ -246,25 +247,6 @@
     tmg = "!git topic-merge"
     trb = "!git topic-rebase"
 
-; {{{ sync介绍
-    ##
-    # Update the current topic branch by synchronizing changes.
-    #
-    # If you use any kind of testing framework, or test driven development,
-    # then it can be wise to test your topic immediately after running this,
-    # to ensure that any available updates are successfully integrated.
-    ##
-; }}}
-    sync = "!f(){ \
-        target_branch=${1:-$(git current-branch)}; \
-        current_branch=$(git current-branch); \
-        if [ $current_branch != $target_branch ]; then \
-            git checkout $target_branch; \
-        fi; \
-        git pull && git push && git checkout $current_branch; \
-        };f"
-    sn = "!git sync"
-
 ; }}}
 ; }}}
 
@@ -321,13 +303,13 @@
 ; {{{ ### cherry-pick ###
 
     # cherry-pick - apply the changes introduced by some existing commits; useful for moving small chunks of code between branches.
-    cp = cherry-pick
+    pi = cherry-pick
     # cherry-pick - abort the picking process
-    cpa = cherry-pick --abort
+    pia = cherry-pick --abort
     # cherry-pick - continue the picking process
-    cpc = cherry-pick --continue
+    picc = cherry-pick --continue
     # cherry-pick without making a commit, and when when recording the commit, append a line that says "(cherry picked from commit ...)"
-    cp-nx = cherry-pick --no-commit -x
+    pi-nx = cherry-pick --no-commit -x
 
 ; }}}
 ; {{{ ### clean ###
@@ -438,6 +420,7 @@
 
     sapply = "!git stash apply $1"
     # 保存对tracked文件的修改(包括未暂存和已暂存)
+    # use case: 1. 切换分支前 2. 工作中突然想commit --amend 或者 fixup
     # 接受一个stash信息可选参数
     save = "!f() { \
         custom_message=$1; \

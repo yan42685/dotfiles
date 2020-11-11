@@ -63,6 +63,17 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
+    if ! command -v git-extras >/dev/null 2>&1; then
+        git clone https://hub.fastgit.org/tj/git-extras.git
+        cd git-extras
+        # checkout the latest tag
+        git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
+        # PREFIX是命令安装的目录
+        make install PREFIX=$HOME/.local/git-extras
+        cd ~
+        rm -rf git-extras
+    fi
+
     sudo apt install -y trash-cli
     sudo apt install -y nnn
     # 安装zeal

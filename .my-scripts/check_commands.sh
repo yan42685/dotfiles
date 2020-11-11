@@ -6,7 +6,7 @@ is_missing=1
 
 
 commands=(
-node npm pip3 zsh lua5.3 nvim clangd ctags trash nnn zeal
+node npm pip3 zsh lua5.3 nvim clangd ctags git-extras trash nnn zeal
 eslint prettier pylint autopep8 cppcheck clang-format
 gtags rg tmux fzf alacritty
 )

@@ -549,3 +549,7 @@ export PATH=/root/.local/bin:$PATH
 export PATH=~/.pyenv/bin:$PATH
 export PYENV_ROOT=~/.pyenv
 eval "$(pyenv init -)"
+# git-extras 补全
+source /home/alexyan/git-extras/etc/git-extras-completion.zsh
+# 这个是git-extras的bin目录
+export PATH=$HOME/.local/git-extras/bin:$PATH
