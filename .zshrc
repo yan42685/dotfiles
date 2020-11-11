@@ -26,6 +26,8 @@ export PATH=${NPM_PREFIX}/bin:${PATH}
 # 自定义的可执行文件
 chmod -R +x ${HOME}/.config/utilities/bin
 export PATH=${HOME}/.config/utilities/bin:${PATH}
+
+
 export TERM=xterm-256color
 export NNN_USE_EDITOR=1                                 # use the $EDITOR when opening text files
 # 用于neovim终端里nvim使用新tab打开 editor在~/.config/utilities/bin/editor
@@ -535,6 +537,12 @@ export _ZL_MATCH_MODE=1  # 增强匹配模式
 export _ZL_ROOT_MARKERS=".git,.svn,.hg,.root,package.json"  # 设定项目根目录列表
 function _z() { _zlua "$@"; }  # 整合fz与zlua
 # }}}
+# {{{ git-alias
+# git-extras 补全
+source /home/alexyan/git-extras/etc/git-extras-completion.zsh
+# 这个是git-extras的bin目录, 父目录是~/.my-scripts/deploy.sh中安装时定义的make install PREFIX
+export PATH=$HOME/.local/git-extras/bin:$PATH
+# }}}
 #}}}
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -549,7 +557,3 @@ export PATH=/root/.local/bin:$PATH
 export PATH=~/.pyenv/bin:$PATH
 export PYENV_ROOT=~/.pyenv
 eval "$(pyenv init -)"
-# git-extras 补全
-source /home/alexyan/git-extras/etc/git-extras-completion.zsh
-# 这个是git-extras的bin目录
-export PATH=$HOME/.local/git-extras/bin:$PATH

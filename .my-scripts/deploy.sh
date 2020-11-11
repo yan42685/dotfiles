@@ -72,6 +72,8 @@ setup_ubuntu_environment() {
         make install PREFIX=$HOME/.local/git-extras
         cd ~
         rm -rf git-extras
+        # 便于检查命令是否存在
+        export PATH=$HOME/.local/git-extras/bin
     fi
 
     sudo apt install -y trash-cli
