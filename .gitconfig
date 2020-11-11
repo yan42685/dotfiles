@@ -1,4 +1,5 @@
 ; FIXME: 在gitconfig里写的bash注意事项
+; NOTE: 和git-extras一起使用效果更佳
 ; {{{  在gitconfig里写的bash注意事项
 ;           1. 应该用[ ] 而不是[[ ]], 不然会报错
 ;           2. 不能写#注释
@@ -255,8 +256,6 @@
         git log -${1:-10} $(git base-branch)...$(git current-branch) --graph --topo-order --date=short --abbrev-commit --decorate --boundary \
                             --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'; \
     }; f"
-
-
 
     tlg = "!git topic-log"
 ; }}}
