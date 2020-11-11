@@ -1,5 +1,6 @@
 ; FIXME: 在gitconfig里写的bash注意事项
-; NOTE: 和git-extras一起使用效果更佳
+; NOTE: 1. alias不区分大小写
+;       2. 和git-extras一起使用效果更佳
 ; {{{  在gitconfig里写的bash注意事项
 ;           1. 应该用[ ] 而不是[[ ]], 不然会报错
 ;           2. 不能写#注释
@@ -251,7 +252,7 @@
     # 查看自分叉以来的diff
     topic-diff = "!git diff $(git base-branch)...$(git current-branch)"
     tdf = "!git topic-diff"
-    # 不输入条数就是10个, 圆圈表示公共分支
+    # 不输入条数就是10个, 圆圈表示公共祖先分支
     topic-log = "!f() { \
         git log -${1:-10} $(git base-branch)...$(git current-branch) --graph --topo-order --date=short --abbrev-commit --decorate --boundary \
                             --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'; \
@@ -279,8 +280,8 @@
     bl = "!git branch -av; git remote-prune-all &"
     bm = branch --merged
     bnm = branch --no-merged
-    bd = branch -d
-    bD = branch -D  # 强制删除未merge的分支
+    bd = branch --delete
+    bdf = branch --D
     # 可在--list 后面写搜索版本号, 比如git tgs '*1' (如果不加引号要用\*转义) 也可不写搜索内容
     tags = tag -n1 --list
 
