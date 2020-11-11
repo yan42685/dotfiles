@@ -445,7 +445,7 @@
         if [ -n \"$custom_message\" ]; then \
             WIP_message=\"$WIP_message: $custom_message\"; \
         fi; \
-        git stash push --include-untracked -m \"$WIP_message - $(date '+%Y-%m-%d %H:%M:%S') - Base commit: $(git log -1 HEAD --pretty=format:'%h %s') \"; \
+        git stash push -m \"$WIP_message - $(date '+%Y-%m-%d %H:%M:%S') - Base commit: $(git log -1 HEAD --pretty=format:'%h %s') \"; \
     };f"
     pop = stash pop
 ; {{{ snapshot 介绍
