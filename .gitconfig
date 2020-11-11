@@ -197,15 +197,29 @@
 ; }}}
     tsp = "!git topic-stop"
 
+    # 重写自分叉以来的commit 父分支为可选参数，默认为base-branch
+    branch-refactor = "!f(){ \
+        parent_branch=${1:-$(git base-branch)}; \
+        common_ancestor=$(git merge-base $parent_branch $(git current-branch)); \
+        git rebase -i $common_ancestor HEAD; \
+    };f"
+    brf = "!git branch-refactor"
+
     # 查看自分叉以来的diff
-    topic-diff = "!git diff $(git base-branch)...$(git current-branch)"
-    tdf = "!git topic-diff"
-    # 不输入条数就是10个, 圆圈表示公共祖先分支
-    topic-log = "!f() { \
-        git log -${1:-10} $(git base-branch)...$(git current-branch) --graph --topo-order --date=short --abbrev-commit --decorate --boundary \
+    branch-diff = "!f(){ \
+        parent_branch=${1:-$(git base-branch)}; \
+        common_ancestor=$(git merge-base $parent_branch $(git current-branch)); \
+        git diff $common_ancestor HEAD; \
+    };f"
+    bdf = "!git branch-diff"
+    # 只获取topic分支的commit, 不输入条数就是10个, 圆圈表示公共祖先分支
+    branch-log = "!f() { \
+        parent_branch=${1:-$(git base-branch)}; \
+        common_ancestor=$(git merge-base $parent_branch $(git current-branch)); \
+        git log -${1:-10} $common_ancestor..$(git current-branch) --graph --topo-order --date=short --abbrev-commit --decorate --boundary \
                             --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'; \
     }; f"
-    tlg = "!git topic-log"
+    blg = "!git branch-log"
 
 ; {{{ === 废弃 ===
 ; {{{ topic-rebase 通过rebase方式合并topic
@@ -291,7 +305,7 @@
     bm = branch --merged
     bnm = branch --no-merged
     bd = branch --delete
-    bdf = branch -D
+    bdd = branch -D
     # 可在--list 后面写搜索版本号, 比如git tgs '*1' (如果不加引号要用\*转义) 也可不写搜索内容
     tags = tag -n1 --list
 
@@ -412,7 +426,6 @@
         fi; \
         git checkout $target_branch && git merge $source_branch && git branch -d $source_branch; \
         };f"
-
 ; }}}
     mgto = "!git merge-to"
 ; {{{ merge-from 把另一个分支merge到这个分支并删除那个分支
@@ -423,7 +436,7 @@
         if [ -n \"$working_dir_dirty\" ]; then \
         git save \"Autosave on merge-from: $source_branch\"; \
         fi; \
-        git checkout $target_branch && git merge $source_branch && git branch -d $source_branch; \
+        git merge $source_branch && git branch -d $source_branch; \
         };f"
 ; }}}
     mgfr = "!git merge-from"
