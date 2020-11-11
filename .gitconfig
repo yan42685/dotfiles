@@ -32,6 +32,7 @@
     reflog = false
     diff = false
     shortlog = false
+    grep = false
 
 # difftool用editor(nvr) 有bug， 还是nvim 好
 [diff]
@@ -278,6 +279,8 @@
     b = branch
     # 显示分支列表并 untrack 被删除的remote分支
     bl = "!git branch -av; git remote-prune-all &"
+    blf = "!git branch --all | fzf"
+
     bm = branch --merged
     bnm = branch --no-merged
     bd = branch --delete
@@ -290,6 +293,11 @@
     zz = "!git checkout $(git base-branch)"
     zd = z dev
     zm = checkout master
+
+    # Delete all local branches that have been merged into the local master branch.
+    branch-clean-local = "!git branch --merged | egrep -v \"(^\\*|master|dev|$(git base-branch))\" | xargs git branch -d"
+    # Delete all remote branches that have been merged into the remote master branch.
+    branch-clean-remote = "!git branch -r --merged | egrep -v \"(^\\*|master|dev|$(git base-branch))\" | sed 's/origin\\///' | xargs -n 1 git push origin --delete"
 
 ; }}}
 ; {{{ ### commit ###
@@ -351,8 +359,6 @@
 ; }}}
 ; {{{ ### grep ###
 
-    # grep group - search with our preferred options. Also aliased as `grep-group`.
-    gr = grep --break --heading --line-number --color
     rg = !rg $(git rev-parse --show-toplevel) --column --smart-case -e
     rg-ls = !rg $(git rev-parse --show-toplevel) --files
     rg-all = !rg $(git rev-parse --show-toplevel) --column --smart-case --no-ignore --hidden -g '!.git' -e
@@ -367,7 +373,7 @@
     # 查看log，NOTE: 依赖Flog.vim插件
     ll = "!${EDITOR:-vi} --git-log"
     # log like long  - we like this summarization our key performance indicators. Also aliased as `log-like-long`.
-    lll = log --graph --topo-order --date=iso8601-strict --no-abbrev-commit --abbrev=40 --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn <%ce>]%Creset %Cblue%G?%Creset'
+    lll = log --graph --all --topo-order --date=iso8601-strict --no-abbrev-commit --abbrev=40 --decorate --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn <%ce>]%Creset %Cblue%G?%Creset'
 
     ; }}}
 ; {{{ ### merge ###
@@ -551,12 +557,6 @@
     # See https://help.github.com/articles/removing-sensitive-data-from-a-repository/
     expunge = "!f() { git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch $1\" --prune-empty --tag-name-filter cat -- --all }; f"
 
-    # Delete all branches that have already been merged into the master branch.
-    master-branch-clean = "!git master-branch-clean-local"
-    # Delete all local branches that have been merged into the local master branch.
-    master-branch-clean-local = "!git checkout master && git branch --merged | xargs git branch --delete"
-    # Delete all remote branches that have been merged into the remote master branch.
-    master-branch-clean-remote = "!git branch --remotes --merged origin/master | sed 's# *origin/##' | grep -v '^master$' xargs -I% git push origin :% 2>&1 | grep --colour=never 'deleted'"
 
     # Delete a branch name, then create the same branch name based on master -
     # useful if you have, for example, a development branch and master branch
