@@ -237,13 +237,15 @@
 
     # 本功能遵守了不修改已push的commit历史的原则
     # 重写未push的commit 父分支为可选参数，默认为base-branch
+    ; TODO: 修复bug
     branch-refactor = "!f(){ \
         base_branch=${1:-$(git base-branch)}; \
         if [ $base_branch = $(git current-branch) ]; then \
             echo \"current branch is base branch, can not refactor\"; \
             return; \
         fi; \
-        git rebase -i $base_branch..HEAD; \
+        common_ancestor=$(git merge-base $base_branch $(git current-branch)); \
+        git rebase -i $common_ancestor; \
     };f"
     brf = "!git branch-refactor"
 
@@ -274,6 +276,9 @@
                             --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'; \
     }; f"
     blg = "!git branch-log"
+
+    ; 三种查看log的方式: lg tree blg
+    refix = checkout --conflict=diff3  # 对某个文件回到解决冲突前的状态
 
 ; {{{ === 废弃 ===
 ; {{{ topic-rebase 通过rebase方式合并topic
@@ -521,12 +526,8 @@
     ra = rebase --abort
     rc = "!git add --update && git rebase --continue"
     ri = rebase -i
-    rir = "!git rebase -i origin/$(git current-branch)"
     # 选中n个commit进行rebase
     rin = "!git rebase -i HEAD~"$1"; #"
-    # 直到某个hash的rebase
-    rihs = "!git rebase -i "$1"; #"
-    refix = checkout --conflict=diff3  # 对某个文件回到解决冲突前的状态
 
 ; }}}
 ; {{{ ### remote ###
