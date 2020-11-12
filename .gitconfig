@@ -63,12 +63,12 @@
 [pager]
     ; # 以下命令不使用$PAGER浏览
     log = false
-    ; branch = false
-    ; tag = false
-    ; reflog = false
+    branch = false
+    tag = false
+    reflog = false
     ; diff = false
     shortlog = false
-    ; grep = false
+    grep = false
 
 # difftool用editor(nvr) 有bug， 还是nvim 好
 [diff]
@@ -243,12 +243,7 @@
             echo \"current branch is base branch, can not refactor\"; \
             return; \
         fi; \
-        existed_in_remote=$(git ls-remote --heads origin $current_branch | head -n -1); \
-        if [ -n \"$existed_in_remote\" ]; then \
-            git rebase -i origin/$base_branch..HEAD; \
-        else \
-            git rebase -i $base_branch..HEAD; \
-        fi; \
+        git rebase -i $base_branch..HEAD; \
     };f"
     brf = "!git branch-refactor"
 
@@ -265,7 +260,6 @@
         TARGET=$(git rev-parse \"$commit\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; \
         }; f"
 
-    # 查看自分叉以来的diff
     branch-diff = "!f(){ \
         base_branch=${1:-$(git base-branch)}; \
         common_ancestor=$(git merge-base $base_branch $(git current-branch)); \
