@@ -21,7 +21,8 @@
     editor = nvim
     pager = delta
     quotepath = false  # 解决git ls不显示中文的问题
-	excludesfile = /home/alexyan/.gitignore_global
+    # 全局gitignore
+	excludesfile = ~/.gitignore_global
 
 ; {{{ delta配置 用于查看diff
 [delta]
