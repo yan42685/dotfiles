@@ -239,6 +239,10 @@
     # 重写未push的commit 父分支为可选参数，默认为base-branch
     branch-refactor = "!f(){ \
         base_branch=${1:-$(git base-branch)}; \
+        if [ $base_branch = $(git current-branch) ]; then \
+            echo \"current branch is base branch, can not refactor\"; \
+            return; \
+        fi; \
         existed_in_remote=$(git ls-remote --heads origin $current_branch | head -n -1); \
         if [ -n \"$existed_in_remote\" ]; then \
             git rebase -i origin/$base_branch..HEAD; \
@@ -255,16 +259,9 @@
     # GIT_EDITOR=true可以在没有冲突的时候跳过编辑过程
     fixup = "!f() { \
         base_branch=${1:-$(git base-branch)} \
-        existed_in_remote=$(git ls-remote --heads origin $current_branch | head -n -1); \
-        if [ -n \"$existed_in_remote\" ]; then \
-            commit=$(git log origin/$base_branch..$(git current-branch) --topo-order --date=short --abbrev-commit \
-                --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
-                | fzf | awk '{print $1}'); \
-        else \
-            commit=$(git log $base_branch..$(git current-branch) --topo-order --date=short --abbrev-commit \
-                --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
-                | fzf | awk '{print $1}'); \
-        fi; \
+        commit=$(git log origin/$base_branch..$(git current-branch) --topo-order --date=short --abbrev-commit \
+            --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
+            | fzf | awk '{print $2}'); \
         TARGET=$(git rev-parse \"$commit\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; \
         }; f"
 
