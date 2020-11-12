@@ -1,5 +1,6 @@
 # NOTE:
 #   1. 不要试图用修改.zshrc的方式使得gnome-terminal自动开启tmux, 因为那会导致gnome-terminal有时无法开启，最好的办法是只用Alacritty
+#   2. alias会递归应用
 
 # 想用root账户也使用，可以使用软连接.zhsrc  .config .vim 到/home目录下, 但是.zgen软连接好像会出错，那就复制过去好了
 # 需要下载的软件: fzf, nnn, trash, lua
@@ -233,6 +234,8 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/command-not-found
     zgen oh-my-zsh plugins/extract
     zgen oh-my-zsh plugins/colorize
+    zgen oh-my-zsh plugins/npm  # npm命令补全
+    zgen oh-my-zsh plugins/zsh_reload  # src命令relaod .zshrc
 
 
     # NOTE: 没必要用crontab定义自动fetch, 这个插件提供的根据 zle-line-init 触发就足够用了,
@@ -309,7 +312,7 @@ alias ...='../..'
 alias ....='../../..'
 alias .....='../../../..'
 alias ......='../../../../..'
-# git with hub
+# oh-my-zsh 会默认alias g="git"
 if command -v hub >/dev/null 2>&1; then
   alias git='hub'
 fi
