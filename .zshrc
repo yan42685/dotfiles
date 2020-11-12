@@ -265,87 +265,72 @@ fi
 # }}}
 
 
-
-# 运行
+# 编译并运行源文件
 alias rn='asynctask file-run'
 # 查找命令 后面可接文件/目录名也可不接
 alias rnf='asynctask -f'
 alias note='vi ~/vimwiki/index.md'
-# rg --no-messages去除permission denied等警告信息
-# 快速查找文件
+# 快速查找文件 rg --no-messages去除permission denied等警告信息
 alias ff='rg --column --line-number --no-heading --color=always --smart-case --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" \
     | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
 # alias vif='editor $(rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
 alias vif='editor $(ff)'
+alias zf='cdf' # 使用 fzf 对多个结果进行选择
 
-alias hdfs=/usr/local/hadoop/bin/hdfs
-alias hadoop=/usr/local/hadoop/bin/hadoop
-alias start-dfs=/usr/local/hadoop/sbin/start-dfs.sh
-alias stop-dfs=/usr/local/hadoop/sbin/stop-dfs.sh
-alias ts="trash"
-alias cl="clear"
-# 安全的cp和mv，防止误操作覆盖同名文件
-alias mv='nocorrect mv -i'
-alias cp='nocorrect cp -ip'
-# 如果有bat命令就alias
-alias ca='bat'
-alias mkdir='nocorrect mkdir'
-alias md='nocorrect mkdir'
-# 用文件浏览器打开当前目录
-alias open='nautilus $PWD &'
+alias zz='z ~'
+alias zt='z ~/coding/test'
+alias zh='z -I -t .'  # MRU
+alias zb='z -b'  # 项目目录
+
 alias vi=editor
 alias vinp='editor --noplugin'
 # 检查性能，进入nvim后，输入:profile stop命令(或<leader>cp)再退出，然后查看profile.log文件 翻到最底部查看函数耗时统计
 alias vicp="editor -c 'profile start profile.log' -c 'profile file *' -c 'profile func *' -c 'let g:check_performance_enabled = 1'"
 # 禁用部分大文件下十分影响性能的插件
 alias vifast="editor -c 'let g:disable_laggy_plugins_for_large_file = 1'"
-# alias vim='nvim'
-# alias vimm='\vim'   # 用转义符防止递归映射
-# alias dot='/usr/bin/git --git-dir=/home/yy/.dotfiles/ --work-tree=/home/yy'   # 用于存放dotfiles
+
 alias dot='yadm'
-alias rm='trash'
-alias la='ls -a'
 alias nnn='PAGER= nnn'
-alias zz='z ~'
-alias zt='z ~/coding/test'
-alias zh='z -I -t .'  # MRU
-alias zb='z -b'  # 项目目录
-alias zc='z -c' # 严格匹配当前路径的子路径
-alias zf='z -I' # 使用 fzf 对多个结果进行选择
-alias zbf='z -b -I'
-# alias now='echo $(date +%Y-%m-%d +%H:%M:%S)'
+
+alias ca='bat'
+alias rm='trash'
+alias cl="clear"
+# 安全的cp和mv，防止误操作覆盖同名文件
+alias mv='mv -i'
+alias cp='cp -ip'
+alias la='ls -a'
+# 如果有bat命令就alias
+alias md='mkdir'
+# 用文件浏览器打开当前目录
+alias open='nautilus $PWD &'
+
 alias now='echo $(date +%Y-%m-%d\ %H:%M:%S\ %A)'
-alias diff='nvim -d'
+# 比较两个文件
+alias diff='editor -d'
 alias ...='../..'
 alias ....='../../..'
 alias .....='../../../..'
 alias ......='../../../../..'
 # oh-my-zsh 会默认alias g="git"
 command -v hub >/dev/null 2>&1 && alias git='hub'
+alias zshrc='${=EDITOR} ~/.zshrc' # Quick access to the ~/.zshrc file
+
+# {{{ 基本不用的alias
+
 # print file sizes in human readable format
 alias du='du -h'
 alias df='df -h'
 alias free='free -h'
-
-# 下面的alias参考common-alias插件
-alias zshrc='${=EDITOR} ~/.zshrc' # Quick access to the ~/.zshrc file
-alias -g H='| head'
-alias -g T='| tail'
-alias -g G='| grep'
-alias -g L="| less"
-alias -g M="| most"
-
 # Improve od for hexdump
 alias od='od -Ax -tx1z'
 alias hexdump='hexdump -C'
+# }}}
 
 # 采纳补全建议, 如果需要在命令行下输入半角逗号，可以先随便输入一个字符，然后在vi模式下用r改成半角逗号
 bindkey ',' autosuggest-accept
 bindkey 'kj' vi-cmd-mode
 bindkey '^h' beginning-of-line
 bindkey '^l' end-of-line
-# (被fzf替代)增量查询历史命令记录
-# bindkey '^r' history-incremental-search-backward
 bindkey '^k' history-substring-search-up
 bindkey '^j' history-substring-search-down
 bindkey ',' autosuggest-accept  # 采纳补全建议
@@ -366,7 +351,7 @@ bindkey '^[x' insert-last-command-output  # insert last command result
 
 ############################################################
 # {{{ 自定义函数
-# NOTE: 不可以在shell脚本里调用
+# NOTE: 这些函数不可以在shell脚本里调用
 
 # {{{ toggle_auto_fetch()
 toggle_auto_fetch() {
@@ -389,26 +374,14 @@ cd - >/dev/null
 }
 # }}}
 # {{{FuzzyFinder
-# fuzzy match dirs and cd
+# 用fzf来cd
 cdf() {
     local dir
-    local rg_prefix='rg --column --line-number --no-heading --color=always --smart-case --no-messages --hidden -l ""'
+    local rg_prefix='rg --no-heading --color=always --smart-case --no-messages --hidden -l ""'
     dir=$(eval $rg_prefix | xargs dirname | uniq | fzf --preview 'ls -1 -a --color=always $realpath')
     cd $dir
-
-# alias cdfi='rg --hidden --sort-files --files --null 2> /dev/null | xargs -0 dirname | uniq '
-# alias cdf='echo $(dirname $(ff))'
-
-    # local dir
-    # dir=$(find ${1:-.} -path '*/\.*' -prune \
-    #     -o -type d -print 2> /dev/null | "$FuzzyFinder") &&
-    #     cd "$dir"
     }
-# include hidden dirs
-cdf-all() {
-    local dir
-    dir=$(find ${1:-.} -type d 2> /dev/null | grep -v ".git/" | "$FuzzyFinder") && cd "$dir"
-}
+
 # job to fore
 job-fore() {
     JOB_ID=$(jobs | grep "[[[:digit:]]*]" | "$FuzzyFinder" | grep -o "[[[:digit:]]*]" | grep -o "[[:digit:]]*")
@@ -534,7 +507,6 @@ export RTV_BROWSER="w3m"
 export RTV_URLVIEWER="urlscan"
 # }}}
 # {{{fzf
-# export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS="
 -m --height=50%
 --layout=reverse
@@ -564,7 +536,6 @@ source /home/alexyan/git-extras/etc/git-extras-completion.zsh
 # 这个是git-extras的bin目录, 父目录是~/.my-scripts/deploy.sh中安装时定义的make install PREFIX
 export PATH=$HOME/.local/git-extras/bin:$PATH
 # }}}
-#}}}
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -578,3 +549,4 @@ export PATH=/root/.local/bin:$PATH
 export PATH=~/.pyenv/bin:$PATH
 export PYENV_ROOT=~/.pyenv
 eval "$(pyenv init -)"
+#}}}
