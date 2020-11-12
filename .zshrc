@@ -253,6 +253,8 @@ if ! zgen saved; then
                                           # NOTE: This was built on a Mac. 在Linux不一定有效, 并且只有当文件夹名字和远程仓库一致才有效
     zgen load StackExchange/blackbox  # 在VCS里选择性加密文件 you don't have to worry about storing your VCS repo on an untrusted server
     zgen load unixorn/autoupdate-zgen  # 自动更新zgen及相关插件
+    zgen load wfxr/forgit  # git整合fzf, 用于看log, status, diff
+
 
     # save all to init script
     zgen save
@@ -500,8 +502,9 @@ export FZF_DEFAULT_OPTS=" \
 --color=dark \
 --color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2 \
 --color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11 \
---bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down'
+--bind 'alt-k:preview-up,alt-j:preview-down,alt-p:preview-page-up,alt-n:preview-page-down'
 "
+# --bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down'
 # }}}
 # {{{fzf-marks
 # Usage: mark fzm C-d
@@ -544,6 +547,8 @@ export GF_REFLOG_MENU_PARAMS='--pretty=fuzzyformat'
 # a directory in the repository is perfectly fine 快照备份地点
 export GF_SNAPSHOT_DIRECTORY='./git-fuzzy-snapshots'
 # }}}
+# forgit
+export FORGIT_PAGER='delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
 
 
 

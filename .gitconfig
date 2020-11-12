@@ -19,7 +19,9 @@
     email = 419725794@qq.com
 [core]
     editor = nvim
-    pager = delta
+    ; delta在forgit里的workround,  详见https://github.com/dandavison/delta/issues/359
+    pager = delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}
+
     quotepath = false  # 解决git ls不显示中文的问题
     # 全局gitignore
 	excludesfile = ~/.gitignore_global
