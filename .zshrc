@@ -61,8 +61,7 @@ autoload -U promptinit && promptinit  # FIXME: 不太了解这句话的作用
 fpath=(~/.zsh/completions $fpath)
 # bat默认用$PAGER，现在改为less
 export BAT_PAGER="less"
-# delta 在less Pager里可以用n和N跳转文件
-DELTA_NAVIGATE=1 git diff
+export BAT_THEME="TwoDark"
 #}}}
 # {{{ 插件配置: 需要放在插件加载之前
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)  # .zshrc修改时自动更新zgen

@@ -26,12 +26,13 @@
 [delta]
     plus-color = "#012800"
     minus-color = "#340001"
-    syntax-theme = Monokai Extended
+    syntax-theme = TwoDark
     line-numbers = true
     side-by-side = true
     features = unobtrusive-line-numbers decorations
     whitespace-error-style = 22 reverse
     inspect-raw-lines = false
+	navigate = true  # 用n和N在文件之间跳转
 
 [delta "unobtrusive-line-numbers"]
     line-numbers = true
@@ -421,8 +422,7 @@
 ; {{{ ### diff ###
 
     d = diff
-    df = difftool
-    dt-staged = difftool --staged
+    df = diff
     # diff - show changes not yet staged
     dc = diff --cached
     # diff - show changes about to be commited
