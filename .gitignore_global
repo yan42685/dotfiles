@@ -505,3 +505,6 @@ compile_commands.json
 *creator.user*
 
 *_qmlcache.qrc
+
+# ========= git-fuzzy =========
+git-fuzzy-snapshots/
