@@ -235,18 +235,43 @@
 ; }}}
     tsp = "!git topic-stop"
 
-    # 重写自分叉以来的commit 父分支为可选参数，默认为base-branch
+    # 本功能遵守了不修改已push的commit历史的原则
+    # 重写未push的commit 父分支为可选参数，默认为base-branch
     branch-refactor = "!f(){ \
-        parent_branch=${1:-$(git base-branch)}; \
-        common_ancestor=$(git merge-base $parent_branch $(git current-branch)); \
-        git rebase -i $common_ancestor HEAD; \
+        base_branch=${1:-$(git base-branch)}; \
+        existed_in_remote=$(git ls-remote --heads origin $current_branch | head -n -1); \
+        if [ -n \"$existed_in_remote\" ]; then \
+            git rebase -i origin/$base_branch..HEAD; \
+        else \
+            git rebase -i $base_branch..HEAD; \
+        fi; \
     };f"
     brf = "!git branch-refactor"
 
+    # 修改旧的commit      See https://blog.filippo.io/git-fixup-amending-an-older-commit/
+    # NOTE: 1. 如果和TARGET..HEAD 之间的commit有冲突，则会提交新的提交，否则只是改变原来提交的历史位置
+    #       2. 本功能遵守了不修改已push的commit历史的原则
+    # usage:  git fixup <base_branch> [files...] 文件可选， commit可以用 :/abcd 来快速引用
+    # GIT_EDITOR=true可以在没有冲突的时候跳过编辑过程
+    fixup = "!f() { \
+        base_branch=${1:-$(git base-branch)} \
+        existed_in_remote=$(git ls-remote --heads origin $current_branch | head -n -1); \
+        if [ -n \"$existed_in_remote\" ]; then \
+            commit=$(git log origin/$base_branch..$(git current-branch) --topo-order --date=short --abbrev-commit \
+                --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
+                | fzf | awk '{print $1}'); \
+        else \
+            commit=$(git log $base_branch..$(git current-branch) --topo-order --date=short --abbrev-commit \
+                --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
+                | fzf | awk '{print $1}'); \
+        fi; \
+        TARGET=$(git rev-parse \"$commit\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; \
+        }; f"
+
     # 查看自分叉以来的diff
     branch-diff = "!f(){ \
-        parent_branch=${1:-$(git base-branch)}; \
-        common_ancestor=$(git merge-base $parent_branch $(git current-branch)); \
+        base_branch=${1:-$(git base-branch)}; \
+        common_ancestor=$(git merge-base $base_branch $(git current-branch)); \
         git diff $common_ancestor HEAD; \
     };f"
     bdf = "!git branch-diff"
@@ -664,18 +689,6 @@
     # ls-ignored -  list files that git has ignored.
     ls-ignored = ls-files --others --i --exclude-standard
 
-    # 修改旧的commit      See https://blog.filippo.io/git-fixup-amending-an-older-commit/
-    # NOTE: 1. 如果和TARGET..HEAD 之间的commit有冲突，则会提交新的提交，否则只是改变原来提交的历史位置
-    #       2. 本功能遵守了不修改已push的commit历史的原则
-    # usage:  git fixup <base_branch> [files...] 文件可选， commit可以用 :/abcd 来快速引用
-    # GIT_EDITOR=true可以在没有冲突的时候跳过编辑过程
-    fixup = "!f() { \
-        base_branch=${1:-$(git base-branch)} \
-        commit=$(git log $base_branch..$(git current-branch) --topo-order --date=short --abbrev-commit \
-            --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
-            | fzf | awk '{print $1}'); \
-        TARGET=$(git rev-parse \"$commit\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; \
-        }; f"
 
     # Expunge a file everywhere; this command is typically for a serious problem,
     # such as accidentally committing a file of sensitive data, such as passwords.
