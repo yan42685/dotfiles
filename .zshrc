@@ -299,6 +299,11 @@ alias la='ls -a'
 alias md='mkdir'
 # 用文件浏览器打开当前目录
 alias open='nautilus $PWD &'
+# forgit usecase: glo ga gd gri gcf(checkout file) gclean grh(reset HEAD)
+# forgit_rebase
+alias gri='grb'
+# forgit_add (其实是status)
+alias gs='ga'
 
 alias now='echo $(date +%Y-%m-%d\ %H:%M:%S\ %A)'
 # 比较两个文件
@@ -491,10 +496,10 @@ export RTV_BROWSER="w3m"
 export RTV_URLVIEWER="urlscan"
 # }}}
 # {{{fzf
-# C-y是复制的快捷键 alt-j/k移动preview的一行， alt-e/d 移动preview的一页
+# C-y是复制的快捷键 alt-j/k移动preview的一行， alt-e/d 移动preview的一页 c-a Toggle所有选项 c-f类似easymotion并选中
 # C-i 选择
 export FZF_DEFAULT_OPTS=" \
--m --height=50% \
+-m --height=60% \
 --layout=reverse \
 --prompt='➤ ' \
 --ansi \
@@ -502,7 +507,7 @@ export FZF_DEFAULT_OPTS=" \
 --color=dark \
 --color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2 \
 --color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11 \
---bind 'alt-k:preview-up,alt-j:preview-down,alt-p:preview-page-up,alt-n:preview-page-down'
+--bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-page-up,alt-d:preview-page-down,ctrl-a:toggle-all,ctrl-f:jump' \
 "
 # --bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down'
 # }}}
@@ -529,26 +534,20 @@ export PATH=$HOME/.local/git-extras/bin:$PATH
 export BAT_PAGER="less"
 export BAT_THEME="TwoDark"
 # }}}
-# {{{ git-fuzzy
-export PATH="$HOME/git-fuzzy/bin:$PATH"
-# merge base branch
-export GF_BASE_REMOTE=origin
-export GF_BASE_BRANCH=master
-# for `git fuzzy log`
-export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order --decorate'
-# You can also configure various git commands' default args in various contexts. This is hidden from the command headers to save room and enable freedom in formatting parameters. Remember to adequately quote this value as it's used unquoted. These are not set by default.
-# when diffing with branches or commits for preview
-# export GF_DIFF_COMMIT_PREVIEW_DEFAULTS="--patch-with-stat"
-# export GF_DIFF_COMMIT_RANGE_PREVIEW_DEFAULTS="--summary"
-# when diffing individual files
-# export GF_DIFF_FILE_PREVIEW_DEFAULTS="--indent-heuristic"
-# for `git fuzzy reflog`
-export GF_REFLOG_MENU_PARAMS='--pretty=fuzzyformat'
-# a directory in the repository is perfectly fine 快照备份地点
-export GF_SNAPSHOT_DIRECTORY='./git-fuzzy-snapshots'
-# }}}
 # forgit
-export FORGIT_PAGER='delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+# usage: glo gd gclean
+export FORGIT_COPY_CMD='xclip -selection clipboard'
+export FORGIT_FZF_DEFAULT_OPTS=" \
+-m --height=80% \
+--layout=reverse \
+--prompt='➤ ' \
+--ansi \
+--tabstop=4 \
+--color=dark \
+--color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2 \
+--color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11 \
+--bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-page-up,alt-d:preview-page-down,ctrl-a:toggle-all,ctrl-f:jump' \
+"
 
 
 
