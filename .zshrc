@@ -36,7 +36,7 @@ export NNN_USE_EDITOR=1                                 # use the $EDITOR when o
 export EDITOR=editor
 # 下面这条选项会让git的输出(比如branch, tag)用nvim来打开, 还有man的输出
 export PAGER=editor
-# export MANPAGER=editor
+export MANPAGER=bat
 export BROWSER="chromium"
 export NNN_COLORS="2136"                        # use a different color for each context
 export NNN_TRASH=1     # trash (needs trash-cli) instead of delete
@@ -268,17 +268,16 @@ fi
 alias rn='asynctask file-run'
 # 查找命令 后面可接文件/目录名也可不接
 alias rnf='asynctask -f'
-alias note='vi ~/vimwiki/index.md'
+alias note='editor ~/vimwiki/index.md'
 # 快速查找文件 rg --no-messages去除permission denied等警告信息
 alias ff='rg --column --line-number --no-heading --color=always --smart-case --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" \
     | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
 # alias vif='editor $(rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
 alias vif='editor $(ff)'
-alias zf='cdf' # 使用 fzf 对多个结果进行选择
+alias zf='cdf'  # 到达指定路径
+alias zr='z -I -t .'  # recent路径
 alias zz='z ~'
 alias zt='z ~/coding/test'
-alias zh='z -I -t .'  # MRU
-alias zb='z -b'  # 项目目录
 
 alias vi='editor'
 alias vinp='editor --noplugin'
@@ -493,15 +492,17 @@ export RTV_BROWSER="w3m"
 export RTV_URLVIEWER="urlscan"
 # }}}
 # {{{fzf
-export FZF_DEFAULT_OPTS="
--m --height=50%
---layout=reverse
---prompt='➤ '
---ansi
---tabstop=4
---color=dark
---color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2
---color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11
+# C-y是复制的快捷键 alt-j/k移动preview的一行， alt-e/d 移动preview的一页
+export FZF_DEFAULT_OPTS=" \
+-m --height=50% \
+--layout=reverse \
+--prompt='➤ ' \
+--ansi \
+--tabstop=4 \
+--color=dark \
+--color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2 \
+--color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11 \
+--bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down'
 "
 # }}}
 # {{{fzf-marks
