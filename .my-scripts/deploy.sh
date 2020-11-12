@@ -63,13 +63,6 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
-    if ! command -v hub >/dev/null 2>&1; then
-        wget https://download.fastgit.org/github/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz -O hub.tgz
-        mkdir -p ~/hub-linux64;
-        tar xf hub.tgz -C ~/hub-linux64 --strip-components 1
-        sudo ./hub-linux64/install
-        rm -rf hub-linux64 && rm -rf hub.tgz
-    fi
 
     if ! command -v git-extras >/dev/null 2>&1; then
         git clone https://hub.fastgit.org/tj/git-extras.git
@@ -82,6 +75,18 @@ setup_ubuntu_environment() {
         rm -rf git-extras
         # 便于检查命令是否存在
         export PATH=$HOME/.local/git-extras/bin
+    fi
+
+    if ! command -v hub >/dev/null 2>&1; then
+        wget https://download.fastgit.org/github/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz -O hub.tgz
+        mkdir -p ~/hub-linux64;
+        tar xf hub.tgz -C ~/hub-linux64 --strip-components 1
+        # 安装
+        sudo ./hub-linux64/install
+        # 设置补全 同时需要在.zshrc的autoload -U compinit && compinit之前写上fpath=(~/.zsh/completions $fpath)
+        mkdir -p ~/.zsh/completions
+        cp ~/hub-linux64/etc/hub.zsh_completion ~/.zsh/completions/_hub
+        rm -rf hub-linux64 && rm -rf hub.tgz
     fi
 
     sudo apt install -y trash-cli

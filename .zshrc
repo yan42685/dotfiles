@@ -55,6 +55,10 @@ setopt hist_save_no_dups hist_ignore_dups       # eliminate duplicate entries in
 setopt autopushd pushdignoredups                # auto push dir into stack and and don’t duplicate them
 autoload -U promptinit && promptinit  # FIXME: 不太了解这句话的作用
 # }}}
+# {{{ 其他软件配置
+# 为hub设置的补全
+fpath=(~/.zsh/completions $fpath)
+#}}}
 # {{{ 插件配置: 需要放在插件加载之前
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)  # .zshrc修改时自动更新zgen
 ZGEN_AUTOLOAD_COMPINIT=0  # 不要使用ZGEN的compinit
