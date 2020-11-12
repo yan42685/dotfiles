@@ -490,6 +490,7 @@ export RTV_URLVIEWER="urlscan"
 # }}}
 # {{{fzf
 # C-y是复制的快捷键 alt-j/k移动preview的一行， alt-e/d 移动preview的一页
+# C-i 选择
 export FZF_DEFAULT_OPTS=" \
 -m --height=50% \
 --layout=reverse \
