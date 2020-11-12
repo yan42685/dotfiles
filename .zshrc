@@ -42,6 +42,8 @@ export NNN_COLORS="2136"                        # use a different color for each
 export NNN_TRASH=1     # trash (needs trash-cli) instead of delete
 export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [Yes, No, Abort, Edit] "
 export FuzzyFinder="fzf"
+# bat默认用$PAGER，现在改为less
+export BAT_PAGER="less"
 # fzf查询隐藏文件
 # export FZF_DEFAULT_COMMAND='rg --hidden --ignore .git -g ""'
 
@@ -281,6 +283,8 @@ alias cl="clear"
 # 安全的cp和mv，防止误操作覆盖同名文件
 alias mv='nocorrect mv -i'
 alias cp='nocorrect cp -ip'
+# 如果有bat命令就alias
+command -v bat >/dev/null 2>&1 && alias ca='bat'
 alias mkdir='nocorrect mkdir'
 alias md='nocorrect mkdir'
 # 用文件浏览器打开当前目录
@@ -313,9 +317,7 @@ alias ....='../../..'
 alias .....='../../../..'
 alias ......='../../../../..'
 # oh-my-zsh 会默认alias g="git"
-if command -v hub >/dev/null 2>&1; then
-  alias git='hub'
-fi
+command -v hub >/dev/null 2>&1 && alias git='hub'
 # print file sizes in human readable format
 alias du='du -h'
 alias df='df -h'

@@ -63,6 +63,12 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
+    if ! command -v bat >/dev/null 2>&1; then
+        echo "================== Installing bat..."
+        wget https://download.fastgit.org/sharkdp/bat/releases/download/v0.16.0/bat_0.16.0_amd64.deb -O bat-amd64.deb
+        sudo dpkg -i bat-amd64.deb
+        rm bat-amd64.deb
+    fi
 
     if ! command -v git-extras >/dev/null 2>&1; then
         echo "================== Installing git-extras..."

@@ -7,7 +7,7 @@ is_missing=1
 
 commands=(
 node npm pip3 zsh lua5.3 nvim clangd ctags
-git-extras hub trash nnn zeal
+bat git-extras hub trash nnn zeal
 eslint prettier pylint autopep8 cppcheck clang-format
 gtags rg tmux fzf alacritty
 )
