@@ -272,9 +272,10 @@ alias rn='asynctask file-run'
 alias rnf='asynctask -f'
 alias note='vi ~/vimwiki/index.md'
 # rg --no-messages去除permission denied等警告信息
-alias fzfh='rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf'  # fzf搜索隐藏文件
-# alias vif='editor $(fzf)'
-alias vif='editor $(rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
+# 快速查找文件
+alias ff='rg --column --line-number --no-heading --color=always --smart-case --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
+# alias vif='editor $(rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
+alias vif='editor $(ff)'
 alias hdfs=/usr/local/hadoop/bin/hdfs
 alias hadoop=/usr/local/hadoop/bin/hadoop
 alias start-dfs=/usr/local/hadoop/sbin/start-dfs.sh
