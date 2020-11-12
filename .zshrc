@@ -299,11 +299,10 @@ alias la='ls -a'
 alias md='mkdir'
 # 用文件浏览器打开当前目录
 alias open='nautilus $PWD &'
-# forgit usecase: glo ga gd gri gcf(checkout file) gclean grh(reset HEAD)
+# forgit usecase: glo ga gd gri gcf(checkout file) gss gclean grh(reset HEAD)
 # forgit_rebase
 alias gri='grb'
-# forgit_add (其实是status)
-alias gs='ga'
+
 
 alias now='echo $(date +%Y-%m-%d\ %H:%M:%S\ %A)'
 # 比较两个文件
