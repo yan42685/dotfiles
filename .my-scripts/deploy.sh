@@ -63,6 +63,14 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
+    if ! command -v hub >/dev/null 2>&1; then
+        wget https://download.fastgit.org/github/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz -O hub.tgz
+        mkdir -p ~/hub-linux64;
+        tar xf hub.tgz -C ~/hub-linux64 --strip-components 1
+        sudo ./hub-linux64/install
+        rm -rf hub-linux64 && rm -rf hub.tgz
+    fi
+
     if ! command -v git-extras >/dev/null 2>&1; then
         git clone https://hub.fastgit.org/tj/git-extras.git
         cd git-extras
