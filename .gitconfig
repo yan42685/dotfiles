@@ -60,12 +60,12 @@
     template = ~/.config/git/.gitmessage
 [pager]
     ; # 以下命令不使用$PAGER浏览
-    ; log = false
+    log = false
     ; branch = false
     ; tag = false
     ; reflog = false
     ; diff = false
-    ; shortlog = false
+    shortlog = false
     ; grep = false
 
 # difftool用editor(nvr) 有bug， 还是nvim 好
@@ -650,6 +650,9 @@
 
 ; }}}
 ; {{{ ### other commands ###
+    fd = fuzzy diff
+    fs = fuzzy status
+    fl = fuzzy log
 
     # initalize a repo and immediate add an empty commit, which makes rebase easier.
     init-empty = !"f() { git init && git commit --allow-empty --allow-empty-message --message ''; }; f"

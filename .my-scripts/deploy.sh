@@ -63,6 +63,11 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
+    if [ ! -d $HOME/git-fuzzy ]; then
+        echo "================== Installing git-fuzzy..."
+        git clone https://hub.fastgit.org/bigH/git-fuzzy.git
+    fi
+
     if ! command -v delta >/dev/null 2>&1; then
         echo "================== Installing delta..."
         wget -c https://download.fastgit.org/dandavison/delta/releases/download/0.4.4/git-delta_0.4.4_amd64.deb -O git-delta.deb

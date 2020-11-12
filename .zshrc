@@ -54,12 +54,9 @@ setopt hist_save_no_dups hist_ignore_dups       # eliminate duplicate entries in
 setopt autopushd pushdignoredups                # auto push dir into stack and and don’t duplicate them
 autoload -U promptinit && promptinit  # FIXME: 不太了解这句话的作用
 # }}}
-# {{{ 其他软件配置
+# {{{ 其他软件配置 (需要在插件加载之前)
 # 为hub设置的补全
 fpath=(~/.zsh/completions $fpath)
-# bat默认用$PAGER，现在改为less
-export BAT_PAGER="less"
-export BAT_THEME="TwoDark"
 #}}}
 # {{{ 插件配置: 需要放在插件加载之前
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)  # .zshrc修改时自动更新zgen
@@ -470,7 +467,7 @@ test_cmd() {
 # }}}
 # }}}
 
-# {{{ 其他配置（需要放在插件加载之后)
+# {{{ 其他配置软件配置（需要放在插件加载之后)
 # 解决ls命令出现奇怪背景色的问题{{{
 # Change ls colours
 LS_COLORS="ow=01;36;40" && export LS_COLORS
@@ -523,6 +520,33 @@ source /home/alexyan/git-extras/etc/git-extras-completion.zsh
 # 这个是git-extras的bin目录, 父目录是~/.my-scripts/deploy.sh中安装时定义的make install PREFIX
 export PATH=$HOME/.local/git-extras/bin:$PATH
 # }}}
+# {{{ bat
+# # bat默认用$PAGER，现在改为less
+export BAT_PAGER="less"
+export BAT_THEME="TwoDark"
+# }}}
+# {{{ git-fuzzy
+export PATH="$HOME/git-fuzzy/bin:$PATH"
+# merge base branch
+export GF_BASE_REMOTE=origin
+export GF_BASE_BRANCH=master
+# for `git fuzzy log`
+export GF_LOG_MENU_PARAMS='--pretty="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --topo-order --decorate'
+# You can also configure various git commands' default args in various contexts. This is hidden from the command headers to save room and enable freedom in formatting parameters. Remember to adequately quote this value as it's used unquoted. These are not set by default.
+# when diffing with branches or commits for preview
+# export GF_DIFF_COMMIT_PREVIEW_DEFAULTS="--patch-with-stat"
+# export GF_DIFF_COMMIT_RANGE_PREVIEW_DEFAULTS="--summary"
+# when diffing individual files
+# export GF_DIFF_FILE_PREVIEW_DEFAULTS="--indent-heuristic"
+# for `git fuzzy reflog`
+export GF_REFLOG_MENU_PARAMS='--pretty=fuzzyformat'
+# a directory in the repository is perfectly fine 快照备份地点
+export GF_SNAPSHOT_DIRECTORY='./git-fuzzy-snapshots'
+# }}}
+
+
+
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
