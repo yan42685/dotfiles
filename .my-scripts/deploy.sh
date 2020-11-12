@@ -63,9 +63,16 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
+    if ! command -v delta >/dev/null 2>&1; then
+        echo "================== Installing delta..."
+        wget -c https://download.fastgit.org/dandavison/delta/releases/download/0.4.4/git-delta_0.4.4_amd64.deb -O git-delta.deb
+        sudo dpkg -i git-delta.deb
+        rm git-delta.deb
+    fi
+
     if ! command -v bat >/dev/null 2>&1; then
         echo "================== Installing bat..."
-        wget https://download.fastgit.org/sharkdp/bat/releases/download/v0.16.0/bat_0.16.0_amd64.deb -O bat-amd64.deb
+        wget -c https://download.fastgit.org/sharkdp/bat/releases/download/v0.16.0/bat_0.16.0_amd64.deb -O bat-amd64.deb
         sudo dpkg -i bat-amd64.deb
         rm bat-amd64.deb
     fi

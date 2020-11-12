@@ -42,8 +42,6 @@ export NNN_COLORS="2136"                        # use a different color for each
 export NNN_TRASH=1     # trash (needs trash-cli) instead of delete
 export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [Yes, No, Abort, Edit] "
 export FuzzyFinder="fzf"
-# bat默认用$PAGER，现在改为less
-export BAT_PAGER="less"
 # fzf查询隐藏文件
 # export FZF_DEFAULT_COMMAND='rg --hidden --ignore .git -g ""'
 
@@ -61,6 +59,10 @@ autoload -U promptinit && promptinit  # FIXME: 不太了解这句话的作用
 # {{{ 其他软件配置
 # 为hub设置的补全
 fpath=(~/.zsh/completions $fpath)
+# bat默认用$PAGER，现在改为less
+export BAT_PAGER="less"
+# delta 在less Pager里可以用n和N跳转文件
+DELTA_NAVIGATE=1 git diff
 #}}}
 # {{{ 插件配置: 需要放在插件加载之前
 ZGEN_RESET_ON_CHANGE=(${HOME}/.zshrc)  # .zshrc修改时自动更新zgen
@@ -284,7 +286,7 @@ alias cl="clear"
 alias mv='nocorrect mv -i'
 alias cp='nocorrect cp -ip'
 # 如果有bat命令就alias
-command -v bat >/dev/null 2>&1 && alias ca='bat'
+alias ca='bat'
 alias mkdir='nocorrect mkdir'
 alias md='nocorrect mkdir'
 # 用文件浏览器打开当前目录
