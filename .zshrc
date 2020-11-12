@@ -15,7 +15,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 # }}}
-# export PATH variables{{{
+# 环境变量 {{{
 # pip默认安装位置
 export PATH=$HOME/.local/bin:$PATH
 # 自定义npm包安装的bin
@@ -42,8 +42,6 @@ export NNN_COLORS="2136"                        # use a different color for each
 export NNN_TRASH=1     # trash (needs trash-cli) instead of delete
 export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [Yes, No, Abort, Edit] "
 export FuzzyFinder="fzf"
-# fzf查询隐藏文件
-# export FZF_DEFAULT_COMMAND='rg --hidden --ignore .git -g ""'
 
 # }}}
 # General settings{{{
@@ -264,6 +262,7 @@ if ! zgen saved; then
 fi
 # }}}
 
+# =====================================
 
 # 编译并运行源文件
 alias rn='asynctask file-run'
@@ -276,13 +275,12 @@ alias ff='rg --column --line-number --no-heading --color=always --smart-case --n
 # alias vif='editor $(rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
 alias vif='editor $(ff)'
 alias zf='cdf' # 使用 fzf 对多个结果进行选择
-
 alias zz='z ~'
 alias zt='z ~/coding/test'
 alias zh='z -I -t .'  # MRU
 alias zb='z -b'  # 项目目录
 
-alias vi=editor
+alias vi='editor'
 alias vinp='editor --noplugin'
 # 检查性能，进入nvim后，输入:profile stop命令(或<leader>cp)再退出，然后查看profile.log文件 翻到最底部查看函数耗时统计
 alias vicp="editor -c 'profile start profile.log' -c 'profile file *' -c 'profile func *' -c 'let g:check_performance_enabled = 1'"
@@ -326,6 +324,7 @@ alias od='od -Ax -tx1z'
 alias hexdump='hexdump -C'
 # }}}
 
+# {{{ 自定义快捷键
 # 采纳补全建议, 如果需要在命令行下输入半角逗号，可以先随便输入一个字符，然后在vi模式下用r改成半角逗号
 bindkey ',' autosuggest-accept
 bindkey 'kj' vi-cmd-mode
@@ -337,22 +336,11 @@ bindkey ',' autosuggest-accept  # 采纳补全建议
 bindkey -M vicmd 'H' vi-beginning-of-line
 bindkey -M vicmd 'L' vi-end-of-line
 bindkey -s '^e' '^[[3~'
-
-
-# {{{ insert-last-command-output()
-insert-last-command-output() {
-LBUFFER+="$(eval $history[$((HISTCMD-1))])"
-}
-zle -N insert-last-command-output
 # }}}
-bindkey '^[x' insert-last-command-output  # insert last command result
-# bindkey -s '^ ' ' git status --short^M'  # Ctrl+space: print Git status
-
 
 ############################################################
 # {{{ 自定义函数
 # NOTE: 这些函数不可以在shell脚本里调用
-
 # {{{ toggle_auto_fetch()
 toggle_auto_fetch() {
     `command git rev-parse --is-inside-work-tree 2>/dev/null` || return
