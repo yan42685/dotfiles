@@ -116,8 +116,8 @@ zstyle ':completion:complete:*:options' sort false
 # use input as query string when completing zlua
 zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':fzf-tab:*:' prefix ''
-
-#
+# 这里是-1不是-a
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 -a --color=always $realpath'
 #
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
@@ -273,9 +273,11 @@ alias rnf='asynctask -f'
 alias note='vi ~/vimwiki/index.md'
 # rg --no-messages去除permission denied等警告信息
 # 快速查找文件
-alias ff='rg --column --line-number --no-heading --color=always --smart-case --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
+alias ff='rg --column --line-number --no-heading --color=always --smart-case --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" \
+    | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
 # alias vif='editor $(rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
 alias vif='editor $(ff)'
+
 alias hdfs=/usr/local/hadoop/bin/hdfs
 alias hadoop=/usr/local/hadoop/bin/hadoop
 alias start-dfs=/usr/local/hadoop/sbin/start-dfs.sh
@@ -390,9 +392,17 @@ cd - >/dev/null
 # fuzzy match dirs and cd
 cdf() {
     local dir
-    dir=$(find ${1:-.} -path '*/\.*' -prune \
-        -o -type d -print 2> /dev/null | "$FuzzyFinder") &&
-        cd "$dir"
+    local rg_prefix='rg --column --line-number --no-heading --color=always --smart-case --no-messages --hidden -l ""'
+    dir=$(eval $rg_prefix | xargs dirname | uniq | fzf --preview 'ls -1 -a --color=always $realpath')
+    cd $dir
+
+# alias cdfi='rg --hidden --sort-files --files --null 2> /dev/null | xargs -0 dirname | uniq '
+# alias cdf='echo $(dirname $(ff))'
+
+    # local dir
+    # dir=$(find ${1:-.} -path '*/\.*' -prune \
+    #     -o -type d -print 2> /dev/null | "$FuzzyFinder") &&
+    #     cd "$dir"
     }
 # include hidden dirs
 cdf-all() {
@@ -509,12 +519,12 @@ LS_COLORS="ow=01;36;40" && export LS_COLORS
 # }}}
 # 解决zeal不能显示mdn文档的问题 {{{
 zeal-docs-fix() {
-dirname="$HOME/.local/share/Zeal/Zeal/docsets"
-if [ -d $dirname  ];then
-    pushd $dirname >/dev/null || return
-    find . -iname 'react-main*.js' -exec rm '{}' \;
-    popd >/dev/null || exit
-fi
+    dirname="$HOME/.local/share/Zeal/Zeal/docsets"
+    if [ -d $dirname  ];then
+        pushd $dirname >/dev/null || return
+        find . -iname 'react-main*.js' -exec rm '{}' \;
+        popd >/dev/null || exit
+    fi
 }
 zeal-docs-fix
 #}}}
