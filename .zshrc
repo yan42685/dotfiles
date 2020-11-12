@@ -313,17 +313,6 @@ alias ......='../../../../..'
 command -v hub >/dev/null 2>&1 && alias git='hub'
 alias zshrc='${=EDITOR} ~/.zshrc' # Quick access to the ~/.zshrc file
 
-# {{{ 基本不用的alias
-
-# print file sizes in human readable format
-alias du='du -h'
-alias df='df -h'
-alias free='free -h'
-# Improve od for hexdump
-alias od='od -Ax -tx1z'
-alias hexdump='hexdump -C'
-# }}}
-
 # {{{ 自定义快捷键
 # 采纳补全建议, 如果需要在命令行下输入半角逗号，可以先随便输入一个字符，然后在vi模式下用r改成半角逗号
 bindkey ',' autosuggest-accept
@@ -338,6 +327,16 @@ bindkey -M vicmd 'L' vi-end-of-line
 bindkey -s '^e' '^[[3~'
 # }}}
 
+# {{{ 基本不用的alias
+
+# print file sizes in human readable format
+alias du='du -h'
+alias df='df -h'
+alias free='free -h'
+# Improve od for hexdump
+alias od='od -Ax -tx1z'
+alias hexdump='hexdump -C'
+# }}}
 ############################################################
 # {{{ 自定义函数
 # NOTE: 这些函数不可以在shell脚本里调用
@@ -471,7 +470,6 @@ test_cmd() {
 }
 # }}}
 # }}}
-
 
 # {{{ 其他配置（需要放在插件加载之后)
 # 解决ls命令出现奇怪背景色的问题{{{
