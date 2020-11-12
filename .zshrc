@@ -235,7 +235,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/extract
     zgen oh-my-zsh plugins/colorize
     zgen oh-my-zsh plugins/npm  # npm命令补全
-    zgen oh-my-zsh plugins/zsh_reload  # src命令relaod .zshrc
+    zgen oh-my-zsh plugins/zsh_reload  # src命令重新加载.zshrc .zshrc
 
 
     # NOTE: 没必要用crontab定义自动fetch, 这个插件提供的根据 zle-line-init 触发就足够用了,

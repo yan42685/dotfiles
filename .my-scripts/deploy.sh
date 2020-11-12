@@ -65,6 +65,7 @@ setup_ubuntu_environment() {
     echo "==================== installing applications"
 
     if ! command -v git-extras >/dev/null 2>&1; then
+        echo "================== Installing git-extras..."
         git clone https://hub.fastgit.org/tj/git-extras.git
         cd git-extras
         # checkout the latest tag
@@ -78,15 +79,16 @@ setup_ubuntu_environment() {
     fi
 
     if ! command -v hub >/dev/null 2>&1; then
-        wget https://download.fastgit.org/github/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz -O hub.tgz
-        mkdir -p ~/hub-linux64;
-        tar xf hub.tgz -C ~/hub-linux64 --strip-components 1
+        echo "================== Installing hub..."
+        wget -c https://download.fastgit.org/github/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz -O github-hub.tgz
+        mkdir -p ~/github-hub;
+        tar xf github-hub.tgz -C ~/github-hub --strip-components 1
         # 安装
-        sudo ./hub-linux64/install
+        sudo ./github-hub/install
         # 设置补全 同时需要在.zshrc的autoload -U compinit && compinit之前写上fpath=(~/.zsh/completions $fpath)
         mkdir -p ~/.zsh/completions
-        cp ~/hub-linux64/etc/hub.zsh_completion ~/.zsh/completions/_hub
-        rm -rf hub-linux64 && rm -rf hub.tgz
+        cp ~/github-hub/etc/hub.zsh_completion ~/.zsh/completions/_hub
+        rm -rf github-hub && rm -rf github-hub.tgz
     fi
 
     sudo apt install -y trash-cli
