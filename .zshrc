@@ -532,7 +532,7 @@ export BAT_THEME="TwoDark"
 # }}}
 # {{{ forgit
 #
-# usage: glg ga gri gcf(checkout file) gsl gclean grh(reset HEAD <file>)
+# usage: glg ga gri gcf(checkout file) gsl gclean
 #
 #        gd v1.0
 #        gd origin
@@ -560,12 +560,13 @@ export FORGIT_FZF_DEFAULT_OPTS=" \
     --preview-window down:60%:wrap \
     "
 
-# <C-d> drop stash
+# <C-d> drop stash <C-p> pop stash <C-a> apply stash
 FORGIT_STASH_FZF_OPTS='
 --bind="ctrl-d:reload(git stash drop $(cut -d: -f1 <<<{}) 1>/dev/null && git stash list)"
+--bind="ctrl-p:execute(git stash pop $(cut -d: -f1 <<<{}) 1>/dev/null)+abort+execute(echo Stash Poped: {})"
+--bind="ctrl-a:execute(git stash apply $(cut -d: -f1 <<<{}) 1>/dev/null)+abort+execute(echo Stash Applied: {})"
 '
-FORGIT_ADD_FZF_OPTS='
-'
+
 # }}}
 
 
