@@ -63,6 +63,15 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
+
+    if ! command -v fd >/dev/null 2>&1; then
+        # riggrep作者推荐用这个来搜索文件和目录，用riggrep来搜索文本
+        echo "================== Installing fd..."
+        wget -c https://download.fastgit.org/sharkdp/fd/releases/download/v8.1.1/fd_8.1.1_amd64.deb -O fd-amd64.deb
+        sudo dpkg -i fd-amd64.deb
+        rm fd-amd64.deb
+    fi
+
     if ! command -v delta >/dev/null 2>&1; then
         echo "================== Installing delta..."
         wget -c https://download.fastgit.org/dandavison/delta/releases/download/0.4.4/git-delta_0.4.4_amd64.deb -O git-delta.deb
