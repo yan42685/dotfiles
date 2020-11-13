@@ -361,13 +361,6 @@ cd - >/dev/null
 }
 # }}}
 # {{{FuzzyFinder
-# 用fzf来cd
-cdf() {
-    local dir
-    local rg_prefix='rg --no-heading --color=always --smart-case --no-messages --hidden -l ""'
-    dir=$(eval $rg_prefix | xargs dirname | uniq | fzf --preview 'ls -1 -a --color=always $realpath')
-    cd $dir
-    }
 
 # job to fore
 job-fore() {
