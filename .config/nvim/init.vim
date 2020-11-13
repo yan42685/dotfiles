@@ -2737,8 +2737,9 @@ augroup auto_actions_for_better_experience
             nnoremap <silent> <c-k> :cprevious<cr>
             nnoremap <silent> q :cclose<cr>:normal! zz<cr>:doautocmd UILeave<cr>
         else
-            nnoremap <c-j> :call ScrollAnotherWindow(2)<CR>
-            nnoremap <c-k> :call ScrollAnotherWindow(1)<CR>
+            " 之前是因为和quickfix快捷键冲突了才这么设置的，现在改成了 <m-j> <m-k>了
+            " nnoremap <c-j> :call ScrollAnotherWindow(2)<CR>
+            " nnoremap <c-k> :call ScrollAnotherWindow(1)<CR>
         endif
     endfunction
     "}}}
@@ -3029,13 +3030,10 @@ function! ScrollAnotherWindow(mode)
     noautocmd silent! wincmd p
 endfunc
 "}}}
-nnoremap <silent> <c-k> :call ScrollAnotherWindow(1)<CR>
-nnoremap <silent> <c-j> :call ScrollAnotherWindow(2)<CR>
-" <c-e><c-d> 和之前coc滚动float窗口快捷键冲突 就不定义了
-" nnoremap <silent> <c-e>  :call ScrollAnotherWindow(3)<CR>
-" nnoremap <silent> <c-d> :call ScrollAnotherWindow(4)<CR>
-nnoremap <silent> <silent> <c-g><c-g> :call ScrollAnotherWindow(5)<CR>
-nnoremap <silent> <c-s-g> :call ScrollAnotherWindow(6)<CR>
+nnoremap <silent> <m-k> :call ScrollAnotherWindow(1)<CR>
+nnoremap <silent> <m-j> :call ScrollAnotherWindow(2)<CR>
+nnoremap <silent> <m-e>  :call ScrollAnotherWindow(3)<CR>
+nnoremap <silent> <m-d> :call ScrollAnotherWindow(4)<CR>
 "}}}
 "{{{ 快速编辑特定文件 <leader>e{?}
 " 快速编辑init.vim
