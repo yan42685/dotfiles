@@ -20,8 +20,7 @@
     email = 419725794@qq.com
 [core]
     editor = nvim
-    ; delta在forgit里的workround,  详见https://github.com/dandavison/delta/issues/359
-    pager = delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}
+    pager = delta
 
     quotepath = false  # 解决git ls不显示中文的问题
     # 全局gitignore
@@ -248,7 +247,7 @@
         fi; \
         git rebase -i $common_ancestor; \
     };f"
-    bri = "!git branch-rebase"
+    ri = "!git branch-rebase"
 
     # 修改旧的commit      See https://blog.filippo.io/git-fixup-amending-an-older-commit/
     # NOTE: 1. 如果和TARGET..HEAD 之间的commit有冲突，则会提交新的提交，否则只是改变原来提交的历史位置
@@ -526,7 +525,7 @@
     r = rebase
     ra = rebase --abort
     rc = "!git add --update && git rebase --continue"
-    ri = rebase -i
+    rif = "!grb"
     # 选中n个commit进行rebase
     rin = "!git rebase -i HEAD~"$1"; #"
 

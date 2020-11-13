@@ -299,9 +299,6 @@ alias la='ls -a'
 alias md='mkdir'
 # 用文件浏览器打开当前目录
 alias open='nautilus $PWD &'
-# forgit usecase: glo ga gd gri gcf(checkout file) gss gclean grh(reset HEAD)
-# forgit_rebase
-alias gri='grb'
 
 
 alias now='echo $(date +%Y-%m-%d\ %H:%M:%S\ %A)'
@@ -534,7 +531,18 @@ export BAT_PAGER="less"
 export BAT_THEME="TwoDark"
 # }}}
 # forgit
-# usage: glo gd gclean
+# usage: glo ga gri gcf(checkout file) gss gclean grh(reset HEAD)
+#
+#        gd v1.0
+#        gd origin
+#        gd f2d6f23
+#        gd README.md
+#        gd master README.md
+#        gd HEAD~ src tests scripts
+#        # forgit usecase:
+alias gri='grb'
+# delta在forgit里的workround,  详见https://github.com/dandavison/delta/issues/359 和 https://github.com/wfxr/forgit/issues/121
+export FORGIT_PAGER='delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
 export FORGIT_COPY_CMD='xclip -selection clipboard'
 export FORGIT_FZF_DEFAULT_OPTS=" \
 -m --height=80% \
