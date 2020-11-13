@@ -532,7 +532,6 @@ export BAT_THEME="TwoDark"
 # }}}
 # {{{ forgit
 #
-# alt-w 开关wrap
 # usage: glg ga gri gcf(checkout file) gsl gclean grh(reset HEAD <file>)
 #
 #        gd v1.0
@@ -541,11 +540,11 @@ export BAT_THEME="TwoDark"
 #        gd README.md
 #        gd master README.md
 #        gd HEAD~ src tests scripts
-alias gri='grb'
-alias glg='glo'
-alias gsl='gss'
-alias gs='ga'
-
+alias gri='forgit::rebase'
+alias glg='forgit::log'
+alias gsl='forgit::stash::show'
+alias gs='forgit::add'
+alias gpi='forgit::cherry::pick'
 
 export FORGIT_COPY_CMD='xclip -selection clipboard'
 export FORGIT_FZF_DEFAULT_OPTS=" \
@@ -557,9 +556,16 @@ export FORGIT_FZF_DEFAULT_OPTS=" \
     --color=dark \
     --color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2 \
     --color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11 \
-    --bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down,ctrl-a:toggle-all,ctrl-f:jump' \
+    --bind='alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down,ctrl-a:toggle-all,ctrl-f:jump' \
     --preview-window down:60%:wrap \
     "
+
+# <C-d> drop stash
+FORGIT_STASH_FZF_OPTS='
+--bind="ctrl-d:reload(git stash drop $(cut -d: -f1 <<<{}) 1>/dev/null && git stash list)"
+'
+FORGIT_ADD_FZF_OPTS='
+'
 # }}}
 
 
