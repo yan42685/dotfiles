@@ -138,8 +138,6 @@ if g:disable_laggy_plugins_for_large_file == 0
 endif
 " ==================================
 " ==================================
-" 翻转rebase -i 的commit顺序
-Plug 'salcode/vim-interactive-rebase-reverse'
 
 " 缩进虚线
 Plug 'Yggdroot/indentLine', {'for': 'python'}
