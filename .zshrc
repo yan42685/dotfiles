@@ -268,12 +268,11 @@ alias rn='asynctask file-run'
 # 查找命令 后面可接文件/目录名也可不接
 alias rnf='asynctask -f'
 alias note='editor ~/vimwiki/index.md'
-# 快速查找文件 rg --no-messages去除permission denied等警告信息
-alias ff='rg --column --line-number --no-heading --color=always --smart-case --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" \
-    | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
-# alias vif='editor $(rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
-alias vif='editor $(ff)'
-alias zf='z -I .'  # 交互式搜索并跳转路径
+# 搜索文件
+alias ff='fd --type file --follow --hidden --exclude .git | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
+# 打开文件，如果取消fzf则不打开editor
+alias vif='file=$(ff) && [[ -n "$file" ]] && editor $file'
+alias zf='fd --type directory --hidden --exclude .git | fzf --preview "ls -1 -a --color=always {}"'
 alias zr='z -I -t .'  # 最近访问的路径
 alias zz='z ~' # 根目录
 alias zt='z ~/coding/test'  # 测试目录
