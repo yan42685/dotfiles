@@ -20,7 +20,17 @@
     email = 419725794@qq.com
 [core]
     editor = nvim
-    pager = delta
+    # delta side-by-side在forgit出bug的workround,  详见https://github.com/dandavison/delta/issues/359 和 https://github.com/wfxr/forgit/issues/121
+    pager = "{                                                           \
+    COLUMNS=$(tput cols);                                            \
+    if [ $COLUMNS -ge 80 ] && [ -z $FZF_PREVIEW_COLUMNS ]; then      \
+        delta --side-by-side -w $COLUMNS;                            \
+    elif [ $COLUMNS -ge 160 ] && [ ! -z $FZF_PREVIEW_COLUMNS ]; then \
+        delta --side-by-side -w $FZF_PREVIEW_COLUMNS;                \
+    else                                                             \
+        delta;                                                       \
+    fi                                                               \
+}"
 
     quotepath = false  # 解决git ls不显示中文的问题
     # 全局gitignore

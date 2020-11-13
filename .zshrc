@@ -532,7 +532,7 @@ export BAT_THEME="TwoDark"
 # }}}
 # {{{ forgit
 #
-# usage: glg ga gri gcf(checkout file) gsl gclean grh(reset HEAD)
+# usage: glg ga gri gcf(checkout file) gsl gclean grh(reset HEAD <file>)
 #
 #        gd v1.0
 #        gd origin
@@ -543,18 +543,9 @@ export BAT_THEME="TwoDark"
 alias gri='grb'
 alias glg='glo'
 alias gsl='gss'
+alias gs='ga'
 
-# delta side-by-side在forgit出bug的workround,  详见https://github.com/dandavison/delta/issues/359 和 https://github.com/wfxr/forgit/issues/121
-export FORGIT_PAGER="{                                                           \
-    COLUMNS=$(tput cols);                                            \
-    if [ $COLUMNS -ge 80 ] && [ -z $FZF_PREVIEW_COLUMNS ]; then      \
-        delta --side-by-side -w $COLUMNS;                            \
-    elif [ $COLUMNS -ge 160 ] && [ ! -z $FZF_PREVIEW_COLUMNS ]; then \
-        delta --side-by-side -w $FZF_PREVIEW_COLUMNS;                \
-    else                                                             \
-        delta;                                                       \
-    fi                                                               \
-}"
+
 export FORGIT_COPY_CMD='xclip -selection clipboard'
 export FORGIT_FZF_DEFAULT_OPTS=" \
     -m --height=100% \
@@ -566,7 +557,7 @@ export FORGIT_FZF_DEFAULT_OPTS=" \
     --color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2 \
     --color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11 \
     --bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down,ctrl-a:toggle-all,ctrl-f:jump' \
-    --preview-window down:60%:nowrap \
+    --preview-window down:60%:wrap \
     "
 # }}}
 
