@@ -723,6 +723,8 @@ vnoremap <silent> ,gl :Flog<cr>
 "     nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
 " endfunction
 
+" rebase的时候可以自动预览diff，而且现已在本配置文件设置了 I(pick) R(reword) E(edit) S(squash) F(fixup) D(drop)
+Plug 'hotwatermorning/auto-git-diff', {'for': 'gitrebase'}
 "}}}
 "{{{coc 生态系统, 补全框架
 " coc-lists
@@ -3027,13 +3029,13 @@ function! ScrollAnotherWindow(mode)
     noautocmd silent! wincmd p
 endfunc
 "}}}
-nnoremap <c-k> :call ScrollAnotherWindow(1)<CR>
-nnoremap <c-j> :call ScrollAnotherWindow(2)<CR>
+nnoremap <silent> <c-k> :call ScrollAnotherWindow(1)<CR>
+nnoremap <silent> <c-j> :call ScrollAnotherWindow(2)<CR>
 " <c-e><c-d> 和之前coc滚动float窗口快捷键冲突 就不定义了
-" nnoremap <c-e> :call ScrollAnotherWindow(3)<CR>
-" nnoremap <c-d> :call ScrollAnotherWindow(4)<CR>
-nnoremap <c-g><c-g> :call ScrollAnotherWindow(5)<CR>
-nnoremap <c-s-g> :call ScrollAnotherWindow(6)<CR>
+" nnoremap <silent> <c-e>  :call ScrollAnotherWindow(3)<CR>
+" nnoremap <silent> <c-d> :call ScrollAnotherWindow(4)<CR>
+nnoremap <silent> <silent> <c-g><c-g> :call ScrollAnotherWindow(5)<CR>
+nnoremap <silent> <c-s-g> :call ScrollAnotherWindow(6)<CR>
 "}}}
 "{{{ 快速编辑特定文件 <leader>e{?}
 " 快速编辑init.vim
