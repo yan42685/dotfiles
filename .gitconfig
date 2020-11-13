@@ -481,6 +481,8 @@
     # merge but without autocommit, and with a commit 除非这个是同一路径上可以快进(faster-forward)的merge
     ; mg = merge --no-commit
     mg = merge
+    mgnf = merge --no-ff
+    mc = "!git add --update && git merge --continue"
 
 ; {{{ merge-to merge到另一个分支并删除这个分支
     merge-to = "!f() { \
@@ -510,9 +512,6 @@
     mt = mergetool
     ; merge并删除被merge的分支
     mgd = "!git merge $1 && git branch -d $1; #"
-    ; mgs = merge --squash
-    ; merge squash 默认删除之前的分支，常用于开发feature分支
-    mgs = "!git merge --squash $1 && git commit -a; #"
     ; 显示自共同父节点以来两条分支的提交
     merge-log = log --oneline --left-right HEAD...MERGE_HEAD
     ; 显示出现冲突的提交
@@ -560,6 +559,13 @@
     # Fire up your difftool (e.g. Kaleidescope) with all the changes that
     # are on the current branch.
     code-review = "!git difftool origin/$(git current-branch)..."
+
+; }}}
+; {{{
+; # reset
+    rs = reset
+    rss = reset --soft
+    rsh = reset --hard
 
 ; }}}
 ; {{{ ### revert ###
@@ -617,7 +623,6 @@
         git fsck --unreachable | grep commit | cut -d\\  -f3 | xargs git log -15 --oneline --merges --no-walk --grep=WIP; \
     };f"
     sh = "!git stash-history"
-    ; stash-pick =
 
 ; }}}
 ; {{{ ### submodule ###
