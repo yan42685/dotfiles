@@ -138,6 +138,8 @@ if g:disable_laggy_plugins_for_large_file == 0
 endif
 " ==================================
 " ==================================
+" 翻转rebase -i 的commit顺序
+Plug 'salcode/vim-interactive-rebase-reverse'
 
 " 缩进虚线
 Plug 'Yggdroot/indentLine', {'for': 'python'}
@@ -611,13 +613,13 @@ endif
 " 可视化merge NOTE: 恢复merge前的状态使用: git checkout --conflict=diff3 {file}
 Plug 'samoshkin/vim-mergetool'
 "{{{
-let g:mergetool_layout = 'LmR'  " `local`, `base`, `remote`, `merged`
+let g:mergetool_layout = 'RmL'  " `local`, `base`, `remote`, `merged`
 let g:mergetool_prefer_revision = 'unmodified'
 " mergetool 模式关闭语法检查和语法高亮 FIXME: 可能是unknown filetype报错的原因
 function s:on_mergetool_set_layout(split)
   set syntax=off
   set nospell
-  if a:split["layout"] ==# 'RML' && a:split["split"] ==# 'm'
+  if a:split["layout"] ==# 'RmL' && a:split["split"] ==# 'm'
       " 可自定义
       "
   endif

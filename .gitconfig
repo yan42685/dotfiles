@@ -63,7 +63,7 @@
     # 设置 commit 模板文件路径
     template = ~/.config/git/.gitmessage
 [pager]
-    ; # 以下命令不使用$PAGER浏览
+    ; # 以下命令不使用core.pager / $PAGER浏览
     log = false
     branch = false
     tag = false
