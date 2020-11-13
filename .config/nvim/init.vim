@@ -2699,7 +2699,16 @@ augroup tab_indent_settings_by_filetype
     endf
 "}}}
     autocmd filetype gitcommit nnoremap <silent> <buffer> <tab> i<C-r>=My_custom_completion_trigger(g:My_commit_completion_source, 1)<cr>
-
+"{{{ 对gitrebase命令的Mapping
+    let b:fugitive_rebase_commands="^(pick|reword|edit|squash|fixup|exec|drop)"
+    autocmd FileType gitrebase nnoremap <buffer> <silent> I :s/\v<c-r>=b:fugitive_rebase_commands<cr>/pick/<cr>:nohlsearch<cr>
+    autocmd FileType gitrebase nnoremap <buffer> <silent> R :s/\v<c-r>=b:fugitive_rebase_commands<cr>/reword/<cr>:nohlsearch<cr>
+    autocmd FileType gitrebase nnoremap <buffer> <silent> E :s/\v<c-r>=b:fugitive_rebase_commands<cr>/edit/<cr>:nohlsearch<cr>
+    autocmd FileType gitrebase nnoremap <buffer> <silent> S :s/\v<c-r>=b:fugitive_rebase_commands<cr>/squash/<cr>:nohlsearch<cr>
+    autocmd FileType gitrebase nnoremap <buffer> <silent> F :s/\v<c-r>=b:fugitive_rebase_commands<cr>/fixup/<cr>:nohlsearch<cr>
+    " autocmd FileType gitrebase nnoremap <buffer> <silent> X Oexec<space>
+    autocmd FileType gitrebase nnoremap <buffer> <silent> D :s/\v<c-r>=b:fugitive_rebase_commands<cr>/drop/<cr>:nohlsearch<cr>
+"}}}
 augroup end
 
 "}}}
