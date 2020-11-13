@@ -562,6 +562,25 @@ FORGIT_STASH_FZF_OPTS='
 --bind="ctrl-a:execute(git stash apply $(cut -d: -f1 <<<{}) 1>/dev/null)+abort+execute(echo Stash Applied: {})"
 '
 
+# {{{ 覆盖默认的fotgit::log()函数
+forgit::log() {
+forgit::inside_work_tree || return 1
+local cmd opts graph files
+files=$(sed -nE 's/.* -- (.*)/\1/p' <<< "$*") # extract files parameters for `git show` command
+cmd="echo {} |grep -Eo '[a-f0-9]+' |head -1 |xargs -I% git show --oneline % -- $files | $forgit_show_pager"
+opts="
+$FORGIT_FZF_DEFAULT_OPTS
++s +m --tiebreak=index
+--bind=\"enter:execute($cmd | LESS='-r' less)\"
+--bind=\"ctrl-y:execute-silent(echo {} |grep -Eo '[a-f0-9]+' | head -1 | tr -d '\n' |${FORGIT_COPY_CMD:-pbcopy})\"
+$FORGIT_LOG_FZF_OPTS
+"
+graph=--graph
+[[ $FORGIT_LOG_GRAPH_ENABLE == false ]] && graph=
+eval "git log $graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr %C(blue)[%cn]' $* $forgit_emojify" |
+    FZF_DEFAULT_OPTS="$opts" fzf --preview="$cmd"
+}
+# }}}
 # }}}
 
 
