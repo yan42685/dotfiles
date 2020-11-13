@@ -7,6 +7,7 @@
 ;           3. 语句后面要写分号;
 ;           4. if [ -n  \"$abc\" ]; then 用-n或-z 判断字符串不为空/为空需要用双引号，不能不加引号或者是单引号
 ;           5. 双引号内一个 \ 就可以连接多行单命令语句了，用\\会转义空格的
+;       技巧：用多个'abc'$variable'abc'进行拼接字符串
 ;}}}
 ;基础设置 {{{
 # 专为github设置的代理
@@ -240,16 +241,15 @@
     # 本功能遵守了不修改已push的commit历史的原则
     # 重写未push的commit 父分支为可选参数，默认为base-branch
     ; TODO: 修复bug
-    branch-refactor = "!f(){ \
+    branch-rebase = "!f(){ \
         base_branch=${1:-$(git base-branch)}; \
-        if [ $base_branch = $(git current-branch) ]; then \
-            echo \"current branch is base branch, can not refactor\"; \
-            return; \
-        fi; \
         common_ancestor=$(git merge-base $base_branch $(git current-branch)); \
+        if [ $base_branch = $(git current-branch) ]; then \
+            common_ancestor=$(git merge-base origin/$(git remote-branch) $(git current-branch)); \
+        fi; \
         git rebase -i $common_ancestor; \
     };f"
-    brf = "!git branch-refactor"
+    bri = "!git branch-rebase"
 
     # 修改旧的commit      See https://blog.filippo.io/git-fixup-amending-an-older-commit/
     # NOTE: 1. 如果和TARGET..HEAD 之间的commit有冲突，则会提交新的提交，否则只是改变原来提交的历史位置
