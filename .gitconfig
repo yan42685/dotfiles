@@ -239,8 +239,7 @@
     tsp = "!git topic-stop"
 
     # 本功能遵守了不修改已push的commit历史的原则
-    # 重写未push的commit 父分支为可选参数，默认为base-branch
-    ; TODO: 修复bug
+    # 未push的commit 父分支为可选参数，默认为base-branch
     branch-rebase = "!f(){ \
         base_branch=${1:-$(git base-branch)}; \
         common_ancestor=$(git merge-base $base_branch $(git current-branch)); \
