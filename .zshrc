@@ -532,6 +532,7 @@ export BAT_THEME="TwoDark"
 # }}}
 # {{{ forgit
 #
+# alt-w 开关wrap
 # usage: glg ga gri gcf(checkout file) gsl gclean grh(reset HEAD <file>)
 #
 #        gd v1.0

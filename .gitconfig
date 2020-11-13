@@ -24,7 +24,8 @@
     pager = "{                                                           \
     COLUMNS=$(tput cols);                                            \
     if [ $COLUMNS -ge 80 ] && [ -z $FZF_PREVIEW_COLUMNS ]; then      \
-        delta --side-by-side -w $COLUMNS;                            \
+        pager_width=$(($COLUMNS-4)); \
+        delta --side-by-side -w $pager_width;                            \
     elif [ $COLUMNS -ge 160 ] && [ ! -z $FZF_PREVIEW_COLUMNS ]; then \
         delta --side-by-side -w $FZF_PREVIEW_COLUMNS;                \
     else                                                             \
