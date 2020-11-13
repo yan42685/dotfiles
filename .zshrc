@@ -532,7 +532,7 @@ export BAT_THEME="TwoDark"
 # }}}
 # {{{ forgit
 #
-# usage: glo ga gri gcf(checkout file) gss gclean grh(reset HEAD)
+# usage: glg ga gri gcf(checkout file) gsl gclean grh(reset HEAD)
 #
 #        gd v1.0
 #        gd origin
@@ -540,8 +540,9 @@ export BAT_THEME="TwoDark"
 #        gd README.md
 #        gd master README.md
 #        gd HEAD~ src tests scripts
-#        # forgit usecase:
 alias gri='grb'
+alias glg='glo'
+alias gsl='gss'
 
 # delta side-by-side在forgit出bug的workround,  详见https://github.com/dandavison/delta/issues/359 和 https://github.com/wfxr/forgit/issues/121
 export FORGIT_PAGER="{                                                           \
