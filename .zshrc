@@ -503,9 +503,9 @@ export FZF_DEFAULT_OPTS=" \
 --color=dark \
 --color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2 \
 --color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11 \
---bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-page-up,alt-d:preview-page-down,ctrl-a:toggle-all,ctrl-f:jump' \
+--bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down,ctrl-a:toggle-all,ctrl-f:jump' \
+--preview-window right:60%:wrap \
 "
-# --bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down'
 # }}}
 # {{{fzf-marks
 # Usage: mark fzm C-d
@@ -530,7 +530,8 @@ export PATH=$HOME/.local/git-extras/bin:$PATH
 export BAT_PAGER="less"
 export BAT_THEME="TwoDark"
 # }}}
-# forgit
+# {{{ forgit
+#
 # usage: glo ga gri gcf(checkout file) gss gclean grh(reset HEAD)
 #
 #        gd v1.0
@@ -541,21 +542,32 @@ export BAT_THEME="TwoDark"
 #        gd HEAD~ src tests scripts
 #        # forgit usecase:
 alias gri='grb'
-# delta在forgit里的workround,  详见https://github.com/dandavison/delta/issues/359 和 https://github.com/wfxr/forgit/issues/121
-export FORGIT_PAGER='delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+
+# delta side-by-side在forgit出bug的workround,  详见https://github.com/dandavison/delta/issues/359 和 https://github.com/wfxr/forgit/issues/121
+export FORGIT_PAGER="{                                                           \
+    COLUMNS=$(tput cols);                                            \
+    if [ $COLUMNS -ge 80 ] && [ -z $FZF_PREVIEW_COLUMNS ]; then      \
+        delta --side-by-side -w $COLUMNS;                            \
+    elif [ $COLUMNS -ge 160 ] && [ ! -z $FZF_PREVIEW_COLUMNS ]; then \
+        delta --side-by-side -w $FZF_PREVIEW_COLUMNS;                \
+    else                                                             \
+        delta;                                                       \
+    fi                                                               \
+}"
 export FORGIT_COPY_CMD='xclip -selection clipboard'
 export FORGIT_FZF_DEFAULT_OPTS=" \
--m --height=80% \
---layout=reverse \
---prompt='➤ ' \
---ansi \
---tabstop=4 \
---color=dark \
---color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2 \
---color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11 \
---bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-page-up,alt-d:preview-page-down,ctrl-a:toggle-all,ctrl-f:jump' \
-"
-
+    -m --height=100% \
+    --layout=reverse \
+    --prompt='➤ ' \
+    --ansi \
+    --tabstop=4 \
+    --color=dark \
+    --color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2 \
+    --color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11 \
+    --bind 'alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down,ctrl-a:toggle-all,ctrl-f:jump' \
+    --preview-window down:60%:nowrap \
+    "
+# }}}
 
 
 

@@ -237,18 +237,6 @@
 ; }}}
     tsp = "!git topic-stop"
 
-    # 本功能遵守了不修改已push的commit历史的原则
-    # 未push的commit 父分支为可选参数，默认为base-branch
-    branch-rebase = "!f(){ \
-        base_branch=${1:-$(git base-branch)}; \
-        common_ancestor=$(git merge-base $base_branch $(git current-branch)); \
-        if [ $base_branch = $(git current-branch) ]; then \
-            common_ancestor=$(git merge-base origin/$(git remote-branch) $(git current-branch)); \
-        fi; \
-        git rebase -i $common_ancestor; \
-    };f"
-    ri = "!git branch-rebase"
-
     # 修改旧的commit      See https://blog.filippo.io/git-fixup-amending-an-older-commit/
     # NOTE: 1. 如果和TARGET..HEAD 之间的commit有冲突，则会提交新的提交，否则只是改变原来提交的历史位置
     #       2. 本功能遵守了不修改已push的commit历史的原则
@@ -523,11 +511,25 @@
 ; {{{ ### rebase ###
 
     r = rebase
+
+    # 本功能遵守了不修改已push的commit历史的原则
+    # 1. rebase -i 当前分支直到和base-branch的共同祖先，
+    # 2. 如果当前分支是base-branch就rebase -i 未push的commit
+    branch-rebase = "!f(){ \
+        base_branch=${1:-$(git base-branch)}; \
+        common_ancestor=$(git merge-base $base_branch $(git current-branch)); \
+        if [ $base_branch = $(git current-branch) ]; then \
+            common_ancestor=$(git merge-base origin/$(git remote-branch) $(git current-branch)); \
+        fi; \
+        git rebase -i $common_ancestor; \
+    };f"
+    ri = "!git branch-rebase"
+
     ra = rebase --abort
     rc = "!git add --update && git rebase --continue"
-    rif = "!grb"
-    # 选中n个commit进行rebase
-    rin = "!git rebase -i HEAD~"$1"; #"
+
+    # 【被forgit的gri/grb替代】选中n个commit进行rebase
+    ; rin = "!git rebase -i HEAD~"$1"; #"
 
 ; }}}
 ; {{{ ### remote ###
