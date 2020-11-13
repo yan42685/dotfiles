@@ -214,7 +214,7 @@
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
-        existed_in_remote=$(git ls-remote --heads origin $current_branch | head -n -1); \
+        existed_in_remote=$(git remote-branch); \
         working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
@@ -389,7 +389,7 @@
     branch-move = "!f(){ \
         new_branch=$1; \
         old_branch=$(git current-branch); \
-        existed_in_remote=$(git ls-remote --heads origin $current_branch | head -n -1); \
+        existed_in_remote=$(git remote-branch); \
         git branch --move $old_branch $new_branch; \
         if [ -n \"$existed_in_remote\" ]; then \
             git push origin :$old_branch $new_branch; \
@@ -658,6 +658,14 @@
     top-name = rev-parse --show-toplevel
     # Get the current branch name
     current-branch = rev-parse --abbrev-ref HEAD
+    # 获取当前分支的远程分支名字
+    # HACK: 在awk里拼接字符串用了两对单引号 awk -F '/' '{if($2~/'$current_branch'/)print $2}'
+    remote-branch = "!f() { \
+        current_branch=$(git current-branch); \
+        git branch -r | awk '{print $1}' | awk -F '/' '{if($2~/'$current_branch'/)print $2}'; \
+    }; f"
+
+
     # Get the upstream branch name
     upstream-name = !git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)
     # Execute shell scripts. Git always runs scripts in the top directory.
