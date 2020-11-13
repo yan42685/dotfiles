@@ -274,10 +274,11 @@ alias ff='rg --column --line-number --no-heading --color=always --smart-case --n
 # alias vif='editor $(rg --no-messages --hidden -l --glob="!node_modules/" --glob="!.git/" "" | fzf)'
 alias vif='editor $(ff)'
 alias zf='cdf'  # 到达指定路径
-alias zr='z -I -t .'  # recent路径
+alias zr='z -I -t .'  # 最近访问的路径
 alias zz='z ~'
 alias zt='z ~/coding/test'
-alias rt='z -b' # 到项目根目录
+alias rt='z -b' # 到项目根目录 root
+alias zb='z -b -I' # 查找当前目录的父目录
 
 alias vi='editor'
 alias vinp='editor --noplugin'
