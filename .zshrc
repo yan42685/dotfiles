@@ -277,6 +277,7 @@ alias zf='cdf'  # 到达指定路径
 alias zr='z -I -t .'  # recent路径
 alias zz='z ~'
 alias zt='z ~/coding/test'
+alias rt='z -b' # 到项目根目录
 
 alias vi='editor'
 alias vinp='editor --noplugin'
@@ -545,6 +546,7 @@ alias glg='forgit::log'
 alias gsl='forgit::stash::show'
 alias gs='forgit::add'
 alias gpi='forgit::cherry::pick'
+alias gcl='forgit::clean'
 
 export FORGIT_COPY_CMD='xclip -selection clipboard'
 export FORGIT_FZF_DEFAULT_OPTS=" \
