@@ -2438,7 +2438,7 @@ nnoremap s "_s
 vnoremap s "_s
 " 创建折叠自动在上下两行添上注释;  zc在创建折叠的同时也执行折叠
 " S<cr>依赖surround.vim插件
-vmap zf S<cr>gv<esc>o<esc>gvj:fold<cr>zc
+vmap zf S<cr>gv<esc>o<esc>gvj:fold<cr>zjkddzkzc
 
 "}}}
 " {{{通过快捷键实现新功能

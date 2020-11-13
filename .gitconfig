@@ -151,11 +151,11 @@
     set-bb = "!git set-local-base-branch"
     bb = "!git base-branch"
 
-; {{{ topic-start-remote 介绍
+; {{{ topic-new-remote 介绍
     #
     # Example:
-    #     git topic-start-remote feat/foo
-    #     git topic-start-remote hotfix/bar
+    #     git topic-new-remote feat/foo
+    #     git topic-new-remote hotfix/bar
     #
     # We use this alias to begin work on a new feature,
     # new task, new fix, new refactor, new optimization, etc.
@@ -165,15 +165,15 @@
     # run any automatic tests to verify the branch runs successfully.
     ##
 ; }}}
-; {{{ topic-start-remote 开始一个topic分支并推送到remote
-    topic-start-remote = "!f(){ \
+; {{{ topic-new-remote 开始一个topic分支并推送到remote
+    topic-new-remote = "!f(){ \
         topic_branch=$1; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
         working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $current_branch != $base_branch ]; then \
             if [ -n \"$working_dir_dirty\" ]; then \
-                git save \"Autosave on topic-start-remote: $topic_branch\"; \
+                git save \"Autosave on topic-new-remote: $topic_branch\"; \
             fi; \
             git checkout $base_branch; \
         fi; \
@@ -181,20 +181,20 @@
         };f"
 
 ; }}}
-; {{{ topic-start-local 只在本地开启一个topic
-    topic-start-local = "!f(){ \
+; {{{ topic-new-local 只在本地开启一个topic
+    topic-new-local = "!f(){ \
         topic_branch=$1; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
         working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ -n \"$working_dir_dirty\" ]; then \
-            git save \"Autosave on topic-start-local: $topic_branch\"; \
+            git save \"Autosave on topic-new-local: $topic_branch\"; \
         fi; \
         git checkout -b $topic_branch $base_branch; \
         };f"
 ; }}}
-    tstr = "!git topic-start-remote"
-    tst = "!git topic-start-local"
+    tnr = "!git topic-new-remote"
+    tn = "!git topic-new-local"
 
 ; {{{  topic-merge 通过merge --no-ff 方式合并topic 并且自动删除topic分支
 ;   merge后立刻删除分支就好，因为有merge历史记录，可以随时找回feature分支
@@ -204,7 +204,7 @@
         current_branch=$(git current-branch); \
         working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
-            printf \"You are asking to do git topic-stop,\n\"; \
+            printf \"You are asking to do git topic-merge,\n\"; \
             printf \"but you can't merge master or base branch: $base_branch.\n\"; \
             printf \"Please ask to merge valid topic branch.\n\"; \
         else \
@@ -214,14 +214,14 @@
             if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
             fi; \
-            git pull && git merge --no-ff $topic_branch && git push && git topic-stop $topic_branch; \
+            git merge --no-ff $topic_branch && git topic-delete $topic_branch; \
         fi; \
         };f"
 ; }}}
     tmg = "!git topic-merge"
 
-; {{{ topic-stop 删除远程(如果存在)和本地的topic分支
-    topic-stop = "!f(){ \
+; {{{ topic-delete 删除远程(如果存在)和本地的topic分支
+    topic-delete = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
@@ -246,7 +246,7 @@
         fi; \
         };f"
 ; }}}
-    tsp = "!git topic-stop"
+    td = "!git topic-delete"
 
     # 修改旧的commit      See https://blog.filippo.io/git-fixup-amending-an-older-commit/
     # NOTE: 1. 如果和TARGET..HEAD 之间的commit有冲突，则会提交新的提交，否则只是改变原来提交的历史位置
@@ -261,19 +261,23 @@
         TARGET=$(git rev-parse \"$commit\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; \
         }; f"
 
+; {{{ branch-diff 和base分支公共祖先比较
     branch-diff = "!f(){ \
         base_branch=${1:-$(git base-branch)}; \
         common_ancestor=$(git merge-base $base_branch $(git current-branch)); \
         git diff $common_ancestor HEAD; \
-    };f"
+        };f"
+; }}}
     bdf = "!git branch-diff"
-    # 只获取topic分支的commit, 不输入条数就是10个, 圆圈表示公共祖先分支
+
+; {{{ 只获取topic分支的commit, 不输入条数就是10个, 圆圈表示公共祖先分支
     branch-log = "!f() { \
         parent_branch=${1:-$(git base-branch)}; \
         common_ancestor=$(git merge-base $parent_branch $(git current-branch)); \
         git log -${1:-10} $common_ancestor..$(git current-branch) --graph --topo-order --date=short --abbrev-commit --decorate --boundary \
-                            --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'; \
-    }; f"
+        --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'; \
+        }; f"
+; }}}
     blg = "!git branch-log"
 
     ; 三种查看log的方式: lg tree blg
@@ -403,7 +407,8 @@
 ; {{{ ### commit ###
 
     # commit with a message
-    c = commit -a
+    c = commit
+    caa = commit -a
     # 将新的修改全部应用到上次commit里
     cmd = "!git add --update && git commit --amend --no-edit"
     cme = "!git add --update && git commit --amend"
