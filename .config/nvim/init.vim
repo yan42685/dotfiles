@@ -1463,7 +1463,15 @@ augroup end
 "}}}
 " 打开终端会自动跳转dir
 inoremap <silent> <m-m> <esc>:lcd %:p:h<cr><esc>:FloatermToggle<cr>
-nnoremap <silent> <m-m> :lcd %:p:h<cr><esc>:FloatermToggle<cr>
+"{{{ function My_toggle_floaterm_for_normal_mode()
+function! My_toggle_floaterm_for_normal_mode()
+    if &buftype != 'terminal'
+        lcd %:p:h
+    endif
+    FloatermToggle
+endfunction
+"}}}
+nnoremap <silent> <m-m> :call My_toggle_floaterm_for_normal_mode()<cr>
 " 这里末尾加<esc>:echo <cr>是为了清空提示消息
 tnoremap <silent> <m-m> <c-\><c-n>:FloatermToggle<cr><esc>:echo <cr>
 "{{{ function My_toggle_full_screen_floterm
@@ -2440,8 +2448,7 @@ nnoremap s "_s
 vnoremap s "_s
 " 创建折叠自动在上下两行添上注释;  zc在创建折叠的同时也执行折叠
 " S<cr>依赖surround.vim插件
-vmap zf S<cr>gv<esc>o<esc>gvj:fold<cr>zjkddzkzc
-
+vmap zf S<cr>gv<esc>o<esc>gvj:fold<cr>zjzkzc
 "}}}
 " {{{通过快捷键实现新功能
 
