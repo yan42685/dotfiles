@@ -175,9 +175,8 @@
         topic_branch=$1; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
-        working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $current_branch != $base_branch ]; then \
-            if [ -n \"$working_dir_dirty\" ]; then \
+            if [ -n \"$(git working-dir-dirty)\" ]; then \
                 git save \"Autosave on topic-new-remote: $topic_branch\"; \
             fi; \
             git checkout $base_branch; \
@@ -191,8 +190,7 @@
         topic_branch=$1; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
-        working_dir_dirty=$(git diff --stat | head -n -1); \
-        if [ -n \"$working_dir_dirty\" ]; then \
+        if [ -n \"$(git working-dir-dirty)\" ]; then \
             git save \"Autosave on topic-new-local: $topic_branch\"; \
         fi; \
         git checkout -b $topic_branch $base_branch; \
@@ -207,21 +205,16 @@
         topic_branch=$(git current-branch); \
         base_branch=${1:-$(git base-branch)}; \
         current_branch=$(git current-branch); \
-        working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-merge,\n\"; \
             printf \"but you can't merge master or base branch: $base_branch.\n\"; \
             printf \"Please ask to merge valid topic branch.\n\"; \
-        else \
-            if [ -n \"$working_dir_dirty\" ]; then \
+        elif [ -n \"$(git working-dir-dirty)\" ]; then \
                 echo 'Current working directory is dirty!; \
                 echo 'Can't merge.'; \
                 return 1; \
-            fi; \
-            if [ $current_branch != $base_branch ]; then \
-                git checkout $base_branch; \
-            fi; \
-            git merge --no-ff $topic_branch && git topic-delete $topic_branch; \
+        else \
+            git checkout $base_branch && git merge --no-ff $topic_branch && git topic-delete $topic_branch; \
         fi; \
         };f"
 ; }}}
@@ -234,13 +227,12 @@
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
         exists_in_remote=$(git remote-branch); \
-        working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
             printf \"but you can't stop master or base branch: $base_branch.\n\"; \
             printf \"Please ask to stop valid topic branch.\n\"; \
         else \
-            if [ -n \"$working_dir_dirty\" ]; then \
+            if [ -n \"$(git working-dir-dirty)\" ]; then \
                 git save \"Autosave on topic-delete: $topic_branch\"; \
             fi; \
             if [ $current_branch != $topic_branch ]; then \
@@ -499,31 +491,6 @@
     mgnf = merge --no-ff
     mc = "!git add --update && git merge --continue"
 
-; {{{ merge-to merge到另一个分支并删除这个分支
-    merge-to = "!f() { \
-        target_branch=$1; \
-        source_branch=$(git current-branch); \
-        working_dir_dirty=$(git diff --stat | head -n -1); \
-        if [ -n \"$working_dir_dirty\" ]; then \
-        git save \"Autosave on merge-to: $target_branch\"; \
-        fi; \
-        git checkout $target_branch && git merge $source_branch && git branch -d $source_branch; \
-        };f"
-; }}}
-    mgto = "!git merge-to"
-; {{{ merge-from 把另一个分支merge到这个分支并删除那个分支
-    merge-from = "!f() { \
-        target_branch=$(git current-branch); \
-        source_branch=$1; \
-        working_dir_dirty=$(git diff --stat | head -n -1); \
-        if [ -n \"$working_dir_dirty\" ]; then \
-        git save \"Autosave on merge-from: $source_branch\"; \
-        fi; \
-        git merge $source_branch && git branch -d $source_branch; \
-        };f"
-; }}}
-    mgfr = "!git merge-from"
-
     mt = mergetool
     ; merge并删除被merge的分支
     mgd = "!git merge $1 && git branch -d $1; #"
@@ -685,6 +652,9 @@
 ; }}}
 ; {{{ ### SHELL SCRIPTING ALIASES ###
     # 这些是用在其他alias里面的
+
+    # 用if [ -n \"$(git working-dir-dirty)\" ]; then 来判断
+    working-dir-dirty = "!git diff --stat | head -n -1"
 
     # 最近一个可以安全改变的commit
     # earliest-changeable-commit [base-branch]
