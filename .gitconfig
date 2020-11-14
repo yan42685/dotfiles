@@ -7,6 +7,7 @@
 ;           3. 语句后面要写分号;
 ;           4. if [ -n  \"$abc\" ]; then 用-n或-z 判断字符串不为空/为空需要用双引号，不能不加引号或者是单引号
 ;           5. 双引号内一个 \ 就可以连接多行单命令语句了，用\\会转义空格的
+;           6. 函数内不能用local
 ;       技巧：用多个'abc'$variable'abc'进行拼接字符串
 ;}}}
 ;基础设置 {{{
@@ -258,7 +259,6 @@
     # NOTE: 1. 如果和TARGET..HEAD 之间的commit有冲突，则会提交新的提交，否则只是改变原来提交的历史位置
     # usage:  git fixup <base_branch> [files...] 文件可选
     # GIT_EDITOR=true可以在没有冲突的时候跳过编辑过程, --autosquash让fixup的commit出现在target下方
-    # fixup [base-branch]
     fixup = "!f() { \
         target=$(git fzf-commit $(git oldest-changeable-commit) $(git current-branch)); \
         git commit --fixup=$target && GIT_EDITOR=true git rebase --interactive --autosquash $target~; \
@@ -658,12 +658,14 @@
     first-commit = rev-list --max-parents=0 HEAD
 
     ; fzf-commit [left = first-commit] [right = current-branch] 搜索commit
+    ; TODO: 时间格式
     fzf-commit = "!f() { \
         left=${1:-$(git first-commit)}; \
         right=${2:-$(git current-branch)}; \
-        git log $left..$right --color=always --topo-order --date=short --abbrev-commit \
+        abbrev_commit=$(git log $left..$right --color=always --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit \
                 --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
-                | fzf | awk '{print $2}'; \
+                | fzf | awk '{print $2}'); \
+        echo $(git abbr $abbrev_commit); \
         };f"
 
 
@@ -759,7 +761,7 @@
     # Show who contributed, in descending order by number of commits
     whorank = shortlog --summary --numbered --no-merges
     ; 获取hash全称，在遇到hash冲突的时候很有用
-    abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
+    abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H\" $commit; done' -"
 
 ; }}}
 
