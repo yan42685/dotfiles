@@ -256,17 +256,12 @@
 
     # 修改旧的commit      See https://blog.filippo.io/git-fixup-amending-an-older-commit/
     # NOTE: 1. 如果和TARGET..HEAD 之间的commit有冲突，则会提交新的提交，否则只是改变原来提交的历史位置
-    #       2. 本功能遵守了不修改已push的commit历史的原则
-    # usage:  git fixup <base_branch> [files...] 文件可选， commit可以用 :/abcd 来快速引用
-    # GIT_EDITOR=true可以在没有冲突的时候跳过编辑过程
+    # usage:  git fixup <base_branch> [files...] 文件可选
+    # GIT_EDITOR=true可以在没有冲突的时候跳过编辑过程, --autosquash让fixup的commit出现在target下方
     # fixup [base-branch]
-    # TODO: 抽出fzf查询的模块
     fixup = "!f() { \
-        earliest_changeable_commit=$(git earliest-changeable-commit) \
-        commit=$(git log $earliest_changeable_commit..$(git current-branch) --topo-order --date=short --abbrev-commit \
-            --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
-            | fzf | awk '{print $2}'); \
-        TARGET=$(git rev-parse \"$commit\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; \
+        target=$(git fzf-commit $(git oldest-changeable-commit) $(git current-branch)); \
+        git commit --fixup=$target && GIT_EDITOR=true git rebase --interactive --autosquash $target~; \
         }; f"
 
 ; {{{ branch-diff 和base分支公共祖先比较
@@ -658,28 +653,42 @@
 ; }}}
 ; {{{ ### SHELL SCRIPTING ALIASES ###
     # 这些是用在其他alias里面的
+    #
+    # 本仓库第一个commit的hash
+    first-commit = rev-list --max-parents=0 HEAD
+
+    ; fzf-commit [left = first-commit] [right = current-branch] 搜索commit
+    fzf-commit = "!f() { \
+        left=${1:-$(git first-commit)}; \
+        right=${2:-$(git current-branch)}; \
+        git log $left..$right --color=always --topo-order --date=short --abbrev-commit \
+                --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
+                | fzf | awk '{print $2}'; \
+        };f"
+
 
     # 用if [ -n \"$(git working-dir-dirty)\" ]; then 来判断
     working-dir-dirty = "!git diff --stat | head -n -1"
 
-    # 最近一个可以安全改变的commit
-    # earliest-changeable-commit [base-branch]
-    earliest-changeable-commit = "!f() { \
-        earliest_commit='' \
+    # 最远的可以安全改变的commit
+    # oldest-changeable-commit [base-branch]
+    oldest-changeable-commit = "!f() { \
+        oldest_commit='' \
         current_branch=$(git current-branch); \
         base_branch=${1:-$(git base-branch)}; \
         common_ancestor=$(git merge-base $base_branch $current_branch); \
         current_exists_in_remote=$(git remote-branch); \
         base_exists_in_remote=$(git remote-branch $base_branch); \
         if [ -n \"$current_exists_in_remote\" ]; then \
-            earliest_commit=origin/$current_branch; \
+            oldest_commit=origin/$current_branch; \
         elif [ -n \"$base_exists_in_remote\" ]; then \
-            earliest_commit=origin/$base_branch; \
+            oldest_commit=origin/$base_branch; \
         else \
-            earliest_commit=$common_ancestor; \
+            oldest_commit=$common_ancestor; \
         fi; \
-        echo $earliest_commit; \
-    };f"
+        echo $oldest_commit; \
+        };f"
+
     # Get the top level directory name
     top-name = rev-parse --show-toplevel
     # Get the current branch name
