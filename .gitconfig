@@ -653,7 +653,7 @@
     # 本仓库第一个commit的hash
     first-commit = rev-list --max-parents=0 HEAD
 
-    ; NOTE: fzf中只能选一个值
+    ; NOTE: fzf中只能选一个值 调用方式为 $(git fzf-commit)
     fzf-commit = "!f() { \
         left=${1:-$(git first-commit)}; \
         right=${2:-$(git current-branch)}; \
