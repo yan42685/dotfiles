@@ -1,6 +1,6 @@
-; FIXME: 在gitconfig里写的bash注意事项
 ; NOTE: 1. alias不区分大小写
 ;       2. 和git-extras一起使用效果更佳
+; FIXME: 在gitconfig里写的bash注意事项
 ; {{{  在gitconfig里写的bash注意事项
 ;           1. 应该用[ ] 而不是[[ ]], 不然会报错
 ;           2. 不能写#注释
@@ -170,27 +170,30 @@
     # run any automatic tests to verify the branch runs successfully.
     ##
 ; }}}
-; {{{ topic-new-remote <topic-branch> 开始一个topic分支并推送到remote
+; {{{ topic-new-remote <topic-branch> [base-branch] 开始一个topic分支并推送到remote
     topic-new-remote = "!f(){ \
         topic_branch=$1; \
-        base_branch=$(git base-branch); \
+        base_branch=${2:-$(git base-branch)}; \
+        base_exists_in_remote=$(git remote-branch $base_branch); \
         current_branch=$(git current-branch); \
-        if [ $current_branch != $base_branch ]; then \
-            if [ -n \"$(git working-dir-dirty)\" ]; then \
-                git save \"Autosave on topic-new-remote: $topic_branch\"; \
-            fi; \
-            git checkout $base_branch; \
+        if [ -n \"$(git working-dir-dirty)\" ]; then \
+            echo \"============= Autosaving current working directory in branch: $current_branch ============\" \
+            git save \"Autosave on topic-new-remote: $topic_branch\"; \
         fi; \
-        git pull && git checkout -b $topic_branch $base_branch && git push -u origin $1; \
+        if [ -n \"$base_exists_in_remote\" ] && [ $(git behind-count $base_branch) -gt 0 ] ; then \
+            git pull origin $base_branch ; \
+        fi; \
+        git checkout -b $topic_branch $base_branch && git push -u origin $topic_branch; \
         };f"
 
 ; }}}
-; {{{ topic-new-local <topic-branch> 只在本地开启一个topic
+; {{{ topic-new-local <topic-branch> [base-branch] 只在本地开启一个topic
     topic-new-local = "!f(){ \
         topic_branch=$1; \
-        base_branch=$(git base-branch); \
+        base_branch=${2:-$(git base-branch)}; \
         current_branch=$(git current-branch); \
         if [ -n \"$(git working-dir-dirty)\" ]; then \
+            echo \"============= Autosaving current working directory in branch: $current_branch ============\" \
             git save \"Autosave on topic-new-local: $topic_branch\"; \
         fi; \
         git checkout -b $topic_branch $base_branch; \
@@ -210,9 +213,9 @@
             printf \"but you can't merge master or base branch: $base_branch.\n\"; \
             printf \"Please ask to merge valid topic branch.\n\"; \
         elif [ -n \"$(git working-dir-dirty)\" ]; then \
-                echo 'Current working directory is dirty!; \
-                echo 'Can't merge.'; \
-                return 1; \
+            echo 'Current working directory is dirty!; \
+            echo 'Can't merge.'; \
+            return 1; \
         else \
             git checkout $base_branch && git merge --no-ff $topic_branch && git topic-delete $topic_branch; \
         fi; \
@@ -220,29 +223,27 @@
 ; }}}
     tmg = "!git topic-merge"
 
-; {{{ topic-delete [target-branch] 删除远程(如果存在)和本地的topic分支
+; {{{ topic-delete [topic-branch] 删除远程(如果存在)和本地的topic分支
     ; TODO: 检查是否有必要push或者pull
     topic-delete = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
-        exists_in_remote=$(git remote-branch); \
+        topic_exists_in_remote=$(git remote-branch $topic_branch); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
             printf \"but you can't stop master or base branch: $base_branch.\n\"; \
             printf \"Please ask to stop valid topic branch.\n\"; \
         else \
             if [ -n \"$(git working-dir-dirty)\" ]; then \
+                echo \"============= Autosaving current working directory in branch: $current_branch ============\" \
                 git save \"Autosave on topic-delete: $topic_branch\"; \
             fi; \
-            if [ $current_branch != $topic_branch ]; then \
-                git checkout $topic_branch; \
+            if [ -n \"$topic_exists_in_remote\" ]; then \
+                git push origin --delete $topic_branch && git remote-prune-all; \
             fi; \
-            if [ -n \"$exists_in_remote\" ]; then \
-                git push origin $current_branch && git checkout $base_branch && git branch --delete $topic_branch \
-                                                && git push origin --delete $topic_branch && git remote-prune-all; \
-            fi; \
-            git checkout $base_branch && git branch --delete $topic_branch; \
+            git checkout $base_branch; \
+            git branch --delete $topic_branch; \
         fi; \
         };f"
 ; }}}
@@ -687,10 +688,10 @@
     }; f"
 
     # TODO: 用于检查delete
-    # 当前分支比远程分支领先的commit数量
-    ahead-count = "!current_branch=$(git current-branch) && git rev-list --count origin/$current_branch..$current_branch"
-    # 当前分支比远程分支落后的commit数量
-    behind-count = "!current_branch=$(git current-branch) && git rev-list --count $current_branch..origin/$current_branch"
+    # 本地分支比远程分支领先的commit数量
+    ahead-count = "!local_branch=${1:-$(git current-branch)} && git rev-list --count origin/$local_branch..$local_branch"
+    # 本地分支比远程分支落后的commit数量
+    behind-count = "!local_branch=${1:-$(git current-branch)} && git rev-list --count $local_branch..origin/$local_branch"
 
     # Get the upstream branch name
     upstream-name = "!git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)"
