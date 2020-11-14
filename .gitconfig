@@ -128,6 +128,11 @@
     # 时间单位为秒 此处为大于100年
     helper = cache --timeout=3600000000
 
+# 自动解决重复冲突(比如reset后再次合并)
+[rerere]
+	enabled = true
+
+# ======== 自定义变量 ========
 # 用于 topic 工作流的自定义变量，定义主要用于向远程仓库推送的分支
 [gitalias "topic.base.branch"]
 	name = master
@@ -687,9 +692,14 @@
         git branch -r | awk '{print $1}' | awk -F '/' '{if($2~/'$current_branch'/)print $2}'; \
     }; f"
 
+    # TODO: 用于检查delete
+    # 当前分支比远程分支领先的commit数量
+    ahead-count = "!current_branch=$(git current-branch) && git rev-list --count origin/$current_branch..$current_branch"
+    # 当前分支比远程分支落后的commit数量
+    behind-count = "!current_branch=$(git current-branch) && git rev-list --count $current_branch..origin/$current_branch"
 
     # Get the upstream branch name
-    upstream-name = !git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)
+    upstream-name = "!git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)"
     # Execute shell scripts. Git always runs scripts in the top directory.
     # For example "git exec pwd" will always show you the top directory.
     exec = ! exec
