@@ -224,14 +224,13 @@
     tmg = "!git topic-merge"
 
 ; {{{ topic-delete [topic-branch] 删除远程(如果存在)和本地的topic分支
-    ; TODO: 检查是否有必要push或者pull
     topic-delete = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
         topic_exists_in_remote=$(git remote-branch $topic_branch); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
-            printf \"You are asking to do git topic-stop,\n\"; \
+            printf \"You are asking to do git topic-delete,\n\"; \
             printf \"but you can't stop master or base branch: $base_branch.\n\"; \
             printf \"Please ask to stop valid topic branch.\n\"; \
         else \
@@ -240,6 +239,11 @@
                 git save \"Autosave on topic-delete: $topic_branch\"; \
             fi; \
             if [ -n \"$topic_exists_in_remote\" ]; then \
+                if [ $(git behind-count $base_branch) -gt 0 ] ; then \
+                    git pull origin $topic_branch; \
+                elif [ $(git ahead-count $base_branch) -gt 0 ] ; then \
+                    git push origin $topic_branch; \
+                fi; \
                 git push origin --delete $topic_branch && git remote-prune-all; \
             fi; \
             git checkout $base_branch; \
