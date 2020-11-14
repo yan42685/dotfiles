@@ -17,7 +17,7 @@
 [https "https://github.com"]
     proxy = socks5://127.0.0.1:6543
 [user]
-    name = alex
+    name = alexyan
     email = 419725794@qq.com
 [core]
     editor = nvim
@@ -518,9 +518,6 @@
     ra = rebase --abort
     rc = "!git add --update && git rebase --continue"
 
-    # 【被forgit的gri/grb替代】选中n个commit进行rebase
-    ; rin = "!git rebase -i HEAD~"$1"; #"
-
 ; }}}
 ; {{{ ### remote ###
 
@@ -661,7 +658,7 @@
         right=${2:-$(git current-branch)}; \
         abbrev_commit=$(git log $left..$right --color=always --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit \
                 --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
-                | fzf | awk '{print $2}'); \
+                | fzf | awk '{print $3}'); \
         echo $(git abbr $abbrev_commit); \
         };f"
 
