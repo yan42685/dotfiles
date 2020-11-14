@@ -145,7 +145,7 @@
 
 ; {{{ ### work flow ###
 
-; {{{ ======== topic 工作流 =========
+; ======== topic 工作流 =========
 ;   NOTE: 这套工作流正常应用的前提是
 ;                   1. 只有一个远程仓库且命名为origin
 ;                   2. 本地分支和远程分支名字相同
@@ -286,6 +286,18 @@
     ; 三种查看log的方式: lg tree blg
     refix = checkout --conflict=diff3  # 对某个文件回到解决冲突前的状态
 
+; {{{ edit and add unmerged file
+    ; 编辑和暂存有冲突的文件
+    ; NOTE: 工作流:
+    ;             $ git edit-unmerged
+    ;                 ... edit ...
+    ;                 ... test ...
+    ;             $ git add-unmerged
+    ;             $ git commit  # or git rebase --continue or whatever
+    edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; ${EDITOR:-vi} `f`"
+    add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
+; }}}
+
 ; {{{ === 废弃 ===
 ; {{{ topic-rebase 通过rebase方式合并topic
     ; topic-rebase = "!f() { \
@@ -311,22 +323,6 @@
     ; trb = "!git topic-rebase"
 ; }}}
 ; }}}
-; }}}
-;
-    ; 编辑和暂存有冲突的文件
-    ; NOTE: 工作流:
-    ;             $ git edit-unmerged
-    ;                 ... edit ...
-    ;                 ... test ...
-    ;             $ git add-unmerged
-    ;             $ git commit  # or git rebase --continue or whatever
-    edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; ${EDITOR:-vi} `f`"
-    add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
-
-    # 预存提交信息
-    todo = "!${EDITOR:-vi} $(git rev-parse --git-dir)/.template"
-    # 用预存在文件里的信息提交
-    cm = "!git commit -F $(git rev-parse --git-dir)/.template"
 
 ; }}}
 ; {{{ ### git-extras 常用命令备注 ###
@@ -358,6 +354,7 @@
 ;   git pullrequest
 ;
 ; }}}
+
 ; {{{ ### add ###
 
     a = add
@@ -544,8 +541,7 @@
     code-review = "!git difftool origin/$(git current-branch)..."
 
 ; }}}
-; {{{
-; # reset
+; {{{ reset
     rs = reset
     rss = reset --soft
     rsh = reset --hard
@@ -654,11 +650,12 @@
 ; {{{ ### SHELL SCRIPTING ALIASES ###
     # 这些是用在其他alias里面的
     #
+    root-dir = rev-parse --git-dir
+
     # 本仓库第一个commit的hash
     first-commit = rev-list --max-parents=0 HEAD
 
     ; fzf-commit [left = first-commit] [right = current-branch] 搜索commit
-    ; TODO: 时间格式
     fzf-commit = "!f() { \
         left=${1:-$(git first-commit)}; \
         right=${2:-$(git current-branch)}; \
