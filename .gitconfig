@@ -170,7 +170,7 @@
     # run any automatic tests to verify the branch runs successfully.
     ##
 ; }}}
-; {{{ topic-new-remote 开始一个topic分支并推送到remote
+; {{{ topic-new-remote <topic-branch> 开始一个topic分支并推送到remote
     topic-new-remote = "!f(){ \
         topic_branch=$1; \
         base_branch=$(git base-branch); \
@@ -186,7 +186,7 @@
         };f"
 
 ; }}}
-; {{{ topic-new-local 只在本地开启一个topic
+; {{{ topic-new-local <topic-branch> 只在本地开启一个topic
     topic-new-local = "!f(){ \
         topic_branch=$1; \
         base_branch=$(git base-branch); \
@@ -201,11 +201,11 @@
     tnr = "!git topic-new-remote"
     tn = "!git topic-new-local"
 
-; {{{  topic-merge 通过merge --no-ff 方式合并topic 并且自动删除topic分支
+; {{{  topic-merge [base-branch] 通过merge --no-ff 方式合并topic 并且自动删除topic分支
 ;   merge后立刻删除分支就好，因为有merge历史记录，可以随时找回feature分支
     topic-merge = "!f() { \
-        topic_branch=${1:-$(git current-branch)}; \
-        base_branch=$(git base-branch); \
+        topic_branch=$(git current-branch); \
+        base_branch=${1:-$(git base-branch)}; \
         current_branch=$(git current-branch); \
         working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
@@ -214,7 +214,9 @@
             printf \"Please ask to merge valid topic branch.\n\"; \
         else \
             if [ -n \"$working_dir_dirty\" ]; then \
-                git save \"Autosave on topic-merge: $topic_branch\"; \
+                echo 'Current working directory is dirty!; \
+                echo 'Can't merge.'; \
+                return 1; \
             fi; \
             if [ $current_branch != $base_branch ]; then \
                 git checkout $base_branch; \
@@ -225,13 +227,13 @@
 ; }}}
     tmg = "!git topic-merge"
 
-; {{{ topic-delete 删除远程(如果存在)和本地的topic分支
+; {{{ topic-delete [target-branch] 删除远程(如果存在)和本地的topic分支
     ; TODO: 检查是否有必要push或者pull
     topic-delete = "!f(){ \
         topic_branch=${1:-$(git current-branch)}; \
         base_branch=$(git base-branch); \
         current_branch=$(git current-branch); \
-        existed_in_remote=$(git remote-branch); \
+        exists_in_remote=$(git remote-branch); \
         working_dir_dirty=$(git diff --stat | head -n -1); \
         if [ $topic_branch = $base_branch ] || [ $topic_branch = master ]; then \
             printf \"You are asking to do git topic-stop,\n\"; \
@@ -244,7 +246,7 @@
             if [ $current_branch != $topic_branch ]; then \
                 git checkout $topic_branch; \
             fi; \
-            if [ -n \"$existed_in_remote\" ]; then \
+            if [ -n \"$exists_in_remote\" ]; then \
                 git push origin $current_branch && git checkout $base_branch && git branch --delete $topic_branch \
                                                 && git push origin --delete $topic_branch && git remote-prune-all; \
             fi; \
@@ -259,9 +261,11 @@
     #       2. 本功能遵守了不修改已push的commit历史的原则
     # usage:  git fixup <base_branch> [files...] 文件可选， commit可以用 :/abcd 来快速引用
     # GIT_EDITOR=true可以在没有冲突的时候跳过编辑过程
+    # fixup [base-branch]
+    # TODO: 抽出fzf查询的模块
     fixup = "!f() { \
-        base_branch=${1:-$(git base-branch)} \
-        commit=$(git log origin/$base_branch..$(git current-branch) --topo-order --date=short --abbrev-commit \
+        earliest_changeable_commit=$(git earliest-changeable-commit) \
+        commit=$(git log $earliest_changeable_commit..$(git current-branch) --topo-order --date=short --abbrev-commit \
             --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
             | fzf | awk '{print $2}'); \
         TARGET=$(git rev-parse \"$commit\"); git commit --fixup=$TARGET && GIT_EDITOR=true git rebase --interactive --autosquash $TARGET~; \
@@ -396,9 +400,9 @@
     branch-move = "!f(){ \
         new_branch=$1; \
         old_branch=$(git current-branch); \
-        existed_in_remote=$(git remote-branch); \
+        exists_in_remote=$(git remote-branch); \
         git branch --move $old_branch $new_branch; \
-        if [ -n \"$existed_in_remote\" ]; then \
+        if [ -n \"$exists_in_remote\" ]; then \
             git push origin :$old_branch $new_branch; \
         fi; \
         };f"
@@ -681,14 +685,34 @@
 ; }}}
 ; {{{ ### SHELL SCRIPTING ALIASES ###
     # 这些是用在其他alias里面的
+
+    # 最近一个可以安全改变的commit
+    # earliest-changeable-commit [base-branch]
+    earliest-changeable-commit = "!f() { \
+        earliest_commit='' \
+        current_branch=$(git current-branch); \
+        base_branch=${1:-$(git base-branch)}; \
+        common_ancestor=$(git merge-base $base_branch $current_branch); \
+        current_exists_in_remote=$(git remote-branch); \
+        base_exists_in_remote=$(git remote-branch $base_branch); \
+        if [ -n \"$current_exists_in_remote\" ]; then \
+            earliest_commit=origin/$current_branch; \
+        elif [ -n \"$base_exists_in_remote\" ]; then \
+            earliest_commit=origin/$base_branch; \
+        else \
+            earliest_commit=$common_ancestor; \
+        fi; \
+        echo $earliest_commit; \
+    };f"
     # Get the top level directory name
     top-name = rev-parse --show-toplevel
     # Get the current branch name
     current-branch = rev-parse --abbrev-ref HEAD
     # 获取当前分支的远程分支名字
     # HACK: 在awk里拼接字符串用了两对单引号 awk -F '/' '{if($2~/'$current_branch'/)print $2}'
+    # remote-branch [local-branch]
     remote-branch = "!f() { \
-        current_branch=$(git current-branch); \
+        current_branch=${1:-$(git current-branch)}; \
         git branch -r | awk '{print $1}' | awk -F '/' '{if($2~/'$current_branch'/)print $2}'; \
     }; f"
 
