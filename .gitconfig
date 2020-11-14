@@ -214,7 +214,7 @@
             printf \"Please ask to merge valid topic branch.\n\"; \
         elif [ -n \"$(git working-dir-dirty)\" ]; then \
             echo 'Current working directory is dirty!; \
-            echo 'Can't merge.'; \
+            echo 'Can't checkout'; \
             return 1; \
         else \
             git checkout $base_branch && git merge --no-ff $topic_branch && git topic-delete $topic_branch; \
@@ -235,8 +235,9 @@
             printf \"Please ask to stop valid topic branch.\n\"; \
         else \
             if [ -n \"$(git working-dir-dirty)\" ]; then \
-                echo \"============= Autosaving current working directory in branch: $current_branch ============\" \
-                git save \"Autosave on topic-delete: $topic_branch\"; \
+                echo 'Current working directory is dirty!; \
+                echo 'Can't checkout'; \
+                return 1; \
             fi; \
             if [ -n \"$topic_exists_in_remote\" ]; then \
                 if [ $(git behind-count $base_branch) -gt 0 ] ; then \
