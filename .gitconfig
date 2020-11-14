@@ -429,6 +429,7 @@
 
     # cherry-pick - apply the changes introduced by some existing commits; useful for moving small chunks of code between branches.
     pi = cherry-pick
+    pif = "!git fzf-commit-multi | xargs -n 1 git cherry-pick"
     # cherry-pick - abort the picking process
     pia = cherry-pick --abort
     # cherry-pick - continue the picking process
@@ -472,11 +473,11 @@
 
     # NOTE: log 加了--graph 会让使用nvim 作为log的 pager时出bug
     # log like - we like this summarization our key performance indicators. Also aliased as `log-like`.
-    lg = "!git log -${1:-10} --all  --graph --topo-order --date=short --abbrev-commit --decorate --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'; #"
+    lg = "!git log -${1:-10} --all --color=always --graph --topo-order --date=short --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'; #"
     # 查看log，NOTE: 依赖Flog.vim插件
     ll = "!${EDITOR:-vi} --git-log"
     # log like long  - we like this summarization our key performance indicators. Also aliased as `log-like-long`.
-    lll = log --graph --all --topo-order --date=iso8601-strict --no-abbrev-commit --abbrev=40 --decorate --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn <%ce>]%Creset %Cblue%G?%Creset'
+    lll = "!git log -${1:-10} --all --color=always --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary --pretty=format:'%Cgreen%ad %C(yellow)%d%Creset %s %Cblue[%cn]%Creset - %Cred%H%Creset'; #"
 
     ; }}}
 ; {{{ ### merge ###
@@ -652,14 +653,23 @@
     # 本仓库第一个commit的hash
     first-commit = rev-list --max-parents=0 HEAD
 
-    ; fzf-commit [left = first-commit] [right = current-branch] 搜索commit
+    ; NOTE: fzf中只能选一个值
     fzf-commit = "!f() { \
         left=${1:-$(git first-commit)}; \
         right=${2:-$(git current-branch)}; \
-        abbrev_commit=$(git log $left..$right --color=always --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit \
-                --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset' \
-                | fzf | awk '{print $3}'); \
-        echo $(git abbr $abbrev_commit); \
+        commit_hash=$(git log $left..$right --color=always --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit \
+                --pretty=format:'%Cgreen%ad %C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset - %Cred%H%Creset' \
+                | fzf | awk '{print $NF}'); \
+        echo $commit_hash; \
+        };f"
+
+    ; NOTE: fzf可以选多个值, 调用方式只能为　git fzf-commit-multi | xargs -n 1 <command>
+    fzf-commit-multi = "!f() { \
+        left=${1:-$(git first-commit)}; \
+        right=${2:-$(git current-branch)}; \
+        git log --all --color=always --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit \
+                --pretty=format:' %Cgreen%ad %C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset - %Cred%H%Creset' \
+                | fzf | awk '{print $NF}' | xargs -n 1 echo; \
         };f"
 
 
