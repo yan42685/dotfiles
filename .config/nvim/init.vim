@@ -1429,6 +1429,8 @@ Plug 'voldikss/vim-floaterm'  " NOTE: 作者不推荐延迟加载
 fun My_reset_floaterm_config()
     let g:floaterm_type = 'floating'   "　终端出现形式, 可选normal
     " let g:floaterm_type = 'normal'   "　终端出现形式, 可选normal
+    " let g:floaterm_width = 0.9  " 默认0.6
+    " let g:floaterm_height = 0.95  " 默认0.6
     let g:floaterm_winblend = 0  " 背景透明度百分比
     let g:floaterm_position = 'center'  " 浮动窗口位置
     " 从终端打开文件的方式 Available: 'edit', 'split', 'vsplit', 'tabe', 'drop'. Default: 'edit'
