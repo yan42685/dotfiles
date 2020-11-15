@@ -2677,6 +2677,7 @@ augroup tab_indent_settings_by_filetype
     " 隐藏buffer并不delete
     autocmd filetype gitconfig setlocal bufhidden=hide
     autocmd filetype gitcommit nnoremap <silent> <buffer> q :wq<cr>
+    autocmd BufWinEnter,WinEnter,BufEnter gitcommit gg
     " commit buffer在normal模式按<tab>触发预设补全, 按数字键或者tab确认补全
 "{{{ function for trigger_custom_completion_source
 

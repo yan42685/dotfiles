@@ -648,7 +648,8 @@
 ; {{{ ### SHELL SCRIPTING ALIASES ###
     # 这些是用在其他alias里面的
     #
-    root-dir = rev-parse --git-dir
+    # 获取git仓库最上层目录
+    root-dir = rev-parse --show-toplevel
 
     # 本仓库第一个commit的hash
     first-commit = rev-list --max-parents=0 HEAD
