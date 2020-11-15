@@ -63,6 +63,10 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
+    if [ ! -d ~/git-fuzzy ]; then
+        echo "================== Installing git-fuzzy"
+        git clone https://hub.fastgit.org/yan42685/git-fuzzy
+    fi
 
     if ! command -v fd >/dev/null 2>&1; then
         # riggrep作者推荐用这个来搜索文件和目录，用riggrep来搜索文本

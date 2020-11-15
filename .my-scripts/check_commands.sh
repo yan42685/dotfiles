@@ -14,6 +14,7 @@ gtags rg tmux fzf alacritty
 
 directories=(
 $HOME/.tmux/plugins/tpm
+~/git-fuzzy
 )
 
 files=(
