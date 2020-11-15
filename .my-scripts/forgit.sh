@@ -18,19 +18,21 @@ forgit::log() {
     forgit::inside_work_tree || return 1
     local cmd opts graph files
     files=$(sed -nE 's/.* -- (.*)/\1/p' <<< "$*") # extract files parameters for `git show` command
-    cmd="echo {} |grep -Eo '[a-f0-9]+' |head -1 |xargs -I% git show --oneline % -- $files | $forgit_show_pager"
+    # 用sed 's/..$//' 去掉最后两个字符，因为log format里用了trunc截取多的hash，在末尾有两个点
+    cmd="echo {} | grep -Eo '[a-f0-9]+$' | sed 's/..$//' |xargs -I% git show --oneline % -- $files| $forgit_pager"
     opts="
         $FORGIT_FZF_DEFAULT_OPTS
         +s +m --tiebreak=index
         --bind=\"enter:execute($cmd | LESS='-r' less)\"
-        --bind=\"ctrl-y:execute-silent(echo {} |grep -Eo '[a-f0-9]+' | head -1 | tr -d '\n' |${FORGIT_COPY_CMD:-pbcopy})\"
+        --bind=\"ctrl-y:execute-silent(echo {} |grep -Eo '[a-f0-9]+' | head -1 | echo | tr -d '\n' |${FORGIT_COPY_CMD:-pbcopy})\"
         $FORGIT_LOG_FZF_OPTS
     "
     graph=--graph
     [[ $FORGIT_LOG_GRAPH_ENABLE == false ]] && graph=
-    eval "git log $graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr %C(blue)[%cn]' $* $forgit_emojify" |
-        FZF_DEFAULT_OPTS="$opts" fzf --preview="$cmd"
-}
+
+
+    eval "git log --all --color=always --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(red)%H' \
+        $* $forgit_emojify" | head -c-3 | FZF_DEFAULT_OPTS="$opts" fzf --preview="$cmd"
 
 # git diff viewer
 forgit::diff() {
