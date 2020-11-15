@@ -253,7 +253,6 @@ if ! zgen saved; then
                                           # NOTE: This was built on a Mac. 在Linux不一定有效, 并且只有当文件夹名字和远程仓库一致才有效
     zgen load StackExchange/blackbox  # 在VCS里选择性加密文件 you don't have to worry about storing your VCS repo on an untrusted server
     zgen load unixorn/autoupdate-zgen  # 自动更新zgen及相关插件
-    zgen load wfxr/forgit  # git整合fzf, 用于看log, status, diff
 
 
     # save all to init script
@@ -527,7 +526,7 @@ export BAT_PAGER="less"
 export BAT_THEME="TwoDark"
 # }}}
 # {{{ forgit
-#
+source ~/.my-scripts/forgit.sh
 # usage: glg ga gri gcf(checkout file) gsl gclean
 #
 #        gd v1.0
@@ -572,25 +571,6 @@ FORGIT_STASH_FZF_OPTS='
 --bind="ctrl-a:execute(git stash apply $(cut -d: -f1 <<<{}) 1>/dev/null)+abort+execute(echo Stash Applied: {})"
 '
 
-# {{{ 覆盖默认的fotgit::log()函数
-forgit::log() {
-forgit::inside_work_tree || return 1
-local cmd opts graph files
-files=$(sed -nE 's/.* -- (.*)/\1/p' <<< "$*") # extract files parameters for `git show` command
-cmd="echo {} |grep -Eo '[a-f0-9]+' |head -1 |xargs -I% git show --oneline % -- $files | $forgit_show_pager"
-opts="
-$FORGIT_FZF_DEFAULT_OPTS
-+s +m --tiebreak=index
---bind=\"enter:execute($cmd | LESS='-r' less)\"
---bind=\"ctrl-y:execute-silent(echo {} |grep -Eo '[a-f0-9]+' | head -1 | tr -d '\n' |${FORGIT_COPY_CMD:-pbcopy})\"
-$FORGIT_LOG_FZF_OPTS
-"
-graph=--graph
-[[ $FORGIT_LOG_GRAPH_ENABLE == false ]] && graph=
-eval "git log $graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr %C(blue)[%cn]' $* $forgit_emojify" |
-    FZF_DEFAULT_OPTS="$opts" fzf --preview="$cmd"
-}
-# }}}
 # }}}
 
 
