@@ -571,6 +571,11 @@ FORGIT_STASH_FZF_OPTS='
 --bind="ctrl-a:execute(git stash apply $(cut -d: -f1 <<<{}) 1>/dev/null)+abort+execute(echo Stash Applied: {})"
 '
 
+# FORGIT_ADD_FZF_OPTS='
+# --bind="alt-a:reload(echo {} | \"$RELOAD\")"
+# '
+
+
 # }}}
 
 

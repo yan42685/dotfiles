@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # NOTE: fork from https://github.com/wfxr/forgit
-
 forgit::warn() { printf "%b[Warn]%b %s\n" '\e[0;33m' '\e[0m' "$@" >&2; }
 forgit::info() { printf "%b[Info]%b %s\n" '\e[0;32m' '\e[0m' "$@" >&2; }
 forgit::inside_work_tree() { git rev-parse --is-inside-work-tree >/dev/null; }
@@ -80,18 +79,17 @@ forgit::add() {
             git diff --color=always -- \$file | $forgit_diff_pager
         fi"
     opts="
+
         $FORGIT_FZF_DEFAULT_OPTS
         -0 -m --nth 2..,..
         $FORGIT_ADD_FZF_OPTS
     "
-    files=$(git -c color.status=always -c status.relativePaths=true status -su |
-        grep -F -e "$changed" -e "$unmerged" -e "$untracked" |
-        sed -E 's/^(..[^[:space:]]*)[[:space:]]+(.*)$/[\1]  \2/' |
-        FZF_DEFAULT_OPTS="$opts" fzf --preview="$preview" |
-        sh -c "$extract")
-    [[ -n "$files" ]] && echo "$files"| tr '\n' '\0' |xargs -0 -I% git add % && git status -su && return
-    echo 'Nothing to add.'
+
+    FZF_DEFAULT_OPTS="$opts" forgit_status_helper | fzf --bind="alt-a:execute(file=\$(echo {} | $extract) && git add \$file)+reload(forgit_status_helper)"
+        --preview="$preview"
+    # echo 'Nothing to add.'
 }
+
 
 # git reset HEAD (unstage) selector
 forgit::reset::head() {
