@@ -269,10 +269,12 @@ alias rn='asynctask file-run'
 alias rnf='asynctask -f'
 alias note='editor ~/vimwiki/index.md'
 # 搜索文件
-alias ff='fd --type file --follow --hidden --exclude .git . | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
+alias fuzzy_file='fd --type file --follow --hidden --exclude .git . | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
+alias fuzzy_dir='fd --type directory --hidden --exclude .git . | fzf --preview "ls -1 -a --color=always {}"'
 # 打开文件，如果取消fzf则不打开editor
-alias vif='file=$(ff) && [[ -n "$file" ]] && editor $file'
-alias zf='fd --type directory --hidden --exclude .git | fzf --preview "ls -1 -a --color=always {}"'
+alias vif='file=$(fuzzy_file) && [[ -n "$file" ]] && editor $file'
+alias zd='directory=$(fuzzy_dir) && [[ -n "$directory" ]] && z $directory'
+alias zf='directory=$(dirname $(fuzzy_file)) && [[ -n "$directory" ]] && z $directory'
 alias zr='z -I -t .'  # 最近访问的路径
 alias zz='z ~' # 根目录
 alias zt='z ~/coding/test'  # 测试目录
@@ -542,11 +544,11 @@ alias gpi='forgit::cherry::pick'
 alias gcl='forgit::clean'
 
 # 搜索git仓库所有文件
-alias gff='fd --type file --follow --hidden --exclude .git . $(git root-dir) | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
-alias vigf='file=$(gff) && [[ -n "$file" ]] && editor $file'
+alias git_fuzzy_file='fd --type file --follow --hidden --exclude .git . $(git root-dir) | fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
+alias vigf='file=$(git_fuzzy_file) && [[ -n "$file" ]] && editor $file'
 # 查看指定文件的log
-alias glgf='file=$(gff) && [[ -n "$file" ]] && glg $file'
-alias gdf='file=$(gff) && [[ -n "$file" ]] && git diff $file'
+alias glgf='file=$(git_fuzzy_file) && [[ -n "$file" ]] && glg $file'
+alias gdf='file=$(git_fuzzy_file) && [[ -n "$file" ]] && git diff $file'
 
 
 export FORGIT_COPY_CMD='xclip -selection clipboard'
