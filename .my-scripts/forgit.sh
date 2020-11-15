@@ -30,9 +30,9 @@ forgit::log() {
     graph=--graph
     [[ $FORGIT_LOG_GRAPH_ENABLE == false ]] && graph=
 
-
     eval "git log --all --color=always --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(red)%H' \
         $* $forgit_emojify" | head -c-3 | FZF_DEFAULT_OPTS="$opts" fzf --preview="$cmd"
+}
 
 # git diff viewer
 forgit::diff() {
