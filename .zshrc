@@ -546,6 +546,7 @@ alias gff='fd --type file --follow --hidden --exclude .git . $(git root-dir) | f
 alias vigf='file=$(gff) && [[ -n "$file" ]] && editor $file'
 # 查看指定文件的log
 alias glgf='file=$(gff) && [[ -n "$file" ]] && glg $file'
+alias gdf='file=$(gff) && [[ -n "$file" ]] && git diff $file'
 
 
 export FORGIT_COPY_CMD='xclip -selection clipboard'
