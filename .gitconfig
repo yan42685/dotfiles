@@ -473,14 +473,10 @@
 
     # NOTE: log 加了--graph 会让使用nvim 作为log的 pager时出bug
     # log like - we like this summarization our key performance indicators. Also aliased as `log-like`.
-    lg = "!git log -${1:-10} --all --color=always --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary \
-                --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(red)%h'; #"
+    lg = "!git log -${1:-10} --all --color=always --abbrev=12 --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary \
+                --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(magenta)%h'; #"
     # 查看log，NOTE: 依赖Flog.vim插件
     ll = "!${EDITOR:-vi} --git-log"
-    # log like long  - we like this summarization our key performance indicators. Also aliased as `log-like-long`.
-    lll = "!git log -${1:-10} --all --color=always --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary \
-                --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(red)%>(12,trunc)%H'; #"
-
     ; }}}
 ; {{{ ### merge ###
 

@@ -18,8 +18,8 @@ forgit::log() {
     forgit::inside_work_tree || return 1
     local cmd opts graph files
     files=$(sed -nE 's/.* -- (.*)/\1/p' <<< "$*") # extract files parameters for `git show` command
-    # 用sed 's/..$//' 去掉最后两个字符，因为log format里用了trunc截取多的hash，在末尾有两个点
-    cmd="echo {} | grep -Eo '[a-f0-9]+$' | sed 's/..$//' |xargs -I% git show --oneline % -- $files| $forgit_pager"
+    # 不能用awk替代grep暂时不知道为什么
+    cmd="echo {} | grep -Eo '[a-f0-9]+$' |xargs -I% git show --oneline % -- $files| $forgit_pager"
     opts="
         $FORGIT_FZF_DEFAULT_OPTS
         +s +m --tiebreak=index
@@ -30,7 +30,7 @@ forgit::log() {
     graph=--graph
     [[ $FORGIT_LOG_GRAPH_ENABLE == false ]] && graph=
 
-    eval "git log --all --color=always --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(red)%H' \
+    eval "git log --all --color=always --abbrev=12 --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(red)%h' \
         $* $forgit_emojify" | head -c-3 | FZF_DEFAULT_OPTS="$opts" fzf --preview="$cmd"
 }
 
