@@ -272,6 +272,7 @@ alias fuzzy_file='fd --type file --follow --hidden --exclude .git . | fzf --prev
 alias fuzzy_dir='fd --type directory --hidden --exclude .git . | fzf --preview "ls -1 -a --color=always {}"'
 # 打开文件，如果取消fzf则不打开editor
 alias vif='file=$(fuzzy_file) && [[ -n "$file" ]] && editor $file'
+alias vid='directory=$(fuzzy_dir) && [[ -n "$directory" ]] && editor $directory'
 alias zd='directory=$(fuzzy_dir) && [[ -n "$directory" ]] && z $directory'
 alias zf='directory=$(dirname $(fuzzy_file)) && [[ -n "$directory" ]] && z $directory'
 alias zr='z -I -t .'  # 最近访问的路径
@@ -488,7 +489,7 @@ export RTV_URLVIEWER="urlscan"
 # }}}
 # {{{ fuzzy-git
 # FIXME: 需要在fzf前面加载因为它有自定义的变量需要我来覆盖
-export PATH="~/git-fuzzy/bin:$PATH"
+export PATH="$HOME/git-fuzzy/bin:$PATH"
 alias gs='git fuzzy status'
 # export GF_LOG_MENU_PARAMS="--all --color=always --abbrev=12 --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary \
 #                 --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(magenta)%h'"
