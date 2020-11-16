@@ -284,7 +284,7 @@ downloads/
 eggs/
 .eggs/
 # NOTE: 取消lib/
-lib/
+# lib/
 lib64/
 parts/
 sdist/
