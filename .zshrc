@@ -487,13 +487,6 @@ export RTV_EDITOR="vim"
 export RTV_BROWSER="w3m"
 export RTV_URLVIEWER="urlscan"
 # }}}
-# {{{ fuzzy-git
-# FIXME: 需要在fzf前面加载因为它有自定义的变量需要我来覆盖
-export PATH="$HOME/git-fuzzy/bin:$PATH"
-alias gs='git fuzzy status'
-# export GF_LOG_MENU_PARAMS="--all --color=always --abbrev=12 --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary \
-#                 --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(magenta)%h'"
-# }}}
 # {{{fzf
 # C-y是复制的快捷键 alt-j/k移动preview的一行， alt-e/d 移动preview的一页 c-a Toggle所有选项 c-f类似easymotion并选中
 # C-i 选择
@@ -533,7 +526,28 @@ export PATH=$HOME/.local/git-extras/bin:$PATH
 export BAT_PAGER="less"
 export BAT_THEME="TwoDark"
 # }}}
-# fuzzy-git
+# {{{ fuzzy-git
+# FIXME: 需要在fzf前面加载因为它有自定义的变量需要我来覆盖
+export PATH="$HOME/git-fuzzy/bin:$PATH"
+# fuzzy-git默认配置
+export FZF_DEFAULT_OPTS_MULTI=" \
+    -m --height=100% \
+    --layout=reverse \
+    --prompt='➤ ' \
+    --ansi \
+    --tabstop=4 \
+    --color=dark \
+    --color=bg:-1,hl:2,fg+:4,bg+:-1,hl+:2 \
+    --color=info:11,prompt:2,pointer:5,marker:1,spinner:3,header:11 \
+    --bind='alt-k:preview-up,alt-j:preview-down,alt-e:preview-half-page-up,alt-d:preview-half-page-down,ctrl-a:toggle-all,ctrl-f:jump' \
+    --preview-window down:60%:wrap \
+    "
+
+alias gs='git fuzzy status'
+
+# export GF_LOG_MENU_PARAMS="--all --color=always --abbrev=12 --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary \
+#                 --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(magenta)%h'"
+# }}}
 # {{{ forgit
 source ~/.my-scripts/forgit.sh
 # usage: glg ga gri gcf(checkout file) gsl gclean
