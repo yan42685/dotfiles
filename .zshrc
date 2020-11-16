@@ -494,6 +494,7 @@ export RTV_URLVIEWER="urlscan"
 export FZF_DEFAULT_OPTS=" \
 -m --height=60% \
 --layout=reverse \
+--border
 --prompt='➤ ' \
 --ansi \
 --tabstop=4 \
