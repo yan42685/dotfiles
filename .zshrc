@@ -527,7 +527,7 @@ export BAT_PAGER="less"
 export BAT_THEME="TwoDark"
 # }}}
 # {{{ fuzzy-git
-# FIXME: 需要在fzf前面加载因为它有自定义的变量需要我来覆盖
+# NOTE: fork from https://github.com/bigH/git-fuzzy
 export PATH="$HOME/git-fuzzy/bin:$PATH"
 # fuzzy-git默认配置
 export FZF_DEFAULT_OPTS_MULTI=" \
@@ -544,7 +544,7 @@ export FZF_DEFAULT_OPTS_MULTI=" \
     "
 
 
-# TODO: fuzzy-git log不能处理有图像的情况
+# TODO: fuzzy-git log不能处理 --graph 的情况
 # export GF_LOG_MENU_PARAMS="--all --color=always --abbrev=12 --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary \
 #                 --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(magenta)%h'"
 # }}}
