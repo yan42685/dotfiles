@@ -283,6 +283,7 @@ dist/
 downloads/
 eggs/
 .eggs/
+# NOTE: 取消lib/
 lib/
 lib64/
 parts/

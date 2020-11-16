@@ -741,6 +741,9 @@ nmap <leader>ba <Plug>(coc-bookmark-annotate)
 " coc-explorer 文件树
 "{{{
 function ToggleCocExplorer()
+    if &ft == 'startify'
+        bd
+    endif
   execute 'CocCommand explorer --toggle --width=35 --sources=buffer+,file+ ' . getcwd()
 endfunction
 "}}}

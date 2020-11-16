@@ -298,6 +298,7 @@ alias cl="clear"
 alias mv='mv -i'
 alias cp='cp -ip'
 alias la='ls -a'
+alias lf='ls -a | fzf'
 # 如果有bat命令就alias
 alias md='mkdir'
 # 用文件浏览器打开当前目录

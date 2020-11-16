@@ -36,7 +36,7 @@
 
     quotepath = false  # 解决git ls不显示中文的问题
     # 全局gitignore
-	excludesfile = ~/.gitignore_global
+	excludesfile = ~/.gitignore
 
 ; {{{ delta配置 用于查看diff
 [delta]
