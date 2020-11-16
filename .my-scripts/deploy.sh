@@ -16,6 +16,11 @@ setup_ubuntu_environment() {
     sudo apt install -y make cmake build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
 
     echo "==================== setuping basic packages..."
+    # 更新git到最新版(有restore命令，可以还原工作区的改动并保留暂存区改动)
+    sudo add-apt-repository -y ppa:git-core/ppa
+    sudo apt-get update
+    sudo apt-get -y install git --fix-missing
+
     sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3 openjdk-8-jdk
 
     # 设置npm代理和 install -g 到本地用户防止权限问题

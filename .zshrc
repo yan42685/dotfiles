@@ -488,11 +488,10 @@ export RTV_URLVIEWER="urlscan"
 # }}}
 # {{{ fuzzy-git
 # FIXME: 需要在fzf前面加载因为它有自定义的变量需要我来覆盖
-export PATH="/home/alexyan/git-fuzzy/bin:$PATH"
-alias gfs='git fuzzy status'
-export IS_VERTICAL=0
-export GF_LOG_MENU_PARAMS="--all --color=always --abbrev=12 --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary \
-                --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(magenta)%h'"
+export PATH="~/git-fuzzy/bin:$PATH"
+alias gs='git fuzzy status'
+# export GF_LOG_MENU_PARAMS="--all --color=always --abbrev=12 --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary \
+#                 --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(magenta)%h'"
 # }}}
 # {{{fzf
 # C-y是复制的快捷键 alt-j/k移动preview的一行， alt-e/d 移动preview的一页 c-a Toggle所有选项 c-f类似easymotion并选中
@@ -533,6 +532,7 @@ export PATH=$HOME/.local/git-extras/bin:$PATH
 export BAT_PAGER="less"
 export BAT_THEME="TwoDark"
 # }}}
+# fuzzy-git
 # {{{ forgit
 source ~/.my-scripts/forgit.sh
 # usage: glg ga gri gcf(checkout file) gsl gclean
@@ -546,7 +546,6 @@ source ~/.my-scripts/forgit.sh
 alias gri='forgit::rebase'
 alias glg='forgit::log'
 alias gsl='forgit::stash::show'
-alias gs='forgit::add'
 alias gpi='forgit::cherry::pick'
 alias gcl='forgit::clean'
 
