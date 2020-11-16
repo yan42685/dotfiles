@@ -1530,24 +1530,49 @@ nnoremap <leader>rt :Rooter<cr>:echo printf('Rooter to %s', FindRootDirectory())
 " 作为fzf-preview的依赖
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
-nmap <Leader>f [fzf-p]
-xmap <Leader>f [fzf-p]
+"{{{  settings
+" floating window size ratio
+let g:fzf_preview_floating_window_rate = 0.9
+let g:fzf_preview_default_fzf_options = {
+            \ '--reverse': v:true, '--preview-window': 'wrap', '--border': v:true,
+            \ '--color': 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899',
+            \
+            \ }
 
-nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
-nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
-nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
-nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
-nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
-nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
-nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
-nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
-nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
-nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
-nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
-xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
-nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
-nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
+let g:fzf_preview_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
+let g:fzf_preview_lines_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
+let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --no-messages -g \!"* *"' " Installed ripgrep
+let g:fzf_preview_use_dev_icons = 1  " Require vim-devicons
+" The theme used in the bat preview
+let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'TwoDark'
+
+augroup fzf_preview
+  autocmd!
+  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+  autocmd VimEnter * call vista#RunForNearestMethodOrFunction() " 整合vista
+augroup END
+
+function! s:fzf_preview_settings() abort
+  let g:fzf_preview_command = 'COLORTERM=truecolor ' . g:fzf_preview_command
+  let g:fzf_preview_grep_preview_cmd = 'COLORTERM=truecolor ' . g:fzf_preview_grep_preview_cmd
+endfunction
+
+"}}}
+nnoremap <silent> <Leader>fp     :<C-u>FzfPreviewFromResources project_mru git<CR>
+nnoremap <silent> <Leader>fgs    :<C-u>FzfPreviewGitStatus<CR>
+nnoremap <silent> <Leader>fga    :<C-u>FzfPreviewGitActions<CR>
+nnoremap <silent> <Leader>fb     :<C-u>FzfPreviewBuffers<CR>
+nnoremap <silent> <Leader>fB     :<C-u>FzfPreviewAllBuffers<CR>
+nnoremap <silent> <Leader>fo     :<C-u>FzfPreviewFromResources buffer project_mru<CR>
+nnoremap <silent> <Leader>f<C-o> :<C-u>FzfPreviewJumps<CR>
+nnoremap <silent> <Leader>fg;    :<C-u>FzfPreviewChanges<CR>
+nnoremap <silent> <Leader>f/     :<C-u>FzfPreviewLines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> <Leader>f*     :<C-u>FzfPreviewLines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          <Leader>fgr    :<C-u>FzfPreviewProjectGrep<Space>
+xnoremap          <Leader>fgr    "sy:FzfPreviewProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> <Leader>ft     :<C-u>FzfPreviewBufferTags<CR>
+nnoremap <silent> <Leader>fq     :<C-u>FzfPreviewQuickFix<CR>
+nnoremap <silent> <Leader>fl     :<C-u>FzfPreviewLocationList<CR>
 
 
 " 模糊搜索 弹窗后按<c-r>进行正则搜索模式, visual模式 '*' 查找函数依赖这个插件，所以不要延迟加载
@@ -2577,6 +2602,7 @@ set backspace=eol,start,indent  " Configure backspace so it acts as it should ac
 set whichwrap+=<,>,h,l
 set synmaxcol=200  " 对于很长的行语法高亮很拖慢速度
 set viminfo+=!  " 保存viminfo全局信息
+set viminfo+='1000
 set lazyredraw  " redraw only when we need to.
 set nocompatible  " 去掉有关vi一致性模式，避免以前版本的bug和局限
 set wildmenu  " 增强模式中的命令行自动完成操作
