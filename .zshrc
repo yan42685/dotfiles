@@ -543,8 +543,8 @@ export FZF_DEFAULT_OPTS_MULTI=" \
     --preview-window down:60%:wrap \
     "
 
-alias gs='git fuzzy status'
 
+# TODO: fuzzy-git log不能处理有图像的情况
 # export GF_LOG_MENU_PARAMS="--all --color=always --abbrev=12 --graph --topo-order --date=format:'%Y-%m-%d %H:%M:%S' --boundary \
 #                 --pretty=format:'%C(yellow)%d%Creset %s %Cblue[%cn] %Cgreen%ad - %C(magenta)%h'"
 # }}}
@@ -560,6 +560,7 @@ source ~/.my-scripts/forgit.sh
 #        gd HEAD~ src tests scripts
 alias gri='forgit::rebase'
 alias glg='forgit::log'
+alias gs='git fuzzy status'  # NOTE: 这里用的是fuzzy-git的命令
 alias gsl='forgit::stash::show'
 alias gpi='forgit::cherry::pick'
 alias gcl='forgit::clean'
