@@ -1591,30 +1591,24 @@ endfunction
 " project使用rg, 包括所有非ignore文件，git只包含tracked文件
 "
 noremap <silent> <c-p>           :<C-u>:CocCommand fzf-preview.CommandPalette<CR>
+" 全局mru
+nnoremap <silent> <leader>gr     :<C-u>:CocCommand fzf-preview.MruFiles<CR>
 " project内mru和project所有非ignore文件
-nnoremap <silent> <Leader>pr     :<C-u>CocCommand fzf-preview.FromResources project_mru project<CR>
+nnoremap <silent> <Leader>pf     :<C-u>CocCommand fzf-preview.FromResources project_mru project buffer<CR>
 " TODO: 设置搜索的高亮
 
-nnoremap <silent> <Leader>pg     :<C-u>CocCommand fzf-preview.ProjectGrep \"\"<CR>
-xnoremap          <Leader>fgr    "sy:CocCommand fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"<cr>
 nnoremap <silent> <Leader>gb     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
 " 只显示文件buffer(不预览当前buffer)
 nnoremap <silent> <Leader>gB     :<C-u>CocCommand fzf-preview.Buffers<CR>
-" 全局mru
-nnoremap <silent> <leader>gr     :<C-u>:CocCommand fzf-preview.MruFiles<CR>
 nnoremap <silent> <Leader>gq     :<C-u>CocCommand fzf-preview.QuickFix<CR>
-" TODO: bufferLines报错
+nnoremap <silent> <Leader>fg;    :<C-u>CocCommand fzf-preview.Changes<CR>
 
 
 nnoremap <silent> <Leader>fgs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
 nnoremap <silent> <Leader>fga    :<C-u>CocCommand fzf-preview.GitActions<CR>
 nnoremap <silent> <Leader>fo     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
-nnoremap <silent> <Leader>f<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
-nnoremap <silent> <Leader>fg;    :<C-u>CocCommand fzf-preview.Changes<CR>
-nnoremap <silent> <Leader>f/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
-nnoremap <silent> <Leader>f*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
-nnoremap <silent> <Leader>ft     :<C-u>CocCommand fzf-preview.BufferTags<CR>
-nnoremap <silent> <Leader>fl     :<C-u>CocCommand fzf-preview.LocationList<CR>
+" nnoremap <silent> <Leader>ft     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+" nnoremap <silent> <Leader>fl     :<C-u>CocCommand fzf-preview.LocationList<CR>
 
 
 " 模糊搜索 弹窗后按<c-r>进行正则搜索模式, visual模式 '*' 查找函数依赖这个插件，所以不要延迟加载
@@ -1735,16 +1729,13 @@ let g:Lf_ShortcutF = ''  " 这两项是为了覆盖默认设置的键位
 let g:Lf_ShortcutB = ''
 "}}}
 nnoremap <silent> <leader>gt :Leaderf --nowrap task<cr>
-" nnoremap <silent> <c-p> :Leaderf command<cr>
 let g:Lf_CommandMap = {
             \ '<C-]>':['<C-l>'],
             \ '<C-c>':['<C-d>', '<C-c>'],
             \}  " 搜索后<c-l>在右侧窗口打开文件
 nnoremap <silent> <leader>gf :Leaderf file<cr>
 " nnoremap <silent> <leader>gr :Leaderf mru<cr>
-nnoremap <silent> <leader>gc :Leaderf cmdHistory<cr>
 nnoremap <silent> <leader>gs :Leaderf searchHistory<cr>
-" nnoremap <silent> <leader>gb :Leaderf buffer<cr>
 nnoremap <silent> gf :Leaderf function<cr>
 nnoremap <silent> ,gt :Leaderf bufTag<cr>
 " 项目下即时搜索
