@@ -1549,10 +1549,13 @@ nnoremap <leader>rt :Rooter<cr>:echo printf('Rooter to %s', FindRootDirectory())
 " 作为fzf-preview的依赖
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
+" preview快捷键 <C-v> - Open vsplit
+"               <C-t> - Open tabedit
 " NOTE: 下面是coc的plugin: coc-fzf-preview
 "{{{  settings
 " floating window size ratio
 let g:fzf_preview_floating_window_rate = 0.9
+let g:fzf_preview_preview_key_bindings = 'ctrl-u:unix-line-discard'
 let g:fzf_preview_default_fzf_options = {
             \ '--reverse': v:true, '--preview-window': 'wrap', '--border': v:true,
             \ '--color': 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899',
@@ -1734,7 +1737,6 @@ let g:Lf_CommandMap = {
             \ '<C-c>':['<C-d>', '<C-c>'],
             \}  " 搜索后<c-l>在右侧窗口打开文件
 nnoremap <silent> <leader>gf :Leaderf file<cr>
-" nnoremap <silent> <leader>gr :Leaderf mru<cr>
 nnoremap <silent> <leader>gs :Leaderf searchHistory<cr>
 nnoremap <silent> gf :Leaderf function<cr>
 nnoremap <silent> ,gt :Leaderf bufTag<cr>
@@ -1744,6 +1746,7 @@ nnoremap <silent> <leader>rg :<C-U>Leaderf rg<cr>
 nnoremap <silent> <Leader>gw :<C-U><C-R>=printf("Leaderf! rg -F %s", expand("<cword>"))<CR><cr>
 nnoremap <silent> <Leader>gW :<C-U><C-R>=printf("Leaderf! rg -F %s", expand("<cWORD>"))<CR><cr>
 xnoremap <silent> <leader>gw :<C-U><C-R>=printf("Leaderf! rg -F %s", leaderf#Rg#visual())<CR><cr>
+xnoremap <silent> * :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer %s", leaderf#Rg#visual())<CR><cr>
 " buffer内即时搜索
 nnoremap <silent> / :Leaderf rg --current-buffer<cr>
 " 重复上次搜索, 会直接调用上次搜索结果的缓存
@@ -1752,7 +1755,6 @@ nnoremap <silent> g/ :Leaderf rg --recall<cr>
 nnoremap <silent> gw :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer %s", expand("<cword>"))<CR><cr>
 nnoremap <silent> gW :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer %s", expand("<cWORD>"))<CR><cr>
 xnoremap <silent> gw :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer %s", leaderf#Rg#visual())<CR><cr>
-xnoremap <silent> * :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer %s", leaderf#Rg#visual())<CR><cr>
 " 仅测试用, 不知道用不用得上
 " 查看tag引用
 nnoremap <leader>tr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
@@ -2256,7 +2258,7 @@ inoremap kj <esc>
 cnoremap kj <c-c>
 nnoremap ? /
 " 去掉搜索高亮
-nnoremap <silent> <leader>? :nohls<cr>
+nnoremap <silent> <leader>/ :nohls<cr>
 " 重复上次搜索
 nnoremap g? /<c-r>/<cr>
 noremap ; :
