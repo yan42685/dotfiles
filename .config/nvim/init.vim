@@ -2932,7 +2932,7 @@ function s:Enable_normal_scheme() abort
 "}}}
 " {{{ startify启动页面
     hi! StartifyHeader gui=bold guifg=#87bb7c
-    hi! StartifySection guifg=#7daea3
+    hi! StartifySection gui=bold guifg=#7daea3
     hi! StartifyFile  gui=None guifg=#d8b98a
     hi! StartifyNumber gui=None guifg=#7daea3
 
