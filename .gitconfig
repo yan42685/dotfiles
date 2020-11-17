@@ -45,6 +45,8 @@
     syntax-theme = "TwoDark"
     plus-emph-style = "#8c99a2 bold ul auto"
     minus-emph-style = "#8c99a2 bold ul auto"
+    plus-style = "white #0e3c15 "
+    minus-style="white #5a0c0f"
     line-numbers = true
     side-by-side = true
     features = unobtrusive-line-numbers decorations
