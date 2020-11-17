@@ -644,12 +644,17 @@ nmap gc <Plug>(git-messenger)
 
 " git
 " G表示外部git命令 支持~/.gitconfig里定义的alias
+" NOTE: 连续使用G会出一些bug，复杂命令最好用.gitconfig里的alias
 Plug 'tpope/vim-fugitive'
 " Gread就是清空暂存区 即checkkout %    " 还有diffget和diffput可以使用
 nnoremap <silent> ,ga :G add %:p<CR>
 " add 所有 tracted 文件, 感觉不怎么实用
-" nnoremap ,gA  :G add --update<CR>
-nnoremap <silent> ,gc :G commit --all<cr>
+nnoremap <silent> ,gc :G commit<cr>
+nnoremap <silent> ,gca :G commit --all<cr>
+" 不用编辑提交信息 git add --update && git commit --amend --no-edit
+nnoremap <silent> ,gmd :!git cmd --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
+" 需要编辑提交信息 git add --update && git commit --amend
+nnoremap <silent> ,gme :G cme --quiet<cr>
 " {{{  定义 autocmd User MyEnterDiffMode
 " 定义进入diff的事件，然后当前窗口关闭syntax
 augroup my_enter_diffMode
@@ -664,25 +669,9 @@ nnoremap <silent> ,gd :G difftool HEAD % -y<cr><esc>:silent! doautocmd User MyEn
 nnoremap <silent> ,gD :G difftool % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
 " diff index 与 local repository
 nnoremap <silent> ,GD :G difftool --cached % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
-" [ 仓库内diff ]
-" diff working directory与local repository (即HEAD)
-nnoremap <silent> ,,gd :G difftool HEAD -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
-" diff working directory与index (即暂存区) -y表示 在新tab中打开
-nnoremap <silent> ,,gD :G difftool -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
-" diff index 与 local repository
-nnoremap <silent> ,,GD :G difftool --cached -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
-" 编辑其他分支的文件 Gedit branchname:path/to/file,  branchname:%表示当前buffer的文件
-nnoremap ,ge :Gedit<space>
 " git status
 " nnoremap <silent> ,gs :vert Git<cr>
 nnoremap <silent> ,gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
-nnoremap ,gg :Ggrep<space>
-" nnoremap <silent> ,gmd :G add --update<cr><esc>:G commit --amend --no-edit<cr>
-" 因为连续使用G会出一些bug，所以就用.gitconfig里定义的alias
-" 不用编辑提交信息 git add --update && git commit --amend --no-edit
-nnoremap <silent> ,gmd :!git cmd --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
-" 需要编辑提交信息 git add --update && git commit --amend
-nnoremap <silent> ,gme :G cme --quiet<cr>
 
 " 重命名git项目下的文件
 " This will:  Rename your file on disk.  Rename the file in git repo.
@@ -691,8 +680,6 @@ nnoremap ,gr :G add %<cr><esc>:Gmove <c-r>=expand('%:p:h')<cr>/
 nnoremap <silent> ,ft :AsyncTask git-fetch<cr>
 nnoremap <silent> ,ps :AsyncTask git-push<cr>
 nnoremap <silent> ,pl :AsyncTask git-pull<cr>
-" git publish
-" nnoremap <silent> ,pb :G push -u origin <C-R>=trim(system('git rev-parse --abbrev-ref HEAD'))<CR><CR>
 
 " 更方便的查看commit g?查看键位 enter查看详细信息 <c-n> <c-p> 跳到上下commit
 Plug 'rbong/vim-flog', {'on': ['Flog']}
