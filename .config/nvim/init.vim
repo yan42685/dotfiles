@@ -664,12 +664,12 @@ augroup my_enter_diffMode
 augroup end
 "}}}
 " [ 本文件内diff ]
-" diff working directory与local repository (即HEAD) -y表示 在新tab中打开
-nnoremap <silent> ,gd :G difftool HEAD % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
-" diff working directory与index (即暂存区)
-nnoremap <silent> ,gD :G difftool % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
-" diff index 与 local repository
-nnoremap <silent> ,GD :G difftool --cached % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
+" diff working directory与index (即暂存区) -y表示 在新tab中打开
+nnoremap <silent> ,gd :G difftool % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
+" diff index(staged) 与 local repository
+nnoremap <silent> ,gD :G difftool --cached % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
+" diff working directory与local repository (即HEAD)
+nnoremap <silent> ,,gd :G difftool HEAD % -y<cr><esc>:silent! doautocmd User MyEnterDiffMode<cr>
 " git status
 " nnoremap <silent> ,gs :vert Git<cr>
 nnoremap <silent> ,gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
