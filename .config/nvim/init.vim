@@ -740,7 +740,7 @@ function ToggleCocExplorer()
     if &ft == 'startify'
         bd
     endif
-  execute 'CocCommand explorer --toggle --width=35 --sources=buffer+,file+ ' . getcwd()
+  execute 'CocCommand explorer --toggle --width=35 --sources=buffer,file+ ' . getcwd()
 endfunction
 "}}}
 nnoremap <silent> <leader>eo :call ToggleCocExplorer()<CR>
