@@ -15,10 +15,10 @@ let g:enable_file_autosave = 1  " 是否自动保存
 let g:disable_laggy_plugins_for_large_file = 0  " 在启动参数里设置为1就可以加快打开速度
 set updatetime=400  " 检测CursorHold事件的时间间隔,影响性能的主要因素
 let g:default_colorscheme_mode = 0
-let g:all_colorschemes = ['forest-night', 'quantum', 'gruvbox-material',
+let g:all_colorschemes = ['gruvbox-material', 'quantum', 'forest-night',
             \ 'deus'            , 'dracula',
             \ ]
-let s:lightline_schemes = ['forest_night','quantum', 'gruvbox_material',
+let s:lightline_schemes = ['gruvbox_material','quantum', 'forest_night',
             \ 'gruvbox_material', 'dracula',
             \ ]
 let mapleader='<space>'  " 此条命令的位置应在插件之前
@@ -98,7 +98,13 @@ Plug 'tyrannicaltoucan/vim-quantum'
 Plug 'romainl/Apprentice'
 " Plug 'KeitaNakamura/neodark.vim'
 " Plug 'trevordmiller/nova-vim'
-Plug 'sainnhe/gruvbox-material'
+Plug 'yan42685/gruvbox-material'
+">
+let g:gruvbox_material_disable_italic_comment = 1
+let g:gruvbox_material_enable_italic = 0
+let g:gruvbox_material_better_performance = 1  " 延迟加载，减少50%加载时间
+"<
+
 Plug 'sainnhe/forest-night'
 Plug 'ajmwagar/vim-deus'
 "{{{
