@@ -1593,26 +1593,18 @@ endfunction
                  " project_mru, project_mrw, old, mru, mrw]
 " project使用rg, 包括所有非ignore文件，git只包含tracked文件
 "
-noremap <silent> <c-p>           :<C-u>:CocCommand fzf-preview.CommandPalette<CR>
 " 全局mru
 nnoremap <silent> <leader>gr     :<C-u>:CocCommand fzf-preview.MruFiles<CR>
 " project内mru和project所有非ignore文件
 nnoremap <silent> <Leader>pf     :<C-u>CocCommand fzf-preview.FromResources project_mru project buffer<CR>
-" TODO: 设置搜索的高亮
-
 nnoremap <silent> <Leader>gb     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
 " 只显示文件buffer(不预览当前buffer)
 nnoremap <silent> <Leader>gB     :<C-u>CocCommand fzf-preview.Buffers<CR>
 nnoremap <silent> <Leader>gq     :<C-u>CocCommand fzf-preview.QuickFix<CR>
-nnoremap <silent> <Leader>fg;    :<C-u>CocCommand fzf-preview.Changes<CR>
-
 
 nnoremap <silent> <Leader>fgs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
 nnoremap <silent> <Leader>fga    :<C-u>CocCommand fzf-preview.GitActions<CR>
 nnoremap <silent> <Leader>fo     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
-" nnoremap <silent> <Leader>ft     :<C-u>CocCommand fzf-preview.BufferTags<CR>
-" nnoremap <silent> <Leader>fl     :<C-u>CocCommand fzf-preview.LocationList<CR>
-
 
 " 模糊搜索 弹窗后按<c-r>进行正则搜索模式, visual模式 '*' 查找函数依赖这个插件，所以不要延迟加载
 Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
@@ -1736,6 +1728,7 @@ let g:Lf_CommandMap = {
             \ '<C-]>':['<C-l>'],
             \ '<C-c>':['<C-d>', '<C-c>'],
             \}  " 搜索后<c-l>在右侧窗口打开文件
+noremap <silent> <c-p> :Leaderf command<CR>
 nnoremap <silent> <leader>gf :Leaderf file<cr>
 nnoremap <silent> <leader>gs :Leaderf searchHistory<cr>
 nnoremap <silent> gf :Leaderf function<cr>
