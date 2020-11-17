@@ -42,7 +42,9 @@
 [delta]
     plus-color = "#012800"
     minus-color = "#340001"
-    syntax-theme = TwoDark
+    syntax-theme = "TwoDark"
+    plus-emph-style = "#8c99a2 bold ul auto"
+    minus-emph-style = "#8c99a2 bold ul auto"
     line-numbers = true
     side-by-side = true
     features = unobtrusive-line-numbers decorations

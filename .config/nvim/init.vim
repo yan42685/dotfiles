@@ -117,13 +117,14 @@ if g:disable_laggy_plugins_for_large_file == 0
     set nospell  " 禁用默认的难看的高亮红色
     let g:spelunker_check_type = 2  " 只在window内动态check, 对大文件十分友好
     let g:spelunker_highlight_type = 2  " Highlight only SpellBad.
-    let s:spelunker_blacklist = ['startify', 'far', 'vim-plug', 'vim', '', 'coc-explorer']  " 这里包括了文件类型的空的buffer
+    let s:spelunker_filetype_blacklist = ['startify', 'far', 'vim-plug', 'vim', '', 'coc-explorer']  " 这里包括了文件类型的空的buffer
+    let s:spelunker_buftype_blacklist = ['terminal']  " 这里包括了文件类型的空的buffer
     augroup my_highlight_spellbad
         autocmd!
         let g:spelunker_disable_auto_group = 1
 "{{{
         fun My_should_enable_spelunker()
-            if index(s:spelunker_blacklist, &filetype) >= 0 || &filetype == '' || &diff
+            if index(s:spelunker_filetype_blacklist, &filetype) >= 0 || index(s:spelunker_buftype_blacklist, &buftype) >= 0 || &filetype == '' || &diff
                 return 0
             endif
             return 1
@@ -1529,6 +1530,7 @@ nnoremap <leader>rt :Rooter<cr>:echo printf('Rooter to %s', FindRootDirectory())
 
 " 作为fzf-preview的依赖
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
 "{{{  settings
 " floating window size ratio
@@ -1541,10 +1543,20 @@ let g:fzf_preview_default_fzf_options = {
 
 let g:fzf_preview_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
 let g:fzf_preview_lines_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
+" TODO: 用 delta --show-config 进行配置
+" TODO: 设置ctrl-c不进行commit
+" TODO: 取消注释配置
+let g:my_delta_config_for_fzf_preview = " | delta --no-gitconfig --inspect-raw-lines=false --theme=TwoDark" .
+            \ " --plus-emph-style=\"#8c99a2 bold ul auto\"  --minus-emph-style=\"#8c99a2 bold ul auto\"" .
+            \ " --whitespace-error-style=reverse 22"
+let g:fzf_preview_git_status_preview_command = "[[ $(git diff -- {-1}) != \"\" ]] && git diff -- {-1} " . g:my_delta_config_for_fzf_preview . " || " .
+                    \ "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached -- {-1} \ " . g:my_delta_config_for_fzf_preview . " || " .
+                    \ g:fzf_preview_command
 let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --no-messages -g \!"* *"' " Installed ripgrep
 let g:fzf_preview_use_dev_icons = 1  " Require vim-devicons
 " The theme used in the bat preview
 let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'TwoDark'
+
 
 augroup fzf_preview
   autocmd!
