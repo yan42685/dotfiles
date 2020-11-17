@@ -2931,9 +2931,11 @@ function s:Enable_normal_scheme() abort
 
 "}}}
 " {{{ startify启动页面
-    highlight! StartifyHeader cterm=bold ctermbg=black ctermfg=75 gui=bold guifg=#87bb7c
-    highlight! StartifyFile cterm=None ctermfg=75 gui=None guifg=#d8b98a
-    highlight! StartifyNumber cterm=None ctermfg=75 gui=None guifg=#7daea3
+    hi! StartifyHeader gui=bold guifg=#87bb7c
+    hi! StartifySection guifg=#7daea3
+    hi! StartifyFile  gui=None guifg=#d8b98a
+    hi! StartifyNumber gui=None guifg=#7daea3
+
 "}}}
 " {{{ Spelunker 拼写检查
     " spelunker的popup menue配色(只支持cterm, 但又要兼顾coc的gui补全配色)
