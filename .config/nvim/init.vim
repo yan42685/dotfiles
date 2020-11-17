@@ -674,7 +674,8 @@ nnoremap <silent> ,,GD :G difftool --cached -y<cr><esc>:silent! doautocmd User M
 " 编辑其他分支的文件 Gedit branchname:path/to/file,  branchname:%表示当前buffer的文件
 nnoremap ,ge :Gedit<space>
 " git status
-nnoremap <silent> ,gs :vert Git<cr>
+" nnoremap <silent> ,gs :vert Git<cr>
+nnoremap <silent> ,gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
 nnoremap ,gg :Ggrep<space>
 " nnoremap <silent> ,gmd :G add --update<cr><esc>:G commit --amend --no-edit<cr>
 " 因为连续使用G会出一些bug，所以就用.gitconfig里定义的alias
@@ -1551,7 +1552,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 " preview快捷键 <C-v> - Open vsplit
 "               <C-t> - Open tabedit
-" NOTE: 下面是coc的plugin: coc-fzf-preview
+" NOTE: 1. 下面是coc的plugin: coc-fzf-preview
+"       2. 总体功能不如leaderf, 但用于git status, vim-bookmarks，预览buffers挺不错
 "{{{  settings
 " floating window size ratio
 let g:fzf_preview_floating_window_rate = 0.9
@@ -1588,23 +1590,12 @@ function! s:fzf_preview_settings() abort
 endfunction
 
 "}}}
-"
-" Resources: [project, git, directory, buffer, project_old,
-                 " project_mru, project_mrw, old, mru, mrw]
-" project使用rg, 包括所有非ignore文件，git只包含tracked文件
-"
 " 全局mru
 nnoremap <silent> <leader>gr     :<C-u>:CocCommand fzf-preview.MruFiles<CR>
-" project内mru和project所有非ignore文件
-nnoremap <silent> <Leader>pf     :<C-u>CocCommand fzf-preview.FromResources project_mru project buffer<CR>
 nnoremap <silent> <Leader>gb     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
 " 只显示文件buffer(不预览当前buffer)
 nnoremap <silent> <Leader>gB     :<C-u>CocCommand fzf-preview.Buffers<CR>
 nnoremap <silent> <Leader>gq     :<C-u>CocCommand fzf-preview.QuickFix<CR>
-
-nnoremap <silent> <Leader>fgs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
-nnoremap <silent> <Leader>fga    :<C-u>CocCommand fzf-preview.GitActions<CR>
-nnoremap <silent> <Leader>fo     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
 
 " 模糊搜索 弹窗后按<c-r>进行正则搜索模式, visual模式 '*' 查找函数依赖这个插件，所以不要延迟加载
 Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
