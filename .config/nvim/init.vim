@@ -1548,7 +1548,6 @@ let g:fzf_preview_preview_key_bindings = 'ctrl-u:unix-line-discard'
 let g:fzf_preview_default_fzf_options = {
             \ '--reverse': v:true, '--preview-window': 'wrap', '--border': v:true,
             \ '--color': 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899',
-            \
             \ }
 
 let g:fzf_preview_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
@@ -2892,7 +2891,7 @@ function s:Enable_normal_scheme() abort
         autocmd Syntax * call matchadd('MyTip',        '\W\zsTIP:')
     augroup end
     "}}}
-    " {{{折叠，侧栏，Signature的mark标记
+    " {{{ 折叠，侧栏，Signature的mark标记，行号, ALE, Signify
     "             高亮组名     前景色         背景色
     call s:HL('FoldColumn', s:palette.grey, s:palette.bg2)
     call s:HL('Folded', s:palette.grey, s:palette.none)
@@ -2903,10 +2902,19 @@ function s:Enable_normal_scheme() abort
     " vsplit分割线
     highlight! VertSplit guifg=#658494 guibg=None
     " kshenoy/vim-signature 标记的配色
-    highlight! link SignatureMarkText OrangeSign
-    highlight! link SignatureMarkerText PurpleSign
+    hi! link SignatureMarkText OrangeSign
+    hi! link SignatureMarkerText PurpleSign
     " highlight! LineNr guifg=#717172
-    highlight! LineNr guifg=#9d9d9d
+    hi! LineNr guifg=#9d9d9d guibg=none
+    hi! ALEErrorSign gui=bold guifg=#dd7186 guibg=none
+    hi! ALEWarningSign gui=bold guifg=#d8a657 guibg=none
+    hi! SignifySignAdd guifg=#87bb7c guibg=none
+    hi! SignifySignDelete guifg=#dd7186 guibg=none
+    hi! SignifySignChange guifg=#d5b875 guibg=none
+
+
+
+
 "}}}
 " {{{ startify启动页面
     highlight! StartifyHeader cterm=bold ctermbg=black ctermfg=75 gui=bold guifg=#87bb7c
