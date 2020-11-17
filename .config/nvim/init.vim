@@ -98,12 +98,12 @@ Plug 'tyrannicaltoucan/vim-quantum'
 Plug 'romainl/Apprentice'
 " Plug 'KeitaNakamura/neodark.vim'
 " Plug 'trevordmiller/nova-vim'
-Plug 'yan42685/gruvbox-material'
-">
+Plug 'yan42685/gruvbox-material' " fork from https://github.com/sainnhe/gruvbox-material
+"{{{ settings
 let g:gruvbox_material_disable_italic_comment = 1
 let g:gruvbox_material_enable_italic = 0
 let g:gruvbox_material_better_performance = 1  " 延迟加载，减少50%加载时间
-"<
+"}}}
 
 Plug 'sainnhe/forest-night'
 Plug 'ajmwagar/vim-deus'
