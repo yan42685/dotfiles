@@ -15,10 +15,10 @@ let g:enable_file_autosave = 1  " 是否自动保存
 let g:disable_laggy_plugins_for_large_file = 0  " 在启动参数里设置为1就可以加快打开速度
 set updatetime=400  " 检测CursorHold事件的时间间隔,影响性能的主要因素
 let g:default_colorscheme_mode = 0
-let g:all_colorschemes = ['quantum', 'gruvbox-material', 'forest-night',
+let g:all_colorschemes = ['forest-night', 'quantum', 'gruvbox-material',
             \ 'deus'            , 'dracula',
             \ ]
-let s:lightline_schemes = ['quantum', 'gruvbox_material', 'forest_night',
+let s:lightline_schemes = ['forest_night','quantum', 'gruvbox_material',
             \ 'gruvbox_material', 'dracula',
             \ ]
 let mapleader='<space>'  " 此条命令的位置应在插件之前
@@ -95,6 +95,7 @@ call plug#begin('~/.vim/plugged')
 " 主题配色
 " Plug 'joshdick/onedark.vim'
 Plug 'tyrannicaltoucan/vim-quantum'
+Plug 'romainl/Apprentice'
 " Plug 'KeitaNakamura/neodark.vim'
 " Plug 'trevordmiller/nova-vim'
 Plug 'sainnhe/gruvbox-material'
@@ -1547,15 +1548,16 @@ let g:fzf_preview_floating_window_rate = 0.9
 let g:fzf_preview_preview_key_bindings = 'ctrl-u:unix-line-discard'
 let g:fzf_preview_default_fzf_options = {
             \ '--reverse': v:true, '--preview-window': 'wrap', '--border': v:true,
-            \ '--color': 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#223344,border:#778899',
+            \ '--color': 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#323d43,border:#778899',
             \ }
 
 let g:fzf_preview_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
 let g:fzf_preview_lines_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
 " TODO: 设置ctrl-c不进行commit
 let g:my_delta_config_for_fzf_preview = " | delta --no-gitconfig --inspect-raw-lines=false --theme=TwoDark" .
-            \ " --plus-emph-style=\"#8c99a2 bold ul auto\"  --minus-emph-style=\"#8c99a2 bold ul auto\"" .
-            \ " --whitespace-error-style=reverse 22"
+            \ " --plus-emph-style=\"#111111 bold ul #87c095\"  --minus-emph-style=\"#111111 bold ul #d57b7f\"" .
+            \ " --whitespace-error-style=reverse 22 --plus-style=\"#282828 #87c095\" --minus-style=\"#121212 #d57b7f \""
+
 let g:fzf_preview_git_status_preview_command = "[[ $(git diff -- {-1}) != \"\" ]] && git diff -- {-1} " . g:my_delta_config_for_fzf_preview . " || " .
                     \ "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached -- {-1} \ " . g:my_delta_config_for_fzf_preview . " || " .
                     \ g:fzf_preview_command
@@ -2814,7 +2816,7 @@ augroup auto_actions_for_better_experience
     " 关闭quickfix时恢复快捷键q
     autocmd UILeave * nmap q q
     " 进入diff模式关闭语法高亮，离开时恢复语法高亮 FIXME: 不确定会不会有性能问题
-    autocmd User MyEnterDiffMode if (&filetype != '' && &diff) | windo setlocal syntax=off | windo setlocal wrap
+    " autocmd User MyEnterDiffMode if (&filetype != '' && &diff) | windo setlocal syntax=off | windo setlocal wrap
     " FIXME: 这里的set syntax=on可能会影响某些特殊的文件类型的高亮渲染, 所以必要时应该排除在外
     autocmd WinEnter,WinLeave * if (&filetype != '' && &syntax != 'on' && !&diff && &filetype != 'far')
                 \ | set syntax=on | endif
@@ -2911,6 +2913,11 @@ function s:Enable_normal_scheme() abort
     hi! SignifySignAdd guifg=#87bb7c guibg=none
     hi! SignifySignDelete guifg=#dd7186 guibg=none
     hi! SignifySignChange guifg=#d5b875 guibg=none
+    hi! DiffAdd guibg=#4e6053
+    hi! DiffDelete guibg=#614b51
+    hi! DiffChange guibg=#415c6d
+    " 单词级对比
+    hi! DiffText guifg=#aebbc5 guibg=#5f5f87
 
 
 
@@ -2929,9 +2936,6 @@ function s:Enable_normal_scheme() abort
     " spelunker 显示错误单词的颜色
     highlight! SpelunkerSpellBad cterm=undercurl ctermfg=247 gui=undercurl guifg=#9e9e9e
     highlight! SpelunkerComplexOrCompoundWord cterm=undercurl ctermfg=247 gui=undercurl guifg=#9e9e9e
-"}}}
-"{{{ diff单词的高亮
-    hi! DiffText ctermfg=237 ctermbg=246 cterm=undercurl guifg=#3397dd gui=undercurl
 "}}}
 "{{{让JSONC的注释高亮正常
 augroup enable_comment_highlighting_for_json
