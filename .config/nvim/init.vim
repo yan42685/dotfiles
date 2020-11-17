@@ -734,11 +734,6 @@ nnoremap <leader>cl :CocList<cr>
 " coc-git
 " NOTE: 在CocConfig里关闭了gutter功能, 现在用的是signify的功能
 
-" coc-bookmark
-nnoremap <leader>bl :CocList bookmark<cr>
-nmap <leader>bm <Plug>(coc-bookmark-toggle)
-nmap <leader>ba <Plug>(coc-bookmark-annotate)
-
 " coc-explorer 文件树
 "{{{
 function ToggleCocExplorer()
@@ -800,8 +795,8 @@ let g:coc_global_extensions = [
   \ 'coc-python', 'coc-tabnine', 'coc-lists', 'coc-explorer', 'coc-yank',
   \ 'coc-stylelint', 'coc-sh', 'coc-dictionary', 'coc-word', 'coc-emmet',
   \ 'coc-syntax', 'coc-marketplace', 'coc-todolist', 'coc-emoji',
-  \ 'coc-gitignore', 'coc-bookmark', 'coc-tag', 'coc-floaterm',
-  \ 'coc-markdownlint', 'coc-clangd', 'coc-git', 'coc-vimlsp'
+  \ 'coc-gitignore', 'coc-tag', 'coc-floaterm',
+  \ 'coc-markdownlint', 'coc-clangd', 'coc-git', 'coc-vimlsp', 'coc-fzf-preview',
   \ ]
 
 
@@ -810,7 +805,7 @@ set cmdheight=2  " 如果不设置为2，每次进入新buffer都需要回车确
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set shortmess+=c  " Don't pass messages to ins-completion-menu.
-set signcolumn=yes  " Always show the signcolumn, otherwise it would shift the text each time
+set signcolumn=yes:2  " 如果想要动态扩展，就改成auto:2
 
 " Make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode.
 " inoremap <silent> <expr> <TAB>
@@ -916,7 +911,6 @@ xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 " 可以用来import
 nmap <leader>do <Plug>(coc-codeaction)
-nnoremap <silent> <leader>ml :CocList --normal --number-select marks<cr>
 nnoremap <silent> <leader>sl :CocList sessions<cr>
 " 重构
 imap <silent> <c-m-v> <esc><Plug>(coc-codeaction)
@@ -929,6 +923,38 @@ nnoremap <leader>cg :CocConfig<cr>
 nnoremap <silent> <leader>rn :CocActionAsync('runCommand', 'workspace.renameCurrentFile')<cr>
 "}}}
 "{{{编辑, 跳转功能增强
+" 书签
+Plug 'MattesGroeger/vim-bookmarks'
+"{{{ settings
+let g:bookmark_no_default_key_mappings = 1 " 取消默认快捷键
+let g:bookmark_save_per_working_dir = 1 " 保存的bookmark在git仓库间隔离
+let g:bookmark_auto_save = 1 " 自动持久化
+let g:bookmark_center = 1 " 自动展示mark行到屏幕中心
+let g:bookmark_show_toggle_warning = 1 " 显示删除annnotated bookmark时的提示
+"{{{ 设置保存project bookmarks到
+function! g:BMWorkDirFileLocation()
+    let filename = 'bookmarks'
+    let location = ''
+    if isdirectory('.git')
+        " Current work dir is git's work tree
+        let location = getcwd().'/.git'
+    else
+        " Look upwards (at parents) for a directory named '.git'
+        let location = finddir('.git', '.;')
+    endif
+    if len(location) > 0
+        return location.'/'.'vim-bookmarks-per-repository'
+    else
+        return getcwd().'/.'.'vim-bookmarks-per-repository'
+    endif
+endfunction
+"}}}
+"}}}
+nmap <leader>mm <Plug>BookmarkToggle
+nmap <Leader>ma <Plug>BookmarkAnnotate
+nmap <Leader>mcl <Plug>BookmarkClearAll
+nnoremap <leader>ml :CocCommand fzf-preview.Bookmarks<cr>
+
 " 快速移动
 Plug 'easymotion/vim-easymotion', {'on': '<Plug>(easymotion-bd-f)'}
 " quick f
@@ -1308,14 +1334,6 @@ let g:which_key_map_space.n = {
             \ 'name': '+filename',
             \ 'm': 'filename-copy',
             \}
-let g:which_key_map_space.o = {
-            \ 'name': '+outline/fold-level',
-            \ 't': 'outline-open',
-            \ 'o': 'toggle-fold-level-0/１'
-            \}
-let g:which_key_map_space.p = {
-            \ 'name': '+project(session)',
-            \}
 let g:which_key_map_space.P = {
             \ 'name': '+Plug',
             \}
@@ -1531,7 +1549,7 @@ nnoremap <leader>rt :Rooter<cr>:echo printf('Rooter to %s', FindRootDirectory())
 " 作为fzf-preview的依赖
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+" NOTE: 下面是coc的plugin: coc-fzf-preview
 "{{{  settings
 " floating window size ratio
 let g:fzf_preview_floating_window_rate = 0.9
@@ -1543,9 +1561,7 @@ let g:fzf_preview_default_fzf_options = {
 
 let g:fzf_preview_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
 let g:fzf_preview_lines_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
-" TODO: 用 delta --show-config 进行配置
 " TODO: 设置ctrl-c不进行commit
-" TODO: 取消注释配置
 let g:my_delta_config_for_fzf_preview = " | delta --no-gitconfig --inspect-raw-lines=false --theme=TwoDark" .
             \ " --plus-emph-style=\"#8c99a2 bold ul auto\"  --minus-emph-style=\"#8c99a2 bold ul auto\"" .
             \ " --whitespace-error-style=reverse 22"
@@ -1554,8 +1570,7 @@ let g:fzf_preview_git_status_preview_command = "[[ $(git diff -- {-1}) != \"\" ]
                     \ g:fzf_preview_command
 let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --no-messages -g \!"* *"' " Installed ripgrep
 let g:fzf_preview_use_dev_icons = 1  " Require vim-devicons
-" The theme used in the bat preview
-let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'TwoDark'
+let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'TwoDark' " The theme used in the bat preview
 
 
 augroup fzf_preview
@@ -1570,21 +1585,36 @@ function! s:fzf_preview_settings() abort
 endfunction
 
 "}}}
-nnoremap <silent> <Leader>fp     :<C-u>FzfPreviewFromResources project_mru git<CR>
-nnoremap <silent> <Leader>fgs    :<C-u>FzfPreviewGitStatus<CR>
-nnoremap <silent> <Leader>fga    :<C-u>FzfPreviewGitActions<CR>
-nnoremap <silent> <Leader>fb     :<C-u>FzfPreviewBuffers<CR>
-nnoremap <silent> <Leader>fB     :<C-u>FzfPreviewAllBuffers<CR>
-nnoremap <silent> <Leader>fo     :<C-u>FzfPreviewFromResources buffer project_mru<CR>
-nnoremap <silent> <Leader>f<C-o> :<C-u>FzfPreviewJumps<CR>
-nnoremap <silent> <Leader>fg;    :<C-u>FzfPreviewChanges<CR>
-nnoremap <silent> <Leader>f/     :<C-u>FzfPreviewLines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
-nnoremap <silent> <Leader>f*     :<C-u>FzfPreviewLines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
-nnoremap          <Leader>fgr    :<C-u>FzfPreviewProjectGrep<Space>
-xnoremap          <Leader>fgr    "sy:FzfPreviewProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-nnoremap <silent> <Leader>ft     :<C-u>FzfPreviewBufferTags<CR>
-nnoremap <silent> <Leader>fq     :<C-u>FzfPreviewQuickFix<CR>
-nnoremap <silent> <Leader>fl     :<C-u>FzfPreviewLocationList<CR>
+"
+" Resources: [project, git, directory, buffer, project_old,
+                 " project_mru, project_mrw, old, mru, mrw]
+" project使用rg, 包括所有非ignore文件，git只包含tracked文件
+"
+noremap <silent> <c-p>           :<C-u>:CocCommand fzf-preview.CommandPalette<CR>
+" project内mru和project所有非ignore文件
+nnoremap <silent> <Leader>pr     :<C-u>CocCommand fzf-preview.FromResources project_mru project<CR>
+" TODO: 设置搜索的高亮
+
+nnoremap <silent> <Leader>pg     :<C-u>CocCommand fzf-preview.ProjectGrep \"\"<CR>
+xnoremap          <Leader>fgr    "sy:CocCommand fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"<cr>
+nnoremap <silent> <Leader>gb     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+" 只显示文件buffer(不预览当前buffer)
+nnoremap <silent> <Leader>gB     :<C-u>CocCommand fzf-preview.Buffers<CR>
+" 全局mru
+nnoremap <silent> <leader>gr     :<C-u>:CocCommand fzf-preview.MruFiles<CR>
+nnoremap <silent> <Leader>gq     :<C-u>CocCommand fzf-preview.QuickFix<CR>
+" TODO: bufferLines报错
+
+
+nnoremap <silent> <Leader>fgs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> <Leader>fga    :<C-u>CocCommand fzf-preview.GitActions<CR>
+nnoremap <silent> <Leader>fo     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+nnoremap <silent> <Leader>f<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
+nnoremap <silent> <Leader>fg;    :<C-u>CocCommand fzf-preview.Changes<CR>
+nnoremap <silent> <Leader>f/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> <Leader>f*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap <silent> <Leader>ft     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> <Leader>fl     :<C-u>CocCommand fzf-preview.LocationList<CR>
 
 
 " 模糊搜索 弹窗后按<c-r>进行正则搜索模式, visual模式 '*' 查找函数依赖这个插件，所以不要延迟加载
@@ -1705,16 +1735,16 @@ let g:Lf_ShortcutF = ''  " 这两项是为了覆盖默认设置的键位
 let g:Lf_ShortcutB = ''
 "}}}
 nnoremap <silent> <leader>gt :Leaderf --nowrap task<cr>
-nnoremap <silent> <c-p> :Leaderf command<cr>
+" nnoremap <silent> <c-p> :Leaderf command<cr>
 let g:Lf_CommandMap = {
             \ '<C-]>':['<C-l>'],
             \ '<C-c>':['<C-d>', '<C-c>'],
             \}  " 搜索后<c-l>在右侧窗口打开文件
 nnoremap <silent> <leader>gf :Leaderf file<cr>
-nnoremap <silent> <leader>gr :Leaderf mru<cr>
+" nnoremap <silent> <leader>gr :Leaderf mru<cr>
 nnoremap <silent> <leader>gc :Leaderf cmdHistory<cr>
 nnoremap <silent> <leader>gs :Leaderf searchHistory<cr>
-nnoremap <silent> <leader>gb :Leaderf buffer<cr>
+" nnoremap <silent> <leader>gb :Leaderf buffer<cr>
 nnoremap <silent> gf :Leaderf function<cr>
 nnoremap <silent> ,gt :Leaderf bufTag<cr>
 " 项目下即时搜索
@@ -2959,6 +2989,11 @@ hi! link snipSippetFooterKeyword snipSnippetHeaderKeyword
 " {{{ matchup的匹配高亮
 hi! MatchParen guibg=#425762  guifg=#98b9c5 gui=None
 " }}}
+"{{{ vim-bookmarks
+highlight! BookmarkSign guifg=#399ce5
+highlight! BookmarkAnnotationSign guifg=#399ce5
+"}}}
+
 endfunction
 
 call s:Enable_normal_scheme()
@@ -3300,3 +3335,4 @@ nnoremap <leader>ydr :call Copy_to_registers(expand('%:p:h'))<cr>:echo printf('a
 "}}}
 "}}}
 " ==========================================
+"

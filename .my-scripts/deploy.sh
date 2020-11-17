@@ -62,7 +62,6 @@ setup_ubuntu_environment() {
 
     echo "==================== installing neovim-remote"
     python3 -m pip install neovim-remote --user
-    npm install -g neovim
 
     echo "==================== installing via snap..."
     sudo snap install nvim --classic
