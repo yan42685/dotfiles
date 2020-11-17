@@ -2823,6 +2823,7 @@ augroup auto_actions_for_better_experience
     autocmd UILeave * nmap q q
     " 进入diff模式关闭语法高亮，离开时恢复语法高亮 FIXME: 不确定会不会有性能问题
     " autocmd User MyEnterDiffMode if (&filetype != '' && &diff) | windo setlocal syntax=off | windo setlocal wrap
+    autocmd User MyEnterDiffMode if (&filetype != '' && &diff) | windo setlocal wrap
     " FIXME: 这里的set syntax=on可能会影响某些特殊的文件类型的高亮渲染, 所以必要时应该排除在外
     autocmd WinEnter,WinLeave * if (&filetype != '' && &syntax != 'on' && !&diff && &filetype != 'far')
                 \ | set syntax=on | endif
