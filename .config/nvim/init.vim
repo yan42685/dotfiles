@@ -802,9 +802,31 @@ inoremap <silent> <expr> <TAB>
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? (strwidth(getline('.')) == 0 && index(g:My_quick_tab_blacklist, &filetype) < 0 ? '<esc>cc' : '<tab>') :
       \ coc#refresh()
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position
+" Use <cr> to confirm completion,
 cnoremap <expr> <cr> pumvisible() ? "\<C-y><BS>" : "<CR>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"{{{ s:Return_for_tag()
+fun My_get_current_tag()
+    return matchstr(matchstr(getline('.'),
+                \ '<\zs\(\w\|=\| \|''\|"\)*>\%'.col('.').'c'), '^\a*')
+endf
+" Cleanly return after autocompleting an html/xml tag.
+fun My_return_for_tag()
+    " 下面这行不知道为什么用不了，这样就不能清除undo了
+    " normal 'a<C-g>u'
+    let tag = My_get_current_tag()
+    " `<C-g>u` means break undo chain at current position
+    return tag != '' && match(getline('.'), '</'.tag.'>') > -1 ?
+                \ "\<C-g>u\<cr>\<esc>O" : "\<cr>"
+endf
+"}}}
+inoremap <expr> <cr> pumvisible() ? '<C-y>' : My_return_for_tag()
+
+
+
+
+
+
+
 
 augroup coc_completion_keybindings
     autocmd!
@@ -2662,7 +2684,7 @@ syntax on  " NOTE: 这条语句放在不同的地方会有不同的效果，经�
 " {{{  对不同文件类型的设置 FileType Settings
 
 " 具体编辑文件类型的一般设置，比如不要 tab 等
-augroup tab_indent_settings_by_filetype
+augroup My_settings_by_filetype
     autocmd!
     autocmd filetype python,ruby,snippets setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab ai
     autocmd filetype javascript,html,css,xml,sass,scss setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
