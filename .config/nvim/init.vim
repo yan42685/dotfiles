@@ -109,9 +109,7 @@ Plug 'dracula/vim'
 " 在大文件下会影响性能
 " =================================
 if g:disable_laggy_plugins_for_large_file == 0
-    " 为spelunker提供弹窗支持, 设置的Pmenu，PmenuSel只支持cterm的
-    Plug 'kamykn/popup-menu.nvim'  " 无法延迟加载
-    " 拼写检查 zl出现list选择修复，zf自动使用list第一个，zg添加到词典里，zw设置为错误单词
+    " 拼写检查
     Plug 'kamykn/spelunker.vim'
     "{{{
     set nospell  " 禁用默认的难看的高亮红色
@@ -134,8 +132,6 @@ if g:disable_laggy_plugins_for_large_file == 0
         autocmd CursorHold * if  My_should_enable_spelunker() | silent! call spelunker#check_displayed_words() | endif
     augroup end
     "}}}
-    " 从词典选择相似词, 这个功能似乎有bug　会调用leaderf, 真是奇怪
-    nmap zl <Plug>(spelunker-correct-from-list)
 endif
 " ==================================
 " ==================================
@@ -2901,10 +2897,6 @@ function My_render_custom_highlight() abort
 
 "}}}
 " {{{ Spelunker 拼写检查
-    " spelunker的popup menue配色(只支持cterm, 但又要兼顾coc的gui补全配色)
-    " hi! Pmenu ctermfg=188 ctermbg=240 cterm=NONE guifg=#aebbc5 guibg=#425762 gui=NONE
-    " hi! PmenuSel ctermfg=237 ctermbg=246 cterm=NONE guifg=#2c3a41 guibg=#69c5ce gui=NONE
-
     " spelunker 显示错误单词的颜色
     highlight! SpelunkerSpellBad cterm=undercurl ctermfg=247 gui=undercurl guifg=#9e9e9e
     highlight! SpelunkerComplexOrCompoundWord cterm=undercurl ctermfg=247 gui=undercurl guifg=#9e9e9e
