@@ -994,6 +994,7 @@ nmap <leader><leader>* :normal ysiW*<cr>:normal ysiW*<cr>gv<esc>
 nmap <leader>) :normal ysiW)<cr>gv<esc>
 nmap <leader>( :normal ysiW)<cr>gv<esc>
 nmap <leader>[ :normal ysiW]<cr>gv<esc>
+nmap <leader>] :normal ysiW[<cr>gv<esc>
 nmap <leader>{ :normal ysiW}<cr>gv<esc>
 " surround with <>
 nmap <leader>< :normal ysiW><cr>gv<esc>
@@ -1025,6 +1026,7 @@ nmap ,,* :normal ds*<cr>:normal ds*<cr>
 nmap ,( :normal ds(<cr>
 nmap ,) :normal ds(<cr>
 nmap ,[ :normal ds[<cr>
+nmap ,] :normal ds[<cr>
 nmap ,{ :normal ds{<cr>
 nmap ,< :normal ds><cr>
 nmap ,> :normal dst<cr>
