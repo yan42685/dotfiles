@@ -1475,8 +1475,9 @@ endf
 " 浮动终端开关全屏模式
 tnoremap <silent> <m-o> <c-\><c-n>:call My_toggle_full_screen_floterm()<cr><c-\><c-n>:echo <cr>a
 nnoremap <silent> <m-o> <c-\><c-n>:call My_toggle_full_screen_floterm()<cr><c-\><c-n>:echo <cr>a
-nnoremap <silent> <m-c> :FloatermNew<cr><esc>:echo <cr>
-tnoremap <silent> <m-c> <c-\><c-n>:FloatermNew<cr><esc>:echo <cr>
+inoremap <silent> <m-c> <esc>:FloatermNew<cr>
+nnoremap <silent> <m-c> :FloatermNew<cr>
+tnoremap <silent> <m-c> <c-\><c-n>:FloatermNew<cr>
 " 进入普通模式
 tnoremap <m-n> <c-\><c-n>
 tnoremap <silent> <c-d> <c-\><c-n>:silent! FloatermKill<cr><esc>:echo <cr>
@@ -1977,7 +1978,11 @@ if g:enable_front_end_layer == 1
     Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server', 'on': 'Bracey'}
     nnoremap <leader>pv :Bracey<cr>
 
+    " ---- 颜色选择器 ----
+    " 打开gpick面板
     nnoremap <leader>pc :AsyncTask gpick<cr>
+    " 选择一次颜色就关闭
+    nnoremap <leader>pco :AsyncTask gpick-once<cr>
 
     " 具体的snippets见 https://github.com/mlaursen/vim-react-snippets
     " Plug 'mlaursen/vim-react-snippets'
