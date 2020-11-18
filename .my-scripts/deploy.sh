@@ -64,6 +64,8 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
+    sudo apt install -y gpick
+
     if [ ! -d ~/git-fuzzy ]; then
         echo "================== Installing git-fuzzy"
         git clone https://hub.fastgit.org/yan42685/git-fuzzy

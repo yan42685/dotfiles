@@ -1475,6 +1475,8 @@ endf
 " 浮动终端开关全屏模式
 tnoremap <silent> <m-o> <c-\><c-n>:call My_toggle_full_screen_floterm()<cr><c-\><c-n>:echo <cr>a
 nnoremap <silent> <m-o> <c-\><c-n>:call My_toggle_full_screen_floterm()<cr><c-\><c-n>:echo <cr>a
+nnoremap <silent> <m-c> :FloatermNew<cr><esc>:echo <cr>
+tnoremap <silent> <m-c> <c-\><c-n>:FloatermNew<cr><esc>:echo <cr>
 " 进入普通模式
 tnoremap <m-n> <c-\><c-n>
 tnoremap <silent> <c-d> <c-\><c-n>:silent! FloatermKill<cr><esc>:echo <cr>
@@ -1975,17 +1977,13 @@ if g:enable_front_end_layer == 1
     Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server', 'on': 'Bracey'}
     nnoremap <leader>pv :Bracey<cr>
 
+    nnoremap <leader>pc :AsyncTask gpick<cr>
+
     " 具体的snippets见 https://github.com/mlaursen/vim-react-snippets
     " Plug 'mlaursen/vim-react-snippets'
 
     " plug 模板引擎
     " Plug 'digitaltoad/vim-pug'
-
-    " 选择，插入，修改css颜色,配合取色器, NOTE: 可能不支持nvim
-    " Plug 'kabbamine/vCoolor.vim', {'on': ['VCoolor', 'VCoolIns']}
-"{{{
-    let g:vcoolor_disable_mappings = 1  " 取消默认快捷键
-"}}}
 
 endif
 "}}}
