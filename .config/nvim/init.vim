@@ -3003,7 +3003,7 @@ command! RefreshSyntax :set syntax=off | set syntax=on
 " --------- 自动生效的功能 -----------
 " {{{自动保存
 function! s:Autosave(timed)
-    if &readonly || mode() == 'c' || pumvisible()
+    if !&modifiable || mode() == 'c' || pumvisible()
         return
     endif
     let current_time = localtime()
