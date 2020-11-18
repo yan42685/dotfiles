@@ -1082,10 +1082,10 @@ Plug 'matze/vim-move', {'on': ['<Plug>MoveBlockDown', '<Plug>MoveBlockUp', '<Plu
 let g:move_map_keys = 0  " 禁用默认快捷键
 "}}}
 let g:move_auto_indent = 0  " 禁止移动完成后自动缩进
-vmap tj <Plug>MoveBlockDown
-vmap tk <Plug>MoveBlockUp
-vmap th <Plug>MoveBlockLeft
-vmap tl <Plug>MoveBlockRight
+vmap <m-down> <Plug>MoveBlockDown
+vmap <m-up> <Plug>MoveBlockUp
+vmap <m-left> <Plug>MoveBlockLeft
+vmap <m-right> <Plug>MoveBlockRight
 
 "}}}
 "{{{ UI 相关
