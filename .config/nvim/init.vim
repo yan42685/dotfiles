@@ -19,6 +19,8 @@ let g:all_colorschemes = ['gruvbox-material', 'quantum', 'forest-night',
             \ ]
 let s:lightline_schemes = ['gruvbox_material','quantum', 'forest_night',
             \ ]
+
+
 let mapleader='<space>'  " 此条命令的位置应在插件之前
 let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
