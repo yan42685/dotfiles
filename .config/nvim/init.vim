@@ -1976,7 +1976,8 @@ if g:enable_front_end_layer == 1
 
     " 实时预览html,css,js
     Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server', 'on': 'Bracey'}
-    nnoremap <leader>pv :Bracey<cr>
+    " browser-open
+    nnoremap <leader>bo :Bracey<cr>
 
     " ---- 颜色选择器 ----
     " 打开gpick面板
