@@ -1521,7 +1521,7 @@ let g:fzf_preview_command = 'bat --color=always --theme=TwoDark --plain {-1}'  "
 let g:fzf_preview_lines_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
 " TODO: 设置ctrl-c不进行commit
 let g:my_delta_config_for_fzf_preview = " | delta --no-gitconfig --inspect-raw-lines=false --theme=TwoDark" .
-            \ " --plus-emph-style=\"#111111 bold ul #87c095\"  --minus-emph-style=\"#111111 bold ul #d57b7f\"" .
+            \ " --plus-emph-style=\"#262626 bold #5f8078\"  --minus-emph-style=\"#262626 bold #9f365c\"" .
             \ " --whitespace-error-style=reverse 22 --plus-style=\"#282828 #87c095\" --minus-style=\"#121212 #d57b7f \""
 
 let g:fzf_preview_git_status_preview_command = "[[ $(git diff -- {-1}) != \"\" ]] && git diff -- {-1} " . g:my_delta_config_for_fzf_preview . " || " .
@@ -2874,10 +2874,9 @@ function My_render_custom_highlight() abort
     hi! SignifySignChange guifg=#d5b875 guibg=none
     hi! DiffAdd guibg=#4e6053
     hi! DiffDelete guibg=#614b51
-    hi! DiffChange guibg=#415c6d
+    hi! DiffChange guibg=#497783
     " 单词级对比
-    hi! DiffText guifg=#aebbc5 guibg=#5f5f87
-
+    hi! DiffText guifg=#aebbc5 guibg=#2d5377
 "}}}
 " {{{ startify启动页面
     hi! StartifyHeader gui=bold guifg=#87bb7c
