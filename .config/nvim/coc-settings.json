@@ -19,6 +19,7 @@
   // 让emmet支持额外的文件类型
   "emmet.includeLanguages": {
     "vue-html": "html",
+    "vue": "html",
     "javascript": "javascriptreact"
   },
   "coc.source.word.shortcut": "word", // 补全列表显示的source名字
@@ -37,5 +38,35 @@
   "python.jediEnabled": false,
   // 只显示ale的lint信息, 不显示Coc的
   "diagnostic.displayByAle": true,
-  "git.enableGutters": false
+  "git.enableGutters": false,
+  "suggest.completionItemKindLabels": {
+    "class": "",
+    "color": "\ue22b",
+    // "constant": "\uf8fe",
+    "constant": "",
+    "default": "\uf29c",
+    "enum": "",
+    "enumMember": "",
+    "event": "\ufacd",
+    "field": "\uf9be",
+    "file": "\uf723",
+    "folder": "\uf114",
+    "function": "",
+    "interface": "",
+    "keyword": "\uf1de",
+    "method": "",
+    "module": "",
+    "operator": "\u03a8",
+    "property": "",
+    "reference": "\ufa46",
+    "snippet": "\ue60b",
+    // "struct": "\ufb44",
+    "struct": "",
+    "text": "\ue612",
+    "typeParameter": "\uf728",
+    "unit": "\uf475",
+    "value": "\uf89f",
+    "variable": "",
+    "constructor": ""
+  }
 }
