@@ -1052,24 +1052,6 @@ nmap ,\| :normal ds\|<cr>
 nmap ,` :normal ds`<cr>
 "}}}
 
-" %匹配对象增强, 也许可以把%改成m
-Plug 'andymass/vim-matchup'
-"{{{
-augroup matchup_matchparen_disable_ft
-    autocmd!
-    " matchup在markdown里非常卡，需要禁用掉
-    autocmd FileType tex,markdown,vimwiki let [b:matchup_matchparen_fallback,
-                    \ b:matchup_matchparen_enabled] = [0, 0]
-augroup END
-
-let loaded_matchit = 1
-let loaded_matchparen = 1
-let g:matchup_surround_enabled = 1
-augroup matchup_matchparen_highlight
-  autocmd!
-  autocmd Colorscheme * hi! link MatchParen Visual
-augroup END
-"}}}
 
 " 快速交换 cx{object} cxx行 可视模式用X  取消用cxc  可以用 . 重复上次命令
 Plug 'tommcdo/vim-exchange', {'on': [ '<Plug>(Exchange)', '<Plug>(ExchangeLine)' ]}
@@ -2967,9 +2949,6 @@ hi link illuminatedWord Visual
 hi! snipLeadingSpaces guibg=None
 hi! link snipSippetFooterKeyword snipSnippetHeaderKeyword
 "}}}
-" {{{ matchup的匹配高亮
-hi! MatchParen guibg=#425762  guifg=#98b9c5 gui=None
-" }}}
 "{{{ vim-bookmarks
 highlight! BookmarkSign guifg=#399ce5
 highlight! BookmarkAnnotationSign guifg=#399ce5
@@ -3269,8 +3248,6 @@ function! Toggle_transparent_background()
     syn off | syn on
     " illuminate插件
     silent! IlluminationEnable
-    silent! DoMatchParen
-    " matchup插件
     call My_render_custom_highlight()
   else
     let g:in_transparent_mode = 1
