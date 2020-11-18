@@ -102,7 +102,7 @@ Plug 'yan42685/gruvbox-material' " fork from https://github.com/sainnhe/gruvbox-
 "{{{ settings
 let g:gruvbox_material_disable_italic_comment = 1
 let g:gruvbox_material_enable_italic = 0
-" let g:gruvbox_material_better_performance = 1  " 延迟加载，减少50%加载时间
+let g:gruvbox_material_better_performance = 1  " 延迟加载，减少50%加载时间
 "}}}
 
 Plug 'sainnhe/forest-night'
@@ -882,10 +882,8 @@ inoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? "\<c-r>=coc#float
 inoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<del>"
 " NeoVim-only mapping for visual mode scroll
 " Useful on signatureHelp after jump placeholder of snippet expansion
-if has('nvim')
-  vnoremap <nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<C-d>"
-  vnoremap <nowait><expr> <C-e> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<C-e>"
-endif
+vnoremap <nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<C-d>"
+vnoremap <nowait><expr> <C-e> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<C-e>"
 " 触发鼠标悬浮事件
 nnoremap <silent> tk :call CocActionAsync('doHover')<cr>
 " 查看文档,并跳转
@@ -1066,6 +1064,7 @@ augroup END
 
 let loaded_matchit = 1
 let loaded_matchparen = 1
+let g:matchup_surround_enabled = 1
 augroup matchup_matchparen_highlight
   autocmd!
   autocmd Colorscheme * hi! link MatchParen Visual
@@ -2061,7 +2060,7 @@ function! s:goyo_leave()
   set showmode
   set showcmd
   Limelight!
-  call My_enable_custom_highlight()  " 恢复折叠和column的颜色
+  call My_render_custom_highlight()  " 恢复折叠和column的颜色
 endfunction
 "}}}
 augroup goyo_toggle_callback
@@ -2881,7 +2880,7 @@ endfunction
 "}}}
 
 " 切换colorscheme时需要调用这个函数覆盖默认的设置
-function! My_enable_custom_highlight() abort
+function My_render_custom_highlight() abort
     "{{{ TODO: FIXME: BUG: NOTE: HACK: 自定义标记配色
         highlight! MyTodo cterm=bold ctermbg=None  gui=bold guifg=#ff8700
         highlight! MyNote cterm=bold ctermbg=None  gui=bold guifg=#19dd9d
@@ -2917,35 +2916,19 @@ function! My_enable_custom_highlight() abort
     hi! LineNr guifg=#9d9d9d guibg=none
     hi! ALEErrorSign gui=bold guifg=#dd7186 guibg=none
     hi! ALEWarningSign gui=bold guifg=#d8a657 guibg=none
-
     hi! SignifySignAdd guifg=#87bb7c guibg=none
     hi! SignifySignDelete guifg=#dd7186 guibg=none
-    hi! SignifySignDeleteFirstLine guifg=#dd7186 guibg=none
     hi! SignifySignChange guifg=#d5b875 guibg=none
-
     hi! DiffAdd guibg=#4e6053
     hi! DiffDelete guibg=#614b51
     hi! DiffChange guibg=#415c6d
     " 单词级对比
     hi! DiffText guifg=#aebbc5 guibg=#5f5f87
 
-    " TODO: 检查为什么不生效
-    " hi!   SignifyLineAdd         gui=none  guifg=#87bb7c guibg=none
-    " hi!   SignifyLineDelete     gui=none  guifg=#dd7186 guibg=none
-    " hi!   SignifyLineDeleteFirstLine gui=none guifg=#dd7186 guibg=none
-    " hi!   SignifyLineChange gui=none guifg=#d5b875 guibg=none
-    "
-    " hi! link  SignifyLineAdd             SignifySignAdd
-    " hi! link  SignifyLineDelete          SignifySignChange
-    " hi! link  SignifyLineDeleteFirstLine SignifySignDelete
-    " hi! link  SignifyLineChange          SignifySignDelete
-
-
-
 "}}}
 " {{{ startify启动页面
     hi! StartifyHeader gui=bold guifg=#87bb7c
-    hi! StartifySection gui=bold guifg=#7daea3
+    hi! StartifySection guifg=#7daea3
     hi! StartifyFile  gui=None guifg=#d8b98a
     hi! StartifyNumber gui=None guifg=#7daea3
 
@@ -2994,7 +2977,7 @@ highlight! BookmarkAnnotationSign guifg=#399ce5
 
 endfunction
 
-call My_enable_custom_highlight()
+call My_render_custom_highlight()
 "}}}
 
 " ==========================================
@@ -3217,7 +3200,7 @@ fun My_change_colorscheme(mode) abort
     call lightline#init()
     call lightline#colorscheme()
     call lightline#update()
-    call My_enable_custom_highlight()  " 恢复折叠和column的颜色
+    call My_render_custom_highlight()  " 恢复折叠和column的颜色
     set syntax=on  " 用于刷新syntax解决markdown奇奇怪怪的渲染
 endf
 "}}}
@@ -3288,7 +3271,7 @@ function! Toggle_transparent_background()
     silent! IlluminationEnable
     silent! DoMatchParen
     " matchup插件
-    call My_enable_custom_highlight()
+    call My_render_custom_highlight()
   else
     let g:in_transparent_mode = 1
     set laststatus=0
