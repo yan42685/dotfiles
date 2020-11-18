@@ -865,7 +865,7 @@ inoremap <silent><nowait><expr> <m-k> coc#float#has_scroll() ? "\<c-r>=coc#float
 vnoremap <nowait><expr> <m-j> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<m-j>"
 vnoremap <nowait><expr> <m-k> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<m-k>"
 " 触发鼠标悬浮事件
-nnoremap <silent> tk :call CocActionAsync('doHover')<cr>
+nnoremap <silent> tp :call CocActionAsync('doHover')<cr>
 " 查看文档,并跳转
 nnoremap <silent> <m-q> :call <SID>show_documentation()<CR>
 nmap <silent> <leader>re <Plug>(coc-rename)
@@ -1080,19 +1080,10 @@ Plug 'matze/vim-move', {'on': ['<Plug>MoveBlockDown', '<Plug>MoveBlockUp', '<Plu
 let g:move_map_keys = 0  " 禁用默认快捷键
 "}}}
 let g:move_auto_indent = 0  " 禁止移动完成后自动缩进
-vmap <m-j> <Plug>MoveBlockDown
-vmap <m-k> <Plug>MoveBlockUp
-vmap <m-h> <Plug>MoveBlockLeft
-vmap <m-l> <Plug>MoveBlockRight
-
-" 让代码在一行和多行之间转换
-Plug 'FooSoft/vim-argwrap', {'on': 'ArgWrap'}
-"{{{
-" let g:argwrap_tail_comma = 1  " 所有括号都保留最后的逗号
-let g:argwrap_tail_comma_braces = '['  " 指定括号(字符串里可以写多个括号)保留尾部逗号
-"}}}
-nnoremap <silent> tp :ArgWrap<CR>
-
+vmap tj <Plug>MoveBlockDown
+vmap tk <Plug>MoveBlockUp
+vmap th <Plug>MoveBlockLeft
+vmap tl <Plug>MoveBlockRight
 
 "}}}
 "{{{ UI 相关
