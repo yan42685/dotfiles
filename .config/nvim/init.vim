@@ -634,9 +634,21 @@ nmap gc <Plug>(git-messenger)
 " G表示外部git命令 支持~/.gitconfig里定义的alias
 " NOTE: 连续使用G会出一些bug，复杂命令最好用.gitconfig里的alias
 Plug 'tpope/vim-fugitive'
-" Gread就是清空暂存区 即checkkout %    " 还有diffget和diffput可以使用
+" Gread就是清空暂存区 即checkout %    " 还有diffget和diffput可以使用
 nnoremap <silent> ,ga :G add %:p<CR>
-" add 所有 tracted 文件, 感觉不怎么实用
+" {{{ fun My_toggle_coc_git_blame()
+let g:My_coc_git_blame_show = 0
+fun My_toggle_coc_git_blame()
+    if g:My_coc_git_blame_show == 0
+        call coc#config('git.addGBlameToVirtualText', v:true)
+        let g:My_coc_git_blame_show = 1
+    else
+        call coc#config('git.addGBlameToVirtualText', v:false)
+        let g:My_coc_git_blame_show = 0
+    endif
+endf
+" }}}
+nnoremap <silent> ,gb :call My_toggle_coc_git_blame()<cr>
 nnoremap <silent> ,gc :G commit<cr>
 nnoremap <silent> ,gca :G commit --all<cr>
 " 不用编辑提交信息 git add --update && git commit --amend --no-edit
