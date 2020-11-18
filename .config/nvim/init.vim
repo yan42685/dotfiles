@@ -81,13 +81,6 @@ let g:loaded_zipPlugin = 1
 " 5. Spelunker   拼写检查
 " NOTE: 对于使用了on或for来延迟加载的插件只有在加载了之后才能用 help 查看文档
 "}}}
-" {{{ vim-plug 自动安装
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-  silent !curl --insecure -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-" }}}
 
 call plug#begin('~/.vim/plugged')
 " {{{没有设置快捷键的，在后台默默运行的插件
@@ -2560,18 +2553,14 @@ set scrolloff=100  " 让视角始终居中，在vim中好像有性能问题,但�
 set termguicolors  " 使用真色彩  NOTE: 此条设置应在colorscheme命令之前
 exec 'colorscheme ' . g:all_colorschemes[g:default_colorscheme_mode]
 set background=dark
-set t_Co=256
-set tags=./.tags;,.tags  " 让ctags改名为.tags，不污染工作区
-set confirm
-" set nowrap  " 取消换行
-set linebreak  " 一行文本超过window宽度会wrap，设置此项会让单词按语义分隔而不是按字母分隔
-set guicursor+=a:blinkon0  " 仅在gvim生效, 取消cursor的闪烁, 终端下的vim需要自行修改终端cursor设置
-set history=2000  " history存储容量
 filetype on  " 检测文件类型
 filetype indent on  " 针对不同的文件类型采用不同的缩进格式
-set autoread  " 文件在外界被修改之后自动载入
+set tags=./.tags;,.tags  " 让ctags改名为.tags，不污染工作区
+set confirm
+set linebreak  " 一行文本超过window宽度会wrap，设置此项会让单词按语义分隔而不是按字母分隔
+set guicursor+=a:blinkon0  " 仅在gvim生效, 取消cursor的闪烁, 终端下的vim需要自行修改终端cursor设置
 set autowriteall  " edit, next等动作时自动写入
-set timeout ttimeoutlen=50  " 连续识别按键的延迟
+set tm=500
 set clipboard+=unnamedplus
 set clipboard+=unnamed
 set shortmess=atI  " 启动的时候不显示那个援助乌干达儿童的提示
@@ -2590,20 +2579,16 @@ set mouse=  " 禁用鼠标
 set title  " change the terminal's title
 set novisualbell  " 去掉输入错误的提示声音
 set noerrorbells
-set vb t_vb= " 彻底禁止错误发出bell
-set tm=500
+set vb " 彻底禁止错误发出bell
 set backspace=eol,start,indent  " Configure backspace so it acts as it should act
 set whichwrap+=<,>,h,l
 set synmaxcol=200  " 对于很长的行语法高亮很拖慢速度
 set viminfo+=!  " 保存viminfo全局信息
 set viminfo+='1000
 set lazyredraw  " redraw only when we need to.
-set nocompatible  " 去掉有关vi一致性模式，避免以前版本的bug和局限
-set wildmenu  " 增强模式中的命令行自动完成操作
 set wildmode=longest,full
 set showbreak=⤷▶  " wrap line指示器
 " set showbreak=↪
-set backupcopy=yes  " Does not break hard/symbolic links on file save
 set virtualedit+=block  " 块选择模式可以把光标移动到没有字符的位置
 set grepprg=rg\ --vimgrep
 
