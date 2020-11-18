@@ -16,10 +16,8 @@ let g:disable_laggy_plugins_for_large_file = 0  " 在启动参数里设置为1�
 set updatetime=400  " 检测CursorHold事件的时间间隔,影响性能的主要因素
 let g:default_colorscheme_mode = 0
 let g:all_colorschemes = ['gruvbox-material', 'quantum', 'forest-night',
-            \ 'deus'            , 'dracula',
             \ ]
 let s:lightline_schemes = ['gruvbox_material','quantum', 'forest_night',
-            \ 'gruvbox_material', 'dracula',
             \ ]
 let mapleader='<space>'  " 此条命令的位置应在插件之前
 let g:mapleader = "\<Space>"
@@ -86,24 +84,14 @@ call plug#begin('~/.vim/plugged')
 " {{{没有设置快捷键的，在后台默默运行的插件
 
 " 主题配色
-" Plug 'joshdick/onedark.vim'
 Plug 'tyrannicaltoucan/vim-quantum'
-Plug 'romainl/Apprentice'
-" Plug 'KeitaNakamura/neodark.vim'
-" Plug 'trevordmiller/nova-vim'
 Plug 'yan42685/gruvbox-material' " fork from https://github.com/sainnhe/gruvbox-material
 "{{{ settings
 let g:gruvbox_material_disable_italic_comment = 1
 let g:gruvbox_material_enable_italic = 0
 let g:gruvbox_material_better_performance = 1  " 延迟加载，减少50%加载时间
 "}}}
-
 Plug 'sainnhe/forest-night'
-Plug 'ajmwagar/vim-deus'
-"{{{
-let g:deus_termcolors=256
-"}}}
-Plug 'dracula/vim'
 
 " =================================
 " 在大文件下会影响性能
