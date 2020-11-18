@@ -91,7 +91,8 @@ Plug 'yan42685/gruvbox-material' " fork from https://github.com/sainnhe/gruvbox-
 "{{{ settings
 let g:gruvbox_material_disable_italic_comment = 1
 let g:gruvbox_material_enable_italic = 0
-let g:gruvbox_material_better_performance = 1  " 延迟加载，减少50%加载时间
+" BUG: 会导致部分配色异常并且暂时无解，比如signify的hunkdiff
+let g:gruvbox_material_better_performance = 1  " 延迟加载，减少50%加载时间, 大概节约二十多毫秒
 "}}}
 Plug 'sainnhe/forest-night'
 
