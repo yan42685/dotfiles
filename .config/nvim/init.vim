@@ -1,4 +1,4 @@
-﻿
+﻿" TODO: 用coc-git的blame,并在cocconfig里配置, 替换ale
 " =========================================
 "{{{可自行调整的全局配置
 
@@ -165,6 +165,7 @@ Plug 'arp242/undofile_warn.vim'
 
 " 140+种语言的语法高亮包
 Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['vue']  " 极大提升性能
 
 " 括号配对优化
 Plug 'jiangmiao/auto-pairs'
@@ -337,7 +338,7 @@ Plug 'itchyny/lightline.vim'
 "{{{
 " functions
 "{{{
-function! Sy_stats_wrapper()
+function! File_change_status()
   " 防止--noplugin模式下报错
   if g:disable_laggy_plugins_for_large_file == 1
     return ''
@@ -391,7 +392,7 @@ endfunction
 
 function! RemoveLabelOnTopRight() abort
     return ""
-endfunction
+endfunc
 
 function! Get_session_name() abort
     let l:session_name = fnamemodify(v:this_session,':t:r')
@@ -483,7 +484,7 @@ let g:lightline.component = {
 
 let g:lightline.component_function = {
       \   'gitbranch': 'LightlineFugitive',
-      \   'modified': 'Sy_stats_wrapper',
+      \   'modified': 'File_change_status',
       \   'method': 'NearestMethodOrFunction',
       \   'session_name': 'Get_session_name',
       \   'fileformat': 'LightlineFileformat',
@@ -770,7 +771,7 @@ let g:coc_global_extensions = [
   \ 'coc-python', 'coc-tabnine', 'coc-lists', 'coc-explorer', 'coc-yank',
   \ 'coc-stylelint', 'coc-sh', 'coc-dictionary', 'coc-word', 'coc-emmet',
   \ 'coc-syntax', 'coc-marketplace', 'coc-todolist', 'coc-emoji',
-  \ 'coc-gitignore', 'coc-tag', 'coc-floaterm',
+  \ 'coc-gitignore', 'coc-tag', 'coc-floaterm', 'coc-vetur', 'coc-browser',
   \ 'coc-markdownlint', 'coc-clangd', 'coc-git', 'coc-vimlsp', 'coc-fzf-preview',
   \ ]
 
@@ -959,7 +960,8 @@ map <silent> qf <Plug>(easymotion-bd-f)
 Plug 'ZSaberLv0/vim-easymotion-chs'  " (不能延迟加载，否则easymotion不能正常使用)
 
 " 快速注释
-Plug 'preservim/nerdcommenter', {'on': '<plug>NERDCommenterToggle'}
+" Plug 'preservim/nerdcommenter', {'on': '<plug>NERDCommenterToggle'}
+Plug 'preservim/nerdcommenter' " 延迟加载在Session不生效
 "{{{
 let g:NERDSpaceDelims = 1  " Add spaces after commeqt delimiters by default
 let g:NERDDefaultAlign = 'left'  " Align line-wise comment delimiters flush left instead of following code indentation
