@@ -856,14 +856,14 @@ nmap <expr> gh &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<esc>:CocCommand cl
 nmap <expr> gl &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<esc>'
 "
 " Note coc#float#scroll works on neovim >= 0.4.3 or vim >= 8.2.0750
-nnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
-nnoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-e>"
-inoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><nowait><expr> <C-e> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<del>"
+nnoremap <silent><nowait><expr> <m-j> coc#float#has_scroll() ? coc#float#scroll(1) : "\<m-j>"
+nnoremap <silent><nowait><expr> <m-k> coc#float#has_scroll() ? coc#float#scroll(0) : "\<m-k>"
+inoremap <silent><nowait><expr> <m-j> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<esc>a"
+inoremap <silent><nowait><expr> <m-k> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<del>"
 " NeoVim-only mapping for visual mode scroll
 " Useful on signatureHelp after jump placeholder of snippet expansion
-vnoremap <nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<C-d>"
-vnoremap <nowait><expr> <C-e> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<C-e>"
+vnoremap <nowait><expr> <m-j> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<m-j>"
+vnoremap <nowait><expr> <m-k> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<m-k>"
 " 触发鼠标悬浮事件
 nnoremap <silent> tk :call CocActionAsync('doHover')<cr>
 " 查看文档,并跳转
@@ -2282,6 +2282,7 @@ nnoremap cl c$
 " cnoremap ' ''<left>
 " cnoremap " ""<left>
 " cnoremap ( ()<left>
+inoremap <c-e> <del>
 
 cnoremap <c-h> <home>
 cnoremap <c-l> <end>
@@ -2763,9 +2764,8 @@ augroup auto_actions_for_better_experience
             nnoremap <silent> <c-k> :cprevious<cr>
             nnoremap <silent> q :cclose<cr>:normal! zz<cr>:doautocmd UILeave<cr>
         else
-            " 之前是因为和quickfix快捷键冲突了才这么设置的，现在改成了 <m-j> <m-k>了
-            " nnoremap <c-j> :call ScrollAnotherWindow(2)<CR>
-            " nnoremap <c-k> :call ScrollAnotherWindow(1)<CR>
+            nnoremap <c-j> :call ScrollAnotherWindow(2)<CR>
+            nnoremap <c-k> :call ScrollAnotherWindow(1)<CR>
         endif
     endfunction
     "}}}
@@ -3064,10 +3064,10 @@ function! ScrollAnotherWindow(mode)
     noautocmd silent! wincmd p
 endfunc
 "}}}
-nnoremap <silent> <m-k> :call ScrollAnotherWindow(1)<CR>
-nnoremap <silent> <m-j> :call ScrollAnotherWindow(2)<CR>
-nnoremap <silent> <m-e>  :call ScrollAnotherWindow(3)<CR>
-nnoremap <silent> <m-d> :call ScrollAnotherWindow(4)<CR>
+nnoremap <silent> <c-k> :call ScrollAnotherWindow(1)<CR>
+nnoremap <silent> <c-j> :call ScrollAnotherWindow(2)<CR>
+nnoremap <silent> <c-e> :call ScrollAnotherWindow(3)<CR>
+nnoremap <silent> <c-d> :call ScrollAnotherWindow(4)<CR>
 "}}}
 "{{{ 快速编辑特定文件 <leader>e{?}
 " 快速编辑init.vim
