@@ -1,4 +1,4 @@
-﻿" TODO: 用coc-git的blame,并在cocconfig里配置, 替换ale
+﻿" TODO: 用dein延迟加载配置项目
 " =========================================
 "{{{可自行调整的全局配置
 
@@ -128,7 +128,13 @@ endif
 " ==================================
 
 " 缩进虚线
-Plug 'Yggdroot/indentLine', {'for': 'python'}
+Plug 'Yggdroot/indentLine', {'for': ['vue', 'html','javascript', 'python']}
+"{{{ settings
+let g:indentLine_fileType = ['vue','html', 'javascript','python']
+let g:indentLine_bufTypeExclude = ['help', 'terminal']
+let g:indentLine_char = '│'
+"}}}
+
 
 " 极大增强f和t查找能力 , f<cr>会重复上次搜索的字母, f会自动重复搜索
 Plug 'rhysd/clever-f.vim'
@@ -2708,7 +2714,7 @@ syntax on  " NOTE: 这条语句放在不同的地方会有不同的效果，经�
 augroup My_settings_by_filetype
     autocmd!
     autocmd filetype python,ruby,snippets setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab ai
-    autocmd filetype javascript,html,css,xml,sass,scss setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
+    autocmd filetype vue,javascript,html,css,xml,sass,scss setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
     autocmd filetype COMMIT_EDITMSG setlocal textwidth=72  " GitHub 每行最多显示75字符
     autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown,*.mkdn setlocal filetype=markdown
     autocmd BufRead,BufNewFile *.part setlocal filetype=html

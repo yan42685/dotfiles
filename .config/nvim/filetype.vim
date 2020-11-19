@@ -41,6 +41,7 @@ augroup filetypedetect
   autocmd BufNewFile,BufRead cgdbrc             setfiletype vim
 
   autocmd BufNewFile,BufRead *.inc              setfiletype cpp
+
 augroup END
 
 let did_load_my_filetypes=1
