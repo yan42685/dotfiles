@@ -808,7 +808,7 @@ set signcolumn=yes:2  " 如果想要动态扩展，就改成auto:2
 " 用于在空白行第一列按tab一步缩进到位
 " FIXME: 没有添加到下面列表里的文件类型如果cc不能缩进，则tab也不能缩进了, 那么就需要在下面的list新增文件类型
 let g:My_quick_tab_blacklist = ['markdown', 'text', 'vim', 'vimwiki', 'gitcommit', 'zsh', 'sh',
-            \ 'snippets', 'gitconfig', 'crontab']
+            \ 'snippets', 'gitconfig', 'crontab', 'vue']
 " inoremap <silent> <expr> <TAB>
 "       \ pumvisible() ? coc#_select_confirm() :
 "       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
@@ -1409,7 +1409,7 @@ let g:which_key_use_floating_win = 1  " 使用浮动窗口,优点是在多窗口
 let g:which_key_fallback_to_native_key = 1  " 如果没有自定义则不报警
 nnoremap <silent> <leader> :<C-U>WhichKey '<Space>'<cr>
 nnoremap <silent> <localleader> :<C-U>WhichKey ','<cr>
-nnoremap <silent> g :<C-U>WhichKey 'g'<cr>
+nnoremap <silent> g :WhichKey 'g'<cr>
 " 在Visual模式显示WhichKey
 vnoremap <silent> <leader> :<C-U>WhichKeyVisual '<space>'<cr>
 vnoremap <silent> <localleader> :<C-U>WhichKeyVisual ','<cr>
@@ -2227,6 +2227,8 @@ let g:webdevicons_enable_startify = 1
 
 "}}}
 call plug#end()
+
+function My_async_load_settings() abort
 
 "==========================================
 " 自定义快捷键 Hotkey
@@ -3301,3 +3303,8 @@ nnoremap <leader>ydr :call Copy_to_registers(expand('%:p:h'))<cr>:echo printf('a
 "}}}
 " ==========================================
 "
+endfunction
+call My_async_load_settings()
+" call
+"
+"pickColor" 					*coc-action-pickColor*

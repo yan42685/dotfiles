@@ -1,4 +1,4 @@
-# A valid snippet should starts with:
+  valid snippet should starts with:
 #
 #		snippet trigger_word [ "description" [ options ] ]
 #
@@ -88,4 +88,28 @@ endsnippet
 
 snippet mapAct "import mapGetter" b
 import { mapActions } from 'vuex'
+endsnippet
+
+snippet vue "generate vue default template"
+<script lang="ts">
+import { toRefs, reactive } from "vue";
+import axios from "axios";
+
+export default {
+  name: "App",
+  setup() {
+    const data = reactive({
+    });
+    const refData = toRefs(data);
+
+    return {
+      ...refData
+    };
+  }
+};
+</script>
+
+<style>
+
+</style>
 endsnippet

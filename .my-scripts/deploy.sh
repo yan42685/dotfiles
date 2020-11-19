@@ -47,6 +47,9 @@ setup_ubuntu_environment() {
         bash ~/.installers/pyenv-installer.sh
     fi
 
+    npm install -g typescript
+    npm install -g ts-node  # 运行ts
+
     echo "==================== installing linter and formatter"
     npm install -g eslint
     npm install -g vim-language-server
