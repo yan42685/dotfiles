@@ -90,15 +90,16 @@ snippet mapAct "import mapGetter" b
 import { mapActions } from 'vuex'
 endsnippet
 
-snippet vue "generate vue default template"
+snippet vue "generate vue default template" b
 <script lang="ts">
 import { toRefs, reactive } from "vue";
 import axios from "axios";
 
 export default {
-  name: "App",
+  name: "`!p snip.rv = snip.basename`",
   setup() {
     const data = reactive({
+      ${1}
     });
     const refData = toRefs(data);
 
@@ -109,7 +110,7 @@ export default {
 };
 </script>
 
-<style>
+<template>${2}</template>
 
-</style>
+<style>${3}</style>
 endsnippet
