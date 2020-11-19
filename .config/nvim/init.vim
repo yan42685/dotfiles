@@ -1354,7 +1354,7 @@ let g:which_key_map_space.v = {
 let g:which_key_map_space['w'] = {
       \ 'name': '+windows',
       \ 'o': 'window-full-screen',
-      \ 'f': 'window-swap',
+      \ 's': 'window-swap',
       \ 'r': 'window-resize-mode',
       \ 'm': 'window-move-mode',
       \ }
@@ -1525,7 +1525,7 @@ let g:choosewin_color_label_current = {'gui': ['#70ace5', 'black']}
 let g:choosewin_color_shade = {'gui': ['#70ace5', 'black']}
 let g:choosewin_blink_on_land = 0  " 不要闪烁
 "}}}
-nmap - <Plug>(choosewin)
+nmap <leader>wf <Plug>(choosewin)
 
 
 "}}}
@@ -2364,7 +2364,8 @@ nnoremap <silent> <leader>wh :wincmd H<cr>
 nnoremap <silent> <leader>wj :wincmd J<cr>
 nnoremap <silent> <leader>wk :wincmd K<cr>
 nnoremap <silent> <leader>wl :wincmd L<cr>
-nnoremap <silent> <leader>wf <c-w><c-r>
+" swap to right
+nnoremap <silent> <leader>ws <c-w><c-r>
 nnoremap <leader>w= <c-w>=
 " 窗口最大化 leaving only the help window open/maximized
 nnoremap <leader>wo <c-w>o
