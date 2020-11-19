@@ -550,10 +550,12 @@ if g:disable_laggy_plugins_for_large_file == 0
     " 侧栏显示git diff情况
     Plug 'mhinz/vim-signify'
     nnoremap gp :SignifyHunkDiff<cr>
-    " 清除对当前文件的修改
-    nnoremap ,gU :G checkout<Space><C-r>=expand('%')<cr><cr>
     " 清除对hunk的修改
     nnoremap ,gu :SignifyHunkUndo<cr>
+    " 清除unstaged修改
+    nnoremap ,gU :G checkout<Space><C-r>=expand('%')<cr><cr>
+    " 清除uncommit修改
+    nnoremap ,,gu :G checkout<Space>HEAD<Space><C-r>=expand('%')<cr><cr>
     nmap gk <plug>(signify-prev-hunk)
     nmap gj <plug>(signify-next-hunk)
     " ALE静态代码检查和自动排版 NOTE: 默认禁用对log文件的fixer
@@ -636,6 +638,8 @@ nmap gc <Plug>(git-messenger)
 Plug 'tpope/vim-fugitive'
 " Gread就是清空暂存区 即checkout %    " 还有diffget和diffput可以使用
 nnoremap <silent> ,ga :G add %:p<CR>
+nnoremap <silent> ,gau :G add --update<CR>
+nnoremap <silent> ,gap :G add --patch %<CR>
 " {{{ fun My_toggle_coc_git_blame()
 let g:My_coc_git_blame_show = 0
 fun My_toggle_coc_git_blame()
