@@ -549,7 +549,7 @@ Plug 'rickhowe/diffchar.vim', {'on': 'TDChar'}
 if g:disable_laggy_plugins_for_large_file == 0
     " 侧栏显示git diff情况
     Plug 'mhinz/vim-signify'
-    nnoremap gp :SignifyHunkDiff<cr>
+    nmap <expr> gp &filetype == 'coc-explorer' ? 'gp' : ':SignifyHunkDiff<cr>'
     " 清除对hunk的修改
     nnoremap ,gu :SignifyHunkUndo<cr>
     " 清除unstaged修改
@@ -979,6 +979,8 @@ Plug 'ZSaberLv0/vim-easymotion-chs'  " (不能延迟加载，否则easymotion不
 " Plug 'preservim/nerdcommenter', {'on': '<plug>NERDCommenterToggle'}
 Plug 'preservim/nerdcommenter' " 延迟加载在Session不生效
 "{{{
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'json': { 'left': '//' }, 'jsonc': {'left': '//'} }
 let g:NERDSpaceDelims = 1  " Add spaces after commeqt delimiters by default
 let g:NERDDefaultAlign = 'left'  " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDAltDelims_java = 1  " Set a language to use its alternate delimiters by default
