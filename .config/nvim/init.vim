@@ -2228,8 +2228,6 @@ let g:webdevicons_enable_startify = 1
 "}}}
 call plug#end()
 
-function My_async_load_settings() abort
-
 "==========================================
 " 自定义快捷键 Hotkey
 " ==========================================
@@ -3302,9 +3300,3 @@ nnoremap <leader>ydr :call Copy_to_registers(expand('%:p:h'))<cr>:echo printf('a
 "}}}
 "}}}
 " ==========================================
-"
-endfunction
-call My_async_load_settings()
-" call
-"
-"pickColor" 					*coc-action-pickColor*
