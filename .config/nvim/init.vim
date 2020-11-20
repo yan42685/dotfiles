@@ -850,7 +850,6 @@ inoremap <expr> <cr> pumvisible() ? '<C-y>' : My_return_for_tag()
 
 
 
-
 augroup coc_completion_keybindings
     autocmd!
     " 用VimEnter事件做映射确保最后加载，覆盖插件的默认映射
@@ -986,7 +985,7 @@ Plug 'ZSaberLv0/vim-easymotion-chs'  " (不能延迟加载，否则easymotion不
 Plug 'preservim/nerdcommenter' " 延迟加载在Session不生效
 "{{{
 " Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'json': { 'left': '//' }, 'jsonc': {'left': '//'} }
+let g:NERDCustomDelimiters = { 'json': { 'left': '//' }, 'jsonc': {'left': '//'}, 'vue': {'left': '//' }, }
 let g:NERDSpaceDelims = 1  " Add spaces after commeqt delimiters by default
 let g:NERDDefaultAlign = 'left'  " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDAltDelims_java = 1  " Set a language to use its alternate delimiters by default
@@ -1589,8 +1588,6 @@ function! s:fzf_preview_settings() abort
 endfunction
 
 "}}}
-" 全局mru
-nnoremap <silent> <leader>gr     :<C-u>:CocCommand fzf-preview.MruFiles<CR>
 nnoremap <silent> <Leader>gb     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
 " 只显示文件buffer(不预览当前buffer)
 nnoremap <silent> <Leader>gB     :<C-u>CocCommand fzf-preview.Buffers<CR>
@@ -1719,6 +1716,7 @@ let g:Lf_CommandMap = {
             \ '<C-c>':['<C-d>', '<C-c>'],
             \}  " 搜索后<c-l>在右侧窗口打开文件
 noremap <silent> <c-p> :Leaderf command<CR>
+nnoremap <silent> <leader>gr :Leaderf mru<cr>
 nnoremap <silent> <leader>gf :Leaderf file<cr>
 nnoremap <silent> <leader>gs :Leaderf searchHistory<cr>
 nnoremap <silent> gf :Leaderf function<cr>
