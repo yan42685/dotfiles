@@ -91,11 +91,13 @@ import { mapActions } from 'vuex'
 endsnippet
 
 snippet vue "generate vue default template" b
+<template><div>${2}</div></template>
+
 <script lang="ts">
-import { toRefs, reactive } from "vue";
+import { toRefs, reactive, defineComponent } from "vue";
 import axios from "axios";
 
-export default {
+export default defineComponent({
   name: "`!p snip.rv = snip.basename`",
   setup() {
     const data = reactive({
@@ -106,10 +108,8 @@ export default {
       ...toRefs(data)
     };
   }
-};
+});
 </script>
-
-<template><div>${2}</div></template>
 
 <style lang="scss">${3}</style>
 endsnippet
