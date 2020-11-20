@@ -101,10 +101,9 @@ export default {
     const data = reactive({
       ${1}
     });
-    const refData = toRefs(data);
 
     return {
-      ...refData
+      ...toRefs(data)
     };
   }
 };
