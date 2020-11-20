@@ -25,7 +25,11 @@ let mapleader='<space>'  " 此条命令的位置应在插件之前
 let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
 " 进入git commit buffer在normal模式按<tab>可以显示预设补全, 可以按数字 1...n 快速选择
-let g:My_commit_completion_source = ['🔧 refactor: ', '🔨 fix: ',
+let g:My_commit_completion_source = ['refactor: ', 'fix: ',
+                \  'feat: ', 'docs: ', 'test: ',
+                \  'perf: ', 'chore: ', 'revert: ',
+                \ ]
+let g:My_commit_completion_source_with_emoji = ['🔧 refactor: ', '🔨 fix: ',
                 \  '🎉 feat: ', '📝 docs: ', '🏁 test: ',
                 \  '⚡ perf: ', '💦 chore: ', '⏪ revert: ',
                 \ ]
@@ -2774,6 +2778,7 @@ augroup My_settings_by_filetype
     endf
 "}}}
     autocmd filetype gitcommit nnoremap <silent> <buffer> <tab> i<C-r>=My_custom_completion_trigger(g:My_commit_completion_source, 1)<cr>
+    autocmd filetype gitcommit inoremap <silent> <buffer> <tab> i<C-r>=My_custom_completion_trigger(g:My_commit_completion_source_with_emoji, 1)<cr>
 "{{{ 对gitrebase命令的Mapping
     let b:fugitive_rebase_commands="^(pick|reword|edit|squash|fixup|exec|drop)"
     autocmd FileType gitrebase nnoremap <buffer> <silent> I :s/\v<c-r>=b:fugitive_rebase_commands<cr>/pick/<cr>:nohlsearch<cr>
