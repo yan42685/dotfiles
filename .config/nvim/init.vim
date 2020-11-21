@@ -953,6 +953,8 @@ let g:bookmark_auto_save = 1 " 自动持久化
 let g:bookmark_center = 1 " 自动展示mark行到屏幕中心
 let g:bookmark_show_toggle_warning = 1 " 显示删除annnotated bookmark时的提示
 "{{{ 设置保存project bookmarks到
+" 由于git submodule仓库并没有.git文件夹而是.git文件, 所以在子模块仓库中还是会保存文件到子模块根目录，而不是子模块的.git目录
+" 　(子模块的.git文件夹集中管理在父仓库中)
 function! g:BMWorkDirFileLocation()
     let filename = 'bookmarks'
     let location = ''
