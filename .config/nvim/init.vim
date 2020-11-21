@@ -1717,6 +1717,7 @@ let g:Lf_ShortcutF = ''  " 这两项是为了覆盖默认设置的键位
 let g:Lf_ShortcutB = ''
 "}}}
 nnoremap <silent> <leader>gt :Leaderf --nowrap task<cr>
+" <C-t>新标签页打开, <C-l> vsplit <S-Insert>粘贴
 let g:Lf_CommandMap = {
             \ '<C-]>':['<C-l>'],
             \ '<C-c>':['<C-d>', '<C-c>'],
@@ -2375,7 +2376,7 @@ nnoremap <silent> <leader>wj :wincmd J<cr>
 nnoremap <silent> <leader>wk :wincmd K<cr>
 nnoremap <silent> <leader>wl :wincmd L<cr>
 " swap to right
-nnoremap <silent> <leader>ws <c-w><c-r>
+nnoremap <silent> <leader>ws <c-w>x<c-w>=
 nnoremap <leader>w= <c-w>=
 " 窗口最大化 leaving only the help window open/maximized
 nnoremap <leader>wo <c-w>o
