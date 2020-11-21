@@ -110,6 +110,7 @@ if g:disable_laggy_plugins_for_large_file == 0
     set nospell  " 禁用默认的难看的高亮红色
     let g:spelunker_check_type = 2  " 只在window内动态check, 对大文件十分友好
     let g:spelunker_highlight_type = 2  " Highlight only SpellBad.
+    let g:spelunker_white_list_for_user = ['refactor', 'vimrc']
     let s:spelunker_filetype_blacklist = ['startify', 'far', 'vim-plug', 'vim', '', 'coc-explorer']  " 这里包括了文件类型的空的buffer
     let s:spelunker_buftype_blacklist = ['terminal']  " 这里包括了文件类型的空的buffer
     augroup my_highlight_spellbad
@@ -1424,7 +1425,7 @@ nnoremap <silent> g :WhichKey 'g'<cr>
 " 在Visual模式显示WhichKey
 vnoremap <silent> <leader> :<C-U>WhichKeyVisual '<space>'<cr>
 vnoremap <silent> <localleader> :<C-U>WhichKeyVisual ','<cr>
-vnoremap <silent> g :<C-U>WhichKeyVisual  'g'<cr>
+vnoremap <silent> <expr> g coc#expandableOrJumpable() ? g : ':<C-U>WhichKeyVisual "g"<cr>'
 augroup settings_whichkey_for_t  " 因为有插件映射了t所以这里要用autocmd来映射
     autocmd!
     autocmd VimEnter * nnoremap <silent> t :WhichKey 't'<cr>
@@ -1594,9 +1595,9 @@ function! s:fzf_preview_settings() abort
 endfunction
 
 "}}}
-nnoremap <silent> <Leader>gb     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+nnoremap <silent> <Leader>bl     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
 " 只显示文件buffer(不预览当前buffer)
-nnoremap <silent> <Leader>gB     :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <silent> <Leader>Bl     :<C-u>CocCommand fzf-preview.Buffers<CR>
 nnoremap <silent> <Leader>gq     :<C-u>CocCommand fzf-preview.QuickFix<CR>
 
 " 模糊搜索 弹窗后按<c-r>进行正则搜索模式, visual模式 '*' 查找函数依赖这个插件，所以不要延迟加载
