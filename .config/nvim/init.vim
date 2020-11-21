@@ -2777,7 +2777,7 @@ augroup My_settings_by_filetype
         iunmap <buffer> <cr>
     endf
 "}}}
-    autocmd filetype gitcommit nnoremap <silent> <buffer> <tab> i<C-r>=My_custom_completion_trigger(g:My_commit_completion_source, 1)<cr>
+    autocmd filetype gitcommit nnoremap <silent> <buffer> <expr> <tab> col('.') == 1 ? 'i<C-r>=My_custom_completion_trigger(g:My_commit_completion_source, 1)<cr>' : '<c-y>'
     autocmd filetype gitcommit imap <silent> <buffer> <expr> <tab> col('.') == 1 ? '<C-r>=My_custom_completion_trigger(g:My_commit_completion_source_with_emoji, 1)<cr>' : '<c-y>'
 
 "{{{ 对gitrebase命令的Mapping
