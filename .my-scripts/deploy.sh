@@ -282,6 +282,8 @@ deploy_ubuntu() {
             echo ""
         fi
     done
+    # FIXME: 解决webpack导致系统wacher到达上限的问题，不确定有没有副作用
+    echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl --system -p.
 
 }
 

@@ -2368,7 +2368,7 @@ function! DeleteHiddenBuffers()
     echo "Closed ".closed." hidden buffers"
 endfunction
 "}}}
-nnoremap <leader>bc :call DeleteHiddenBuffers()<cr>
+nnoremap <leader>bcl :call DeleteHiddenBuffers()<cr>
 
 " Window操作
 " 调整窗口布局
