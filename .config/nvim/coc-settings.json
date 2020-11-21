@@ -36,6 +36,7 @@
   "suggest.minTriggerInputLength": 1, // 补全触发的最少字数
   "explorer.icon.enableNerdfont": true,
   "explorer.previewAction.onHover": false,
+  // 是否默认显示隐藏文件
   // "explorer.file.showHiddenFiles": true,
   "explorer.file.hiddenRules": {
     "extensions": ["o", "a", "obj", "pyc"],
@@ -45,8 +46,9 @@
       ".browserslistrc",
       ".vim-bookmarks-per-repository"
     ],
-    "patternMatches": [] // 需要显式定义空数组来覆盖默认的 ["^\\."]
-    // "patternMatches": ["^\\."]
+    // "patternMatches": [] // 需要显式定义空数组来覆盖默认的 ["^\\."]
+    // 0宽负向先行断言排除字符串
+    "patternMatches": ["^\\.((?!env).)+"]
   },
   "python.jediEnabled": false,
   // 只显示ale的lint信息, 不显示Coc的
