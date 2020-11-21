@@ -45,7 +45,7 @@
       ".browserslistrc",
       ".vim-bookmarks-per-repository"
     ],
-    "patternMatches": []
+    "patternMatches": [] // 需要显式定义空数组来覆盖默认的 ["^\\."]
     // "patternMatches": ["^\\."]
   },
   "python.jediEnabled": false,
