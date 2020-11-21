@@ -2778,7 +2778,8 @@ augroup My_settings_by_filetype
     endf
 "}}}
     autocmd filetype gitcommit nnoremap <silent> <buffer> <tab> i<C-r>=My_custom_completion_trigger(g:My_commit_completion_source, 1)<cr>
-    autocmd filetype gitcommit inoremap <silent> <buffer> <tab> i<C-r>=My_custom_completion_trigger(g:My_commit_completion_source_with_emoji, 1)<cr>
+    autocmd filetype gitcommit imap <silent> <buffer> <expr> <tab> col('.') == 1 ? '<C-r>=My_custom_completion_trigger(g:My_commit_completion_source_with_emoji, 1)<cr>' : '<c-y>'
+
 "{{{ 对gitrebase命令的Mapping
     let b:fugitive_rebase_commands="^(pick|reword|edit|squash|fixup|exec|drop)"
     autocmd FileType gitrebase nnoremap <buffer> <silent> I :s/\v<c-r>=b:fugitive_rebase_commands<cr>/pick/<cr>:nohlsearch<cr>
