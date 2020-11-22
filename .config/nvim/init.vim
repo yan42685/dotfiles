@@ -110,7 +110,7 @@ if g:disable_laggy_plugins_for_large_file == 0
     set nospell  " 禁用默认的难看的高亮红色
     let g:spelunker_check_type = 2  " 只在window内动态check, 对大文件十分友好
     let g:spelunker_highlight_type = 2  " Highlight only SpellBad.
-    let g:spelunker_white_list_for_user = ['refactor', 'vimrc']
+    let g:spelunker_white_list_for_user = ['refactor', 'vimrc', 'admin', 'username']
     let s:spelunker_filetype_blacklist = ['startify', 'far', 'vim-plug', 'vim', '', 'coc-explorer']  " 这里包括了文件类型的空的buffer
     let s:spelunker_buftype_blacklist = ['terminal']  " 这里包括了文件类型的空的buffer
     augroup my_highlight_spellbad
