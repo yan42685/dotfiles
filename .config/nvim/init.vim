@@ -992,6 +992,7 @@ Plug 'Shougo/context_filetype.vim'
 
 " 快速注释, 可以设置单行注释，单行盒形注释, 多行注释, 多行盒形注释
 " 支持repeat
+" TODO: 等issue修复了就可以延迟加载了
 Plug 'tyru/caw.vim' " BUG: 延迟加载时有bug, 已经提issue了，还有个问题是不能注释空行，但只有这个注释的插件对vue注释的支持最好
 "{{{ settings
 let g:caw_no_default_keymappings = 1
