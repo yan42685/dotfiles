@@ -67,7 +67,7 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
-    sudo apt install -y gpick
+    sudo apt install -y gpick, screenkey
 
     if [ ! -d ~/git-fuzzy ]; then
         echo "================== Installing git-fuzzy"

@@ -176,7 +176,7 @@ Plug 'arp242/undofile_warn.vim'
 
 " 140+种语言的语法高亮包
 Plug 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['vue']  " 极大提升性能
+let g:vue_pre_processors ='detect_on_enter' " 极大提升打开vue文件的性能 自动设置预处理器, 这是对整合进polyglot的 posva/vim-vue的设置
 
 " 括号配对优化
 Plug 'jiangmiao/auto-pairs'
@@ -987,22 +987,20 @@ map <silent> qf <Plug>(easymotion-bd-f)
 " easymotion可以根据中文拼音首字母跳转
 Plug 'ZSaberLv0/vim-easymotion-chs'  " (不能延迟加载，否则easymotion不能正常使用)
 
-" 快速注释
-" Plug 'preservim/nerdcommenter', {'on': '<plug>NERDCommenterToggle'}
-Plug 'preservim/nerdcommenter' " 延迟加载在Session不生效
-"{{{
-" Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'json': { 'left': '//' }, 'jsonc': {'left': '//'}, 'vue': {'left': '//' }, }
-let g:NERDSpaceDelims = 1  " Add spaces after commeqt delimiters by default
-let g:NERDDefaultAlign = 'left'  " Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDAltDelims_java = 1  " Set a language to use its alternate delimiters by default
-let g:NERDTrimTrailingWhitespace = 1  " Enable trimming of trailing whitespace when uncommenting
-let g:NERDCommentEmptyLines = 1  " Allow commenting and inverting empty lines (useful when commenting a region)
+" 获取同一文件内不同区块的文件类型，辅助caw.vim在 vue或html文件中自动改变注释格式
+Plug 'Shougo/context_filetype.vim'
+
+" 快速注释, 可以设置单行注释，单行盒形注释, 多行注释, 多行盒形注释
+" 支持repeat
+Plug 'tyru/caw.vim', {'on': ['<Plug>(caw:hatpos:toggle)']}  " 延迟加载有bug
+"{{{ settings
+let g:caw_no_default_keymappings = 1
+autocmd FileType json,jsonc let b:caw_oneline_comment = '//' | let b:caw_wrap_multiline_comment = {'left': '//'}
 "}}}
-nmap <c-_> <plug>NERDCommenterToggle
-" 添加gv<esc>就可以回到原地
-vmap <c-_> <plug>NERDCommenterTogglegv<esc>
-imap <c-_> <esc><plug>NERDCommenterToggle
+imap <c-_> <esc><Plug>(caw:hatpos:toggle)
+nmap <c-_> <Plug>(caw:hatpos:toggle)
+vmap <c-_> <Plug>(caw:hatpos:toggle)
+
 
 " Vim-Surround快捷操作
 Plug 'tpope/vim-surround'
@@ -2290,13 +2288,13 @@ noremap ZZ <nop>
 "}}}
 "{{{ 更便捷的移动以及视角居中
 "set wrap之后，在折行之间也可以跳, 指定行数后会忽视wrap的行
-nnoremap <expr> k
+nnoremap <silent> <expr> k
         \ v:count == 0 ? 'gk' : 'k'
-vnoremap <expr> k
+vnoremap <silent> <expr> k
         \ v:count == 0 ? 'gk' : 'k'
-nnoremap <expr> j
+nnoremap <silent> <expr> j
         \ v:count == 0 ? 'gj' : 'j'
-vnoremap <expr> j
+vnoremap <silent> <expr> j
         \ v:count == 0 ? 'gj' : 'j'
 " 在同一个折叠的首尾部跳转
 nnoremap zj ]z
@@ -2543,8 +2541,8 @@ xnoremap <expr> R ":norm! @q<CR>"
 nnoremap gu viWgUgv<esc>
 vnoremap gu gUgv<esc>
 
-" 退出系列
-noremap <silent> <leader>q <esc>:q<cr>
+" 退出系列 TODO: 关闭时:ALEDisableBuffer<cr>
+noremap <silent> <leader>q :q<cr>
 "{{{ 退出Vim并自动保存会话
 " 如果当前不在Session中就保存到default.vim，否则保存当前Session
 function Save_default_session_and_exit() abort

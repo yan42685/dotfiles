@@ -303,7 +303,7 @@ alias lf='ls -a | fzf'
 alias md='mkdir'
 # 用文件浏览器打开当前目录
 alias open='nautilus $PWD &'
-
+alias showkey='screenkey --no-detach' # 在前台运行而不是后台
 
 alias now='echo $(date +%Y-%m-%d\ %H:%M:%S\ %A)'
 # 比较两个文件
