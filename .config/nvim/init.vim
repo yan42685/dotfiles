@@ -211,10 +211,11 @@ Plug 'Shougo/neoinclude.vim' | Plug 'jsfaint/coc-neoinclude'
 " 自动解决绝大部分编码问题
 Plug 'mbbill/fencview', { 'on': [ 'FencAutoDetect', 'FencView' ] }
 
-" 自动关闭标签
-Plug 'alvan/vim-closetag'
+" 自动关闭标签, 额外功能: 插入模式<tag>|</tag> 光标处按>会自动空行
+Plug 'alvan/vim-closetag', {'for': ['vue', 'html', 'javascript.jsx', 'typescript.tsx']}
 "{{{
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.xml,*.jsx,*.tsx'
+let g:closetag_filetypes = 'html,javascript.jsx,typescript.tsx,vue'
 "}}}
 
 " markdown代码内高亮
