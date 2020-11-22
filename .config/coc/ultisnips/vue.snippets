@@ -95,18 +95,14 @@ snippet vue "generate vue default template" b
 
 <script lang="ts">
 import { toRefs, reactive, defineComponent } from "vue";
-import axios from "axios";
 
 export default defineComponent({
   name: "`!p snip.rv = snip.basename`",
   setup() {
-    const data = reactive({
       ${1}
     });
 
-    return {
-      ...toRefs(data)
-    };
+    return {};
   }
 });
 </script>
