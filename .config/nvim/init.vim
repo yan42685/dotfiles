@@ -1966,12 +1966,23 @@ Plug 'mhinz/vim-sayonara', {'on': [ 'Sayonara','Sayonara!' ]}
 nnoremap <silent> <leader>bd :Sayonara!<cr>
 
 " 一键生成注释（15+种语言）NOTE: C、C++的注释依赖clang 但是似乎有bug 暂时不建议踩这个坑，c++随便注释下就好了
-Plug 'kkoomen/vim-doge', {'on': 'DogeGenerate'}
+Plug 'kkoomen/vim-doge', {'do': { -> doge#install() }, 'on':['DogeGenerate']}
+"{{{
 let g:doge_enable_mappings = 0  " 取消默认映射
 let g:doge_mapping = ''
 let g:doge_filetype_aliases = {
-\  'javascript': ['vue']
-\}
+            \ 'javascript': [
+            \     'javascript.jsx',
+            \     'javascriptreact',
+            \     'javascript.tsx',
+            \     'typescriptreact',
+            \     'typescript',
+            \     'typescript.tsx',
+            \     'vue'
+            \ ],
+            \ 'java': ['groovy'],
+            \ }
+"}}}
 nnoremap <leader>cm :DogeGenerate<cr>
 
 "  选择区域进行diff
