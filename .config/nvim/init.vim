@@ -1967,7 +1967,7 @@ nnoremap <silent> <leader>bd :Sayonara!<cr>
 
 " 一键生成注释（15+种语言）NOTE: C、C++的注释依赖clang 但是似乎有bug 暂时不建议踩这个坑，c++随便注释下就好了
 Plug 'kkoomen/vim-doge', {'do': { -> doge#install() }, 'on':['DogeGenerate']}
-"{{{
+"{{{ settings
 let g:doge_enable_mappings = 0  " 取消默认映射
 let g:doge_mapping = ''
 let g:doge_filetype_aliases = {
