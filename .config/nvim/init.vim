@@ -2269,7 +2269,7 @@ inoremap kk <esc>O
 inoremap <expr> ;; nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ';' ? '<c-o>o' : '<esc>A;<esc>o'
 inoremap <expr> ;j nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ';' ? '<esc>jo' : '<c-o>A;<esc>jo'
 inoremap <expr> ,, nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ',' ? '<c-o>o' : '<esc>A,<esc>o'
-inoremap <expr> ,j nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ',' ? '<esc>jo' : '<c-o>A<BS><esc>jo'
+inoremap        ,j <esc>jo
 " 开关大小写
 inoremap ;u <esc>viW~A
 inoremap ;a <left>
