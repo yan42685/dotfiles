@@ -2267,8 +2267,9 @@ inoremap jj <esc>o
 inoremap kk <esc>O
 " 快速在行末写分号并换行, 如果左边一个字符是分号则直接换行
 inoremap <expr> ;; nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ';' ? '<c-o>o' : '<esc>A;<esc>o'
-inoremap <expr> ;j nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ';' ? '<c-o>o' : '<c-o>A;<esc>jo'
+inoremap <expr> ;j nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ';' ? '<esc>jo' : '<c-o>A;<esc>jo'
 inoremap <expr> ,, nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ',' ? '<c-o>o' : '<esc>A,<esc>o'
+inoremap <expr> ,j nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ',' ? '<esc>jo' : '<c-o>A<BS><esc>jo'
 " 开关大小写
 inoremap ;u <esc>viW~A
 inoremap ;a <left>
@@ -2741,10 +2742,8 @@ augroup My_settings_by_filetype
     " 在右边窗口打开help,man, q快速退出
     autocmd filetype man,help,tldr wincmd L | nnoremap <silent> <buffer> q :q!<cr>
     autocmd filetype fugitiveblame,fugitive nnoremap <silent> <buffer> q :q!<cr>
-    " Java 自动优化import
-    if executable('editor.action.organizeImport')
-        autocmd BufWritePost *.java :silent! call CocActionAsync('runCommand', 'editor.action.organizeImport')<cr>
-    endif
+    " 自动优化import
+    autocmd BufWritePre java :silent! call CocActionAsync('runCommand', 'editor.action.organizeImport')<cr>
     " autocmd BufWritePost *.ts,*.js silent! call CocActionAsync('runCommand', 'tsserver.organizeImports')
     " 隐藏buffer并不delete
     autocmd filetype gitconfig setlocal bufhidden=hide
@@ -3017,6 +3016,7 @@ endfunction
 command! Chmodx :!chmod a+x %  " make current buffer executable
 command! FixSyntax :syntax sync fromstart  " fix syntax highlighting
 command! RefreshSyntax :set syntax=off | set syntax=on
+command! OR :silent! call CocActionAsync('runCommand', 'editor.action.organizeImport')<cr>
 "}}}
 " ==========================================
 "{{{ 新增功能 Utilities
