@@ -83,5 +83,6 @@
     "value": "\uf89f",
     "variable": "",
     "constructor": ""
-  }
+  },
+  "vetur.useWorkspaceDependencies": true
 }
