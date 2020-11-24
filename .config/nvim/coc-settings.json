@@ -3,7 +3,6 @@
   "coc.source.emoji.filetypes": ["markdown", "gitcommit", "vimwiki", "wiki"],
   "codeLens.separator": "  ‣",
   // "codeLens.enable": true, // 使用codelens特性
-  "snippets.priority": 130, // 从默认的90提高到130的优先级
   "session.directory": "~/.local/share/nvim/session", // coclist查找session文件的地址
   "todolist.easyMode": true,
   "todolist.maxsize": 99999, // 最多可存放的todo数量
@@ -88,6 +87,7 @@
   "vetur.useWorkspaceDependencies": true,
   "vetur.format.enable": false, // 解决和 ALE 的冲突
   "vetur.experimental.templateInterpolationService": true, // 开启模板内的 ts 提示
+  "snippets.priority": 130, // 从默认的90提高到130的优先级
   "suggest.languageSourcePriority": 200, // LSP 的优先级
   "tabnine.priority": 99
 }
