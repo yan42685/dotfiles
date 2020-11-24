@@ -3028,7 +3028,7 @@ endfunction
 command! Chmodx :!chmod a+x %  " make current buffer executable
 command! FixSyntax :syntax sync fromstart  " fix syntax highlighting
 command! RefreshSyntax :set syntax=off | set syntax=on
-command! OR :silent! call CocActionAsync('runCommand', 'editor.action.organizeImport')<cr>
+command! OI :silent! call CocActionAsync('runCommand', 'editor.action.organizeImport')<cr>
 "}}}
 " ==========================================
 "{{{ 新增功能 Utilities
