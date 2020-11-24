@@ -3324,6 +3324,7 @@ endfunction
 nnoremap <leader>yfn :call Copy_to_registers(expand('%:t'))<cr>:echo printf('filename yanked: %s', expand('%:t'))<cr>
 nnoremap <leader>yap :call Copy_to_registers(expand('%:p'))<cr>:echo printf('absolute path yanked: %s', expand('%:p'))<cr>
 nnoremap <leader>ydr :call Copy_to_registers(expand('%:p:h'))<cr>:echo printf('absolute dir yanked: %s', expand('%:p:h'))<cr>
+nnoremap gl :lcd %:p:h<cr>:let mycurf=expand("<cfile>")<cr>:execute("e ".mycurf)<cr>
 "}}}
 "}}}
 " ==========================================
