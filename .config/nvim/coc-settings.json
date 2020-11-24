@@ -88,5 +88,6 @@
   "vetur.useWorkspaceDependencies": true,
   "suggest.languageSourcePriority": 200, // LSP 的优先级
   "tabnine.priority": 99,
-  "vetur.format.enable": false // 和 ALE 的fixer冲突了
+  "vetur.format.enable": false, // 解决和 ALE 的冲突
+  "vetur.experimental.templateInterpolationService": true // 开启模板内的 ts 提示
 }
