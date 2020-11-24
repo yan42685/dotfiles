@@ -86,6 +86,6 @@
   },
   // vetur用本地的ts依赖，更加快速
   "vetur.useWorkspaceDependencies": true,
-  "suggest.languageSourcePriority": 200,
+  "suggest.languageSourcePriority": 200, // LSP 的优先级
   "tabnine.priority": 99
 }
