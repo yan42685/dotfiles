@@ -1036,6 +1036,8 @@ for x in ['(','[', '{', '<', "'", '"']
     endfor
 endfor
 "}}}
+" rename tag
+nmap <leader>rt cstt
 nmap ysw ysiw
 nmap ysW ysiW
 " 快速添加pair
@@ -1549,7 +1551,7 @@ let g:rooter_resolve_links = 1  " resolve软硬链接
 let g:rooter_silent_chdir = 1  " 静默change dir
 "}}}
 " 手动切换到项目根目录
-nnoremap <leader>rt :Rooter<cr>:echo printf('Rooter to %s', FindRootDirectory())<cr>
+nnoremap ,rt :Rooter<cr>:echo printf('Rooter to %s', FindRootDirectory())<cr>
 
 " 作为fzf-preview的依赖
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
