@@ -1764,6 +1764,7 @@ let g:far#source = 'rgnvim'  " 使用rg + nvim的异步API 作为搜索源 FIXME
 let g:far#enable_undo = 1  " 允许按u进行undo替换
 let g:far#auto_write_replaced_buffers = 1  " 自动写入
 let g:far#auto_delete_replaced_buffers = 1  " 自动关闭替换完成的buffer
+let g:far#ignore_files = ['~/.config/nvim/far-vim-ignore-rule.txt'] " 自定义grep ignore规则
 " 快捷键
 let g:far#mapping = {
     \ 'replace_do': ['r'],
