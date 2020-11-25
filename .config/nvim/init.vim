@@ -165,8 +165,8 @@ let g:SignatureMap = {
 "}}}
 Plug 'kshenoy/vim-signature'
 
-" 实时显示HEX颜色，比如#245984
-Plug 'ap/vim-css-color', {'for': ['css']}
+" 异步实时显示HEX颜色，比如#245984
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
 " 让. 可以重复插件的操作, 和surround是绝配
 Plug 'tpope/vim-repeat'
