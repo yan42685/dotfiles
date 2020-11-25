@@ -27,6 +27,7 @@ export PATH=${NPM_PREFIX}/bin:${PATH}
 # 自定义的可执行文件
 chmod -R +x ${HOME}/.my-scripts/bin
 export PATH=${HOME}/.my-scripts/bin:${PATH}
+export PATH=${HOME}/.local/go/bin:${PATH}  # golang
 
 
 export TERM=xterm-256color

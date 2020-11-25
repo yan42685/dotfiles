@@ -67,10 +67,18 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
+    if ! command -v go >/dev/null 2>&1; then
+        echo "================== Installing golang..."
+        wget https://dl.google.com/go/go1.13.linux-amd64.tar.gz
+        sudo tar -C ~/.local -xzf go1.13.linux-amd64.tar.gz
+        export PATH=${HOME}/.local/go/bin:${PATH}  # golang
+        rm go1.13.linux-amd64.tar.gz
+    fi
+
     sudo apt install -y gpick, screenkey
 
     if [ ! -d ~/git-fuzzy ]; then
-        echo "================== Installing git-fuzzy"
+        echo "================== Installing git-fuzzy..."
         git clone https://hub.fastgit.org/yan42685/git-fuzzy
     fi
 
