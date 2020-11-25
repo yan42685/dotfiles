@@ -649,6 +649,7 @@ nmap gc <Plug>(git-messenger)
 Plug 'tpope/vim-fugitive'
 " Gread就是清空暂存区 即checkout %    " 还有diffget和diffput可以使用
 nnoremap <silent> ,ga :G add %:p<CR>
+nnoremap <silent> ,gaa :G add -A<cr>
 nnoremap <silent> ,gau :G add --update<CR>
 nnoremap <silent> ,gap :G add --patch %<CR>
 " {{{ fun My_toggle_coc_git_blame()
@@ -2734,7 +2735,7 @@ syntax on  " NOTE: 这条语句放在不同的地方会有不同的效果，经�
 augroup My_settings_by_filetype
     autocmd!
     autocmd filetype python,ruby,snippets setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab ai
-    autocmd filetype vue,javascript,html,css,xml,sass,scss setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
+    autocmd filetype vue,javascript,typescript,javascript.jsx,typescript.tsx,html,css,xml,sass,scss setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
     autocmd filetype COMMIT_EDITMSG setlocal textwidth=72  " GitHub 每行最多显示75字符
     autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown,*.mkdn setlocal filetype=markdown
     autocmd BufRead,BufNewFile *.part setlocal filetype=html
