@@ -55,17 +55,3 @@ snippet cm "description"
  * @description ${1}
  */
 endsnippet
-
-snippet store "Description" b
-import { MyModule } from "../types/common";
-
-const module: MyModule<${1:any}> = {
-  namespaced: true,
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {}
-};
-
-export default module;
-endsnippet
