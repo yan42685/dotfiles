@@ -53,11 +53,12 @@ snippet cm "description"
 endsnippet
 
 snippet store "Description" b
-export const `!p snip.rv = snip.basename`: Module<${1:any}, ${1:any}> = {
+const module: Module<${1:any}, ${1:any}> = {
   namespaced: true,
   state: {},
   getters: {},
   mutations: {},
   actions: {}
 };
+export default module;
 endsnippet
