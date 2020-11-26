@@ -51,3 +51,13 @@ snippet cm "description"
  * @description ${1}
  */
 endsnippet
+
+snippet store "Description" b
+export const `!p snip.rv = snip.basename`: Module<${1:any}, ${1:any}> = {
+  namespaced: true,
+  state: {},
+  getters: {},
+  mutations: {},
+  actions: {}
+};
+endsnippet
