@@ -89,5 +89,6 @@
   "vetur.experimental.templateInterpolationService": true, // 开启模板内的 ts 提示
   "snippets.priority": 130, // 从默认的90提高到130的优先级
   "suggest.languageSourcePriority": 200, // LSP 的优先级
-  "tabnine.priority": 99
+  "tabnine.priority": 99,
+  "coc.preferences.colorSupport": false // 不要高亮 color
 }
