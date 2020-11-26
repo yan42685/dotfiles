@@ -373,7 +373,7 @@ endfunction
 function! LightlineFugitive()
     let l:result = ''
     if &ft !~? 'vimfiler'
-        let l:result = FugitiveHead()
+        let l:result = FugitiveHead() != '' ? '[' . FugitiveHead() . ']' : ''
     endif
     return winwidth(0) > 45 ? l:result : ''
 endfunction
