@@ -167,6 +167,9 @@ Plug 'kshenoy/vim-signature'
 
 " 异步实时显示HEX颜色，比如#245984
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+"{{{setings
+let g:Hexokinase_optInPatterns = 'full_hex,triple_hex,rgb,rgba,hsl,hsla,colour_names'
+"}}}
 
 " 让. 可以重复插件的操作, 和surround是绝配
 Plug 'tpope/vim-repeat'
