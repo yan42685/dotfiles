@@ -413,10 +413,13 @@
     # commit with a message
     c = commit
     caa = commit -a
-    # 将新的修改全部应用到上次commit里
+    # 将新的修改，删除全部应用到上次commit里
     cmd = "!git add --update && git commit --amend --no-edit"
     cme = "!git add --update && git commit --amend"
     ca = commit -a --message
+    # 将新的修改，添加，删除的文件都应用到上次commit里
+    cma = "!git add --all && git commit --amend --no-edit"
+    cmae = "!git add --all && git commit --amend"
     # commit and push
     cap = "!f() { git commit --all -m \"$@\" && git push; }; f"
 

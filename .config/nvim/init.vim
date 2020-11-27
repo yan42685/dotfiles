@@ -671,6 +671,10 @@ nnoremap <silent> ,gca :G commit --all<cr>
 nnoremap <silent> ,gmd :!git cmd --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
 " 需要编辑提交信息 git add --update && git commit --amend
 nnoremap <silent> ,gme :G cme --quiet<cr>
+" 不用编辑提交信息 git add --all && git commit --amend --no-edit
+nnoremap <silent> ,gma :!git cma --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
+" 不用编辑提交信息 git add --all && git commit --amend
+nnoremap <silent> ,gmae :!git cmae --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
 " {{{  定义 autocmd User MyEnterDiffMode
 " 定义进入diff的事件，然后当前窗口关闭syntax
 augroup my_enter_diffMode
