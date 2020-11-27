@@ -668,13 +668,13 @@ nnoremap <silent> ,gb :call My_toggle_coc_git_blame()<cr>
 nnoremap <silent> ,gc :G commit<cr>
 nnoremap <silent> ,gca :G commit --all<cr>
 " 不用编辑提交信息 git add --update && git commit --amend --no-edit
-nnoremap <silent> ,gmu :!git cmu --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
+nnoremap <silent> ,gmu :G cmu --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
 " 需要编辑提交信息 git add --update && git commit --amend
 nnoremap <silent> ,gmue :G cmue --quiet<cr>
 " 不用编辑提交信息 git add --all && git commit --amend --no-edit
-nnoremap <silent> ,gma :!git cma --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
+nnoremap <silent> ,gma :G cma --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
 " 不用编辑提交信息 git add --all && git commit --amend
-nnoremap <silent> ,gmae :!git cmae --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
+nnoremap <silent> ,gmae :G cmae --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
 " {{{  定义 autocmd User MyEnterDiffMode
 " 定义进入diff的事件，然后当前窗口关闭syntax
 augroup my_enter_diffMode
