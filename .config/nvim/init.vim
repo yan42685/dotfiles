@@ -2287,7 +2287,6 @@ xnoremap v <esc>
 inoremap jj <esc>o
 inoremap kk <esc>O
 inoremap kkj k<esc>
-black
 " 快速在行末写分号并换行, 如果左边一个字符是分号则直接换行
 inoremap <expr> ;; nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ';' ? '<c-o>o' : '<esc>A;<esc>o'
 inoremap <expr> ;j nr2char(strgetchar(getline('.')[col('.') - 2:], 0)) == ';' ? '<esc>jo' : '<c-o>A;<esc>jo'
