@@ -2371,8 +2371,8 @@ nnoremap <m-p> "0p
 "}}}
 "{{{ Buffer Window Tab 操作
 " Buffer操作
-nnoremap <silent> <m-l> :bp<cr>
-nnoremap <silent> <m-h> :bn<cr>
+nnoremap <silent> <m-l> :bn<cr>
+nnoremap <silent> <m-h> :bp<cr>
 inoremap <silent> <m-l> <esc>:bp<cr>
 inoremap <silent> <m-h> <esc>:bn<cr>
 
