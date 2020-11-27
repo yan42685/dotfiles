@@ -668,9 +668,9 @@ nnoremap <silent> ,gb :call My_toggle_coc_git_blame()<cr>
 nnoremap <silent> ,gc :G commit<cr>
 nnoremap <silent> ,gca :G commit --all<cr>
 " 不用编辑提交信息 git add --update && git commit --amend --no-edit
-nnoremap <silent> ,gmd :!git cmd --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
+nnoremap <silent> ,gmu :!git cmu --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
 " 需要编辑提交信息 git add --update && git commit --amend
-nnoremap <silent> ,gme :G cme --quiet<cr>
+nnoremap <silent> ,gmue :G cmue --quiet<cr>
 " 不用编辑提交信息 git add --all && git commit --amend --no-edit
 nnoremap <silent> ,gma :!git cma --quiet<cr><esc>:echo 'git commit amend successfully!'<cr>
 " 不用编辑提交信息 git add --all && git commit --amend
