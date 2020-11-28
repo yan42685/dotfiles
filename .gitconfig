@@ -414,15 +414,24 @@
     c = commit
     caa = commit -a
     # 将新的修改，删除全部应用到上次commit里
-    cmu = "!git add --update && git commit --amend --no-edit"
-    cmue = "!git add --update && git commit --amend"
+    cmu = "!git add --update && git safe-commit-amend --no-edit"
+    cmue = "!git add --update && git safe-commit-amend"
     ca = commit -a --message
     # 将新的修改，添加，删除的文件都应用到上次commit里
-    cma = "!git add --all && git commit --amend --no-edit"
-    cmae = "!git add --all && git commit --amend"
+    cma = "!git add --all && git safe-commit-amend --no-edit"
+    cmae = "!git add --all && git safe-commit-amend"
     # commit and push
     cap = "!f() { git commit --all -m \"$@\" && git push; }; f"
 
+    # 只能amend没有push过的commit
+    safe-commit-amend = "!f() { \
+        HEAD_commit_exists_in_remote=$(git branch -r --contains HEAD); \
+        if [ -n \"$HEAD_commit_exists_in_remote\" ]; then \
+           echo 'HEAD commit exists in remote and you should not amend it. Please make another commit.'; \
+           return; \
+        fi; \
+        git commit --amend; \
+    }; f"
 ; }}}
 ; {{{ ### checkout ###
 
