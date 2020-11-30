@@ -429,7 +429,6 @@ set confirm
 set linebreak  " 一行文本超过window宽度会wrap，设置此项会让单词按语义分隔而不是按字母分隔
 set guicursor+=a:blinkon0  " 仅在gvim生效, 取消cursor的闪烁, 终端下的vim需要自行修改终端cursor设置
 set autoread
-" set dictionary+=~/.config/nvim/dict/dictionary.txt
 set autowriteall  " edit, next等动作时自动写入
 set tm=500
 set noequalalways " split窗口后不自动等宽

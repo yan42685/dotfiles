@@ -1955,6 +1955,7 @@ noremap K <C-b>
 " 去上次修改的地方
 nnoremap gi gi<esc>zvzzi
 " goto previous/next change positon
+nnoremap g, g,zv
 nnoremap g; g;zv
 nnoremap '' ``zv
 nnoremap '. `.zv
@@ -2554,3 +2555,19 @@ source ~/.local/share/nvim/rplugin.vim  " 和let g:loaded_remote_plugins = 1对�
 SignifyEnableAll
 "}}}
 " ==========================================
+"
+"{{{ 空格触发abbrev
+function! s:SetCommandAbbrs(from, to)
+    exec 'cnoreabbrev <expr> '.a:from
+                \ .' ((getcmdtype() ==# ":" && getcmdline() ==# "'.a:from.'")'
+                \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfunc
+call s:SetCommandAbbrs('ca', 'CocAction')
+call s:SetCommandAbbrs('cc', 'CocConfig')
+call s:SetCommandAbbrs('cl', 'CocList')
+call s:SetCommandAbbrs('cm', 'CocCommand')
+call s:SetCommandAbbrs('pc', 'PlugClean')
+call s:SetCommandAbbrs('pi', 'PlugInstall')
+call s:SetCommandAbbrs('pu', 'PlugUpdate')
+call s:SetCommandAbbrs('st', 'StartupTime')
+"}}}
