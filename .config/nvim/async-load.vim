@@ -1511,8 +1511,6 @@ augroup goyo_toggle_callback
     autocmd! User GoyoLeave nested call <SID>goyo_leave()
 augroup end
 
-"}}}
-
 " 模糊非视觉中心的字符
 Plug 'junegunn/limelight.vim', {'on': 'Limelight'}
 
