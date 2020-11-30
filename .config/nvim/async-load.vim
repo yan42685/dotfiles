@@ -1302,28 +1302,20 @@ let g:Lf_Extensions.task = {
 " }}}
 
 let g:Lf_RgConfig = [
-      \ '--glob=!\.git/*',
-      \ '--glob=!\.svn/*',
-      \ '--glob=!\.hg/*',
-      \ '--glob=!\.vscode/*',
-      \ '--glob=!.ccls',
-      \ '--glob=!.ccls-cache',
-      \ '--glob=!**/.repo/*',
-      \ '--glob=!**/.ccache/*',
-      \ '--glob=!**/GTAGS',
-      \ '--glob=!**/GRTAGS',
-      \ '--glob=!\.vim/undo\-dir/*',
-      \ '--glob=!**/GPATH',
-      \ '--glob=!**/tags',
-      \ '--glob=!**/prj_tags',
-      \ '--iglob=!**/obj/*',
-      \ '--iglob=!**/out/*',
-      \ '--multiline',
-      \ '--hidden',
-      \ "-g '!.git'",
+      \ '--glob=!\.git/*', '--glob=!\.svn/*', '--glob=!\.hg/*',
+      \ '--glob=!\.vscode/*', '--glob=!.ccls', '--glob=!.ccls-cache',
+      \ "--glob=!node_modules", "--glob=!lib/*.js", "--glob=!target",
+      \ "--glob=!tags", "--glob=!build", "--glob=!.git",
+      \ "--glob=!.ccls-cache", '--glob=!**/.repo/*', '--glob=!**/GTAGS',
+      \ '--glob=!**/GRTAGS', '--glob=!\.vim/undo\-dir/*', '--glob=!**/GPATH',
+      \ '--glob=!**/tags', '--glob=!**/prj_tags', '--iglob=!**/obj/*',
+      \ '--iglob=!**/out/*', '--multiline', '--hidden',
       \ ]
+
+let g:Lf_RootMarkers = [ '.project', '.svn', '.git', '.idea', '.tasks', '.clang-format', ]
+
 let g:Lf_WildIgnore = {
-            \ 'dir': ['.svn','.git','.hg','.vscode','.wine','.deepinwine','.oh-my-zsh','undo-dir'],
+            \ 'dir': ['.svn','.git','.cache','.idea','node_modules','build', '.gradle','.hg','.vscode','.wine','.deepinwine','.oh-my-zsh','undo-dir'],
             \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
             \}
 
