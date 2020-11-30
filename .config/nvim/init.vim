@@ -27,7 +27,7 @@ set updatetime=400  " 检测CursorHold事件的时间间隔,影响性能的主�
 let g:default_colorscheme_mode = 0
 let g:all_colorschemes = ['quantum', 'gruvbox-material', 'forest-night',
             \ ]
-let g:lightline_schemes = ['gruvbox_material','gruvbox_material', 'forest_night',
+let g:lightline_schemes = ['quantum','gruvbox_material', 'forest_night',
             \ ]
 
 
@@ -1023,7 +1023,7 @@ call My_render_custom_highlight()
 
 " 开启透明模式
 " hi normal guibg=none
-" hi CursorLineNr guibg=none
+hi CursorLineNr guibg=none
 " ==========================================
 " 新增功能
 " ==========================================

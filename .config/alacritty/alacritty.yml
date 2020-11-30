@@ -55,7 +55,7 @@ window:
   # 启动时最大化
   startup_mode: "Maximized"
 
-background_opacity: 0.65
+background_opacity: 0.85
 # background_opacity: 1
 
 # NOTE: 需要安装SauceCodePro NF的 regular 和 italic, bold, bold italic

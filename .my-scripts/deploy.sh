@@ -226,7 +226,8 @@ setup_ubuntu_environment() {
     echo "=================== 去掉桌面的trash图标"
     gsettings set org.gnome.nautilus.desktop trash-icon-visible false
     echo "=================== 设置桌面背景..."
-    gsettings set org.gnome.desktop.background picture-uri "$HOME/.config/images/desktop-background/white-maple-black-background.png"
+    # gsettings set org.gnome.desktop.background picture-uri "$HOME/.config/images/desktop-background/white-maple-black-background.png"
+    gsettings set org.gnome.desktop.background picture-uri "$HOME/.config/images/desktop-background/forest-deer.jpg"
     echo "=================== 设置快捷栏dock样式..."
     gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
     echo "=================== 设置键盘响应速度..."
