@@ -374,8 +374,8 @@ function Session_delete() abort
 endfunction
 "}}}
 nnoremap <leader>Sd :call Session_delete()<cr>
-call plug#end()
 "}}}
+call plug#end()
 
 " ==========================================
 " 设置 Settings
