@@ -674,6 +674,7 @@ set viminfo+=!  " 保存viminfo全局信息
 set viminfo+='1000
 set lazyredraw  " redraw only when we need to.
 set wildmode=longest,full
+let &fcs='eob: '  " 清除末尾空行的波浪号
 set showbreak=⤷▶  " wrap line指示器
 " set showbreak=↪
 set virtualedit+=block  " 块选择模式可以把光标移动到没有字符的位置
