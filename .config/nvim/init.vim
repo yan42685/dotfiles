@@ -371,6 +371,22 @@ endfunction
 "}}}
 nnoremap <leader>Sd :call Session_delete()<cr>
 "}}}
+"{{{ pangu
+" 中文自动排版，不能连续重复使用除感叹号以外的标点 连续句号转换成省略号，中英文之间自动加标点，中文前后的半角符号转成全角
+" NOTE: 文档书写规范见https://github.com/sparanoid/chinese-copywriting-guidelines
+" TIP: 持久化禁用 在编辑的文档中任何位置注明 PANGU_DISABLE，则整个文档不自动规范化
+" :PanguDisable禁用自动排版，对于多个文件可以使用vi a.xx b.xx c.xx 然后:argdo Pangu | update
+Plug 'hotoo/pangu.vim', {'for': ['markdown','vimwiki', 'text', 'wiki', 'gitcommit']}
+" 根据文件类型自动开启
+augroup auto_enable_pangu
+  autocmd!
+  autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
+  " COMMIT_EDITMSG就是fugitifu提供的gitcommit buffer的文件名
+  autocmd InsertLeave COMMIT_EDITMSG call PanGuSpacing()
+augroup end
+"}}}
+
+
 call plug#end()
 
 " ==========================================
@@ -764,4 +780,31 @@ highlight! BookmarkAnnotationSign guifg=#399ce5
 endfunction
 
 call My_render_custom_highlight()
+"}}}
+
+" ==========================================
+" 新增功能
+" ==========================================
+"{{{ 自动根据文件类型选择折叠方法
+function Change_fold_method_by_filetype()
+    set foldlevel=99  " 第一次进入时不折叠
+    let s:marker_fold_list = ['vim', 'text', 'zsh', 'tmux', 'dosini', 'gitconfig']  " 根据文件类型选择不同的折叠模式
+    let s:indent_fold_list = ['python']
+    let s:expression_fold_list = ['markdown', 'rust', 'vimwiki']
+    if index(s:marker_fold_list, &filetype) >= 0
+        set foldmethod=marker  " marker    使用标记进行折叠, 默认标记是 { { { 和 } } }
+        set foldlevel=0  " 第一次进入时全部自动折叠
+    elseif index(s:indent_fold_list, &filetype) >= 0
+        set foldmethod=indent
+    elseif index(s:expression_fold_list, &filetype) >= 0
+        set foldmethod=expr
+    else
+        set foldmethod=syntax
+    endif
+endfunction
+
+augroup auto_change_fold_method
+   autocmd!
+   autocmd BufWinEnter * call Change_fold_method_by_filetype()
+augroup end
 "}}}
