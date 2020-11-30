@@ -401,6 +401,206 @@ let g:AutoPairsShortcutBackInsert = ''
 "}}}
 let g:AutoPairsShortcutJump = '<M-n>'  " 快速跳转最近的pair
 "}}}
+"{{{ 让lightline生效的插件 NOTE: 多花了10多毫秒开启lightline是为了打开session不报错
+if g:disable_laggy_plugins_for_large_file == 0
+  "    " 侧栏显示git diff情况
+  Plug 'mhinz/vim-signify'
+  nmap <expr> gp &filetype == 'coc-explorer' ? 'gp' : ':SignifyHunkDiff<cr>'
+  " 清除对hunk的修改
+  nnoremap ,gu :SignifyHunkUndo<cr>
+  " 清除unstaged修改
+  nnoremap ,gU :G checkout<Space><C-r>=expand('%')<cr><cr>
+  " 清除uncommit修改
+  nnoremap ,,gu :G checkout<Space>HEAD<Space><C-r>=expand('%')<cr><cr>
+  nmap gk <plug>(signify-prev-hunk)
+  nmap gj <plug>(signify-next-hunk)
+endif
+
+Plug 'tpope/vim-fugitive' " 在async-load.vim里写了配置
+
+" 状态栏
+Plug 'itchyny/lightline.vim'
+"{{{
+" functions
+"{{{
+function! File_change_status()
+  " 防止--noplugin模式下报错
+  if g:disable_laggy_plugins_for_large_file == 1
+    return ''
+  endif
+
+  let l:symbols = ['+', '-', '~']
+  let [added, modified, removed] = sy#repo#get_stats()
+  let l:stats = [added, removed, modified]  " reorder
+  let hunkline = ''
+  for i in range(3)
+    if l:stats[i] > 0
+      let hunkline .= printf('%s%s ', l:symbols[i], l:stats[i])
+    endif
+  endfor
+  if !empty(hunkline)
+    let hunkline = printf('[%s]', hunkline[:-2])
+  endif
+  return winwidth(0) > 70 ? hunkline : ''
+endfunction
+
+function! LightlineFugitive()
+  let l:result = ''
+  if &ft !~? 'vimfiler'
+    let l:result = FugitiveHead() != '' ? '[' . FugitiveHead() . ']' : ''
+  endif
+  return winwidth(0) > 45 ? l:result : ''
+endfunction
+
+function! LightlineFileformat()
+  let l:result = &fenc != "" ? &fenc : &enc
+  let l:result = l:result . '[' . &ff . ']'
+  return winwidth(0) > 70 ? l:result : ''
+endfunction
+
+function LightLineFiletype()
+  if !exists('*WebDevIconsGetFileTypeSymbol')  " 判断是否启用devicon插件
+    let l:result = &ft != "" ? &ft : "no ft"
+  else
+    let l:result = &ft != "" ? &ft . ' ' . WebDevIconsGetFileTypeSymbol() : "no ft"
+  endif
+  return winwidth(0) > 70 ? l:result : ''
+endfunction
+
+function! NearestMethodOrFunction() abort
+  return winwidth(0) > 70 ? get(b:, 'vista_nearest_method_or_function', '') : ''
+endfunction
+
+function! Tab_num(n) abort
+  return a:n
+endfunction
+
+function! RemoveLabelOnTopRight() abort
+  return ""
+endfunc
+
+function! Get_session_name() abort
+  let l:session_name = fnamemodify(v:this_session,':t:r')
+  return l:session_name != '' ? '<' . l:session_name . '>' : ''
+endfunction
+
+function If_in_merge_or_diff_mode() abort
+  if get(g:, 'mergetool_in_merge_mode', 0)  " merge模式
+    return 'merge mode'
+  endif
+  if &diff
+    return 'diff mode'  " diff模式
+  endif
+  return ''
+endfunc
+
+fun My_tab_name(tab_n)
+  if exists('*WebDevIconsGetFileTypeSymbol') && exists('*lightline#tab#filename')
+    let l:result = WebDevIconsGetFileTypeSymbol(lightline#tab#filename(a:tab_n)) . ' ' . lightline#tab#filename(a:tab_n)
+  elseif exists('*lightline#tab#filename')
+    let l:resutl = lightline#tab#filename(a:tab_n)
+  else
+    let l:result = expand('%:t')
+  endif
+  return l:result
+endf
+"}}}
+
+let g:lightline = {}
+let g:lightline.colorscheme = g:lightline_schemes[g:default_colorscheme_mode]
+let g:lightline.separator = { 'left': "\ue0b8", 'right': "\ue0be" }
+let g:lightline.subseparator = { 'left': "\ue0b9", 'right': "\ue0b9" }
+let g:lightline.tabline_separator = { 'left': "\ue0bc", 'right': "\ue0ba" }
+let g:lightline.tabline_subseparator = { 'left': "\ue0bb", 'right': "\ue0bb" }
+let g:lightline#ale#indicator_checking = "\uf110 "
+let g:lightline#ale#indicator_warnings = "\uf529 "
+let g:lightline#ale#indicator_errors = "\uf00d "
+let g:lightline#ale#indicator_ok = "\uf00c "
+let g:lightline#asyncrun#indicator_none = ''
+let g:lightline#asyncrun#indicator_run = 'Running...'
+let g:lightline.active = {
+      \ 'left': [ [ 'mode', 'paste' ],
+      \           [  'gitbranch', 'filename', 'readonly', 'modified', 'session_name' ],
+      \         ],
+      \ 'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
+      \            [ 'diff_or_merge_mode', 'filetype', 'fileformat', 'lineinfo' ],
+      \            [ 'asyncrun_status']
+      \          ]
+      \ }
+let g:lightline.inactive = {
+      \ 'left': [ [ 'filename' , 'modified', 'session_name' ] ],
+      \ 'right': [ [ 'diff_or_merge_mode', 'filetype', 'fileformat', 'lineinfo' ] ]
+      \ }
+let g:lightline.tabline = {
+      \ 'left': [ [ 'vim_logo', 'tabs' ] ],
+      \ 'right': [['RemoveLabelOnTopRight']]}
+let g:lightline.tab = {
+      \ 'active': [ 'filename', 'modified' ],
+      \ 'inactive': [ 'filename', 'modified' ] }
+
+let g:lightline.tab_component = {
+      \ }
+let g:lightline.tab_component_function = {
+      \ 'filename': 'My_tab_name',
+      \ 'readonly': 'lightline#tab#readonly',
+      \ 'tabnum': 'Tab_num'
+      \ }
+" \ 'filename': 'lightline#tab#filename',
+
+let g:lightline.component = {
+      \ 'bufinfo': '%{bufname("%")}:%{bufnr("%")}',
+      \ 'vim_logo': "\ue7c5",
+      \ 'mode': '%{lightline#mode()}',
+      \ 'absolutepath': '%F',
+      \ 'relativepath': '%f',
+      \ 'filename': '%t',
+      \ 'filesize': "%{HumanSize(line2byte('$') + len(getline('$')))}",
+      \ 'paste': '%{&paste?"PASTE":""}',
+      \ 'readonly': '%R',
+      \ 'charvalue': '%b',
+      \ 'charvaluehex': '%B',
+      \ 'lineinfo': '%2p%%',
+      \ 'percent': '%2p%%',
+      \ 'percentwin': '%P',
+      \ 'spell': '%{&spell?&spelllang:""}',
+      \ 'winnr': '%{winnr()}',
+      \ 'close': '%999X X ',
+      \ }
+
+let g:lightline.component_function = {
+      \   'gitbranch': 'LightlineFugitive',
+      \   'modified': 'File_change_status',
+      \   'method': 'NearestMethodOrFunction',
+      \   'session_name': 'Get_session_name',
+      \   'fileformat': 'LightlineFileformat',
+      \   'filetype': 'LightLineFiletype',
+      \   'diff_or_merge_mode': 'If_in_merge_or_diff_mode'
+      \ }
+let g:lightline.component_expand = {
+      \ 'linter_checking': 'lightline#ale#checking',
+      \ 'linter_warnings': 'lightline#ale#warnings',
+      \ 'linter_errors': 'lightline#ale#errors',
+      \ 'linter_ok': 'lightline#ale#ok',
+      \ 'RemoveLabelOnTopRight': 'RemoveLabelOnTopRight',
+      \ 'asyncrun_status': 'lightline#asyncrun#status',
+      \ }
+
+let g:lightline.component_type = {
+      \ 'linter_warnings': 'warning',
+      \ 'linter_errors': 'error'
+      \ }
+let g:lightline.component_visible_condition = {
+      \ }
+
+"}}}
+
+" ale和lightline插件适配器
+Plug 'maximbaz/lightline-ale'
+
+" asyncrun和lightline插件适配
+Plug 'albertomontesg/lightline-asyncrun'
+"}}}
+
 "{{{ 自动生效的插件
 "" 多彩括号
 Plug 'luochen1990/rainbow'
