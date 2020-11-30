@@ -1956,7 +1956,6 @@ noremap K <C-b>
 nnoremap gi gi<esc>zvzzi
 " goto previous/next change positon
 nnoremap g; g;zv
-n && line("'\"") <= line("$"noremap g, g,zv
 nnoremap '' ``zv
 nnoremap '. `.zv
 " HACK: zv可以自动展开折叠
