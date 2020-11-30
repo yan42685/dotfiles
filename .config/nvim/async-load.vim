@@ -1956,7 +1956,7 @@ noremap K <C-b>
 nnoremap gi gi<esc>zvzzi
 " goto previous/next change positon
 nnoremap g; g;zv
-nnoremap g, g,zv
+n && line("'\"") <= line("$"noremap g, g,zv
 nnoremap '' ``zv
 nnoremap '. `.zv
 " HACK: zv可以自动展开折叠
@@ -2028,6 +2028,7 @@ nnoremap <silent> <leader>wl :wincmd L<cr>
 " swap to right
 nnoremap <silent> <leader>ws <c-w>x<c-w>=
 nnoremap <leader>w= <c-w>=
+nnoremap <leader>we <c-w>=
 " 窗口最大化 leaving only the help window open/maximized
 nnoremap <leader>wo <c-w>o
 nnoremap <leader>ss <c-w>s<c-w>w

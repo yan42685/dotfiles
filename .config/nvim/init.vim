@@ -64,8 +64,8 @@ let g:in_transparent_mode = 0 " 初始并不在透明模式
 "{{{ Disable Preloaded Plugins
 let g:loaded_remote_plugins = 1  " remote plugins 在自定义的async-load.vim中才加载
 let g:loaded_getscript = 1
+let g:loaded_shada_plugin      = 1
 let g:loaded_getscriptPlugin = 1
-let g:loaded_gzip = 1
 let g:loaded_LogiPat = 1
 let g:loaded_logipat = 1
 let g:loaded_man = 1
@@ -428,11 +428,14 @@ set tags=./.tags;,.tags  " 让ctags改名为.tags，不污染工作区
 set confirm
 set linebreak  " 一行文本超过window宽度会wrap，设置此项会让单词按语义分隔而不是按字母分隔
 set guicursor+=a:blinkon0  " 仅在gvim生效, 取消cursor的闪烁, 终端下的vim需要自行修改终端cursor设置
+set autoread
+" set dictionary+=~/.config/nvim/dict/dictionary.txt
 set autowriteall  " edit, next等动作时自动写入
 set tm=500
+set noequalalways " split窗口后不自动等宽
 set clipboard+=unnamedplus
 set clipboard+=unnamed
-set shortmess=atI  " 启动的时候不显示那个援助乌干达儿童的提示
+set shortmess=atIc  " 启动的时候不显示那个援助乌干达儿童的提示
 set noswapfile
 set nobackup nowritebackup  " 取消备份文件
 set updatecount =100  " FIXME:如果编辑大文件很慢那么考虑调大这个值 After typing this many characters the swap file will be written to disk
@@ -450,6 +453,7 @@ set novisualbell  " 去掉输入错误的提示声音
 set noerrorbells
 set vb " 彻底禁止错误发出bell
 set backspace=eol,start,indent  " Configure backspace so it acts as it should act
+set matchpairs+=《:》,（:）,【:】,“:”,‘:’
 set whichwrap+=<,>,h,l
 set synmaxcol=200  " 对于很长的行语法高亮很拖慢速度
 set viminfo+=!  " 保存viminfo全局信息
@@ -460,10 +464,6 @@ set showbreak=⤷▶  " wrap line指示器
 " set showbreak=↪
 set virtualedit+=block  " 块选择模式可以把光标移动到没有字符的位置
 set grepprg=rg\ --vimgrep
-
-
-
-
 
 
 " {{{ 文件编码,格式 FileEncode Settings
@@ -485,8 +485,8 @@ set wildignore+=*/tmp/cache/assets/*/sprockets/*,*/tmp/cache/assets/*/sass/*  " 
 set wildignore+=node_modules/*  " Ignore node modules
 set wildignore+=*.swp,*~,._*  " Disable temp and backup files
 set wildignorecase  " files or directoies auto completion is case insensitive
-set completeopt-=menu  " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-set completeopt+=longest,menuone
+set completeopt-=menu,longest,preview  " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+set completeopt+=noinsert,menuone
 "}}}
 " {{{ 展示/排版等界面格式设置 Display Settings
 set ruler  " 显示当前的行号列号
