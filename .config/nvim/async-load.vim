@@ -2274,6 +2274,7 @@ nnoremap <leader>0 :exec exists('syntax_on') ? 'syn off' : 'syn on'<cr>
 "{{{ function
 function s:Enable_transparent_scheme() abort
     hi normal guibg=none
+    hi CursorLineNr guibg=none
 endfunction
 
 let g:in_transparent_mode = 0
