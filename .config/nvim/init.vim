@@ -3343,3 +3343,15 @@ nnoremap gl :lcd %:p:h<cr>:let mycurf=expand("<cfile>")<cr>:execute("e ".mycurf)
 "}}}
 "}}}
 " ==========================================
+" // TODO: 1. 结合add_command 和 asyncaction runcommand 实现异步加载插件
+          "2. 吧
+" call coc#add_command('mundoToggle', 'MundoToggle',
+"		\ 'toggle mundo window')
+
+"
+" inoremap <silent> <expr> <c-space> cocrefresh()
+" function MySourceVim() abort
+"     exec 'source ~/.config/nvim/test2.vim'
+" endfunction
+"
+" autocmd User CocNvimInit call coc#add_command('custom.sourceVim', 'call MySourceVim()') | call CocActionAsync('runCommand', 'vim.custom.sourceVim')
