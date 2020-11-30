@@ -631,6 +631,7 @@ call plug#end()
 " 设置 Settings
 " ==========================================
 " {{{ 基础设置 Basic Settings
+set autochdir
 set scrolloff=100  " 让视角始终居中，在vim中好像有性能问题,但是在neovim中不清楚
 set termguicolors  " 使用真色彩  NOTE: 此条设置应在colorscheme命令之前
 exec 'colorscheme ' . g:all_colorschemes[g:default_colorscheme_mode]

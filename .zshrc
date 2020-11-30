@@ -304,8 +304,6 @@ alias la='ls -a'
 alias lf='ls -a | fzf'
 # 如果有bat命令就alias
 alias md='mkdir'
-# 用文件浏览器打开当前目录
-alias open='nautilus $PWD &'
 alias showkey='screenkey --no-detach' # 在前台运行而不是后台
 
 alias now='echo $(date +%Y-%m-%d\ %H:%M:%S\ %A)'
@@ -346,6 +344,14 @@ alias hexdump='hexdump -C'
 ############################################################
 # {{{ 自定义函数
 # NOTE: 这些函数不可以在shell脚本里调用
+# 在文件浏览器里打开
+open() {
+   nohup nautilus ${1:-$PWD} > /dev/null 2>&1 &
+}
+# 打开trashbin
+openbin() {
+   open trash://
+}
 # {{{ toggle_auto_fetch()
 toggle_auto_fetch() {
     `command git rev-parse --is-inside-work-tree 2>/dev/null` || return
