@@ -1,4 +1,15 @@
-﻿" TODO: 用dein延迟加载配置项目
+﻿" TODO: 1. 把现在的高亮写在gruvbox_material里
+" =========================================
+"{{{ 异步加载其他vimrc
+function MySourceVim() abort
+    exec 'source ~/.config/nvim/async-load.vim'
+endfunction
+
+augroup MyLazyLoadingVimrc
+    autocmd!
+    autocmd User CocNvimInit call coc#add_command('custom.sourceVim', 'call MySourceVim()') | call CocActionAsync('runCommand', 'vim.custom.sourceVim')
+augroup end
+"}}}
 " =========================================
 "{{{可自行调整的全局配置
 
@@ -78,15 +89,6 @@ let g:loaded_zipPlugin = 1
 "}}}
 "}}}
 " =========================================
-" 插件管理
-" {{{主要插件简介
-" 1. ALE         去除多余空格空行，lint, formatter
-" 2. LeaderF     模糊查找
-" 3. coc         补全框架, 重构，跳转定义，其他插件生态系统
-" 4. Far         可视化替换
-" 5. Spelunker   拼写检查
-" NOTE: 对于使用了on或for来延迟加载的插件只有在加载了之后才能用 help 查看文档
-"}}}
 
 
 call plug#begin('~/.vim/plugged')
@@ -274,18 +276,11 @@ endfunction
 nmap <expr> gh &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<esc>:CocCommand clangd.switchSourceHeader<cr>'
 nmap <expr> gl &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<esc>'
 
-" // TODO: 结合add_command 和 asyncaction runcommand 实现异步加载插件
-" call coc#add_command('mundoToggle', 'MundoToggle',
-"		\ 'toggle mundo window')
+
+" TODO: 刷新补全列表，不知道对刷新 LSP 有没有作用
+inoremap <silent> <expr> <c-tab> cocr#efresh()
 
 
-
-inoremap <silent> <expr> <c-space> cocrefresh()
-function MySourceVim() abort
-    exec 'source ~/.config/nvim/async-load.vim'
-endfunction
-
-autocmd User CocNvimInit call coc#add_command('custom.sourceVim', 'call MySourceVim()') | call CocActionAsync('runCommand', 'vim.custom.sourceVim')
 
 
 
