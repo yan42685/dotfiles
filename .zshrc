@@ -289,6 +289,7 @@ alias vinp='editor --noplugin'
 alias vicp="nvim -c 'profile start profile.log' -c 'profile file *' -c 'profile func *' -c 'let g:check_performance_enabled = 1'"
 # 禁用部分大文件下十分影响性能的插件
 alias vifast="nvim -c 'let g:disable_laggy_plugins_for_large_file = 1'"
+alias en="editor ~/.config/nvim/init.vim"
 
 alias dot='yadm'
 alias nnn='PAGER= nnn'
