@@ -1980,16 +1980,33 @@ inoremap <silent> <m-l> <esc>:bp<cr>
 inoremap <silent> <m-h> <esc>:bn<cr>
 
 "{{{删除隐藏的buffer
-function! DeleteHiddenBuffers()
-    let tpbl=[]
-    let closed = 0
-    call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
-    for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
-        silent execute 'bwipeout' buf
-        let closed += 1
+let s:close_buffers_exclude_filetypes = ['floaterm', 'coc-explorer', 'vista', 'qf']
+
+" CloseNoDisplayedBuffers: Close buffers which are not opened in window
+function! DeleteHiddenBuffers() abort
+  let visible = {}
+  for t in range(1, tabpagenr('$'))
+    for b in tabpagebuflist(t)
+      let visible[b] = 1
     endfor
-    echo "Closed ".closed." hidden buffers"
-endfunction
+  endfor
+
+  let count = 0
+  for b in range(1, bufnr('$'))
+    if index(s:close_buffers_exclude_filetypes, getbufvar(b, '&filetype')) > -1
+      continue
+    endif
+    if bufexists(b) && !has_key(visible, b)
+      try
+        execute 'bwipeout' b
+        let count += 1
+      catch
+      endtry
+    endif
+  endfor
+"     echo "Closed ".closed." hidden buffers"
+endfunc
+
 "}}}
 nnoremap <leader>bcl :call DeleteHiddenBuffers()<cr>
 
