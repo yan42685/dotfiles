@@ -1,5 +1,4 @@
-﻿" TODO: 1. 把现在的高亮写在gruvbox_material里
-" =========================================
+﻿" =========================================
 "{{{ 异步加载其他vimrc
 function MySourceVim() abort
     exec 'source ~/.config/nvim/async-load.vim'
