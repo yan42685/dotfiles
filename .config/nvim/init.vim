@@ -90,18 +90,7 @@ let g:loaded_zipPlugin = 1
 "}}}
 " =========================================
 
-
 call plug#begin('~/.vim/plugged')
-"{{{ gruvbox-material
-Plug 'yan42685/gruvbox-material' " fork from https://github.com/sainnhe/gruvbox-material
-"{{{ settings
-let g:gruvbox_material_disable_italic_comment = 1
-let g:gruvbox_material_enable_italic = 0
-" BUG: 会导致部分配色异常并且暂时无解，比如signify的hunkdiff
-let g:gruvbox_material_better_performance = 1  " 延迟加载，减少50%加载时间, 大概节约二十多毫秒
-"}}}
-"}}}
-
 "{{{coc 生态系统, 补全框架
 " coc-lists
 nnoremap <leader>cl :CocList<cr>
@@ -325,7 +314,15 @@ nnoremap <leader>cg :CocConfig<cr>
 " rename file
 nnoremap <silent> <leader>rn :CocActionAsync('runCommand', 'workspace.renameCurrentFile')<cr>
 "}}}
-
+"{{{ gruvbox-material
+Plug 'yan42685/gruvbox-material' " fork from https://github.com/sainnhe/gruvbox-material
+"{{{ settings
+let g:gruvbox_material_disable_italic_comment = 1
+let g:gruvbox_material_enable_italic = 0
+" BUG: 会导致部分配色异常并且暂时无解，比如signify的hunkdiff
+let g:gruvbox_material_better_performance = 1  " 延迟加载，减少50%加载时间, 大概节约二十多毫秒
+"}}}
+"}}}
 "{{{ Startify
 " 启动页面
 Plug 'mhinz/vim-startify'
