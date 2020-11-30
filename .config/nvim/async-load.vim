@@ -598,6 +598,7 @@ nnoremap <silent> ,gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
 " This will:  Rename your file on disk.  Rename the file in git repo.
 "             Reload the file into the current buffer.  Preserve undo history.
 nnoremap ,gr :G add %<cr><esc>:Gmove <c-r>=expand('%:p:h')<cr>/
+
 nnoremap <silent> ,ft :AsyncTask git-fetch<cr>
 nnoremap <silent> ,ps :AsyncTask git-push<cr>
 nnoremap <silent> ,pl :AsyncTask git-pull<cr>
@@ -613,25 +614,6 @@ let g:flog_default_arguments = { 'max_count': 1000 }  " 约束最大显示的com
 nnoremap <silent> ,gl :Flog<cr>
 " 选中多行查看历史
 vnoremap <silent> ,gl :Flog<cr>
-
-" 【废弃】更好看的commit界面, 只用从命令行输入git commit才生效, 不对fugitive打开的commit buffer生效
-" Plug 'rhysd/committia.vim'
-" "{{{
-" let g:committia_min_window_width = 150
-" let g:committia_hooks = {}
-" "}}}
-" function! g:committia_hooks.edit_open(info)
-"     " If no commit message, start with insert mode
-"     " if a:info.vcs ==# 'git' && getline(1) ==# ''
-"     "     startinsert
-"     " endif
-"     "
-"     " Scroll the diff window from insert mode
-"     imap <buffer> <expr> <c-j> pumvisible() ? '<c-n>' : '<Plug>(committia-scroll-diff-down-half)'
-"     imap <buffer> <expr> <c-k> pumvisible() ? '<c-p>' : '<Plug>(committia-scroll-diff-up-half)'
-"     nmap <buffer><C-j> <Plug>(committia-scroll-diff-down-half)
-"     nmap <buffer><C-k> <Plug>(committia-scroll-diff-up-half)
-" endfunction
 
 " rebase的时候可以自动预览diff，而且现已在本配置文件设置了 I(pick) R(reword) E(edit) S(squash) F(fixup) D(drop)
 Plug 'hotwatermorning/auto-git-diff', {'for': 'gitrebase'}
