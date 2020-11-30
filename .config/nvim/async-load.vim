@@ -2273,19 +2273,13 @@ nnoremap <leader>0 :exec exists('syntax_on') ? 'syn off' : 'syn on'<cr>
 " {{{ 切换透明模式, 需要预先设置好终端的透明度 <leader>tt
 "{{{ function
 function s:Enable_transparent_scheme() abort
-    call s:HL('FoldColumn', s:palette.grey, s:palette.none)
-    call s:HL('Folded', s:palette.grey, s:palette.none)
-    call s:HL('SignColumn', s:palette.none, s:palette.none)
-    call s:HL('OrangeSign', s:palette.orange, s:palette.none)
-    call s:HL('PurpleSign', s:palette.purple, s:palette.none)
-    call s:HL('BlueSign', s:palette.none, s:palette.none)
+    hi normal guibg=none
 endfunction
 
 let g:in_transparent_mode = 0
 function! Toggle_transparent_background()
   if g:in_transparent_mode == 1
     let g:in_transparent_mode = 0
-    set laststatus=2
     setlocal cursorline
     syn off | syn on
     " illuminate插件
@@ -2293,7 +2287,6 @@ function! Toggle_transparent_background()
     call My_render_custom_highlight()
   else
     let g:in_transparent_mode = 1
-    set laststatus=0
     setlocal nocursorline
     hi Normal guibg=NONE ctermbg=NONE
     silent! IlluminationDisable

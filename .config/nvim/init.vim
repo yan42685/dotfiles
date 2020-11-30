@@ -174,7 +174,7 @@ let g:coc_global_extensions = [
 
 
 set hidden  " 隐藏buff非关闭它, TextEdit might fail if hidden is not set.
-set cmdheight=2  " 如果不设置为2，每次进入新buffer都需要回车确认...
+set cmdheight=1  " 在vim里如果不设置为2，每次进入新buffer都需要回车确认...
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set shortmess+=c  " Don't pass messages to ins-completion-menu.
@@ -885,7 +885,7 @@ augroup end
 "{{{ 自定义高亮 Highlighting, 必须在使用colorscheme之后定义
 
 " {{{ 基础调色盘
-let s:palette = {
+let g:my_base_palette = {
               \ 'bg0':        ['#282828',   '235',  'Black'],
               \ 'bg1':        ['#302f2e',   '236',  'DarkGrey'],
               \ 'bg2':        ['#32302f',   '236',  'DarkGrey'],
@@ -949,12 +949,12 @@ function My_render_custom_highlight() abort
     "}}}
     " {{{ 折叠，侧栏，Signature的mark标记，行号, ALE, Signify
     "             高亮组名     前景色         背景色
-    call s:HL('FoldColumn', s:palette.grey, s:palette.bg2)
-    call s:HL('Folded', s:palette.grey, s:palette.none)
-    call s:HL('SignColumn', s:palette.fg0, s:palette.none)
-    call s:HL('OrangeSign', s:palette.orange, s:palette.none)
-    call s:HL('PurpleSign', s:palette.purple, s:palette.none)
-    call s:HL('BlueSign', s:palette.blue, s:palette.none)
+    call s:HL('FoldColumn', g:my_base_palette.grey, g:my_base_palette.bg2)
+    call s:HL('Folded', g:my_base_palette.grey, g:my_base_palette.none)
+    call s:HL('SignColumn', g:my_base_palette.fg0, g:my_base_palette.none)
+    call s:HL('OrangeSign', g:my_base_palette.orange, g:my_base_palette.none)
+    call s:HL('PurpleSign', g:my_base_palette.purple, g:my_base_palette.none)
+    call s:HL('BlueSign', g:my_base_palette.blue, g:my_base_palette.none)
     " vsplit分割线
     highlight! VertSplit guifg=#658494 guibg=None
     " kshenoy/vim-signature 标记的配色
