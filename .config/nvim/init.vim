@@ -911,6 +911,11 @@ endfunction
 " nnoremap <silent> <leader>gh :CocCommand clangd.switchSourceHeader<cr>
 nmap <expr> gh &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<esc>:CocCommand clangd.switchSourceHeader<cr>'
 nmap <expr> gl &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<esc>'
+
+" // TODO: 结合add_command 和 asyncaction runcommand 实现异步加载插件
+" call coc#add_command('mundoToggle', 'MundoToggle',
+"		\ 'toggle mundo window')
+" inoremap <silent> <expr> <c-space> cocrefresh()
 "
 " Note coc#float#scroll works on neovim >= 0.4.3 or vim >= 8.2.0750
 nnoremap <silent><nowait><expr> <m-j> coc#float#has_scroll() ? coc#float#scroll(1) : "\<m-j>"
