@@ -420,7 +420,7 @@ Plug 'hotwatermorning/auto-git-diff', {'for': 'gitrebase'}
 Plug 'MattesGroeger/vim-bookmarks'
 "{{{ settings
 let g:bookmark_no_default_key_mappings = 1 " 取消默认快捷键
-let g:bookmark_save_per_working_dir = 1 " 保存的bookmark在git仓库间隔离
+" let g:bookmark_save_per_working_dir = 1 " 保存的bookmark在git仓库间隔离, 不设置就是全局bookmarks
 let g:bookmark_auto_save = 1 " 自动持久化
 let g:bookmark_center = 1 " 自动展示mark行到屏幕中心
 let g:bookmark_show_toggle_warning = 1 " 显示删除annnotated bookmark时的提示

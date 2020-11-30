@@ -1022,10 +1022,6 @@ endfunction
 call My_render_custom_highlight()
 "}}}
 
-" 开启透明模式
-" hi normal guibg=none
-hi CursorLineNr guibg=none
-hi CursorLine guibg=none
 " ==========================================
 " 新增功能
 " ==========================================
