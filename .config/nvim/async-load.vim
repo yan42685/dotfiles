@@ -2681,5 +2681,6 @@ nnoremap gl :lcd %:p:h<cr>:let mycurf=expand("<cfile>")<cr>:execute("e ".mycurf)
 "{{{ 其他(最好置于末尾)
 " remote plugin
 source ~/.local/share/nvim/rplugin.vim
+SignifyEnableAll
 "}}}
 " ==========================================

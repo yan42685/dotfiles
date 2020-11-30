@@ -644,8 +644,6 @@
 ; {{{ ### short alias ###
 
     ps = push
-    # 安全的push -force 只要其他人还没push就能强制更新远程分支
-    pssf = git push --force-with-lease
     ft = fetch
     pl = pull
     # 恢复一个删除的分支用 checkout -b <branch> <SHA>, 其中SHA可以从ref获取
