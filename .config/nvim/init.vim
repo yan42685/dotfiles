@@ -91,6 +91,15 @@ let g:loaded_zipPlugin = 1
 
 call plug#begin('~/.vim/plugged')
 " 以下插件不建议异步加载
+"{{{ 自动生效的插件
+"" 多彩括号
+Plug 'luochen1990/rainbow'
+"{{{
+let g:rainbow_active = 1
+"}}}
+
+
+"}}}
 "{{{coc 生态系统, 补全框架
 " coc-lists
 nnoremap <leader>cl :CocList<cr>
@@ -600,17 +609,21 @@ Plug 'maximbaz/lightline-ale'
 " asyncrun和lightline插件适配
 Plug 'albertomontesg/lightline-asyncrun'
 "}}}
-
-"{{{ 自动生效的插件
-"" 多彩括号
-Plug 'luochen1990/rainbow'
-"{{{
-let g:rainbow_active = 1
+"{{{ vim-flog
+" 更方便的查看commit g?查看键位 enter查看详细信息 <c-n> <c-p> 跳到上下commit
+Plug 'rbong/vim-flog', {'on': ['Flog']}
+" 置
+" 用法:  gr 显示reflog  y<C-g>复制简略哈希值 Floggit等同于G
+augroup Flog
+    " 在FlogGraph中visual模式选中两个commit 再按gd可以显示新commit相比旧commit有哪些区别
+    au FileType floggraph vnoremap <buffer> <silent> gd :<C-U>call flog#run_tmp_command("vertical belowright Git diff %(h'>) %(h'<)")<CR>
+augroup end
+let g:flog_default_arguments = { 'max_count': 1000 }  " 约束最大显示的commit数量，防止打开太慢
+nnoremap <silent> ,gl :Flog<cr>
+" 选中多行查看历史
+vnoremap <silent> ,gl :Flog<cr>
 "}}}
 
-
-
-"}}}
 call plug#end()
 
 

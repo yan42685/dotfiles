@@ -28,7 +28,7 @@ if g:disable_laggy_plugins_for_large_file == 0
     let g:spelunker_highlight_type = 2  " Highlight only SpellBad.
     let g:spelunker_white_list_for_user = ['refactor', 'vimrc', 'admin', 'username']
     let s:spelunker_filetype_blacklist = ['startify', 'far', 'vim-plug', 'vim', '', 'coc-explorer', 'zsh']  " 这里包括了文件类型的空的buffer
-    let s:spelunker_buftype_blacklist = ['terminal']  " 这里包括了文件类型的空的buffer
+    let s:spelunker_buftype_blacklist = ['terminal','nowrite']  " 这里包括了文件类型的空的buffer
     augroup my_highlight_spellbad
         autocmd!
         let g:spelunker_disable_auto_group = 1
@@ -411,17 +411,6 @@ nnoremap <silent> ,ft :AsyncTask git-fetch<cr>
 nnoremap <silent> ,ps :AsyncTask git-push<cr>
 nnoremap <silent> ,pl :AsyncTask git-pull<cr>
 
-" 更方便的查看commit g?查看键位 enter查看详细信息 <c-n> <c-p> 跳到上下commit
-Plug 'rbong/vim-flog', {'on': ['Flog']}
-" 用法:  gr 显示reflog  y<C-g>复制简略哈希值 Floggit等同于G
-augroup Flog
-  " 在FlogGraph中visual模式选中两个commit 再按gd可以显示新commit相比旧commit有哪些区别
-  au FileType floggraph vnoremap <buffer> <silent> gd :<C-U>call flog#run_tmp_command("vertical belowright Git diff %(h'>) %(h'<)")<CR>
-augroup end
-let g:flog_default_arguments = { 'max_count': 1000 }  " 约束最大显示的commit数量，防止打开太慢
-nnoremap <silent> ,gl :Flog<cr>
-" 选中多行查看历史
-vnoremap <silent> ,gl :Flog<cr>
 
 " rebase的时候可以自动预览diff，而且现已在本配置文件设置了 I(pick) R(reword) E(edit) S(squash) F(fixup) D(drop)
 Plug 'hotwatermorning/auto-git-diff', {'for': 'gitrebase'}
