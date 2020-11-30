@@ -90,6 +90,7 @@ let g:loaded_zipPlugin = 1
 " =========================================
 
 call plug#begin('~/.vim/plugged')
+" 以下插件不建议异步加载
 "{{{coc 生态系统, 补全框架
 " coc-lists
 nnoremap <leader>cl :CocList<cr>
@@ -385,9 +386,33 @@ augroup auto_enable_pangu
   autocmd InsertLeave COMMIT_EDITMSG call PanGuSpacing()
 augroup end
 "}}}
+"{{{ auto pairs
+" 括号配对优化
+Plug 'jiangmiao/auto-pairs'
+"{{{
+" 取消自动在括号内自动加一个空格
+let g:AutoPairsMapSpace=0
+" 不要在插入模式下映射<c-h>为<backspace>
+let g:AutoPairsMapCh=0
+" 取消自带快捷键
+let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsShortcutFastWrap = ''
+let g:AutoPairsShortcutBackInsert = ''
+"}}}
+let g:AutoPairsShortcutJump = '<M-n>'  " 快速跳转最近的pair
+"}}}
+"{{{ 自动生效的插件
+"" 多彩括号
+Plug 'luochen1990/rainbow'
+"{{{
+let g:rainbow_active = 1
+"}}}
 
 
+
+"}}}
 call plug#end()
+
 
 " ==========================================
 " 设置 Settings

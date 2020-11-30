@@ -97,25 +97,7 @@ Plug 'arp242/undofile_warn.vim'
 Plug 'sheerun/vim-polyglot'
 let g:vue_pre_processors ='detect_on_enter' " 极大提升打开vue文件的性能 自动设置预处理器, 这是对整合进polyglot的 posva/vim-vue的设置
 
-" 括号配对优化
-Plug 'jiangmiao/auto-pairs'
-"{{{
-" 取消自动在括号内自动加一个空格
-let g:AutoPairsMapSpace=0
-" 不要在插入模式下映射<c-h>为<backspace>
-let g:AutoPairsMapCh=0
-" 取消自带快捷键
-let g:AutoPairsShortcutToggle = ''
-let g:AutoPairsShortcutFastWrap = ''
-let g:AutoPairsShortcutBackInsert = ''
-"}}}
-let g:AutoPairsShortcutJump = '<M-n>'  " 快速跳转最近的pair
 
-" 多彩括号
-Plug 'luochen1990/rainbow'
-"{{{
-let g:rainbow_active = 1
-"}}}
 
 " coc-snippets是框架,这个是资源
 Plug 'honza/vim-snippets'
