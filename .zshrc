@@ -275,6 +275,7 @@ alias fuzzy_dir='fd --type directory --hidden --exclude .git . | fzf --preview "
 # 打开文件，如果取消fzf则不打开editor
 alias vif='file=$(fuzzy_file) && [[ -n "$file" ]] && editor $file'
 alias vid='directory=$(fuzzy_dir) && [[ -n "$directory" ]] && editor $directory'
+alias vd='editor $PWD'
 alias zd='directory=$(fuzzy_dir) && [[ -n "$directory" ]] && z $directory'
 alias zf='directory=$(dirname $(fuzzy_file)) && [[ -n "$directory" ]] && z $directory'
 alias zr='z -I -t .'  # 最近访问的路径

@@ -324,7 +324,8 @@ nnoremap <leader>cg :CocConfig<cr>
 nnoremap <silent> <leader>rn :CocActionAsync('runCommand', 'workspace.renameCurrentFile')<cr>
 "}}}
 "{{{ 主题
-Plug 'tyrannicaltoucan/vim-quantum'
+" Plug 'tyrannicaltoucan/vim-quantum'
+Plug 'yan42685/vim-quantum' " 自己fork的一个透明版本
 Plug 'yan42685/gruvbox-material' " fork from https://github.com/sainnhe/gruvbox-material
 "{{{ settings
 let g:gruvbox_material_disable_italic_comment = 1
@@ -624,7 +625,6 @@ nnoremap <silent> ,gl :Flog<cr>
 " 选中多行查看历史
 vnoremap <silent> ,gl :Flog<cr>
 "}}}
-
 call plug#end()
 
 
@@ -1021,6 +1021,9 @@ endfunction
 call My_render_custom_highlight()
 "}}}
 
+" 开启透明模式
+" hi normal guibg=none
+" hi CursorLineNr guibg=none
 " ==========================================
 " 新增功能
 " ==========================================
