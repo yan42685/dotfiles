@@ -630,7 +630,7 @@ augroup auto_actions_for_better_experience
     " 自动source VIMRC
     autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
     " 打开自动定位到最后编辑的位置, FIXME: 需要确认 .viminfo 当前用户有可写权限
-    autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exec "normal! g'\" \| zz" | endif
+    autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft != 'gitcommit' | exec "normal! g'\"" | endif
     " 进入新窗口始终让viewport居中
     autocmd BufWinEnter * exec 'normal! zz'
     "{{{ <c-j><c-k>移动quickfix
