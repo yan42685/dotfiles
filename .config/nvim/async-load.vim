@@ -1779,14 +1779,14 @@ let s:close_buffers_exclude_filetypes = ['floaterm', 'coc-explorer', 'vista', 'q
 
 " CloseNoDisplayedBuffers: Close buffers which are not opened in window
 function! DeleteHiddenBuffers() abort
-  let visible = {}
+  let l:visible = {}
   for t in range(1, tabpagenr('$'))
     for b in tabpagebuflist(t)
-      let visible[b] = 1
+      let l:visible[b] = 1
     endfor
   endfor
 
-  let count = 0
+  let l:count = 0
   for b in range(1, bufnr('$'))
     if index(s:close_buffers_exclude_filetypes, getbufvar(b, '&filetype')) > -1
       continue
@@ -1794,12 +1794,12 @@ function! DeleteHiddenBuffers() abort
     if bufexists(b) && !has_key(visible, b)
       try
         execute 'bwipeout' b
-        let count += 1
+        let l:count += 1
       catch
       endtry
     endif
   endfor
-"     echo "Closed ".closed." hidden buffers"
+  echo "Closed ".l:count." hidden buffers"
 endfunc
 
 "}}}
