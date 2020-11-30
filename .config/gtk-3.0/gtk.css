@@ -1,0 +1,13 @@
+/* 这里设置gnome的各种样式 FIXME: 不确定会不会导致系统不稳定 */
+/* setsid gnome-shell --replace 这个命令可以刷新gnome界面 */
+
+/* 标题栏 */
+.titlebar {
+  background: rgba(0, 0, 0, 0.4);
+  color: #ddc7a1;
+}
+
+.titlebar:backdrop {
+  background: #777777;
+  color: white;
+}
