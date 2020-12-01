@@ -1,5 +1,5 @@
 ﻿" =========================================
-"{{{ 异步加载其他vimrc
+"{{{ 异步加载其他vimrc, 是快速启动nvim的关键
 function MySourceVim() abort
     exec 'source ~/.config/nvim/async-load.vim'
 endfunction
