@@ -263,28 +263,15 @@ function! s:show_documentation()
 endfunction
 "}}}
 " <C-o>  切换到正常模式(q退出) <C-c>  - 关闭coclist
-
-" 层进式范围选择
-" NOTE: 暂时打算用回车映射到％　这样映射是为了在命令行按下<c-f>进入的buffer内，可以在normal模式按回车执行指令
-" let g:coc_range_select_map_blacklist = ['vim', 'markdown']
-" nmap <expr> <cr> index(g:coc_range_select_map_blacklist, &filetype) >=0 ? '<cr>' : '<Plug>(coc-range-select)'
-" vmap <expr> <cr> index(g:coc_range_select_map_blacklist, &filetype) >=0 ? '<cr>' : '<Plug>(coc-range-select)'
-" vmap <backspace> <Plug>(coc-range-select-backward)
 "
 " 在源文件与头文件之间切换
 " nnoremap <silent> <leader>gh :CocCommand clangd.switchSourceHeader<cr>
 nmap <expr> gh &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<esc>:CocCommand clangd.switchSourceHeader<cr>'
 nmap <expr> gl &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<esc>'
 
-
 " TODO: 刷新补全列表，不知道对刷新 LSP 有没有作用
 inoremap <silent> <expr> <c-tab> cocr#efresh()
 
-
-
-
-
-"
 " Note coc#float#scroll works on neovim >= 0.4.3 or vim >= 8.2.0750
 nnoremap <silent><nowait><expr> <m-j> coc#float#has_scroll() ? coc#float#scroll(1) : "\<m-j>"
 nnoremap <silent><nowait><expr> <m-k> coc#float#has_scroll() ? coc#float#scroll(0) : "\<m-k>"
@@ -319,9 +306,7 @@ nnoremap <silent> <leader>sl :CocList sessions<cr>
 imap <silent> <c-m-v> <esc><Plug>(coc-codeaction)
 nmap <silent> <c-m-v> <Plug>(coc-codeaction)
 vmap <silent> <c-m-v> <Plug>(coc-codeaction-selected)
-" FIXME: 如果不想显示ref的虚拟文本，需要在coc-setting里关闭codelents
-nnoremap <leader>cc :CocCommand<cr>
-nnoremap <leader>cg :CocConfig<cr>
+" FIXME: 如果不想显示ref的虚拟文本，需要在coc-setting里关闭codelens
 " rename file
 nnoremap <silent> <leader>rn :CocActionAsync('runCommand', 'workspace.renameCurrentFile')<cr>
 "}}}
@@ -639,7 +624,6 @@ nnoremap <silent> ,gl :Flog<cr>
 vnoremap <silent> ,gl :Flog<cr>
 "}}}
 call plug#end()
-
 
 " ==========================================
 " 设置 Settings
