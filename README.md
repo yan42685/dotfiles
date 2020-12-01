@@ -58,6 +58,7 @@ bash ~/.my-scripts/deploy.sh
   </details>
 
 - 在 github 设置 ssh-key 为 `cat ${HOME}/.ssh/id_rsa.pub` 命令输出的值
+- 系统设置 dock autohide
 
 ## 其他问题
 

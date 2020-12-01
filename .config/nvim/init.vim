@@ -109,14 +109,16 @@ nnoremap <leader>cl :CocList<cr>
 
 " coc-explorer 文件树
 "{{{
-function ToggleCocExplorer()
+function ToggleCocExplorer(location)
+    let l:target = a:location == 'currentFile' ? expand('%:p:h') : FindRootDirectory()
     if &ft == 'startify'
         bd
     endif
-  execute 'CocCommand explorer --toggle --width=35 --sources=buffer,file+ ' . getcwd()
+  execute 'CocCommand explorer --toggle --width=35 --sources=buffer,file+ ' . l:target
 endfunction
 "}}}
-nnoremap <silent> <leader>eo :call ToggleCocExplorer()<CR>
+nnoremap <silent> <leader>eo :call ToggleCocExplorer('rootDir')<CR>
+nnoremap <silent> <leader>eO :call ToggleCocExplorer('currentFile')<CR>
 " 如果nvim 打开一个目录就自动打开coc-explorer
 augroup Nvim_dir_auto_open_coc_explorer
   autocmd!
@@ -413,6 +415,17 @@ let g:AutoPairsShortcutBackInsert = ''
 "}}}
 let g:AutoPairsShortcutJump = '<M-n>'  " 快速跳转最近的pair
 "}}}
+"{{{ vim-rooter
+"" 切换到项目根目录
+Plug 'airblade/vim-rooter'
+"{{{
+" let g:rooter_manual_only = 1  " 注释了这行代表开启自动Rooter
+let g:rooter_resolve_links = 1  " resolve软硬链接
+let g:rooter_silent_chdir = 1  " 静默change dir
+"}}}
+" 手动切换到项目根目录
+nnoremap ,rt :Rooter<cr>:echo printf('Rooter to %s', FindRootDirectory())<cr>
+"}}}
 "{{{ 让lightline生效的插件 NOTE: 多花了10多毫秒开启lightline是为了打开session不报错
 if g:disable_laggy_plugins_for_large_file == 0
   "    " 侧栏显示git diff情况
@@ -633,7 +646,6 @@ call plug#end()
 " 设置 Settings
 " ==========================================
 " {{{ 基础设置 Basic Settings
-set autochdir
 set scrolloff=100  " 让视角始终居中，在vim中好像有性能问题,但是在neovim中不清楚
 set termguicolors  " 使用真色彩  NOTE: 此条设置应在colorscheme命令之前
 exec 'colorscheme ' . g:all_colorschemes[g:default_colorscheme_mode]

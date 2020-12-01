@@ -33,6 +33,7 @@
   "yank.enableCompletion": false,
   "suggest.noselect": false, // 补全启动时自动选择第一项
   "suggest.minTriggerInputLength": 1, // 补全触发的最少字数
+  // "explorer.filename.colored.enable": true, // 对不同的git状态显示不同的颜色 等功能完善之后再用
   "explorer.icon.enableNerdfont": true,
   "explorer.previewAction.onHover": false,
   // 是否默认显示隐藏文件
