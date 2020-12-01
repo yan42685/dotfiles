@@ -339,6 +339,11 @@ let g:gruvbox_material_better_performance = 1  " 延迟加载，减少50%加载�
 " 启动页面
 Plug 'mhinz/vim-startify'
 "{{{
+augroup SetStartifyColor
+  autocmd!
+  autocmd VimEnter * hi! StartifyFile guifg=#aab7c1
+augroup end
+
 let g:startify_lists = [
             \ { 'type': 'sessions',  'header': ['   Sessions']       },
             \ { 'type': 'files',     'header': ['   MRU']            },
