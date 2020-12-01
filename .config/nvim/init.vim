@@ -341,7 +341,7 @@ Plug 'mhinz/vim-startify'
 "{{{
 augroup SetStartifyColor
   autocmd!
-  autocmd VimEnter * hi! StartifyFile guifg=#aab7c1
+  autocmd VimEnter * hi! StartifyFile guifg=#d6c8ab
 augroup end
 
 let g:startify_lists = [
