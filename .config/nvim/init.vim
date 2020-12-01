@@ -499,10 +499,6 @@ function! Tab_num(n) abort
   return a:n
 endfunction
 
-function! RemoveLabelOnTopRight() abort
-  return ""
-endfunc
-
 function! Get_session_name() abort
   let l:session_name = fnamemodify(v:this_session,':t:r')
   return l:session_name != '' ? '<' . l:session_name . '>' : ''
@@ -534,7 +530,8 @@ let g:lightline = {}
 let g:lightline.colorscheme = g:lightline_schemes[g:default_colorscheme_mode]
 let g:lightline.separator = { 'left': "\ue0b8", 'right': "\ue0be" }
 let g:lightline.subseparator = { 'left': "\ue0b9", 'right': "\ue0b9" }
-let g:lightline.tabline_separator = { 'left': "\ue0bc", 'right': "\ue0ba" }
+" let g:lightline.tabline_separator = { 'left': "\ue0bc", 'right': "\ue0ba" }
+let g:lightline.tabline_separator = { 'left': "\ue0bc", 'right': "" }  " 右边的separator清空就不会显示多余的色块了
 let g:lightline.tabline_subseparator = { 'left': "\ue0bb", 'right': "\ue0bb" }
 let g:lightline#ale#indicator_checking = "\uf110 "
 let g:lightline#ale#indicator_warnings = "\uf529 "
@@ -556,7 +553,7 @@ let g:lightline.inactive = {
       \ }
 let g:lightline.tabline = {
       \ 'left': [ [ 'vim_logo', 'tabs' ] ],
-      \ 'right': [['RemoveLabelOnTopRight']]}
+      \ 'right': [[]]}
 let g:lightline.tab = {
       \ 'active': [ 'filename', 'modified' ],
       \ 'inactive': [ 'filename', 'modified' ] }
@@ -604,7 +601,6 @@ let g:lightline.component_expand = {
       \ 'linter_warnings': 'lightline#ale#warnings',
       \ 'linter_errors': 'lightline#ale#errors',
       \ 'linter_ok': 'lightline#ale#ok',
-      \ 'RemoveLabelOnTopRight': 'RemoveLabelOnTopRight',
       \ 'asyncrun_status': 'lightline#asyncrun#status',
       \ }
 
