@@ -1091,16 +1091,8 @@ let g:Lf_WildIgnore = {
 " popup的normal模式是否自动预览 FIXME: 如果觉得上下移动很慢的话就得关闭preview
 "                               TIP: 不要按着j或<c-j>不动而是连续按j的话就不会显得很慢
 let g:Lf_PreviewResult = {
-        \ 'File': 1,
-        \ 'Buffer': 1,
-        \ 'Mru': 1,
-        \ 'Tag': 1,
-        \ 'BufTag': 1,
-        \ 'Function': 1,
-        \ 'Line': 1,
-        \ 'Colorscheme': 1,
-        \ 'Rg': 1,
-        \ 'Gtags': 1
+        \ 'File': 1, 'Buffer': 1, 'Mru': 1, 'Tag': 1, 'BufTag': 1,
+        \ 'Function': 1, 'Line': 1, 'Colorscheme': 1, 'Rg': 1, 'Gtags': 1
         \}
 
 let g:Lf_WindowPosition = 'popup'  " 使用popup
@@ -1123,6 +1115,25 @@ let g:Lf_WorkingDirectoryMode = 'a'  " the nearest ancestor of current directory
                                      " ancestor directory found.
 let g:Lf_ShortcutF = ''  " 这两项是为了覆盖默认设置的键位
 let g:Lf_ShortcutB = ''
+
+" 设置弹窗配色
+let g:Lf_PopupPalette = {
+    \  'dark': {
+    \     'Lf_hl_popup_window': {
+    \         'guibg': 'NONE'
+    \     },
+    \     'Lf_hl_popup_inputText': {
+    \         'guibg': '#354852'
+    \     },
+    \     'Lf_hl_popup_blank': {
+    \         'guibg': 'NONE'
+    \     },
+    \     'Lf_hl_cursorline': {
+    \         'guifg': '#62cb8a'
+    \     }
+    \  }
+\ }
+
 "}}}
 nnoremap <silent> <leader>gt :Leaderf --nowrap task<cr>
 " <C-t>新标签页打开, <C-l> vsplit <S-Insert>粘贴
