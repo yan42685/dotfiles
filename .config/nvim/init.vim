@@ -326,7 +326,6 @@ nnoremap <leader>cg :CocConfig<cr>
 nnoremap <silent> <leader>rn :CocActionAsync('runCommand', 'workspace.renameCurrentFile')<cr>
 "}}}
 "{{{ 主题
-" Plug 'tyrannicaltoucan/vim-quantum'
 Plug 'yan42685/vim-quantum' " 自己fork的一个透明版本
 Plug 'yan42685/gruvbox-material' " fork from https://github.com/sainnhe/gruvbox-material
 "{{{ settings
