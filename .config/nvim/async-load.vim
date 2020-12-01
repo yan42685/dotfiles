@@ -354,7 +354,7 @@ nmap gc <Plug>(git-messenger)
 " git
 " G表示外部git命令 支持~/.gitconfig里定义的alias
 " NOTE: 连续使用G会出一些bug，复杂命令最好用.gitconfig里的alias
-" Plug 'tpope/vim-fugitive' " 在init.vim里启用了，这里仅做配置
+Plug 'tpope/vim-fugitive'
 " Gread就是清空暂存区 即checkout %    " 还有diffget和diffput可以使用
 nnoremap <silent> ,ga :G add %:p<CR>
 nnoremap <silent> ,gaa :G add -A<cr>

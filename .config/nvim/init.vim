@@ -445,7 +445,7 @@ if g:disable_laggy_plugins_for_large_file == 0
   nmap gj <plug>(signify-next-hunk)
 endif
 
-Plug 'tpope/vim-fugitive' " 在async-load.vim里写了配置
+Plug 'itchyny/vim-gitbranch' " lightline依赖的gitbranch，这样可以不用同步加载fugitie了
 
 " 状态栏
 Plug 'itchyny/lightline.vim'
@@ -473,10 +473,10 @@ function! File_change_status()
   return winwidth(0) > 70 ? hunkline : ''
 endfunction
 
-function! LightlineFugitive()
+function! LightlineGitBranch()
   let l:result = ''
   if &ft !~? 'vimfiler'
-    let l:result = FugitiveHead() != '' ? '[' . FugitiveHead() . ']' : ''
+    let l:result = gitbranch#name() != '' ? '[' . gitbranch#name() . ']' : ''
   endif
   return winwidth(0) > 45 ? l:result : ''
 endfunction
@@ -593,7 +593,7 @@ let g:lightline.component = {
       \ }
 
 let g:lightline.component_function = {
-      \   'gitbranch': 'LightlineFugitive',
+      \   'gitbranch': 'LightlineGitBranch',
       \   'modified': 'File_change_status',
       \   'method': 'NearestMethodOrFunction',
       \   'session_name': 'Get_session_name',
