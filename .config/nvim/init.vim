@@ -549,7 +549,7 @@ let g:lightline.active = {
       \           [  'gitbranch', 'filename', 'readonly', 'modified', 'session_name' ],
       \         ],
       \ 'right': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
-      \            [ 'diff_or_merge_mode', 'filetype', 'fileformat', 'lineinfo', 'asyncrun_status' ],
+      \            [ 'asyncrun_status', 'diff_or_merge_mode', 'filetype', 'fileformat', 'lineinfo' ],
       \          ]
       \ }
 let g:lightline.inactive = {
