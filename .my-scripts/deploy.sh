@@ -53,6 +53,7 @@ setup_ubuntu_environment() {
     echo "==================== installing linter and formatter"
     npm install -g eslint
     npm install -g vim-language-server
+    npm install -g vls
     npm install -g prettier
     python3 -m pip install pylint --user
     python3 -m pip install autopep8 --user
