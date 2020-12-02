@@ -47,14 +47,6 @@ endif
 " ==================================
 " ==================================
 
-" 缩进虚线
-Plug 'Yggdroot/indentLine', {'for': ['vue', 'html','javascript', 'python']}
-"{{{ settings
-let g:indentLine_fileType = ['vue','html', 'javascript','python']
-let g:indentLine_bufTypeExclude = ['help', 'terminal']
-let g:indentLine_char = '│'
-"}}}
-
 
 " 极大增强f和t查找能力 , f<cr>会重复上次搜索的字母, f会自动重复搜索
 Plug 'rhysd/clever-f.vim'
@@ -2329,6 +2321,8 @@ nnoremap <leader>yap :call Copy_to_registers(expand('%:p'))<cr>:echo printf('abs
 nnoremap <leader>ydr :call Copy_to_registers(expand('%:p:h'))<cr>:echo printf('absolute dir yanked: %s', expand('%:p:h'))<cr>
 nnoremap gl :lcd %:p:h<cr>:let mycurf=expand("<cfile>")<cr>:execute("e ".mycurf)<cr>
 "}}}
+" 重启ALE
+nnoremap <leader>ta :ALEToggle<cr>:ALEToggle<cr>
 "}}}
 "{{{ 其他(最好置于末尾)
 " remote plugin

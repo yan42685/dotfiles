@@ -623,6 +623,14 @@ nnoremap <silent> ,gl :Flog<cr>
 " 选中多行查看历史
 vnoremap <silent> ,gl :Flog<cr>
 "}}}
+"{{{ indentLine 缩进虚线
+Plug 'Yggdroot/indentLine', {'for': ['vue', 'html','javascript', 'python']}
+let g:indentLine_fileType = ['vue','html', 'javascript','python']
+let g:indentLine_bufTypeExclude = ['help', 'terminal']
+let g:indentLine_char = '│'
+let g:indentLine_color_gui = 'Grey30'
+"}}}
+
 call plug#end()
 
 " ==========================================
