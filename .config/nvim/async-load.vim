@@ -2322,7 +2322,7 @@ nnoremap <leader>ydr :call Copy_to_registers(expand('%:p:h'))<cr>:echo printf('a
 nnoremap gl :lcd %:p:h<cr>:let mycurf=expand("<cfile>")<cr>:execute("e ".mycurf)<cr>
 "}}}
 " 重启ALE
-nnoremap <leader>ta :ALEToggle<cr>:ALEToggle<cr>
+nnoremap <silent> <leader>ta :ALEToggle<cr>:ALEToggle<cr>
 "}}}
 "{{{ 其他(最好置于末尾)
 " remote plugin
