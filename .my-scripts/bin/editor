@@ -29,7 +29,7 @@ show-git-log() {
         # nvr --remote-tab -c 'Flog' -c 'tabprevious' -c 'bd!' -c 'tabnext'
         nvr --remote-tab -c 'Flog'
     else
-        nvim -c 'Flog' -c 'tabprevious' -c 'bd!' -c 'tabclose'
+        nvim -u '~/.config/nvim/custom-version/for-flog.vim' -c 'Flog' -c 'tabprevious' -c 'bd!' -c 'tabclose'
     fi
 }
 
