@@ -272,7 +272,6 @@ if g:disable_laggy_plugins_for_large_file == 0
     " ALE静态代码检查和自动排版 NOTE: 默认禁用对log文件的fixer
     Plug 'dense-analysis/ale'
     "{{{
-    let g:ale_disable_lsp = 1 " 用coc提供的lsp信息
     let g:ale_set_highlights = 0  " 不要显示红色下划线
     let g:ale_sign_error = '✗'
     let g:ale_sign_warning = '⚡'
