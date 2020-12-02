@@ -714,7 +714,7 @@ set number  " 显示行号
 set textwidth=0  " 打字超过一定长度也不会自动换行
 set relativenumber number  " 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
 " set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
-" " 命令行（在状态行下）的高度，默认为1，这里是2
+" 命令行（在状态行下）的高度，默认为1
 set laststatus=2  " Always show the status line - use 2 lines for the status bar
 "{{{ statusline Config
 set statusline=
@@ -732,6 +732,7 @@ set statusline+=%#CursorLine#
 set statusline+=\ %{&ff}\  " Unix or Dos
 set statusline+=%*  " default color
 set statusline+=\ %{strlen(&fenc)?&fenc:'none'}\  " file encoding
+set fillchars+=vert:\|  " 状态栏分隔符
 "}}}
 set showmatch  " 括号配对情况, 跳转并高亮一下匹配的括号
 set matchtime=2  " How many tenths of a second to blink when matching brackets
@@ -885,6 +886,7 @@ augroup auto_actions_for_better_experience
     autocmd WinEnter * if g:in_transparent_mode == 0 | setlocal cursorline
     " 每次隐藏浮动窗口重置全屏状态
     autocmd WinLeave * if &filetype == 'floaterm' | let g:My_full_screen_floterm_status = 0 | setlocal laststatus=2 | endif
+    autocmd VimEnter * hi StatusLineNC gui=none guibg=none " 设置分隔符颜色
 
 augroup end
 "}}}
