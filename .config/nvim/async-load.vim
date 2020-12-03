@@ -12,8 +12,6 @@
 call plug#begin('~/.vim/plugged')
 " {{{没有设置快捷键的，在后台默默运行的插件
 
-" 主题配色
-Plug 'sainnhe/forest-night'
 
 " =================================
 " 在大文件下会影响性能

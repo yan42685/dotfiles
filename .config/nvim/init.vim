@@ -25,9 +25,9 @@ let g:enable_file_autosave = 1  " 是否自动保存
 let g:disable_laggy_plugins_for_large_file = 0  " 在启动参数里设置为1就可以加快打开速度
 set updatetime=400  " 检测CursorHold事件的时间间隔,影响性能的主要因素
 let g:default_colorscheme_mode = 0
-let g:all_colorschemes = ['quantum', 'gruvbox-material', 'forest-night',
+let g:all_colorschemes = ['quantum', 'forest-night', 'gruvbox-material',
             \ ]
-let g:lightline_schemes = ['quantum','gruvbox_material', 'forest_night',
+let g:lightline_schemes = ['quantum','forest_night', 'gruvbox_material',
             \ ]
 
 
@@ -314,6 +314,10 @@ nnoremap <silent> <leader>rn :CocActionAsync('runCommand', 'workspace.renameCurr
 "}}}
 "{{{ 主题
 Plug 'yan42685/vim-quantum' " 自己fork的一个透明版本
+Plug 'sainnhe/forest-night'
+let g:forest_night_better_performance = 1
+let g:forest_night_disable_italic_comment = 1
+let g:forest_night_enable_italic = 0
 Plug 'yan42685/gruvbox-material' " fork from https://github.com/sainnhe/gruvbox-material
 "{{{ settings
 let g:gruvbox_material_disable_italic_comment = 1
