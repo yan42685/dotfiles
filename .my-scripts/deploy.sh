@@ -308,7 +308,8 @@ common_after_deploy() {
 
     # 安装vim插件
     # NOTE: post执行脚本会卡一段时间，耐心等待就好
-    nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
+    # nvim "+PlugUpdate" "+PlugClean!" "+PlugUpdate" "+qall"
+    nvim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugUpdate' -c 'PlugClean!' -c 'PlugUpdate' -c 'qall'
 }
 
 # confirm_reboot() {

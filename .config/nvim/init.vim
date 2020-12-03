@@ -90,7 +90,7 @@ let g:loaded_zipPlugin = 1
 " =========================================
 
 " VimPlug只会管理最后一次调用plug#begin()和plug#end()之间的插件，所以这里同步调用的插件
-" 不会自动安装，需要用另一个辅助配置安装 nvim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugInstall'
+" 不会自动安装，需要用另一个辅助配置安装 用法nvim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugUpdate' -c 'PlugClean!' -c 'PlugUpdate' -c 'qall'
 call plug#begin('~/.vim/plugged')
 " 以下插件不建议异步加载
 "{{{ 自动生效的插件

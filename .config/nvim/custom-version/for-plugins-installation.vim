@@ -1,7 +1,8 @@
-" 用法 nvim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugInstall'
+" 用法
 " NOTE: 1. 因为异步加载插件时下载插件补全，所以建立此同步配置
 "       2. VimPlug只会管理最后一次调用plug#begin()和plug#end()之间的插件
-" 不会自动安装，需要用另一个辅助配置安装 vim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugInstall'
+" 不会自动安装，需要用另一个辅助配置安装
+"       3. 用法nvim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugUpdate' -c 'PlugClean!' -c 'PlugUpdate' -c 'qall'
 
 call plug#begin('~/.vim/plugged')
 "{{{ 同步配置
