@@ -1,4 +1,9 @@
-" NOTE: 因为异步加载插件时下载插件补全，所以建立此同步配置
+" 用法 nvim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugInstall'
+" NOTE: 1. 因为异步加载插件时下载插件补全，所以建立此同步配置
+"       2. VimPlug只会管理最后一次调用plug#begin()和plug#end()之间的插件
+" 不会自动安装，需要用另一个辅助配置安装 vim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugInstall'
+
+call plug#begin('~/.vim/plugged')
 "{{{ 同步配置
 " =========================================
 " =========================================
@@ -81,7 +86,6 @@ let g:loaded_zipPlugin = 1
 "}}}
 " =========================================
 
-call plug#begin('~/.vim/plugged')
 " 以下插件不建议异步加载
 "{{{ 自动生效的插件
 "" 多彩括号
@@ -623,7 +627,6 @@ let g:indentLine_char = '│'
 let g:indentLine_color_gui = 'Grey30'
 "}}}
 
-call plug#end()
 
 " ==========================================
 " 设置 Settings
@@ -1048,9 +1051,8 @@ augroup end
 "}}}
 "
 "}}}
-"{{{ 异步配置-1
+"{{{ 异步配置 step1
 
-call plug#begin('~/.vim/plugged')
 " {{{没有设置快捷键的，在后台默默运行的插件
 
 " 主题配色
@@ -1060,30 +1062,30 @@ Plug 'sainnhe/forest-night'
 " 在大文件下会影响性能
 " =================================
 if g:disable_laggy_plugins_for_large_file == 0
-    " 拼写检查
-    Plug 'kamykn/spelunker.vim'
+  " 拼写检查
+  Plug 'kamykn/spelunker.vim'
+  "{{{
+  set nospell  " 禁用默认的难看的高亮红色
+  let g:spelunker_check_type = 2  " 只在window内动态check, 对大文件十分友好
+  let g:spelunker_highlight_type = 2  " Highlight only SpellBad.
+  let g:spelunker_white_list_for_user = ['refactor', 'vimrc', 'admin', 'username']
+  let s:spelunker_filetype_blacklist = ['startify', 'far', 'vim-plug', 'vim', '', 'coc-explorer', 'zsh', 'json']  " 这里包括了文件类型的空的buffer
+  let s:spelunker_buftype_blacklist = ['terminal','nowrite']  " 这里包括了文件类型的空的buffer
+  augroup my_highlight_spellbad
+    autocmd!
+    let g:spelunker_disable_auto_group = 1
     "{{{
-    set nospell  " 禁用默认的难看的高亮红色
-    let g:spelunker_check_type = 2  " 只在window内动态check, 对大文件十分友好
-    let g:spelunker_highlight_type = 2  " Highlight only SpellBad.
-    let g:spelunker_white_list_for_user = ['refactor', 'vimrc', 'admin', 'username']
-    let s:spelunker_filetype_blacklist = ['startify', 'far', 'vim-plug', 'vim', '', 'coc-explorer', 'zsh', 'json']  " 这里包括了文件类型的空的buffer
-    let s:spelunker_buftype_blacklist = ['terminal','nowrite']  " 这里包括了文件类型的空的buffer
-    augroup my_highlight_spellbad
-        autocmd!
-        let g:spelunker_disable_auto_group = 1
-"{{{
-        fun My_should_enable_spelunker()
-            if index(s:spelunker_filetype_blacklist, &filetype) >= 0 || index(s:spelunker_buftype_blacklist, &buftype) >= 0 || &filetype == '' || &diff
-                return 0
-            endif
-            return 1
-        endf
-"}}}
-        " 用silent!的话即时不存在这个函数也不会报错，适用于--noplugin的情况
-        autocmd CursorHold * if  My_should_enable_spelunker() | silent! call spelunker#check_displayed_words() | endif
-    augroup end
+    fun My_should_enable_spelunker()
+      if index(s:spelunker_filetype_blacklist, &filetype) >= 0 || index(s:spelunker_buftype_blacklist, &buftype) >= 0 || &filetype == '' || &diff
+        return 0
+      endif
+      return 1
+    endf
     "}}}
+    " 用silent!的话即时不存在这个函数也不会报错，适用于--noplugin的情况
+    autocmd CursorHold * if  My_should_enable_spelunker() | silent! call spelunker#check_displayed_words() | endif
+  augroup end
+  "}}}
 endif
 " ==================================
 " ==================================
@@ -1102,14 +1104,14 @@ let g:clever_f_across_no_line = 1
 " 高亮书签marker
 " 取消默认的快捷键{{{
 let g:SignatureMap = {
-\ 'Leader'             :  "m", 'PlaceNextMark'     :  "",  'ToggleMarkAtLine'   :  "",
-\ 'PurgeMarksAtLine'   :  "", 'DeleteMark'         :  "",  'PurgeMarks'         :  "",
-\ 'PurgeMarkers'       :  "", 'GotoNextLineAlpha'  :  "",  'GotoPrevLineAlpha'  :  "",
-\ 'GotoNextSpotAlpha'  :  "", 'GotoPrevSpotAlpha'  :  "",  'GotoNextLineByPos'  :  "",
-\ 'GotoPrevLineByPos'  :  "", 'GotoNextSpotByPos'  :  "",  'GotoPrevSpotByPos'  :  "",
-\ 'GotoNextMarker'     :  "", 'GotoPrevMarker'     :  "",  'GotoNextMarkerAny'  :  "",
-\ 'GotoPrevMarkerAny'  :  "", 'ListBufferMarks'    :  "",  'ListBufferMarkers'  :  ""
-\ }
+      \ 'Leader'             :  "m", 'PlaceNextMark'     :  "",  'ToggleMarkAtLine'   :  "",
+      \ 'PurgeMarksAtLine'   :  "", 'DeleteMark'         :  "",  'PurgeMarks'         :  "",
+      \ 'PurgeMarkers'       :  "", 'GotoNextLineAlpha'  :  "",  'GotoPrevLineAlpha'  :  "",
+      \ 'GotoNextSpotAlpha'  :  "", 'GotoPrevSpotAlpha'  :  "",  'GotoNextLineByPos'  :  "",
+      \ 'GotoPrevLineByPos'  :  "", 'GotoNextSpotByPos'  :  "",  'GotoPrevSpotByPos'  :  "",
+      \ 'GotoNextMarker'     :  "", 'GotoPrevMarker'     :  "",  'GotoNextMarkerAny'  :  "",
+      \ 'GotoPrevMarkerAny'  :  "", 'ListBufferMarks'    :  "",  'ListBufferMarkers'  :  ""
+      \ }
 "}}}
 Plug 'kshenoy/vim-signature'
 
@@ -1159,9 +1161,9 @@ let g:vim_markdown_fenced_languages = ['c++=cpp', 'viml=vim', 'bash=sh', 'ini=do
 " 与tmux整合的插件
 "{{{
 if executable('tmux') && filereadable(expand('~/.zshrc')) && $TMUX !=# ''
-    " 在tmux的pane间也能补全
-    Plug 'wellle/tmux-complete.vim'
-    let g:tmuxcomplete#trigger = ''
+  " 在tmux的pane间也能补全
+  Plug 'wellle/tmux-complete.vim'
+  let g:tmuxcomplete#trigger = ''
 endif
 "}}}
 
@@ -1170,10 +1172,10 @@ Plug 'RRethy/vim-illuminate'
 "{{{
 " 选择不高亮的文件类型
 let g:Illuminate_ftblacklist = [
-            \ 'vim', 'text', 'markdown', 'css', 'help',
-            \ 'coc-explorer', 'vista', 'qf', 'vimwiki', 'zsh',
-            \ 'tmux', 'gitconfig', 'dosini', 'json'
-            \ ]
+      \ 'vim', 'text', 'markdown', 'css', 'help',
+      \ 'coc-explorer', 'vista', 'qf', 'vimwiki', 'zsh',
+      \ 'tmux', 'gitconfig', 'dosini', 'json'
+      \ ]
 "}}}
 
 " 选择模式和行选择模式下可以用I A批量多行写入(修改了可视模式下I和A的映射)
@@ -1310,44 +1312,44 @@ Plug 'rickhowe/diffchar.vim', {'on': 'TDChar'}
 " 通用功能插件
 "{{{开关非常影响打开大文件性能的插件
 if g:disable_laggy_plugins_for_large_file == 0
-    " ALE静态代码检查和自动排版 NOTE: 默认禁用对log文件的fixer
-    Plug 'dense-analysis/ale'
-    "{{{
-    let g:ale_set_highlights = 0  " 不要显示红色下划线
-    let g:ale_sign_error = '✗'
-    let g:ale_sign_warning = '⚡'
+  " ALE静态代码检查和自动排版 NOTE: 默认禁用对log文件的fixer
+  Plug 'dense-analysis/ale'
+  "{{{
+  let g:ale_set_highlights = 0  " 不要显示红色下划线
+  let g:ale_sign_error = '✗'
+  let g:ale_sign_warning = '⚡'
 
-    " 不需要指定linters
+  " 不需要指定linters
 
-    " 自动排版, 保存时自动删除末尾空白行和行末空格
-    let g:ale_fixers = {
-    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \   'c': ['clang-format'],
-    \   'cpp': ['clang-format'],
-    \   'python': ['autopep8'],
-    \   'html': ['prettier'],
-    \   'css': ['prettier'],
-    \   'scss': ['prettier'],
-    \   'less': ['prettier'],
-    \   'json': ['prettier'],
-    \   'vue': ['prettier'],
-    \   'yaml': ['prettier'],
-    \   'markdown': ['prettier'],
-    \   'javascript': ['prettier'],
-    \   'typescript': ['prettier'],
-    \   'flow': ['prettier'],
-    \   'javascriptreact': ['prettier'],
-    \   'typescriptreact': ['prettier'],
-    \}
-    " 极大提升打开log 文件的性能
-    let g:ale_fix_on_save_ignore = {'log': ['remove_trailing_lines', 'trim_whitespace']}
-    let g:ale_lint_on_text_changed = 'normal'
-    " let g:ale_lint_delay = 3000  " 这个配置似乎不生效
-    " 保存时自动排版
-    let g:ale_fix_on_save = 1
-    " 配置状态栏信息
-    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-    "}}}
+  " 自动排版, 保存时自动删除末尾空白行和行末空格
+  let g:ale_fixers = {
+        \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+        \   'c': ['clang-format'],
+        \   'cpp': ['clang-format'],
+        \   'python': ['autopep8'],
+        \   'html': ['prettier'],
+        \   'css': ['prettier'],
+        \   'scss': ['prettier'],
+        \   'less': ['prettier'],
+        \   'json': ['prettier'],
+        \   'vue': ['prettier'],
+        \   'yaml': ['prettier'],
+        \   'markdown': ['prettier'],
+        \   'javascript': ['prettier'],
+        \   'typescript': ['prettier'],
+        \   'flow': ['prettier'],
+        \   'javascriptreact': ['prettier'],
+        \   'typescriptreact': ['prettier'],
+        \}
+  " 极大提升打开log 文件的性能
+  let g:ale_fix_on_save_ignore = {'log': ['remove_trailing_lines', 'trim_whitespace']}
+  let g:ale_lint_on_text_changed = 'normal'
+  " let g:ale_lint_delay = 3000  " 这个配置似乎不生效
+  " 保存时自动排版
+  let g:ale_fix_on_save = 1
+  " 配置状态栏信息
+  let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+  "}}}
 endif
 "}}}
 "{{{ Git 相关
@@ -1361,8 +1363,8 @@ function s:on_mergetool_set_layout(split)
   set syntax=off
   set nospell
   if a:split["layout"] ==# 'RmL' && a:split["split"] ==# 'm'
-      " 可自定义
-      "
+    " 可自定义
+    "
   endif
 endfunction
 let g:MergetoolSetLayoutCallback = function('s:on_mergetool_set_layout')
@@ -1396,13 +1398,13 @@ nnoremap <silent> ,gap :G add --patch %<CR>
 " {{{ fun My_toggle_coc_git_blame()
 let g:My_coc_git_blame_show = 0
 fun My_toggle_coc_git_blame()
-    if g:My_coc_git_blame_show == 0
-        call coc#config('git.addGBlameToVirtualText', v:true)
-        let g:My_coc_git_blame_show = 1
-    else
-        call coc#config('git.addGBlameToVirtualText', v:false)
-        let g:My_coc_git_blame_show = 0
-    endif
+  if g:My_coc_git_blame_show == 0
+    call coc#config('git.addGBlameToVirtualText', v:true)
+    let g:My_coc_git_blame_show = 1
+  else
+    call coc#config('git.addGBlameToVirtualText', v:false)
+    let g:My_coc_git_blame_show = 0
+  endif
 endf
 " }}}
 nnoremap <silent> ,gb :call My_toggle_coc_git_blame()<cr>
@@ -1419,8 +1421,8 @@ nnoremap <silent> ,gmae :G cmae --quiet<cr>
 " {{{  定义 autocmd User MyEnterDiffMode
 " 定义进入diff的事件，然后当前窗口关闭syntax
 augroup my_enter_diffMode
-    autocmd!
-    autocmd User MyEnterDiffMode normal zz
+  autocmd!
+  autocmd User MyEnterDiffMode normal zz
 augroup end
 "}}}
 " [ 本文件内diff ]
@@ -1460,20 +1462,20 @@ let g:bookmark_show_toggle_warning = 1 " 显示删除annnotated bookmark时的�
 " 由于git submodule仓库并没有.git文件夹而是.git文件, 所以在子模块仓库中还是会保存文件到子模块根目录，而不是子模块的.git目录
 " 　(子模块的.git文件夹集中管理在父仓库中)
 function! g:BMWorkDirFileLocation()
-    let filename = 'bookmarks'
-    let location = ''
-    if isdirectory('.git')
-        " Current work dir is git's work tree
-        let location = getcwd().'/.git'
-    else
-        " Look upwards (at parents) for a directory named '.git'
-        let location = finddir('.git', '.;')
-    endif
-    if len(location) > 0
-        return location.'/'.'vim-bookmarks-per-repository'
-    else
-        return getcwd().'/.'.'vim-bookmarks-per-repository'
-    endif
+  let filename = 'bookmarks'
+  let location = ''
+  if isdirectory('.git')
+    " Current work dir is git's work tree
+    let location = getcwd().'/.git'
+  else
+    " Look upwards (at parents) for a directory named '.git'
+    let location = finddir('.git', '.;')
+  endif
+  if len(location) > 0
+    return location.'/'.'vim-bookmarks-per-repository'
+  else
+    return getcwd().'/.'.'vim-bookmarks-per-repository'
+  endif
 endfunction
 "}}}
 "}}}
@@ -1509,15 +1511,15 @@ vmap <c-_> <Plug>(caw:hatpos:toggle)
 " Vim-Surround快捷操作
 Plug 'tpope/vim-surround'
 "{{{
- " 让surround的快捷键可以用 `.` 重复
+" 让surround的快捷键可以用 `.` 重复
 let s:key_mappings_of_surround = [
-            \ "<leader>'", '<leader>"', '<leader>*', '<leader><leader>*', '<leader>)', '<leader>(',
-            \ '<leader>[', '<leader>{', '<leader><', '<leader>>', '<leader>\|', '<leader>`',
-            \ ",'", ',"', ',*', ',,*', ',(',
-            \ ',)', ',[', ',{', ',<', ',>', ',\|', ',`'
-            \ ]
+      \ "<leader>'", '<leader>"', '<leader>*', '<leader><leader>*', '<leader>)', '<leader>(',
+      \ '<leader>[', '<leader>{', '<leader><', '<leader>>', '<leader>\|', '<leader>`',
+      \ ",'", ',"', ',*', ',,*', ',(',
+      \ ',)', ',[', ',{', ',<', ',>', ',\|', ',`'
+      \ ]
 for keymap in s:key_mappings_of_surround
-    silent! call repeat#set(keymap, v:count)
+  silent! call repeat#set(keymap, v:count)
 endfor
 " 让surround<cr>不显示^M字符，可以直接添加新行,  `char2nr("\<CR>")` == 13
 let g:surround_13 = "\n\r\n"
@@ -1525,18 +1527,18 @@ let g:surround_13 = "\n\r\n"
 "}}}
 " {{{让cs修改的surround不包括空格
 fun My_get_inverse_bracket(x)  "
-    if a:x == '(' | return ')'
-    elseif a:x == '[' | return ']'
-    elseif a:x == '{' | return '}'
-    elseif a:x == '<' | return '>'
-    elseif  a:x == '>' | return '<'
-    endif
+  if a:x == '(' | return ')'
+  elseif a:x == '[' | return ']'
+  elseif a:x == '{' | return '}'
+  elseif a:x == '<' | return '>'
+  elseif  a:x == '>' | return '<'
+  endif
 endf
 "
 for x in ['(','[', '{', '<', "'", '"']
-    for y in ['(', '[', '{', '<', '>']
-        execute 'nmap cs' . x . y . ' cs' . x . My_get_inverse_bracket(y)
-    endfor
+  for y in ['(', '[', '{', '<', '>']
+    execute 'nmap cs' . x . y . ' cs' . x . My_get_inverse_bracket(y)
+  endfor
 endfor
 "}}}
 " rename tag
@@ -1661,30 +1663,30 @@ let g:vista_update_on_text_changed_delay = 500
 let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 " let g:vista_echo_cursor_strategy = 'floating_win'
 let g:vista_executive_for = {
-    \ 'vimwiki': 'markdown',
-    \ 'pandoc': 'markdown',
-    \ 'markdown': 'toc',
-    \ }
+      \ 'vimwiki': 'markdown',
+      \ 'pandoc': 'markdown',
+      \ 'markdown': 'toc',
+      \ }
 
 let g:vista#renderer#enable_icon = 1  " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
-   "variable": '\uf71b',
-  " function": '\uf794',
+"variable": '\uf71b',
+" function": '\uf794',
 
 let g:vista#renderer#icons = {
-\   'module': '',
-\   'interface': '',
-\   'class': '',
-\   'constructor': '',
-\   'method': '',
-\   'field': '',
-\   'enum': '',
-\   'enum member': '',
-\   'function': '',
-\   'variable': '',
-\   'property': '',
-\   'constant': '',
-\   'struct': '',
-\  }
+      \   'module': '',
+      \   'interface': '',
+      \   'class': '',
+      \   'constructor': '',
+      \   'method': '',
+      \   'field': '',
+      \   'enum': '',
+      \   'enum member': '',
+      \   'function': '',
+      \   'variable': '',
+      \   'property': '',
+      \   'constant': '',
+      \   'struct': '',
+      \  }
 "}}}
 " NOTE: 内置快捷键 p: preview     s: sort     q: close vista
 " 两个感叹号是Toggle
@@ -1696,10 +1698,10 @@ Plug 'simnalamburt/vim-mundo', {'on': 'MundoToggle'}
 " reference: https://vi.stackexchange.com/questions/6/how-can-i-use-the-undofile
 " {{{
 if !isdirectory($HOME."/.vim")
-    call mkdir($HOME."/.vim", "", 0770)
+  call mkdir($HOME."/.vim", "", 0770)
 endif
 if !isdirectory($HOME."/.vim/undo-dir")
-    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+  call mkdir($HOME."/.vim/undo-dir", "", 0700)
 endif
 set undodir=~/.vim/undo-dir
 set undofile
@@ -1760,65 +1762,65 @@ autocmd VimEnter * call which_key#register('t', "g:which_key_map_t")
 let g:which_key_map_space = {}
 let g:which_key_map_space['0'] = 'toggle-sytax'
 let g:which_key_map_space.a = {
-            \ 'name': '+absolute-path',
-            \ 'p': 'absolute-path-copy'
-            \}
+      \ 'name': '+absolute-path',
+      \ 'p': 'absolute-path-copy'
+      \}
 let g:which_key_map_space.b = {
-    \ 'name': '+buffer/bookmark/build',
-    \ 'd': 'buffer-close',
-    \ }
+      \ 'name': '+buffer/bookmark/build',
+      \ 'd': 'buffer-close',
+      \ }
 let g:which_key_map_space.c = {
-            \ 'name': '+comment/colors-scheme/coc-list',
-            \ }
+      \ 'name': '+comment/colors-scheme/coc-list',
+      \ }
 let g:which_key_map_space.d = {
-            \ 'name': '+diff/directory',
-            \ 'r': 'dir-path-copy',
-            \}
+      \ 'name': '+diff/directory',
+      \ 'r': 'dir-path-copy',
+      \}
 let g:which_key_map_space.e = {
-            \ 'name': '+edit/explorer',
-            \ 'c': 'edit-c/cpp',
-            \ 'h': 'edit-.h',
-            \ 'n': 'edit-$VIMRC',
-            \ 's': 'edit-snippets',
-            \ 't': 'edit-tmux-config',
-            \}
+      \ 'name': '+edit/explorer',
+      \ 'c': 'edit-c/cpp',
+      \ 'h': 'edit-.h',
+      \ 'n': 'edit-$VIMRC',
+      \ 's': 'edit-snippets',
+      \ 't': 'edit-tmux-config',
+      \}
 let g:which_key_map_space.g = {
-            \ 'name': '+goto',
-            \ 'w': 'goto-<cword>',
-            \ 'W': 'goto-<cWORD>',
-            \}
+      \ 'name': '+goto',
+      \ 'w': 'goto-<cword>',
+      \ 'W': 'goto-<cWORD>',
+      \}
 let g:which_key_map_space.m = {
-            \ 'name': '+markdown/mergetool/marks',
-            \}
+      \ 'name': '+markdown/mergetool/marks',
+      \}
 let g:which_key_map_space.n = {
-            \ 'name': '+filename',
-            \ 'm': 'filename-copy',
-            \}
+      \ 'name': '+filename',
+      \ 'm': 'filename-copy',
+      \}
 let g:which_key_map_space.P = {
-            \ 'name': '+Plug',
-            \}
+      \ 'name': '+Plug',
+      \}
 let g:which_key_map_space.r = {
-            \ 'name': '+run/rename/rooter/rg/regex-search',
-            \}
+      \ 'name': '+run/rename/rooter/rg/regex-search',
+      \}
 let g:which_key_map_space.s = {
-            \ 'name': '+buffer-substitute/split/select',
-            \ 's': 'split-horizontal',
-            \ 'v': 'split-vertical',
-            \ 'u': 'buffer-substitute-cword',
-            \ 'U': 'buffer-substitute-cWORD',
-            \}
+      \ 'name': '+buffer-substitute/split/select',
+      \ 's': 'split-horizontal',
+      \ 'v': 'split-vertical',
+      \ 'u': 'buffer-substitute-cword',
+      \ 'U': 'buffer-substitute-cWORD',
+      \}
 let g:which_key_map_space.S = {
-            \ 'name': '+startuptime'
-            \}
+      \ 'name': '+startuptime'
+      \}
 let g:which_key_map_space.t = {
-            \ 'name': '+todolist/transparent',
-            \}
+      \ 'name': '+todolist/transparent',
+      \}
 let g:which_key_map_space.u = {
-            \ 'name': '+undo-tree',
-            \}
+      \ 'name': '+undo-tree',
+      \}
 let g:which_key_map_space.v = {
-            \ 'name': '+view',
-            \}
+      \ 'name': '+view',
+      \}
 
 let g:which_key_map_space['w'] = {
       \ 'name': '+windows',
@@ -1832,23 +1834,23 @@ let g:which_key_map_space['w'] = {
 let g:which_key_map_comma = {}
 let g:which_key_map_comma.e = 'edit-file'
 let g:which_key_map_comma.g = {
-            \ 'name': '+git',
-            \ 'd': 'diff-current-file',
-            \ 'l': 'git-log',
-            \ 's': 'git-status',
-            \ 'u': 'undo-diff-hunk',
-            \ 'r': 'git-rename',
-            \}
+      \ 'name': '+git',
+      \ 'd': 'diff-current-file',
+      \ 'l': 'git-log',
+      \ 's': 'git-status',
+      \ 'u': 'undo-diff-hunk',
+      \ 'r': 'git-rename',
+      \}
 let g:which_key_map_comma.p = {
-            \ 'name': '+pull/push',
-            \}
+      \ 'name': '+pull/push',
+      \}
 let g:which_key_map_comma.s = {
-            \ 'name': '+buffer-substitute/sink',
-            \ 'n': 'sink-mode (zen-mode)',
-            \ 'u': 'buffer-substitute-cword',
-            \ 'U': 'buffer-substitute-cWORD',
-            \ 'r': 'regex-substitute',
-            \}
+      \ 'name': '+buffer-substitute/sink',
+      \ 'n': 'sink-mode (zen-mode)',
+      \ 'u': 'buffer-substitute-cword',
+      \ 'U': 'buffer-substitute-cWORD',
+      \ 'r': 'regex-substitute',
+      \}
 let g:which_key_map_comma.w = 'write (save-buffer)'
 "}}}
 "{{{ "g" 快捷键注释
@@ -1884,9 +1886,9 @@ vnoremap <silent> <leader> :<C-U>WhichKeyVisual '<space>'<cr>
 vnoremap <silent> <localleader> :<C-U>WhichKeyVisual ','<cr>
 vnoremap <silent> <expr> g coc#expandableOrJumpable() ? g : ':<C-U>WhichKeyVisual "g"<cr>'
 augroup settings_whichkey_for_t  " 因为有插件映射了t所以这里要用autocmd来映射
-    autocmd!
-    autocmd VimEnter * nnoremap <silent> t :WhichKey 't'<cr>
-    autocmd VimEnter * vnoremap <silent> t :WhichKeyVisual 't'<cr>
+  autocmd!
+  autocmd VimEnter * nnoremap <silent> t :WhichKey 't'<cr>
+  autocmd VimEnter * vnoremap <silent> t :WhichKeyVisual 't'<cr>
 augroup end
 
 " 为内置终端提供方便接口 NOTE:暂时被floaterm替代，以后唯一可能用的地方就是REPL吧
@@ -1909,22 +1911,22 @@ let g:neoterm_size = 10  " 调整terminal的大小
 Plug 'voldikss/vim-floaterm'  " NOTE: 作者不推荐延迟加载
 "settings{{{
 fun My_reset_floaterm_config()
-    let g:floaterm_type = 'floating'   "　终端出现形式, 可选normal
-    " let g:floaterm_type = 'normal'   "　终端出现形式, 可选normal
-    " let g:floaterm_width = 0.9  " 默认0.6
-    " let g:floaterm_height = 0.95  " 默认0.6
-    let g:floaterm_winblend = 0  " 背景透明度百分比
-    let g:floaterm_position = 'center'  " 浮动窗口位置
-    " 从终端打开文件的方式 Available: 'edit', 'split', 'vsplit', 'tabe', 'drop'. Default: 'edit'
-    let g:floaterm_open_command = 'edit'
-    " 使用git commit时触发
-    let g:floaterm_gitcommit = 'split'  " split vsplit tabe可选
+  let g:floaterm_type = 'floating'   "　终端出现形式, 可选normal
+  " let g:floaterm_type = 'normal'   "　终端出现形式, 可选normal
+  " let g:floaterm_width = 0.9  " 默认0.6
+  " let g:floaterm_height = 0.95  " 默认0.6
+  let g:floaterm_winblend = 0  " 背景透明度百分比
+  let g:floaterm_position = 'center'  " 浮动窗口位置
+  " 从终端打开文件的方式 Available: 'edit', 'split', 'vsplit', 'tabe', 'drop'. Default: 'edit'
+  let g:floaterm_open_command = 'edit'
+  " 使用git commit时触发
+  let g:floaterm_gitcommit = 'split'  " split vsplit tabe可选
 endf
 call My_reset_floaterm_config()
 
 augroup fix_bug_in_floaterm_and_startify
-    autocmd!
-    autocmd User Startified setlocal buflisted
+  autocmd!
+  autocmd User Startified setlocal buflisted
 augroup end
 "}}}
 "Deprecated 映射{{{
@@ -1947,10 +1949,10 @@ augroup end
 inoremap <silent> <m-m> <esc>:lcd %:p:h<cr><esc>:FloatermToggle<cr>
 "{{{ function My_toggle_floaterm_for_normal_mode()
 function! My_toggle_floaterm_for_normal_mode()
-    if &buftype != 'terminal'
-        lcd %:p:h
-    endif
-    FloatermToggle
+  if &buftype != 'terminal'
+    lcd %:p:h
+  endif
+  FloatermToggle
 endfunction
 "}}}
 nnoremap <silent> <m-m> :call My_toggle_floaterm_for_normal_mode()<cr>
@@ -1959,21 +1961,21 @@ tnoremap <silent> <m-m> <c-\><c-n>:FloatermToggle<cr><esc>:echo <cr>
 "{{{ function My_toggle_full_screen_floterm
 let g:My_full_screen_floterm_status = 0
 function My_toggle_full_screen_floterm()
-    if &buftype != 'terminal'
-        echo "not in a float terminal"
-    endif
-    if g:My_full_screen_floterm_status == 0
-        let g:My_full_screen_floterm_status = 1
-        setlocal laststatus=0  " 不显示状态栏
-        1000wincmd |  " 延长水平窗口
-        1000wincmd _
-        startinsert  " 进入插入模式
-    else
-        let g:My_full_screen_floterm_status = 0
-        FloatermToggle
-        FloatermToggle
-        setlocal laststatus=2
-    endif
+  if &buftype != 'terminal'
+    echo "not in a float terminal"
+  endif
+  if g:My_full_screen_floterm_status == 0
+    let g:My_full_screen_floterm_status = 1
+    setlocal laststatus=0  " 不显示状态栏
+    1000wincmd |  " 延长水平窗口
+    1000wincmd _
+    startinsert  " 进入插入模式
+  else
+    let g:My_full_screen_floterm_status = 0
+    FloatermToggle
+    FloatermToggle
+    setlocal laststatus=2
+  endif
 endf
 "}}}
 " 浮动终端开关全屏模式
@@ -2012,20 +2014,20 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 let g:fzf_preview_floating_window_rate = 0.9
 let g:fzf_preview_preview_key_bindings = 'ctrl-u:unix-line-discard'
 let g:fzf_preview_default_fzf_options = {
-            \ '--reverse': v:true, '--preview-window': 'wrap', '--border': v:true,
-            \ '--color': 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#323d43,border:#778899',
-            \ }
+      \ '--reverse': v:true, '--preview-window': 'wrap', '--border': v:true,
+      \ '--color': 'fg:#bbccdd,fg+:#ddeeff,bg:#334455,preview-bg:#323d43,border:#778899',
+      \ }
 
 let g:fzf_preview_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
 let g:fzf_preview_lines_command = 'bat --color=always --theme=TwoDark --plain {-1}'  " Intalled bat
 " TODO: 设置ctrl-c不进行commit
 let g:my_delta_config_for_fzf_preview = " | delta --no-gitconfig --inspect-raw-lines=false --theme=TwoDark" .
-            \ " --plus-emph-style=\"#262626 bold #5f8078\"  --minus-emph-style=\"#262626 bold #9f365c\"" .
-            \ " --whitespace-error-style=reverse 22 --plus-style=\"#282828 #87c095\" --minus-style=\"#121212 #d57b7f \""
+      \ " --plus-emph-style=\"#262626 bold #5f8078\"  --minus-emph-style=\"#262626 bold #9f365c\"" .
+      \ " --whitespace-error-style=reverse 22 --plus-style=\"#282828 #87c095\" --minus-style=\"#121212 #d57b7f \""
 
 let g:fzf_preview_git_status_preview_command = "[[ $(git diff -- {-1}) != \"\" ]] && git diff -- {-1} " . g:my_delta_config_for_fzf_preview . " || " .
-                    \ "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached -- {-1} \ " . g:my_delta_config_for_fzf_preview . " || " .
-                    \ g:fzf_preview_command
+      \ "[[ $(git diff --cached -- {-1}) != \"\" ]] && git diff --cached -- {-1} \ " . g:my_delta_config_for_fzf_preview . " || " .
+      \ g:fzf_preview_command
 let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --no-messages -g \!"* *"' " Installed ripgrep
 let g:fzf_preview_use_dev_icons = 1  " Require vim-devicons
 let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'TwoDark' " The theme used in the bat preview
@@ -2054,53 +2056,53 @@ Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
 " let g:Lf_ShowDevIcons = 0  " 因为和devicon的整合在Startify的session里有bug，所以不显示devicon了
 " 整合AsyncTask{{{
 function! s:lf_task_source(...)
-	let rows = asynctasks#source(&columns * 48 / 100)
-	let source = []
-	for row in rows
-		let name = row[0]
-		let source += [name . '  ' . row[1] . '  : ' . row[2]]
-	endfor
-	return source
+  let rows = asynctasks#source(&columns * 48 / 100)
+  let source = []
+  for row in rows
+    let name = row[0]
+    let source += [name . '  ' . row[1] . '  : ' . row[2]]
+  endfor
+  return source
 endfunction
 
 
 function! s:lf_task_accept(line, arg)
-	let pos = stridx(a:line, '<')
-	if pos < 0
-		return
-	endif
-	let name = strpart(a:line, 0, pos)
-	let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
-	if name != ''
-		exec "AsyncTask " . name
-	endif
+  let pos = stridx(a:line, '<')
+  if pos < 0
+    return
+  endif
+  let name = strpart(a:line, 0, pos)
+  let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
+  if name != ''
+    exec "AsyncTask " . name
+  endif
 endfunction
 
 function! s:lf_task_digest(line, mode)
-	let pos = stridx(a:line, '<')
-	if pos < 0
-		return [a:line, 0]
-	endif
-	let name = strpart(a:line, 0, pos)
-	return [name, 0]
+  let pos = stridx(a:line, '<')
+  if pos < 0
+    return [a:line, 0]
+  endif
+  let name = strpart(a:line, 0, pos)
+  return [name, 0]
 endfunction
 
 function! s:lf_win_init(...)
-	setlocal nonumber
-	setlocal nowrap
+  setlocal nonumber
+  setlocal nowrap
 endfunction
 
 
 let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
 let g:Lf_Extensions.task = {
-			\ 'source': string(function('s:lf_task_source'))[10:-3],
-			\ 'accept': string(function('s:lf_task_accept'))[10:-3],
-			\ 'get_digest': string(function('s:lf_task_digest'))[10:-3],
-			\ 'highlights_def': {
-			\     'Lf_hl_funcScope': '^\S\+',
-			\     'Lf_hl_funcDirname': '^\S\+\s*\zs<.*>\ze\s*:',
-			\ },
-		\ }
+      \ 'source': string(function('s:lf_task_source'))[10:-3],
+      \ 'accept': string(function('s:lf_task_accept'))[10:-3],
+      \ 'get_digest': string(function('s:lf_task_digest'))[10:-3],
+      \ 'highlights_def': {
+      \     'Lf_hl_funcScope': '^\S\+',
+      \     'Lf_hl_funcDirname': '^\S\+\s*\zs<.*>\ze\s*:',
+      \ },
+      \ }
 " }}}
 
 let g:Lf_RgConfig = [
@@ -2117,16 +2119,16 @@ let g:Lf_RgConfig = [
 let g:Lf_RootMarkers = [ '.project', '.svn', '.git', '.idea', '.tasks', '.clang-format', ]
 
 let g:Lf_WildIgnore = {
-            \ 'dir': ['.svn','.git','.cache','.idea','node_modules','build', '.gradle','.hg','.vscode','.wine','.deepinwine','.oh-my-zsh','undo-dir'],
-            \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
-            \}
+      \ 'dir': ['.svn','.git','.cache','.idea','node_modules','build', '.gradle','.hg','.vscode','.wine','.deepinwine','.oh-my-zsh','undo-dir'],
+      \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+      \}
 
 " popup的normal模式是否自动预览 FIXME: 如果觉得上下移动很慢的话就得关闭preview
 "                               TIP: 不要按着j或<c-j>不动而是连续按j的话就不会显得很慢
 let g:Lf_PreviewResult = {
-        \ 'File': 1, 'Buffer': 1, 'Mru': 1, 'Tag': 1, 'BufTag': 1,
-        \ 'Function': 1, 'Line': 1, 'Colorscheme': 1, 'Rg': 1, 'Gtags': 1
-        \}
+      \ 'File': 1, 'Buffer': 1, 'Mru': 1, 'Tag': 1, 'BufTag': 1,
+      \ 'Function': 1, 'Line': 1, 'Colorscheme': 1, 'Rg': 1, 'Gtags': 1
+      \}
 
 let g:Lf_WindowPosition = 'popup'  " 使用popup
 let g:Lf_PopupWidth = 0.66
@@ -2144,36 +2146,36 @@ let g:Lf_Gtagslabel =  "native-pygments"  " 如果不是gtags支持的文件类�
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2"  }  " 分隔符样式
 " let g:Lf_FollowLinks = 1  " 是否解析本为link的目录
 let g:Lf_WorkingDirectoryMode = 'a'  " the nearest ancestor of current directory that contains one of directories
-                                     " or files defined in |g:Lf_RootMarkers|. Fall back to 'c' if no such
-                                     " ancestor directory found.
+" or files defined in |g:Lf_RootMarkers|. Fall back to 'c' if no such
+" ancestor directory found.
 let g:Lf_ShortcutF = ''  " 这两项是为了覆盖默认设置的键位
 let g:Lf_ShortcutB = ''
 
 " 设置弹窗配色
 let g:Lf_PopupPalette = {
-    \  'dark': {
-    \     'Lf_hl_popup_window': {
-    \         'guibg': 'NONE'
-    \     },
-    \     'Lf_hl_popup_inputText': {
-    \         'guibg': '#354852'
-    \     },
-    \     'Lf_hl_popup_blank': {
-    \         'guibg': 'NONE'
-    \     },
-    \     'Lf_hl_cursorline': {
-    \         'guifg': '#62cb8a'
-    \     }
-    \  }
-\ }
+      \  'dark': {
+      \     'Lf_hl_popup_window': {
+      \         'guibg': 'NONE'
+      \     },
+      \     'Lf_hl_popup_inputText': {
+      \         'guibg': '#354852'
+      \     },
+      \     'Lf_hl_popup_blank': {
+      \         'guibg': 'NONE'
+      \     },
+      \     'Lf_hl_cursorline': {
+      \         'guifg': '#62cb8a'
+      \     }
+      \  }
+      \ }
 
 "}}}
 nnoremap <silent> <leader>gt :Leaderf --nowrap task<cr>
 " <C-t>新标签页打开, <C-l> vsplit <S-Insert>粘贴
 let g:Lf_CommandMap = {
-            \ '<C-]>':['<C-l>'],
-            \ '<C-c>':['<C-d>', '<C-c>'],
-            \}  " 搜索后<c-l>在右侧窗口打开文件
+      \ '<C-]>':['<C-l>'],
+      \ '<C-c>':['<C-d>', '<C-c>'],
+      \}  " 搜索后<c-l>在右侧窗口打开文件
 noremap <silent> <c-p> :Leaderf command<CR>
 nnoremap <silent> <leader>gr :Leaderf mru<cr>
 nnoremap <silent> <leader>gf :Leaderf file<cr>
@@ -2216,24 +2218,24 @@ let g:far#auto_delete_replaced_buffers = 1  " 自动关闭替换完成的buffer
 let g:far#ignore_files = ['~/.config/nvim/far-vim-ignore-rule.txt'] " 自定义grep ignore规则
 " 快捷键
 let g:far#mapping = {
-    \ 'replace_do': ['r'],
-    \ 'expand_all': ['zm', 'zM'],
-    \ 'collapse_all': ['zr', 'zR'],
-    \ }
+      \ 'replace_do': ['r'],
+      \ 'expand_all': ['zm', 'zM'],
+      \ 'collapse_all': ['zr', 'zR'],
+      \ }
 let g:far#default_file_mask = '%'  " 命令行默认遮罩(搜索的范围)
 " 命令行补全资源
 let g:far#file_mask_favorites = ['%', '**/*.*', '**/*.html', '**/*.js', '**/*.css', '**/*.c', '**/*.cpp',
-            \'**/*.ts', '**/*.jsx', '**/*.tsx', '**/*.vue', '**/*.py', '**/*.java',
-            \'**/*.md'
-            \]
+      \'**/*.ts', '**/*.jsx', '**/*.tsx', '**/*.vue', '**/*.py', '**/*.java',
+      \'**/*.md'
+      \]
 " 自定义快捷键提示样式
 let g:far#prompt_mapping = {
-    \ 'quit'           : { 'key' : '<esc>', 'prompt' : '<esc>' },
-    \ 'regex'          : { 'key' : '<c-r>', 'prompt' : '<c-r>'  },
-    \ 'case_sensitive' : { 'key' : '<c-a>', 'prompt' : '<c-a>'  },
-    \ 'word'           : { 'key' : '<c-w>', 'prompt' : '<c-w>'  },
-    \ 'substitute'     : { 'key' : '<c-f>', 'prompt' : '<c-f>'  },
-    \ }
+      \ 'quit'           : { 'key' : '<esc>', 'prompt' : '<esc>' },
+      \ 'regex'          : { 'key' : '<c-r>', 'prompt' : '<c-r>'  },
+      \ 'case_sensitive' : { 'key' : '<c-a>', 'prompt' : '<c-a>'  },
+      \ 'word'           : { 'key' : '<c-w>', 'prompt' : '<c-w>'  },
+      \ 'substitute'     : { 'key' : '<c-f>', 'prompt' : '<c-f>'  },
+      \ }
 "}}}
 " 定义far buffer的映射, NOTE: 如果自己的vimrc里有对应非递归映射(比如nnoremap zo)，则这个插件的映射会失效, 此外由于 插件bug导致不能映射zo  到za
 " 快捷键r表示执行替换 q快速退出 x取消当前行 i激活当前行 t是toggle  他们的大写形式(X I T)表示全部行
@@ -2246,8 +2248,8 @@ nnoremap ,su :let @0=expand('<cword>')<cr>:Far <c-r>=expand('<cword>')<cr>  %<le
 nnoremap ,sU :let @0=expand('<cWORD>')<cr>:Far <c-r>=expand('<cWORD>')<cr>  %<left><left><c-f>i
 " {{{Function: My_get_current_visual_text() 获取当前visual选择的文本
 function My_get_current_visual_text() abort
-    execute "normal! `<v`>y"
-    return @"
+  execute "normal! `<v`>y"
+  return @"
 endfunction
 "}}}
 xnoremap ,su :<c-u>Far <c-r>=My_get_current_visual_text()<cr>  %<left><left><c-f>i
@@ -2275,14 +2277,14 @@ Plug 'skywind3000/asyncrun.vim', { 'on': ['AsyncRun', 'AsyncStop', '<plug>(async
 "settings{{{
 " 任务完成自动打开qf{{{
 augroup auto_open_quickfix
-    autocmd!
-    autocmd QuickFixCmdPost * botright copen 8 | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
+  autocmd!
+  autocmd QuickFixCmdPost * botright copen 8 | nnoremap <c-j> :cnext<cr> | nnoremap <c-k> :cprevious<cr>
 augroup end
 "}}}
 " {{{lazy load
 augroup asyncrun
-    au!
-    au User asyncrun.vim nnoremap <silent> <plug>(asyncrun-qftoggle) :call asyncrun#quickfix_toggle(10)<cr>
+  au!
+  au User asyncrun.vim nnoremap <silent> <plug>(asyncrun-qftoggle) :call asyncrun#quickfix_toggle(10)<cr>
 augroup end
 "}}}
 let g:asyncrun_save = 1  " 运行前保存当前文件
@@ -2298,17 +2300,17 @@ Plug 'skywind3000/asynctasks.vim'
 let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
 "用floaterm打开的函数{{{
 function! s:runner_proc(opts)
-    let curr_bufnr = floaterm#curr()
-    if has_key(a:opts, 'silent') && a:opts.silent == 1
-        FloatermHide!
-    endif
-    let cmd = 'cd ' . shellescape(getcwd())
-    call floaterm#terminal#send(curr_bufnr, [cmd])
-    call floaterm#terminal#send(curr_bufnr, [a:opts.cmd])
-    stopinsert
-    if &filetype == 'floaterm' && g:floaterm_autoinsert
-        call floaterm#util#startinsert()
-    endif
+  let curr_bufnr = floaterm#curr()
+  if has_key(a:opts, 'silent') && a:opts.silent == 1
+    FloatermHide!
+  endif
+  let cmd = 'cd ' . shellescape(getcwd())
+  call floaterm#terminal#send(curr_bufnr, [cmd])
+  call floaterm#terminal#send(curr_bufnr, [a:opts.cmd])
+  stopinsert
+  if &filetype == 'floaterm' && g:floaterm_autoinsert
+    call floaterm#util#startinsert()
+  endif
 endfunction
 
 let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
@@ -2320,23 +2322,23 @@ let g:asynctasks_term_rows = 10
 let g:asynctasks_config_name = '.git/tasks.ini'
 " 触发UIEnter事件方便自动修改quickfix的mapping{{{
 function Async_build_file() abort
-    execute 'AsyncTask file-build'
-    doautocmd UIEnter
+  execute 'AsyncTask file-build'
+  doautocmd UIEnter
 endfunc
 
 function Async_run_file() abort
-    execute 'AsyncTask file-run'
-    doautocmd UIEnter
+  execute 'AsyncTask file-run'
+  doautocmd UIEnter
 endfunc
 
 function Async_build_project() abort
-    execute 'AsyncTask project-build'
-    doautocmd UIEnter
+  execute 'AsyncTask project-build'
+  doautocmd UIEnter
 endfunc
 
 function Async_run_project() abort
-    execute 'AsyncTask project-run'
-    doautocmd UIEnter
+  execute 'AsyncTask project-run'
+  doautocmd UIEnter
 endfunc
 "}}}
 "}}}
@@ -2353,14 +2355,14 @@ noremap <silent> <leader>rp :FloatermKill!<cr><esc>:call Async_run_project<cr>
 "       解决办法是用其他不带桌面图标的方式安装nvim
 " 打开链接  因为open-browser-github.vim依赖这个插件，所以on延迟加载里需要放上open-browser-github.vim的命令
 Plug 'tyru/open-browser.vim', {'on': ['<Plug>(openbrowser-open)', 'OpenGithubFile',
-                                    \ 'OpenGithubIssue', 'OpenGithubPullReq', 'OpenGithubProject']}
+      \ 'OpenGithubIssue', 'OpenGithubPullReq', 'OpenGithubProject']}
 " settings {{{
 " let g:openbrowser_browser_commands = [
 "         \ {"name": "firefox",
 "         \  "args": ["firefox", "{uri}"]},
 "         \ ]
 "}}}
- " Open URI under cursor.
+" Open URI under cursor.
 nmap <leader>gl <Plug>(openbrowser-open)
 " Open selected URI.
 vmap <leader>gl <Plug>(openbrowser-open)
@@ -2370,7 +2372,7 @@ vmap <leader>gl <Plug>(openbrowser-open)
 " 打开文件对应github地址 (依赖open-browser.vim, git命令)
 " 还有其他功能参考 https://github.com/tyru/open-browser-github.vim
 Plug 'tyru/open-browser-github.vim', {'on': ['<Plug>(openbrowser-open)', 'OpenGithubFile', 'OpenGithubIssue',
-                                           \ 'OpenGithubPullReq', 'OpenGithubProject']}
+      \ 'OpenGithubPullReq', 'OpenGithubProject']}
 " Opens a specific file in github.com repository(it also opens in the current branch by default).
 nnoremap ,gg :OpenGithubFile<cr>
 " Opens a specific Issue. (可在命令后面设置数字)
@@ -2401,9 +2403,9 @@ command! W SudaWrite %
 " 用vim看man
 Plug 'lambdalisue/vim-manpager', {'on': 'Man'}
 augroup temporar_change_manpager_mapping
-    autocmd!
-    autocmd FileType man nmap <silent> <buffer> <C-j> ]t
-    autocmd FileType man nmap <silent> <buffer> <C-k> [t
+  autocmd!
+  autocmd FileType man nmap <silent> <buffer> <C-j> ]t
+  autocmd FileType man nmap <silent> <buffer> <C-k> [t
 augroup end
 
 " 显示搜索的的数量以及当前位置
@@ -2423,17 +2425,17 @@ Plug 'kkoomen/vim-doge', {'do': { -> doge#install() }, 'on':['DogeGenerate']}
 let g:doge_enable_mappings = 0  " 取消默认映射
 let g:doge_mapping = ''
 let g:doge_filetype_aliases = {
-            \ 'javascript': [
-            \     'javascript.jsx',
-            \     'javascriptreact',
-            \     'javascript.tsx',
-            \     'typescriptreact',
-            \     'typescript',
-            \     'typescript.tsx',
-            \     'vue'
-            \ ],
-            \ 'java': ['groovy'],
-            \ }
+      \ 'javascript': [
+      \     'javascript.jsx',
+      \     'javascriptreact',
+      \     'javascript.tsx',
+      \     'typescriptreact',
+      \     'typescript',
+      \     'typescript.tsx',
+      \     'vue'
+      \ ],
+      \ 'java': ['groovy'],
+      \ }
 "}}}
 nnoremap <leader>cm :DogeGenerate<cr>
 
@@ -2450,16 +2452,16 @@ nnoremap <silent> <leader>dc :windo diffoff<cr>:windo setlocal syntax=on<cr><c-w
 " 查看各种离线API文档, 使用:Docset 参数<cr>可以指定当前buffer的文档(docset), 重置当前buffer文档
 " 类型, 使用:Docset<cr>重置当前buffer为默认文档类型
 Plug 'KabbAmine/zeavim.vim', {'on': ['<Plug>Zeavim', '<Plug>ZVVisSelection',
-            \ '<Plug>ZVOperator', '<Plug>ZVKeyDocset', 'Docset']}
+      \ '<Plug>ZVOperator', '<Plug>ZVKeyDocset', 'Docset']}
 "{{{
 " let g:zv_keep_focus = 0  " 打开zeal后是否focus vim, 默认是1
 " 根据文件类型查找文档
 let g:zv_file_types = {
-            \   'help'                : 'vim',
-            \   'javascript'          : 'javascript,nodejs',
-            \   'python'              : 'python_3',
-            \   '\v^(G|g)ulpfile\.js' : 'gulp,javascript,nodejs',
-            \ }
+      \   'help'                : 'vim',
+      \   'javascript'          : 'javascript,nodejs',
+      \   'python'              : 'python_3',
+      \   '\v^(G|g)ulpfile\.js' : 'gulp,javascript,nodejs',
+      \ }
 "}}}
 " 自动选择<cword>和文件类型
 nmap <leader>z <Plug>Zeavim
@@ -2481,25 +2483,25 @@ nnoremap ,tl :Tldr<space>
 if g:enable_front_end_layer == 1
 
 
-    " Node.js支持
-    " Plug 'moll/vim-node', {'for': [ 'javascript', 'typescript', '*jsx', '*tsx' ]}
+  " Node.js支持
+  " Plug 'moll/vim-node', {'for': [ 'javascript', 'typescript', '*jsx', '*tsx' ]}
 
-    " 实时预览html,css,js
-    Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server', 'on': 'Bracey'}
-    " browser-open
-    nnoremap <leader>bo :Bracey<cr>
+  " 实时预览html,css,js
+  Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server', 'on': 'Bracey'}
+  " browser-open
+  nnoremap <leader>bo :Bracey<cr>
 
-    " ---- 颜色选择器 ----
-    " 打开gpick面板
-    nnoremap <leader>pc :AsyncTask gpick<cr>
-    " 选择一次颜色就关闭
-    nnoremap <leader>pco :AsyncTask gpick-once<cr>
+  " ---- 颜色选择器 ----
+  " 打开gpick面板
+  nnoremap <leader>pc :AsyncTask gpick<cr>
+  " 选择一次颜色就关闭
+  nnoremap <leader>pco :AsyncTask gpick-once<cr>
 
-    " 具体的snippets见 https://github.com/mlaursen/vim-react-snippets
-    " Plug 'mlaursen/vim-react-snippets'
+  " 具体的snippets见 https://github.com/mlaursen/vim-react-snippets
+  " Plug 'mlaursen/vim-react-snippets'
 
-    " plug 模板引擎
-    " Plug 'digitaltoad/vim-pug'
+  " plug 模板引擎
+  " Plug 'digitaltoad/vim-pug'
 
 endif
 "}}}
@@ -2540,9 +2542,9 @@ function! s:goyo_leave()
 endfunction
 "}}}
 augroup goyo_toggle_callback
-    autocmd!
-    autocmd! User GoyoEnter nested call <SID>goyo_enter()
-    autocmd! User GoyoLeave nested call <SID>goyo_leave()
+  autocmd!
+  autocmd! User GoyoEnter nested call <SID>goyo_enter()
+  autocmd! User GoyoLeave nested call <SID>goyo_leave()
 augroup end
 
 " 模糊非视觉中心的字符
@@ -2558,9 +2560,9 @@ nmap <leader>mp <Plug>MarkdownPreviewToggle
 " 运行markdown内代码
 Plug 'dbridges/vim-markdown-runner', { 'on': ['MarkdownRunner', 'MarkdownRunnerInsert'] }
 augroup My_markdown_run
-    autocmd!
-    autocmd FileType markdown nnoremap <buffer> <Leader>rf :MarkdownRunner<CR>
-    autocmd FileType markdown nnoremap <buffer> <Leader>Rf :MarkdownRunnerInsert<CR>
+  autocmd!
+  autocmd FileType markdown nnoremap <buffer> <Leader>rf :MarkdownRunner<CR>
+  autocmd FileType markdown nnoremap <buffer> <Leader>Rf :MarkdownRunnerInsert<CR>
 augroup end
 
 " 非常强大的插件, 插入模式<c-t>缩进，<c-d>反缩进 <leader>x 可以开关checkbox
@@ -2581,22 +2583,22 @@ Plug 'vimwiki/vimwiki', {'on': 'VimwikiIndex'}  " NOTE: 使用延迟加载的话
 " {{{
 " 使用markdown而不是vimwiki的语法
 let g:vimwiki_list = [{'path': '~/vimwiki/',
-            \ 'syntax': 'markdown', 'ext': '.md'}]
+      \ 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_folding='expr'
 " 禁用table_mappings在insert mode 对<tab>的映射, 避免和coc的补全快捷键冲突
 let g:vimwiki_key_mappings =
-\ {
-\   'all_maps': 1,
-\   'global': 1,
-\   'headers': 1,
-\   'text_objs': 1,
-\   'table_format': 1,
-\   'table_mappings': 0,
-\   'lists': 1,
-\   'links': 1,
-\   'html': 1,
-\   'mouse': 0,
-\ }
+      \ {
+      \   'all_maps': 1,
+      \   'global': 1,
+      \   'headers': 1,
+      \   'text_objs': 1,
+      \   'table_format': 1,
+      \   'table_mappings': 0,
+      \   'lists': 1,
+      \   'links': 1,
+      \   'html': 1,
+      \   'mouse': 0,
+      \ }
 
 "}}}
 nnoremap <leader>ew :VimwikiIndex<cr>
@@ -2687,7 +2689,6 @@ Plug 'ryanoasis/vim-devicons'
 let g:webdevicons_enable_startify = 1
 
 "}}}
-call plug#end()
 
 "==========================================
 " 自定义快捷键 Hotkey
@@ -2743,13 +2744,13 @@ noremap ZZ <nop>
 "{{{ 更便捷的移动以及视角居中
 "set wrap之后，在折行之间也可以跳, 指定行数后会忽视wrap的行
 nnoremap <silent> <expr> k
-        \ v:count == 0 ? 'gk' : 'k'
+      \ v:count == 0 ? 'gk' : 'k'
 vnoremap <silent> <expr> k
-        \ v:count == 0 ? 'gk' : 'k'
+      \ v:count == 0 ? 'gk' : 'k'
 nnoremap <silent> <expr> j
-        \ v:count == 0 ? 'gj' : 'j'
+      \ v:count == 0 ? 'gj' : 'j'
 vnoremap <silent> <expr> j
-        \ v:count == 0 ? 'gj' : 'j'
+      \ v:count == 0 ? 'gj' : 'j'
 " 在同一个折叠的首尾部跳转
 nnoremap zj ]z
 nnoremap zk [z
@@ -2864,16 +2865,16 @@ nnoremap <leader><leader>l gt
 
 " functions {{{
 function! TabCloseRight(bang)
-    let cur=tabpagenr()
-    while cur < tabpagenr('$')
-        exe 'tabclose' . a:bang . ' ' . (cur + 1)
-    endwhile
+  let cur=tabpagenr()
+  while cur < tabpagenr('$')
+    exe 'tabclose' . a:bang . ' ' . (cur + 1)
+  endwhile
 endfunction
 
 function! TabCloseLeft(bang)
-    while tabpagenr() > 1
-        exe 'tabclose' . a:bang . ' 1'
-    endwhile
+  while tabpagenr() > 1
+    exe 'tabclose' . a:bang . ' 1'
+  endwhile
 endfunction
 command! -bang Tabcloseright call TabCloseRight('<bang>')
 command! -bang Tabcloseleft call TabCloseLeft('<bang>')
@@ -2900,7 +2901,7 @@ nnoremap <silent> <c-w> :tabclose<cr>
 inoremap <silent> <c-t> <esc>:tab split<cr>
 " normal模式下切换到确切的tab
 for s:count_num in [1,2,3,4,5,6,7,8,9]
-    exec 'nnoremap <leader>' . s:count_num . ' ' . s:count_num . 'gt'
+  exec 'nnoremap <leader>' . s:count_num . ' ' . s:count_num . 'gt'
 endfor
 "}}}
 " 替换 (在当前buffer/当前选中范围){{{
@@ -2920,67 +2921,67 @@ xnoremap <leader>rSu :s/\v//gc<left><left><left><left>
 
 " cnoremap 命令模式的autopair{{{
 function! s:cmdClosingPair (closing, opening)
-    let pos  = getcmdpos()
-    let line = getcmdline()
-    let next = line[pos - 1]
-    if next == a:closing
-        return "\<Right>"
-    elseif a:closing == a:opening
-        return a:opening . a:closing . "\<Left>"
-    else
-        return a:closing
-    end
+  let pos  = getcmdpos()
+  let line = getcmdline()
+  let next = line[pos - 1]
+  if next == a:closing
+    return "\<Right>"
+  elseif a:closing == a:opening
+    return a:opening . a:closing . "\<Left>"
+  else
+    return a:closing
+  end
 endfunction
 
 function! s:isAtEndOfCmdline ()
   return 1
-    return getcmdpos() == 1+len(getcmdline())
+  return getcmdpos() == 1+len(getcmdline())
 endfunction
 
 function! s:cmdDeletePair (char)
-    let pos  = getcmdpos()
-    let line = getcmdline()
-    let char_before = line[pos - 2]
-    let char_after  = line[pos - 1]
-    if has_key(s:cmd_pairs, char_before)
-      \ && s:cmd_pairs[char_before] == char_after
-        return "\<Right>\<BS>\<BS>"
-    else
-        return a:char
-    end
+  let pos  = getcmdpos()
+  let line = getcmdline()
+  let char_before = line[pos - 2]
+  let char_after  = line[pos - 1]
+  if has_key(s:cmd_pairs, char_before)
+        \ && s:cmd_pairs[char_before] == char_after
+    return "\<Right>\<BS>\<BS>"
+  else
+    return a:char
+  end
 endfunction
 
 function! s:mapCmdPairs()
-    let s:cmd_pairs = {
-    \'(': ')',
-    \'[': ']',
-    \'{': '}',
-    \'"': '"',
-    \"'": "'"
-    \}
-    for k in keys(s:cmd_pairs)
+  let s:cmd_pairs = {
+        \'(': ')',
+        \'[': ']',
+        \'{': '}',
+        \'"': '"',
+        \"'": "'"
+        \}
+  for k in keys(s:cmd_pairs)
     let opening = k
     let closing = s:cmd_pairs[k]
     execute 'cnoremap ' . opening . ' ' . opening . closing .'<Left>'
     if closing == '"'
-        execute "cnoremap <expr>" . closing . " <SID>cmdClosingPair('" . closing . "', '" . opening ."')"
+      execute "cnoremap <expr>" . closing . " <SID>cmdClosingPair('" . closing . "', '" . opening ."')"
     else
-        execute 'cnoremap <expr>' . closing . ' <SID>cmdClosingPair("' . closing . '", "' . opening .'")'
+      execute 'cnoremap <expr>' . closing . ' <SID>cmdClosingPair("' . closing . '", "' . opening .'")'
     end
-    endfor
-    cnoremap <expr><BS>  <SID>cmdDeletePair("\<BS>")
-    cnoremap <expr><C-h> <SID>cmdDeletePair("\<C-h>")
+  endfor
+  cnoremap <expr><BS>  <SID>cmdDeletePair("\<BS>")
+  cnoremap <expr><C-h> <SID>cmdDeletePair("\<C-h>")
 endfunction
 
 call <SID>mapCmdPairs()
 "}}}
 "{{{ 更方便的跳转标记
 let s:alphabet =['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-            \'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-            \'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-            \'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',]
+      \'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+      \'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+      \'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',]
 for single_char in s:alphabet
-    exec "nnoremap '" . single_char . ' `' . single_char . 'zv'
+  exec "nnoremap '" . single_char . ' `' . single_char . 'zv'
 endfor
 "}}}
 " 调整缩进后自动选中，方便再次操作
@@ -3018,10 +3019,10 @@ noremap <silent> <leader>q :q<cr>
 "{{{ 退出Vim并自动保存会话
 " 如果当前不在Session中就保存到default.vim，否则保存当前Session
 function Save_default_session_and_exit() abort
-    let session_name = fnamemodify(v:this_session,':t')
-    let session_name = session_name == '' ? 'default.vim' : session_name
-    execute 'SSave! ' . session_name
-    execute 'qa'
+  let session_name = fnamemodify(v:this_session,':t')
+  let session_name = session_name == '' ? 'default.vim' : session_name
+  execute 'SSave! ' . session_name
+  execute 'qa'
 endfunction
 "}}}
 noremap <silent> Q <esc>:call Save_default_session_and_exit()<cr>
@@ -3030,19 +3031,19 @@ noremap <silent> Q <esc>:call Save_default_session_and_exit()<cr>
 " {{{function My_toggle_foldlevel()
 let g:My_toggle_foldlevel_mode = 0
 fun My_toggle_foldlevel()
-    if g:My_toggle_foldlevel_mode == 0
-        setlocal foldlevel=0
-        let g:My_toggle_foldlevel_mode = 1
-    else
-        setlocal foldlevel=1
-        let g:My_toggle_foldlevel_mode = 0
-    endif
+  if g:My_toggle_foldlevel_mode == 0
+    setlocal foldlevel=0
+    let g:My_toggle_foldlevel_mode = 1
+  else
+    setlocal foldlevel=1
+    let g:My_toggle_foldlevel_mode = 0
+  endif
 endf
 "}}}
 nnoremap <silent> z0 :call My_toggle_foldlevel()<cr>
 " 快速调整折叠层级
 for i in range(1, 10)
-    execute 'nnoremap z' . i . ' :setlocal foldlevel=' . i . '<cr>zz'
+  execute 'nnoremap z' . i . ' :setlocal foldlevel=' . i . '<cr>zz'
 endfor
 nnoremap z- :setlocal foldlevel-=1 <Bar> call Info('&foldlevel = ' . &foldlevel)<CR>
 nnoremap z+ :setlocal foldlevel+=1 <Bar> call Info('&foldlevel = ' . &foldlevel)<CR>
@@ -3101,31 +3102,31 @@ command! OI :silent! call CocActionAsync('runCommand', 'editor.action.organizeIm
 " --------- 自动生效的功能 -----------
 " {{{自动保存
 function! s:Autosave(timed)
-    if !&modifiable || mode() == 'c' || pumvisible()
-        return
-    endif
-    let current_time = localtime()
-    let s:last_update = get(s:, 'last_update', 0)
-    let s:time_delta = current_time - s:last_update
+  if !&modifiable || mode() == 'c' || pumvisible()
+    return
+  endif
+  let current_time = localtime()
+  let s:last_update = get(s:, 'last_update', 0)
+  let s:time_delta = current_time - s:last_update
 
-    if a:timed == 0 || s:time_delta >= 1
-        let s:last_update = current_time
-        if &buftype != 'nofile'  " 不对非文件的buffer进行检测
-            checktime  " checktime with autoread will sync files on a last-writer-wins basis.
-        endif
-        silent! doautocmd BufWritePre %  " needed for soft checks
-        silent! update  " only updates if there are changes to the file.
-        if a:timed == 0 || s:time_delta >= 4
-            silent! doautocmd BufWritePost %  " Periodically trigger BufWritePost.
-        endif
+  if a:timed == 0 || s:time_delta >= 1
+    let s:last_update = current_time
+    if &buftype != 'nofile'  " 不对非文件的buffer进行检测
+      checktime  " checktime with autoread will sync files on a last-writer-wins basis.
     endif
+    silent! doautocmd BufWritePre %  " needed for soft checks
+    silent! update  " only updates if there are changes to the file.
+    if a:timed == 0 || s:time_delta >= 4
+      silent! doautocmd BufWritePost %  " Periodically trigger BufWritePost.
+    endif
+  endif
 endfunction
 
 if g:enable_file_autosave
-    augroup WorkspaceToggle
-        au! BufLeave,FocusLost,FocusGained * call s:Autosave(0)
-        au! CursorHold * call s:Autosave(1)
-    augroup END
+  augroup WorkspaceToggle
+    au! BufLeave,FocusLost,FocusGained * call s:Autosave(0)
+    au! CursorHold * call s:Autosave(1)
+  augroup END
 endif
 "}}}
 "
@@ -3134,45 +3135,45 @@ endif
 " {{{对vim作为git difftoll的增强, <leader><leader>q 强制退出difftool
 "function Settings_for_difftool_mode(){{{
 function Settings_for_difftool_mode() abort
-    if &diff
-        syn off  " 自动关闭语法高亮
-        " 强制退出difftool, 不再自动唤起difftool
-        noremap <leader><leader>q <esc>:cq<cr>
-        noremap Q <esc>:qa<cr>
-        " 在diff hunk之间跳转
-        noremap gj ]c
-        noremap gk [c
-    endif
+  if &diff
+    syn off  " 自动关闭语法高亮
+    " 强制退出difftool, 不再自动唤起difftool
+    noremap <leader><leader>q <esc>:cq<cr>
+    noremap Q <esc>:qa<cr>
+    " 在diff hunk之间跳转
+    noremap gj ]c
+    noremap gk [c
+  endif
 endfunction
 "}}}
 " 当把vim作为git的difftool时，设置 git config --global difftool.trustExitCode true && git config --global mergetool.trustExitCode true
 " 在git difftool或git mergetool之后  可以用:cq进行强制退出diff/merge模式，而不会不停地recall another diff/merge file
 augroup auto_syntax_off_on_nvim_as_mergetool
-    autocmd!
-    autocmd VimEnter * if (&filetype != 'startify') | call Settings_for_difftool_mode()
+  autocmd!
+  autocmd VimEnter * if (&filetype != 'startify') | call Settings_for_difftool_mode()
 augroup end
 "}}}
 "{{{当有两个窗口时, 滚动另一个窗口 <c-j/k/d/e/gg/G>
 "{{{ function
 function! ScrollAnotherWindow(mode)
-    if winnr('$') <= 1
-        return
-    endif
-    noautocmd silent! wincmd p
-    if a:mode == 1
-        exec "normal! k"
-    elseif a:mode == 2
-        exec "normal! j"
-    elseif a:mode == 3
-        exec "normal! \<c-b>"
-    elseif a:mode == 4
-        exec "normal! \<c-f>"
-    elseif a:mode == 5
-        exec "normal! gg"
-    elseif a:mode == 6
-        exec "normal! G"
-    endif
-    noautocmd silent! wincmd p
+  if winnr('$') <= 1
+    return
+  endif
+  noautocmd silent! wincmd p
+  if a:mode == 1
+    exec "normal! k"
+  elseif a:mode == 2
+    exec "normal! j"
+  elseif a:mode == 3
+    exec "normal! \<c-b>"
+  elseif a:mode == 4
+    exec "normal! \<c-f>"
+  elseif a:mode == 5
+    exec "normal! gg"
+  elseif a:mode == 6
+    exec "normal! G"
+  endif
+  noautocmd silent! wincmd p
 endfunc
 "}}}
 nnoremap <silent> <c-k> :call ScrollAnotherWindow(1)<CR>
@@ -3190,10 +3191,10 @@ nnoremap <leader>et :e $HOME/.tmux.conf<cr>
 " 搜索并alternative文件(比如在c和头文件之间替换, 用于c/cpp和h文件不在同一目录的情况),　具体的可以自己定义字典
 "{{{ function
 function! Alternative()
-    let name = expand("%:t:r")
-    let extension = expand("%:e")
-    let mapping = {"h": "c", "cpp": "h", 'c': 'h'}
-    return name . '.' . get(mapping, extension, "")
+  let name = expand("%:t:r")
+  let extension = expand("%:e")
+  let mapping = {"h": "c", "cpp": "h", 'c': 'h'}
+  return name . '.' . get(mapping, extension, "")
 endfunction
 "}}}
 noremap <silent> <leader>ea :<C-U><C-R>=printf("Leaderf file --input %s", Alternative())<CR><CR>
@@ -3206,62 +3207,62 @@ nnoremap ,n :!mkdir <c-r>=expand('%:p:h')<cr>/
 "{{{ 快速添加空白行 {v:count} ]或[<space>
 "{{{ function
 function! s:BlankUp(count) abort
-    put!=repeat(nr2char(10), a:count)
-    ']+1
+  put!=repeat(nr2char(10), a:count)
+  ']+1
 endfunction
 
 function! s:BlankDown(count) abort
-    put =repeat(nr2char(10), a:count)
-    '[-1
+  put =repeat(nr2char(10), a:count)
+  '[-1
 endfunction
 "}}}
 augroup my_new_blank
-    autocmd!
-    " 因为受到自带的ftplugin干扰，所以需要用这么麻烦的定义快捷键方式
-    autocmd BufWinEnter * nnoremap <buffer> ]] :<c-u>call <sid>BlankDown(v:count1)<cr>
-    autocmd BufWinEnter * nnoremap <buffer> [[ :<c-u>call <sid>BlankUp(v:count1)<cr>
-    autocmd filetype vim nnoremap <buffer> ]] :<c-u>call <sid>BlankDown(v:count1)<cr>
-    autocmd filetype vim nnoremap <buffer> [[ :<c-u>call <sid>BlankUp(v:count1)<cr>
+  autocmd!
+  " 因为受到自带的ftplugin干扰，所以需要用这么麻烦的定义快捷键方式
+  autocmd BufWinEnter * nnoremap <buffer> ]] :<c-u>call <sid>BlankDown(v:count1)<cr>
+  autocmd BufWinEnter * nnoremap <buffer> [[ :<c-u>call <sid>BlankUp(v:count1)<cr>
+  autocmd filetype vim nnoremap <buffer> ]] :<c-u>call <sid>BlankDown(v:count1)<cr>
+  autocmd filetype vim nnoremap <buffer> [[ :<c-u>call <sid>BlankUp(v:count1)<cr>
 augroup end
 "}}}
 " {{{ 切换colorscheme <leader>cj/k
 "{{{ function
 let g:current_coloscheme_mode = g:default_colorscheme_mode
 fun My_change_colorscheme(mode) abort
-    let l:length = len(g:all_colorschemes)
-    if a:mode < 0 || a:mode >= l:length
-        echo 'failed to change colorscheme: invalid parameter'
-        return ''
-    endif
-    if a:mode == 'next'
-        if g:current_coloscheme_mode < l:length - 1
-            let g:current_coloscheme_mode += 1
-        else
-            let g:current_coloscheme_mode = 0
-        endif
-    elseif a:mode == 'previous'
-        if g:current_coloscheme_mode > 0
-            let g:current_coloscheme_mode -= 1
-        else
-            let g:current_coloscheme_mode = l:length - 1
-        endif
+  let l:length = len(g:all_colorschemes)
+  if a:mode < 0 || a:mode >= l:length
+    echo 'failed to change colorscheme: invalid parameter'
+    return ''
+  endif
+  if a:mode == 'next'
+    if g:current_coloscheme_mode < l:length - 1
+      let g:current_coloscheme_mode += 1
     else
-        let g:current_coloscheme_mode = a:mode
+      let g:current_coloscheme_mode = 0
     endif
+  elseif a:mode == 'previous'
+    if g:current_coloscheme_mode > 0
+      let g:current_coloscheme_mode -= 1
+    else
+      let g:current_coloscheme_mode = l:length - 1
+    endif
+  else
+    let g:current_coloscheme_mode = a:mode
+  endif
 
-    execute 'colorscheme ' . g:all_colorschemes[g:current_coloscheme_mode]
-    let g:lightline.colorscheme = g:lightline_schemes[g:current_coloscheme_mode]
+  execute 'colorscheme ' . g:all_colorschemes[g:current_coloscheme_mode]
+  let g:lightline.colorscheme = g:lightline_schemes[g:current_coloscheme_mode]
 
-    call lightline#init()
-    call lightline#colorscheme()
-    call lightline#update()
-    call My_render_custom_highlight()  " 恢复折叠和column的颜色
-    set syntax=on  " 用于刷新syntax解决markdown奇奇怪怪的渲染
+  call lightline#init()
+  call lightline#colorscheme()
+  call lightline#update()
+  call My_render_custom_highlight()  " 恢复折叠和column的颜色
+  set syntax=on  " 用于刷新syntax解决markdown奇奇怪怪的渲染
 endf
 "}}}
 " 可以直接<leader>c1~9 选择特定主题
 for i in range(1, len(g:all_colorschemes))
-    execute 'nnoremap <silent> <leader>c' . i . ' :call My_change_colorscheme(' . (i-1) . ')<cr>'
+  execute 'nnoremap <silent> <leader>c' . i . ' :call My_change_colorscheme(' . (i-1) . ')<cr>'
 endfor
 nnoremap <silent> <leader>cj :call My_change_colorscheme('next')<cr>
 nnoremap <silent> <leader>ck :call My_change_colorscheme('previous')<cr>
@@ -3284,11 +3285,11 @@ nnoremap <F2> :call ToggleColumnNumber()<cr>
 "{{{ 部分插件开关，提升大文件编辑体验 <F4>
 "{{{ function
 function Faster_mode_for_large_file()
-    " 开关spelunker拼写检查插件
-    execute 'normal ZT'
-    " 这个一般由于向VCS仓库中新增了大文件而导致的大面积column实时重绘, 所以需要关闭
-    execute 'SignifyToggle'
-    execute 'ALEToggleBuffer'
+  " 开关spelunker拼写检查插件
+  execute 'normal ZT'
+  " 这个一般由于向VCS仓库中新增了大文件而导致的大面积column实时重绘, 所以需要关闭
+  execute 'SignifyToggle'
+  execute 'ALEToggleBuffer'
 endfunction
 "}}}
 nnoremap <F4> :call Faster_mode_for_large_file()<cr>
@@ -3296,7 +3297,7 @@ nnoremap <F4> :call Faster_mode_for_large_file()<cr>
 " {{{查看highlighting group <F12>
 "{{{ function
 function! s:synstack()
-    echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), ' -> ')
+  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), ' -> ')
 endfunction
 "}}}
 nnoremap <F12> :<C-u>call <SID>synstack()<CR>
@@ -3307,8 +3308,8 @@ nnoremap <leader>0 :exec exists('syntax_on') ? 'syn off' : 'syn on'<cr>
 " {{{ 切换透明模式, 需要预先设置好终端的透明度 <leader>tt
 "{{{ function
 function s:Enable_transparent_scheme() abort
-    hi normal guibg=none
-    hi CursorLineNr guibg=none
+  hi normal guibg=none
+  hi CursorLineNr guibg=none
 endfunction
 
 let g:in_transparent_mode = 0
@@ -3336,25 +3337,25 @@ nnoremap <silent> <leader>tt :call Toggle_transparent_background()<CR>
 "{{{ function
 let g:check_performance_enabled = 0
 fun Check_performance()
-    if g:check_performance_enabled == 0
-        execute 'profile start profile.log'
-        execute 'profile file *'
-        execute 'profile func *'
-        let g:check_performance_enabled = 1
-    else
-        execute 'profile stop'
-        execute 'normal Q'
-    endif
+  if g:check_performance_enabled == 0
+    execute 'profile start profile.log'
+    execute 'profile file *'
+    execute 'profile func *'
+    let g:check_performance_enabled = 1
+  else
+    execute 'profile stop'
+    execute 'normal Q'
+  endif
 endf
 "}}}
 nnoremap <leader>cp :call Check_performance()<cr>
 "}}}
 "{{{ 复制当前文件的名字，绝对路径，目录绝对路径
 function Copy_to_registers(text) abort  "{{{
-    let @" = a:text
-    let @0 = a:text
-    let @+ = a:text  " system clipboard on Linux
-    let @* = a:text  " system clipboard on Windows
+  let @" = a:text
+  let @0 = a:text
+  let @+ = a:text  " system clipboard on Linux
+  let @* = a:text  " system clipboard on Windows
 endfunction
 "}}}
 nnoremap <leader>yfn :call Copy_to_registers(expand('%:t'))<cr>:echo printf('filename yanked: %s', expand('%:t'))<cr>
@@ -3374,9 +3375,9 @@ SignifyEnableAll
 "
 "{{{ 空格触发abbrev
 function! s:SetCommandAbbrs(from, to)
-    exec 'cnoreabbrev <expr> '.a:from
-                \ .' ((getcmdtype() ==# ":" && getcmdline() ==# "'.a:from.'")'
-                \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() ==# ":" && getcmdline() ==# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
 endfunc
 call s:SetCommandAbbrs('ca', 'CocAction')
 call s:SetCommandAbbrs('cc', 'CocConfig')
@@ -3387,5 +3388,5 @@ call s:SetCommandAbbrs('pi', 'PlugInstall')
 call s:SetCommandAbbrs('pu', 'PlugUpdate')
 call s:SetCommandAbbrs('st', 'StartupTime')
 "}}}
-"
 "}}}
+call plug#end()
