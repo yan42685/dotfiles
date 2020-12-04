@@ -90,7 +90,8 @@ let g:loaded_zipPlugin = 1
 " =========================================
 
 " VimPlug只会管理最后一次调用plug#begin()和plug#end()之间的插件，所以这里同步调用的插件
-" 不会自动安装，需要用另一个辅助配置安装 用法nvim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugUpdate' -c 'PlugClean!' -c 'PlugUpdate' -c 'qall'
+" 不会自动安装，需要用另一个辅助配置安装 用法
+" nvim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugUpdate' -c 'PlugClean!' -c 'PlugUpdate' -c 'qall'
 call plug#begin('~/.vim/plugged')
 " 以下插件不建议异步加载
 "{{{ 自动生效的插件
@@ -103,11 +104,6 @@ let g:rainbow_active = 1
 
 "}}}
 "{{{coc 生态系统, 补全框架
-" coc-lists
-nnoremap <leader>cl :CocList<cr>
-
-" coc-git
-" NOTE: 在CocConfig里关闭了gutter功能, 现在用的是signify的功能
 
 " coc-explorer 文件树
 "{{{
@@ -128,34 +124,9 @@ augroup Nvim_dir_auto_open_coc_explorer
   autocmd BufEnter * let d = expand('%') | if isdirectory(d) | bd | call ToggleCocExplorer() | endif
 augroup END
 
-" 使用coc-yank (自带复制高亮)
-nnoremap <silent> gy :<C-u>CocList --normal -A yank<cr>
-
-" coc-translator  可以先输入再查词, 作为一个简单的英汉词典,
-" view word history
-nnoremap <leader>vw :CocList translation<cr>
-nmap tt <Plug>(coc-translator-p)
-vmap tt <Plug>(coc-translator-pv)
-
-" coc-todolist
-" 使用方法: 用:CocList todolist打开
-" Filter your todo items and perform operations via <Tab>
-" Use toggle to toggle todo status between active and completed
-" Use edit to edit the description of a todo item
-" Use preview to preview a todo item
-" Use delete to delete a todo item
-nnoremap <leader>tc :CocCommand todolist.create<cr>
-nnoremap <leader>tl :CocList todolist<cr>
-" clear all notifications
-nnoremap <silent> <leader>tx :CocCommand todolist.clearRemind<cr>
-nnoremap <leader>tu :CocCommand todolist.upload<cr>
-" download todolist from gist
-" nnoremap <leader>td :CocCommand todolist.download<cr>
-" export todolist as a json/yaml file
-" nnoremap <leader>te :CocCommand todolist.export<cr>
 
 
-" COC自动补全框架
+" COC自动补全框架 TODO: 把配置移到异步加载里
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "{{{
 
@@ -176,13 +147,7 @@ let g:coc_global_extensions = [
   \ 'coc-markdownlint', 'coc-clangd', 'coc-git', 'coc-vimlsp', 'coc-fzf-preview',
   \ ]
 
-
-set hidden  " 隐藏buff非关闭它, TextEdit might fail if hidden is not set.
-set cmdheight=1  " 在vim里如果不设置为2，每次进入新buffer都需要回车确认...
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set shortmess+=c  " Don't pass messages to ins-completion-menu.
-set signcolumn=yes:2  " 如果想要动态扩展，就改成auto:2
+let g:coc_snippet_next = '<tab>'
 
 " Make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode.
 " inoremap <silent> <expr> <TAB>
@@ -194,11 +159,6 @@ set signcolumn=yes:2  " 如果想要动态扩展，就改成auto:2
 " FIXME: 没有添加到下面列表里的文件类型如果cc不能缩进，则tab也不能缩进了, 那么就需要在下面的list新增文件类型
 let g:My_quick_tab_blacklist = ['markdown', 'text', 'vim', 'vimwiki', 'gitcommit', 'zsh', 'sh',
             \ 'snippets', 'gitconfig', 'crontab', 'vue']
-" inoremap <silent> <expr> <TAB>
-"       \ pumvisible() ? coc#_select_confirm() :
-"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-"       \ <SID>check_back_space() ? (strwidth(getline('.')) == 0 && index(g:My_quick_tab_blacklist, &filetype) < 0 ? '<esc>cc' : '<tab>') :
-"       \ coc#refresh()
 inoremap <silent> <expr> <TAB>
       \ pumvisible() ? '<c-y>' :
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
@@ -222,11 +182,6 @@ fun My_return_for_tag()
 endf
 "}}}
 inoremap <expr> <cr> pumvisible() ? '<C-y>' : My_return_for_tag()
-
-
-
-
-
 
 
 augroup coc_completion_keybindings
@@ -253,7 +208,6 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:coc_snippet_next = '<tab>'
 
 " 展示文档
 function! s:show_documentation()
@@ -653,6 +607,9 @@ set tags=./.tags;,.tags  " 让ctags改名为.tags，不污染工作区
 set confirm
 set linebreak  " 一行文本超过window宽度会wrap，设置此项会让单词按语义分隔而不是按字母分隔
 set guicursor+=a:blinkon0  " 仅在gvim生效, 取消cursor的闪烁, 终端下的vim需要自行修改终端cursor设置
+set hidden  " 隐藏buff非关闭它, TextEdit might fail if hidden is not set.
+set cmdheight=1  " 在vim里如果不设置为2，每次进入新buffer都需要回车确认...
+set signcolumn=yes:2  " 如果想要动态扩展，就改成auto:2
 set autoread
 set autowriteall  " edit, next等动作时自动写入
 set tm=500
@@ -834,8 +791,8 @@ augroup My_settings_by_filetype
         iunmap <buffer> <cr>
     endf
 "}}}
-    autocmd filetype gitcommit nnoremap <silent> <buffer> <expr> <tab> col('.') == 1 ? 'i<C-r>=My_custom_completion_trigger(g:My_commit_completion_source, 1)<cr>' : '<c-y>'
-    autocmd filetype gitcommit imap <silent> <buffer> <expr> <tab> col('.') == 1 ? '<C-r>=My_custom_completion_trigger(g:My_commit_completion_source_with_emoji, 1)<cr>' : '<c-y>'
+    autocmd filetype gitcommit nmap <silent> <buffer> <expr> <tab> col('.') == 1 && !pumvisible() ? 'i<C-r>=My_custom_completion_trigger(g:My_commit_completion_source, 1)<cr>' : '<c-y>'
+    autocmd filetype gitcommit imap <silent> <buffer> <expr> <tab> col('.') == 1 && !pumvisible() ? '<C-r>=My_custom_completion_trigger(g:My_commit_completion_source_with_emoji, 1)<cr>' : '<c-y>'
 
 "{{{ 对gitrebase命令的Mapping
     let b:fugitive_rebase_commands="^(pick|reword|edit|squash|fixup|exec|drop)"

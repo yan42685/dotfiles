@@ -955,6 +955,51 @@ nmap <leader>wf <Plug>(choosewin)
 
 
 "}}}
+"{{{ coc生态系统
+" Plug 'neoclide/coc.nvim', {'branch': 'release'} "  这里只写配置
+" {{{ coc-插件配置
+
+" coc-lists
+nnoremap <leader>cl :CocList<cr>
+
+" coc-git
+" NOTE: 在CocConfig里关闭了gutter功能, 现在用的是signify的功能
+
+" 使用coc-yank (自带复制高亮)
+nnoremap <silent> gy :<C-u>CocList --normal -A yank<cr>
+
+" coc-translator  可以先输入再查词, 作为一个简单的英汉词典,
+" view word history
+nnoremap <leader>vw :CocList translation<cr>
+nmap tt <Plug>(coc-translator-p)
+vmap tt <Plug>(coc-translator-pv)
+
+" coc-todolist
+" 使用方法: 用:CocList todolist打开
+" Filter your todo items and perform operations via <Tab>
+" Use toggle to toggle todo status between active and completed
+" Use edit to edit the description of a todo item
+" Use preview to preview a todo item
+" Use delete to delete a todo item
+nnoremap <leader>tc :CocCommand todolist.create<cr>
+nnoremap <leader>tl :CocList todolist<cr>
+" clear all notifications
+nnoremap <silent> <leader>tx :CocCommand todolist.clearRemind<cr>
+nnoremap <leader>tu :CocCommand todolist.upload<cr>
+" download todolist from gist
+" nnoremap <leader>td :CocCommand todolist.download<cr>
+" export todolist as a json/yaml file
+" nnoremap <leader>te :CocCommand todolist.export<cr>
+
+
+
+
+
+
+"
+" }}}
+
+"}}}
 "{{{ Project 增强
 
 " 作为fzf-preview的依赖
