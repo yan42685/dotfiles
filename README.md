@@ -7,6 +7,7 @@
 
 - 包管理器 (apt) 换源
 - 设置永不自动锁屏　 Settings-Power-Blank Screen 的值为 never
+-
 - 安装必备软件 `sudo apt install -y git curl wget unzip yadm`
 - 安装 v2rayA 设置代理加速后续安装过程（可选）
 
