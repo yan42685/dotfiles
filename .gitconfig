@@ -413,6 +413,9 @@
     # commit with a message
     c = commit
     caa = commit -a
+
+    cmd = safe-commit-amend-no-edit
+    cmde = safe-commit-amend
     # 将新的修改，删除全部应用到上次commit里
     cmu = "!git add --update && git safe-commit-amend-no-edit"
     cmue = "!git add --update && git safe-commit-amend"
