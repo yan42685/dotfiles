@@ -1,4 +1,4 @@
-" =========================================
+" ==============================
 " 插件管理
 " {{{主要插件简介
 " 1. ALE         去除多余空格空行，lint, formatter
@@ -2403,7 +2403,6 @@ endfunction
 nnoremap <leader>yfn :call Copy_to_registers(expand('%:t'))<cr>:echo printf('filename yanked: %s', expand('%:t'))<cr>
 nnoremap <leader>yap :call Copy_to_registers(expand('%:p'))<cr>:echo printf('absolute path yanked: %s', expand('%:p'))<cr>
 nnoremap <leader>ydr :call Copy_to_registers(expand('%:p:h'))<cr>:echo printf('absolute dir yanked: %s', expand('%:p:h'))<cr>
-nnoremap gl :lcd %:p:h<cr>:let mycurf=expand("<cfile>")<cr>:execute("e ".mycurf)<cr>
 "}}}
 " 重启ALE
 nnoremap <silent> <leader>ta :ALEToggle<cr>:ALEToggle<cr>

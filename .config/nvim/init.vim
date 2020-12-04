@@ -223,7 +223,12 @@ endfunction
 " 在源文件与头文件之间切换
 " nnoremap <silent> <leader>gh :CocCommand clangd.switchSourceHeader<cr>
 nmap <expr> gh &diff? '<Plug>(MergetoolDiffExchangeLeft)' : '<esc>:CocCommand clangd.switchSourceHeader<cr>'
-nmap <expr> gl &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<esc>'
+"{{{ function! MyGotoFileLink()
+function! MyGotoFileLink() abort
+  lcd %:p:h | let l:mycurf=expand('<cfile>') | exec 'e ' . l:mycurf
+endfunction
+"}}}
+nmap <expr> gl &diff? '<Plug>(MergetoolDiffExchangeRight)' : '<esc>:call MyGotoFileLink()<cr>'
 
 " TODO: 刷新补全列表，不知道对刷新 LSP 有没有作用
 inoremap <silent> <expr> <c-tab> cocr#efresh()
