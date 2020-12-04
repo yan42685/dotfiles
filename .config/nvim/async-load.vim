@@ -365,6 +365,8 @@ endf
 nnoremap <silent> ,gb :call My_toggle_coc_git_blame()<cr>
 nnoremap <silent> ,gc :G commit<cr>
 nnoremap <silent> ,gca :G commit --all<cr>
+nnoremap <silent> ,gmd :G cmd --quiet<cr>
+nnoremap <silent> ,gmde :G cmde --quiet<cr>
 " 不用编辑提交信息 git add --update && git commit --amend --no-edit
 nnoremap <silent> ,gmu :G cmu --quiet<cr>
 " 需要编辑提交信息 git add --update && git commit --amend
