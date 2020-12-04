@@ -396,7 +396,159 @@ let g:indentLine_bufTypeExclude = ['help', 'terminal']
 let g:indentLine_char = '│'
 let g:indentLine_color_gui = 'Grey30'
 "}}}
+"{{{ LeaderF
+" 模糊搜索 弹窗后按<c-r>进行正则搜索模式, visual模式 '*' 查找函数依赖这个插件，所以不要延迟加载
+Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
+"settings{{{
+" let g:Lf_ShowDevIcons = 0  " 因为和devicon的整合在Startify的session里有bug，所以不显示devicon了
+" 整合AsyncTask{{{
+function! s:lf_task_source(...)
+    let rows = asynctasks#source(&columns * 48 / 100)
+    let source = []
+    for row in rows
+        let name = row[0]
+        let source += [name . '  ' . row[1] . '  : ' . row[2]]
+    endfor
+    return source
+endfunction
 
+
+function! s:lf_task_accept(line, arg)
+    let pos = stridx(a:line, '<')
+    if pos < 0
+        return
+    endif
+    let name = strpart(a:line, 0, pos)
+    let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
+    if name != ''
+        exec "AsyncTask " . name
+    endif
+endfunction
+
+function! s:lf_task_digest(line, mode)
+    let pos = stridx(a:line, '<')
+    if pos < 0
+        return [a:line, 0]
+    endif
+    let name = strpart(a:line, 0, pos)
+    return [name, 0]
+endfunction
+
+function! s:lf_win_init(...)
+    setlocal nonumber
+    setlocal nowrap
+endfunction
+
+
+let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
+let g:Lf_Extensions.task = {
+            \ 'source': string(function('s:lf_task_source'))[10:-3],
+            \ 'accept': string(function('s:lf_task_accept'))[10:-3],
+            \ 'get_digest': string(function('s:lf_task_digest'))[10:-3],
+            \ 'highlights_def': {
+            \     'Lf_hl_funcScope': '^\S\+',
+            \     'Lf_hl_funcDirname': '^\S\+\s*\zs<.*>\ze\s*:',
+            \ },
+            \ }
+" }}}
+
+let g:Lf_RgConfig = [
+            \ '--glob=!\.git/*', '--glob=!\.svn/*', '--glob=!\.hg/*',
+            \ '--glob=!\.vscode/*', '--glob=!.ccls', '--glob=!.ccls-cache',
+            \ "--glob=!node_modules", "--glob=!lib/*.js", "--glob=!target",
+            \ "--glob=!tags", "--glob=!build", "--glob=!.git",
+            \ "--glob=!.ccls-cache", '--glob=!**/.repo/*', '--glob=!**/GTAGS',
+            \ '--glob=!**/GRTAGS', '--glob=!\.vim/undo\-dir/*', '--glob=!**/GPATH',
+            \ '--glob=!**/tags', '--glob=!**/prj_tags', '--iglob=!**/obj/*',
+            \ '--iglob=!**/out/*', '--multiline', '--hidden',
+            \ ]
+
+let g:Lf_RootMarkers = [ '.project', '.svn', '.git', '.idea', '.tasks', '.clang-format', ]
+
+let g:Lf_WildIgnore = {
+            \ 'dir': ['.svn','.git','.cache','.idea','node_modules','build', '.gradle','.hg','.vscode','.wine','.deepinwine','.oh-my-zsh','undo-dir'],
+            \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+            \}
+
+" popup的normal模式是否自动预览 FIXME: 如果觉得上下移动很慢的话就得关闭preview
+"                               TIP: 不要按着j或<c-j>不动而是连续按j的话就不会显得很慢
+let g:Lf_PreviewResult = {
+            \ 'File': 1, 'Buffer': 1, 'Mru': 1, 'Tag': 1, 'BufTag': 1,
+            \ 'Function': 1, 'Line': 1, 'Colorscheme': 1, 'Rg': 1, 'Gtags': 1
+            \}
+
+let g:Lf_WindowPosition = 'popup'  " 使用popup
+let g:Lf_PopupWidth = 0.66
+let g:Lf_PopupHeight = 0.4
+let g:Lf_PreviewInPopup = 1  " <c-p>预览弹出窗口
+let g:Lf_CursorBlink = 0  " 取消光标闪烁
+let g:Lf_ShowHidden = 1  " 搜索结果包含隐藏文件
+let g:Lf_IgnoreCurrentBufferName = 1  " 搜索文件时忽略当前buffer FIXME: 不确定这条选项会不会导致搜索不到文件
+" let g:Lf_WindowHeight = 0.4  " 非popup窗口的高度
+let g:Lf_HistoryNumber = 200  " default 100
+let g:Lf_GtagsAutoGenerate = 1  " 有['.git', '.hg', '.svn']之中的文件时自动生成gtags
+let g:Lf_RecurseSubmodules = 1  " show the files in submodules of git repository
+let g:Lf_RgStorePattern = '+'  "　使用leaderf rg -e ... 搜索时会保存同含义的vim regex形式的正则表达式到+寄存器
+let g:Lf_Gtagslabel =  "native-pygments"  " 如果不是gtags支持的文件类型，就用pygments作为补充
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2"  }  " 分隔符样式
+" let g:Lf_FollowLinks = 1  " 是否解析本为link的目录
+let g:Lf_WorkingDirectoryMode = 'a'  " the nearest ancestor of current directory that contains one of directories
+" or files defined in |g:Lf_RootMarkers|. Fall back to 'c' if no such
+" ancestor directory found.
+let g:Lf_ShortcutF = ''  " 这两项是为了覆盖默认设置的键位
+let g:Lf_ShortcutB = ''
+
+" 设置弹窗配色
+let g:Lf_PopupPalette = {
+            \  'dark': {
+            \     'Lf_hl_popup_window': {
+            \         'guibg': 'NONE'
+            \     },
+            \     'Lf_hl_popup_inputText': {
+            \         'guibg': '#354852'
+            \     },
+            \     'Lf_hl_popup_blank': {
+            \         'guibg': 'NONE'
+            \     },
+            \     'Lf_hl_cursorline': {
+            \         'guifg': '#62cb8a'
+            \     }
+            \  }
+            \ }
+
+"}}}
+nnoremap <silent> <leader>gt :Leaderf --nowrap task<cr>
+" <C-t>新标签页打开, <C-l> vsplit <S-Insert>粘贴
+let g:Lf_CommandMap = {
+            \ '<C-]>':['<C-l>'],
+            \ '<C-c>':['<C-d>', '<C-c>'],
+            \}  " 搜索后<c-l>在右侧窗口打开文件
+noremap <silent> <c-p> :Leaderf command<CR>
+nnoremap <silent> <leader>gr :Leaderf mru<cr>
+nnoremap <silent> <leader>gf :Leaderf file<cr>
+nnoremap <silent> <leader>gs :Leaderf searchHistory<cr>
+nnoremap <silent> gf :Leaderf function<cr>
+nnoremap <silent> ,gt :Leaderf bufTag<cr>
+" 项目下即时搜索
+nnoremap <silent> <leader>rg :<C-U>Leaderf rg<cr>
+" 项目下搜索词 -F是fix 即不是正则模式
+nnoremap <silent> <Leader>gw :<C-U><C-R>=printf("Leaderf! rg -F %s", expand("<cword>"))<CR><cr>
+nnoremap <silent> <Leader>gW :<C-U><C-R>=printf("Leaderf! rg -F %s", expand("<cWORD>"))<CR><cr>
+xnoremap <silent> <leader>gw :<C-U><C-R>=printf("Leaderf! rg -F %s", leaderf#Rg#visual())<CR><cr>
+xnoremap <silent> * :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer %s", leaderf#Rg#visual())<CR><cr>
+" buffer内即时搜索
+nnoremap <silent> / :Leaderf rg --current-buffer<cr>
+" 重复上次搜索, 会直接调用上次搜索结果的缓存
+nnoremap <silent> g/ :Leaderf rg --recall<cr>
+" buffer内搜索词
+nnoremap <silent> gw :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer %s", expand("<cword>"))<CR><cr>
+nnoremap <silent> gW :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer %s", expand("<cWORD>"))<CR><cr>
+xnoremap <silent> gw :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer %s", leaderf#Rg#visual())<CR><cr>
+" 仅测试用, 不知道用不用得上
+" 查看tag引用
+nnoremap <leader>tr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+" 查看tag定义
+nnoremap <leader>td :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>}}}
 call plug#end()
 
 " ==========================================
@@ -796,6 +948,9 @@ endfunction
 
 call My_render_custom_highlight()
 "}}}
+
+" ==========================================
+" 优先加载的快捷键
 
 " ==========================================
 " 新增功能
