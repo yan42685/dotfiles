@@ -25,10 +25,6 @@
 #   white: "0xdfbf8e"
 # }}}
 # {{{ Forest Night
-custom_cursor_colors: true;
-cursor:
-  text: "0x000000"
-  cursor: "0xffffff"
 
 colors:
   primary:
