@@ -123,7 +123,7 @@ endif
 "}}}
 
 " 高亮与光标下单词相同的单词
-Plug 'RRethy/vim-illuminate'
+" Plug 'RRethy/vim-illuminate'
 "{{{
 " 选择不高亮的文件类型
 let g:Illuminate_ftblacklist = [
@@ -2169,13 +2169,13 @@ function! Toggle_transparent_background()
     setlocal cursorline
     syn off | syn on
     " illuminate插件
-    silent! IlluminationEnable
+    " silent! IlluminationEnable
     call My_render_custom_highlight()
   else
     let g:in_transparent_mode = 1
     setlocal nocursorline
     hi Normal guibg=NONE ctermbg=NONE
-    silent! IlluminationDisable
+    " silent! IlluminationDisable
     silent! NoMatchParen
     call s:Enable_transparent_scheme()
   endif
