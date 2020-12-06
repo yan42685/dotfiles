@@ -763,7 +763,7 @@ filetype indent on  " 针对不同的文件类型采用不同的缩进格式
 set tags=./.tags;,.tags  " 让ctags改名为.tags，不污染工作区
 set confirm
 set linebreak  " 一行文本超过window宽度会wrap，设置此项会让单词按语义分隔而不是按字母分隔
-set guicursor+=a:blinkon0  " 仅在gvim生效, 取消cursor的闪烁, 终端下的vim需要自行修改终端cursor设置
+set guicursor=n-c-v-sm:block-Cursor,i-ci-ve:ver25-Cursor,r-cr-o:hor20-Cursor,a:blinkon0,  " 搭配Cursor高亮改变cursor颜色
 set hidden  " 隐藏buff非关闭它, TextEdit might fail if hidden is not set.
 set cmdheight=1  " 在vim里如果不设置为2，每次进入新buffer都需要回车确认...
 set signcolumn=yes:2  " 如果想要动态扩展，就改成auto:2
@@ -1054,7 +1054,6 @@ function! s:HL(group, fg, bg, ...)
     execute join(hl_string, ' ')
 endfunction
 "}}}
-
 " 切换colorscheme时需要调用这个函数覆盖默认的设置
 function My_render_custom_highlight() abort
     "{{{ TODO: FIXME: BUG: NOTE: HACK: 自定义标记配色
@@ -1141,6 +1140,10 @@ hi! link snipSippetFooterKeyword snipSnippetHeaderKeyword
 "{{{ vim-bookmarks
 highlight! BookmarkSign guifg=#399ce5
 highlight! BookmarkAnnotationSign guifg=#399ce5
+"}}}
+"{{{ cursor高亮
+" BUG: 部分设置部分颜色会失效
+autocmd VimEnter * hi! Cursor guifg=#ffffff guibg=#55a7dd
 "}}}
 
 endfunction
