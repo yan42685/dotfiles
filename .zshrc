@@ -353,6 +353,16 @@ open() {
 openbin() {
    open trash://
 }
+
+killport() {
+  port=$1
+  if [ -z "$port" ]; then
+    echo "请输入端口号"
+    return
+  fi
+  fuser -k -n tcp $port
+  echo "成功关闭端口号为 $port 的进程"
+}
 # {{{ toggle_auto_fetch()
 toggle_auto_fetch() {
     `command git rev-parse --is-inside-work-tree 2>/dev/null` || return
