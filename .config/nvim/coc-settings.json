@@ -34,7 +34,7 @@
   "suggest.noselect": false, // 补全启动时自动选择第一项
   "suggest.minTriggerInputLength": 1, // 补全触发的最少字数
   // TODO: 开启并设置高亮颜色
-  "explorer.filename.colored.enable": true, // 对不同的git状态显示不同的颜色 等功能完善之后再用
+  "explorer.filename.colored.enable": false, // 对不同的git状态显示不同的颜色 等功能完善之后再用
   "explorer.icon.enableNerdfont": true,
   "explorer.previewAction.onHover": false,
   // 是否默认显示隐藏文件
@@ -92,5 +92,19 @@
   "snippets.priority": 130, // 从默认的90提高到130的优先级
   "suggest.languageSourcePriority": 300, // LSP 的优先级
   "tabnine.priority": 99,
-  "coc.preferences.colorSupport": false // 不要高亮 color
+  "coc.preferences.colorSupport": false, // 不要高亮 color
+  "languageserver": {
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": [
+        "*.cabal",
+        "stack.yaml",
+        "cabal.project",
+        "package.yaml",
+        "hie.yaml"
+      ],
+      "filetypes": ["haskell", "lhaskell"]
+    }
+  }
 }

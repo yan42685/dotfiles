@@ -53,7 +53,7 @@ setup_ubuntu_environment() {
     echo "==================== installing linter and formatter"
     npm install -g eslint
     npm install -g vim-language-server
-    npm install -g prettier vls
+    npm install -g prettier
     python3 -m pip install pylint --user
     python3 -m pip install autopep8 --user
     sudo apt install cppcheck -y
@@ -67,6 +67,17 @@ setup_ubuntu_environment() {
     sudo snap install universal-ctags
 
     echo "==================== installing applications"
+
+    echo "============== Installing Haskell and Language Server..."
+    if ! command -v ghc >/dev/null 2>&1; then
+        sudo apt-get install haskell-platform -y # 编译器之类的
+        wget -c https://download.fastgit.org/haskell/haskell-language-server/releases/download/0.7.1/haskell-language-server-Linux-8.10.2.gz -O haskell-language-server.gz
+        wget -c https://download.fastgit.org/haskell/haskell-language-server/releases/download/0.7.1/haskell-language-server-wrapper-Linux.gz -O haskell-language-server-wrapper.gz
+        gzip -d haskell-language-server.gz && mv haskell-language-server ~/.local/bin/
+        gzip -d haskell-language-server-wrapper.gz && mv haskell-language-server-wrapper ~/.local/bin/
+        chmod +x ~/.local/bin/haskell-language-server*
+    fi
+
     if ! command -v go >/dev/null 2>&1; then
         echo "================== Installing golang..."
         wget https://dl.google.com/go/go1.13.linux-amd64.tar.gz
