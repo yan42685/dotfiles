@@ -295,6 +295,7 @@ if g:disable_laggy_plugins_for_large_file == 0
     \   'flow': ['prettier'],
     \   'javascriptreact': ['prettier'],
     \   'typescriptreact': ['prettier'],
+    \   'haskell': ['brittany'],
     \}
     " 极大提升打开log 文件的性能
     let g:ale_fix_on_save_ignore = {'log': ['remove_trailing_lines', 'trim_whitespace']}
