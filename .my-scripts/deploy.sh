@@ -75,6 +75,9 @@ setup_ubuntu_environment() {
         # 安装stack 需要设置命令行http/https代理才能用
         curl -sSL https://get.haskellstack.org/ | sh
         stack setup # 安装ghc编译器
+        stack install hlint # linter
+        stack install intero # repl
+        stack install stack-run # 一键运行
 
         wget -c https://download.fastgit.org/haskell/haskell-language-server/releases/download/0.7.1/haskell-language-server-Linux-8.10.2.gz -O haskell-language-server.gz
         wget -c https://download.fastgit.org/haskell/haskell-language-server/releases/download/0.7.1/haskell-language-server-wrapper-Linux.gz -O haskell-language-server-wrapper.gz
