@@ -76,6 +76,7 @@ setup_ubuntu_environment() {
         gzip -d haskell-language-server.gz && mv haskell-language-server ~/.local/bin/
         gzip -d haskell-language-server-wrapper.gz && mv haskell-language-server-wrapper ~/.local/bin/
         chmod +x ~/.local/bin/haskell-language-server*
+        cabal update # 添加软件包列表
     fi
 
     if ! command -v go >/dev/null 2>&1; then
