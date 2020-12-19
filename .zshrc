@@ -642,3 +642,4 @@ export PATH=~/.pyenv/bin:$PATH
 export PYENV_ROOT=~/.pyenv
 eval "$(pyenv init -)"
 #}}}
+[ -f "/home/alexyan/.ghcup/env" ] && source "/home/alexyan/.ghcup/env" # ghcup-env

@@ -48,15 +48,31 @@ bash ~/.my-scripts/deploy.sh
 
 ## 部署后手动操作部分
 
+- 安装 Haskell 相关环境（可选）
+
+```bash
+  echo "============== Installing Haskell and Language Server..."
+
+  curl -sSL https://get.haskellstack.org/ | sh
+  stack setup # 安装 ghc 编译器
+  stack install hlint # linter
+  stack install brittany # formatter
+  stack install intero # repl
+
+  # 安装 lsp 并提供可执行的 ghc 编译器
+  curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+
+```
+
 - 设置搜狗输入法
-  <details><summary>具体步骤</summary><br>
+<details><summary>具体步骤</summary><br>
 
-  ![步骤 1](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin1.png)
-  ![步骤 2](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin2.png)
-  ![步骤 3](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin3.png)
-  ![步骤 4](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin4.png)
+![步骤 1](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin1.png)
+![步骤 2](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin2.png)
+![步骤 3](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin3.png)
+![步骤 4](https://raw.fastgit.org/yan42685/dotfiles/master/.config/images/README/set-sogoupinyin4.png)
 
-  </details>
+</details>
 
 - 在 github 设置 ssh-key 为 `cat ${HOME}/.ssh/id_rsa.pub` 命令输出的值
 - 系统设置 dock autohide
@@ -75,3 +91,4 @@ bash ~/.my-scripts/deploy.sh
 - 用 fastgit 可以加速 git clone 和 wget 下载 [FastGit 传送门](https://doc.fastgit.org/zh-cn/guide.html#web-%E7%9A%84%E4%BD%BF%E7%94%A8)
 
 </details>
+```

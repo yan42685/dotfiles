@@ -70,21 +70,6 @@ setup_ubuntu_environment() {
 
     echo "==================== installing applications"
 
-    echo "============== Installing Haskell and Language Server..."
-    if ! command -v stack >/dev/null 2>&1; then
-        # 安装stack 需要设置命令行http/https代理才能用
-        curl -sSL https://get.haskellstack.org/ | sh
-        stack setup # 安装ghc编译器
-        stack install hlint # linter
-        stack install brittany # formatter
-        stack install intero # repl
-
-        wget -c https://download.fastgit.org/haskell/haskell-language-server/releases/download/0.7.1/haskell-language-server-Linux-8.10.2.gz -O haskell-language-server.gz
-        wget -c https://download.fastgit.org/haskell/haskell-language-server/releases/download/0.7.1/haskell-language-server-wrapper-Linux.gz -O haskell-language-server-wrapper.gz
-        gzip -d haskell-language-server.gz && mv haskell-language-server ~/.local/bin/
-        gzip -d haskell-language-server-wrapper.gz && mv haskell-language-server-wrapper ~/.local/bin/
-        chmod +x ~/.local/bin/haskell-language-server*
-    fi
 
     if ! command -v go >/dev/null 2>&1; then
         echo "================== Installing golang..."
