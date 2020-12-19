@@ -58,6 +58,8 @@ bash ~/.my-scripts/deploy.sh
   stack install hlint # linter
   stack install brittany # formatter
   stack install intero # repl
+  # NOTE: 需要用 gen-hie > hie.yaml 生成配置文件，否则 lsp 会报错
+  stack install implicit-hie
 
   # 安装 lsp 并提供可执行的 ghc 编译器
   curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
