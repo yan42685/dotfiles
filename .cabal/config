@@ -10,9 +10,12 @@
 -- Cabal library version: 1.24.2.0
 -- cabal-install version: 1.24.0.2
 
-repository mirrors.ustc.edu.cn
-  url: https://mirrors.ustc.edu.cn/hackage/
-  secure: False
+
+repository hackage.haskell.org
+  url: http://hackage.haskell.org/
+  -- secure: False
+  -- root-keys:
+  -- key-threshold:
 
 -- default-user-config:
 -- require-sandbox: False
@@ -27,8 +30,8 @@ world-file: /home/alexyan/.cabal/world
 -- compiler: ghc
 -- with-compiler:
 -- with-hc-pkg:
--- program-prefix:
--- program-suffix:
+-- program-prefix: 
+-- program-suffix: 
 -- library-vanilla: True
 -- library-profiling:
 -- shared:

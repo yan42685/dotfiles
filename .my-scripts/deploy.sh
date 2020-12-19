@@ -16,6 +16,8 @@ setup_ubuntu_environment() {
     sudo apt install -y make cmake build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
 
     echo "==================== setuping basic packages..."
+    # FIXME: 如果没有开启代理记得关闭这行代码
+    export http_proxy=socks5://127.0.0.1:12346; export https_proxy=$http_proxy; echo 'HTTP Proxy on';
 
     sudo apt install -y nodejs npm python-pip python3-pip zsh lua5.3 openjdk-8-jdk
 
@@ -70,13 +72,14 @@ setup_ubuntu_environment() {
 
     echo "============== Installing Haskell and Language Server..."
     if ! command -v ghc >/dev/null 2>&1; then
-        sudo apt-get install haskell-platform -y # 编译器之类的
+        # 安装stack 需要设置命令行http/https代理才能用
+        curl -sSL https://get.haskellstack.org/ | sh
+
         wget -c https://download.fastgit.org/haskell/haskell-language-server/releases/download/0.7.1/haskell-language-server-Linux-8.10.2.gz -O haskell-language-server.gz
         wget -c https://download.fastgit.org/haskell/haskell-language-server/releases/download/0.7.1/haskell-language-server-wrapper-Linux.gz -O haskell-language-server-wrapper.gz
         gzip -d haskell-language-server.gz && mv haskell-language-server ~/.local/bin/
         gzip -d haskell-language-server-wrapper.gz && mv haskell-language-server-wrapper ~/.local/bin/
         chmod +x ~/.local/bin/haskell-language-server*
-        cabal update # 添加软件包列表
     fi
 
     if ! command -v go >/dev/null 2>&1; then
