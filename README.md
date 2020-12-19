@@ -52,6 +52,7 @@ bash ~/.my-scripts/deploy.sh
 
 ```bash
   echo "============== Installing Haskell and Language Server..."
+  # ghcup 是安装开发环境的工具，stack 是 build 工具 （虽然他们都能安装 ghc)
 
   curl -sSL https://get.haskellstack.org/ | sh
   stack setup # 安装 ghc 编译器
