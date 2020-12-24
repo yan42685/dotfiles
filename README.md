@@ -82,6 +82,16 @@ bash ~/.my-scripts/deploy.sh
 
 ## 其他问题
 
+- [随着时间增长，虚拟机占用的空间越来越大（从虚拟机里删除文件释放的空闲空间并不会反映在宿主机中](https://blog.csdn.net/kouryoushine/article/details/88661080?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control)
+
+  ```bash
+  sudo apt install open-vm-tools -y
+  sudo vmware-toolbox-cmd disk list
+  ```
+
+  如果显示 / 则表示可以清除磁盘空间（如果有 snapshot 快照则需要先删除快照才能清除磁盘空间）
+  清除空间的命令为`vmware-toolbox-cmd disk shrink /`
+
 - 有时因为网络原因，zgen 安装 zsh 插件出了问题，导致 zsh 打开是原生 bash 的效果，这时需要 `rm -rf $HOME/.zgen && git clone https://github.com/tarjoilija/zgen.git ${HOME}/.zgen && source $HOME/.zshrc`
 - tmux 不显示网速，原因是 tmux 插件未安装，进入 tmux 后按 <C-Space>I 即可
 - 出现其他问题 99% 的原因是部署时网速不好
