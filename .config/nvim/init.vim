@@ -1,5 +1,4 @@
-﻿" TODO: 等待这个PR被merge  https://github.com/dense-analysis/ale/pull/3474 就
-" 可以不会提示找不到stack内本地import的 module了
+﻿" TODO: 等待这个PR被merge  https://github.com/dense-analysis/ale/pull/3474  然后设置ALE
 " =========================================
 "{{{ 异步加载其他vimrc, 是快速启动nvim的关键
 function MySourceVim() abort

@@ -274,7 +274,8 @@ if g:disable_laggy_plugins_for_large_file == 0
     let g:ale_sign_error = '✗'
     let g:ale_sign_warning = '⚡'
 
-    " 不需要指定linters
+    " TODO: 等https://github.com/dense-analysis/ale/pull/3474 merge之后加上 haskell-language-server-wrapper
+    let g:ale_linters = {'haskell': ['stack_ghc', 'hlint', 'ghc-mod', 'hdevtools', 'hie', 'stack_build', 'cabal_ghc']}
 
     " 自动排版, 保存时自动删除末尾空白行和行末空格
     let g:ale_fixers = {
