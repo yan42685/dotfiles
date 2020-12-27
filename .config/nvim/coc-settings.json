@@ -95,6 +95,7 @@
   "coc.preferences.colorSupport": false, // 不要高亮 color
   "languageserver": {
     "haskell": {
+      "disableDiagnostics": true,
       "command": "haskell-language-server-wrapper",
       "args": ["--lsp"],
       "rootPatterns": [
