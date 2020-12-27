@@ -275,8 +275,9 @@ if g:disable_laggy_plugins_for_large_file == 0
     let g:ale_sign_warning = '⚡'
 
     " TODO: 等https://github.com/dense-analysis/ale/pull/3474 merge之后加上 haskell-language-server-wrapper
-    " let g:ale_linters = {'haskell': ['stack_ghc', 'hlint', 'ghc-mod', 'hdevtools', 'hie', 'stack_build', 'cabal_ghc']}
-    let g:ale_linters = {'haskell': ['stack_ghc', 'hlint', 'ghc-mod', 'hdevtools', 'hie', 'stack_build', 'cabal_ghc']}
+    " NOTE: stack_ghc对于module会出现错误的lint信息
+    " let g:ale_linters = {'haskell': ['hlint', 'ghc-mod', 'hdevtools', 'hie', 'stack_build', 'cabal_ghc']}
+    let g:ale_linters = {'haskell': ['stack_build', 'hlint', 'ghc-mod', 'hdevtools', 'hie', 'cabal_ghc']}
 
     " 自动排版, 保存时自动删除末尾空白行和行末空格
     let g:ale_fixers = {
@@ -1197,8 +1198,8 @@ endfunc
 noremap <silent> <leader><leader>e :AsyncTaskEdit<cr>
 noremap <silent> <leader>bf :FloatermKill!<cr><esc>:call Async_build_file()<cr>
 noremap <silent> <leader>rf :FloatermKill!<cr><esc>:call Async_run_file()<cr>
-noremap <silent> <leader>bp :FloatermKill!<cr><esc>:call Async_build_project<cr>
-noremap <silent> <leader>rp :FloatermKill!<cr><esc>:call Async_run_project<cr>
+noremap <silent> <leader>bp :FloatermKill!<cr><esc>:call Async_build_project()<cr>
+noremap <silent> <leader>rp :FloatermKill!<cr><esc>:call Async_run_project()<cr>
 
 "}}}
 "{{{杂项, 优化使用体验
