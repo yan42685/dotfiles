@@ -95,6 +95,8 @@ let g:loaded_zipPlugin = 1
 " 不会自动安装，需要用另一个辅助配置安装 用法
 " nvim -u ~/.config/nvim/custom-version/for-plugins-installation.vim -c 'PlugUpdate' -c 'PlugClean!' -c 'PlugUpdate' -c 'qall'
 call plug#begin('~/.vim/plugged')
+
+
 " 以下插件不建议异步加载
 "{{{ 自动生效的插件
 "" 多彩括号
@@ -123,7 +125,7 @@ nnoremap <silent> <leader>eO :call ToggleCocExplorer('currentFile')<CR>
 augroup Nvim_dir_auto_open_coc_explorer
   autocmd!
   autocmd VimEnter * sil! au! FileExplorer *
-  autocmd BufEnter * let d = expand('%') | if isdirectory(d) | bd | call ToggleCocExplorer() | endif
+  autocmd BufEnter * let d = expand('%') | if isdirectory(d) | bd | call ToggleCocExplorer('currentFile') | endif
 augroup END
 
 
@@ -395,6 +397,18 @@ let g:flog_default_arguments = { 'max_count': 1000 }  " 约束最大显示的com
 nnoremap <silent> ,gl :Flog<cr>
 " 选中多行查看历史
 vnoremap <silent> ,gl :Flog<cr>
+"}}}
+"{{{ slime : REPL
+" REPL 用法: 先在右半tmux窗口打开 ghci 或 stack repl 再用<c-l>输入指令
+Plug 'jpalardy/vim-slime'
+"{{{ settings
+let g:slime_target = "tmux"
+let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}
+let g:slime_dont_ask_default = 1
+let g:slime_haskell_ghci_add_let = 0 " 定义变量不加let
+"}}}
+xmap <silent> <c-l> <Plug>SlimeRegionSend<esc>:ALEDisable<cr>
+nmap <silent> <c-l> <Plug>SlimeParagraphSend<esc>:ALEDisable<cr>
 "}}}
 "{{{ indentLine 缩进虚线
 Plug 'Yggdroot/indentLine', {'for': ['vue', 'html','javascript', 'python']}

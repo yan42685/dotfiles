@@ -851,22 +851,6 @@ augroup settings_whichkey_for_t  " 因为有插件映射了t所以这里要用au
     autocmd VimEnter * vnoremap <silent> t :WhichKeyVisual 't'<cr>
 augroup end
 
-" 为内置终端提供方便接口 NOTE:暂时被floaterm替代，以后唯一可能用的地方就是REPL吧
-" Plug 'kassio/neoterm'
-"{{{
-let g:neoterm_autojump = 1  " 自动进入终端
-let g:neoterm_autoinsert = 1  " 进入终端默认插入模式
-let g:neoterm_use_relative_path = 1
-let g:neoterm_autoscroll = 1
-let g:neoterm_size = 10  " 调整terminal的大小
-"}}}
-" nnoremap <silent> <m-m> :botright Ttoggle<cr>
-" tnoremap <silent> <m-m> <c-\><c-n>:Ttoggle<cr>
-" nnoremap <silent> <m-j> :botright Topen<cr>
-" inoremap <silent> <m-j> <esc>:botright Topen<cr>
-" tnoremap <m-j> <c-\><c-n><c-w>j
-" tnoremap <m-k> <c-\><c-n><c-w>k<esc>
-
 " 浮动终端
 Plug 'voldikss/vim-floaterm'  " NOTE: 作者不推荐延迟加载
 "settings{{{
@@ -1329,6 +1313,7 @@ nmap <leader><leader>z <Plug>ZVKeyDocset
 Plug 'wlemuel/vim-tldr', {'on': ['Tldr', 'TldrUpdateDocs']}
 nnoremap ,tl :Tldr<space>
 
+
 "}}}
 " ---------------------------------------
 " Layer
@@ -1651,8 +1636,8 @@ cnoremap <m-p> <c-r>0
 
 inoremap <c-h> <esc>I
 inoremap <c-l> <esc>A
-nnoremap <c-h> ^
-nnoremap <c-l> $
+" nnoremap <c-h> ^
+" nnoremap <c-l> $
 inoremap <m-p> <c-r>0
 nnoremap <m-p> "0p
 "}}}
