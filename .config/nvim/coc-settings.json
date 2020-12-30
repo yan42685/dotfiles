@@ -99,13 +99,17 @@
       "command": "haskell-language-server-wrapper",
       "args": ["--lsp"],
       "rootPatterns": [
-        "*.cabal",
         "stack.yaml",
-        "cabal.project",
         "package.yaml",
-        "hie.yaml"
+        "hie.yaml",
+        "*.cabal",
+        "cabal.project"
       ],
-      "filetypes": ["haskell", "lhaskell"]
+      "filetypes": ["haskell", "lhaskell"],
+      // 不加这个选项可能有部分功能失效
+      "initializationOptions": {
+        "languageServerHaskell": {}
+      }
     }
   }
 }
